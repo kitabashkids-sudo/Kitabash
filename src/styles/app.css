@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* ── Design tokens ─────────────────────────────────────────
+   Warm "paper" base, ink text, one accent per course theme.
+   Course themes set --accent / --accent-soft / --accent-ink. */
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-display: ui-rounded, "SF Pro Rounded", "Nunito", "Varela Round", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-sunk: var(--sunk);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-teach: var(--teach);
+  --color-teach-soft: var(--teach-soft);
+
+  --radius-card: 1.25rem;
+  --shadow-card: 0 1px 0 rgb(0 0 0 / 0.04), 0 8px 24px -12px rgb(30 25 15 / 0.18);
+  --shadow-pop: 0 2px 0 rgb(0 0 0 / 0.06), 0 18px 40px -16px rgb(30 25 15 / 0.35);
+}
+
+:root {
+  --paper: #fbf7f0;
+  --card: #ffffff;
+  --ink: #1d2230;
+  --muted: #5d6474;
+  --line: #e8e1d4;
+  --sunk: #f3eee4;
+  --good: #1f8a5b;
+  --good-soft: #e1f4ea;
+  --bad: #c2412d;
+  --bad-soft: #fbe6e1;
+  --warn: #a86400;
+  --warn-soft: #fdf0d8;
+  --teach: #3c4fb8;
+  --teach-soft: #e8ebfb;
+  /* default theme: sunrise */
+  --accent: #e8572a;
+  --accent-soft: #fde7dc;
+  --accent-ink: #9a3412;
+  color-scheme: light;
+}
+
+[data-theme-accent="meadow"] { --accent: #2f8f4e; --accent-soft: #e0f3e5; --accent-ink: #1d5c32; }
+[data-theme-accent="ocean"] { --accent: #1f74c9; --accent-soft: #dfedfb; --accent-ink: #154f8a; }
+[data-theme-accent="grape"] { --accent: #7a4ad1; --accent-soft: #eee5fb; --accent-ink: #4f2b94; }
+[data-theme-accent="sunrise"] { --accent: #e8572a; --accent-soft: #fde7dc; --accent-ink: #9a3412; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode="light"]) {
+    --paper: #14161c;
+    --card: #1c1f27;
+    --ink: #eef0f5;
+    --muted: #a3a9b8;
+    --line: #2d313c;
+    --sunk: #23262f;
+    --good: #4fc68c;
+    --good-soft: #163327;
+    --bad: #f07a63;
+    --bad-soft: #3a1f1a;
+    --warn: #f0b04c;
+    --warn-soft: #3a2c12;
+    --teach: #8f9ef0;
+    --teach-soft: #22274a;
+    --accent-soft: color-mix(in oklab, var(--accent) 22%, #1c1f27);
+    --accent-ink: color-mix(in oklab, var(--accent) 55%, white);
+    color-scheme: dark;
+  }
+}
+:root[data-mode="dark"] {
+  --paper: #14161c; --card: #1c1f27; --ink: #eef0f5; --muted: #a3a9b8; --line: #2d313c; --sunk: #23262f;
+  --good: #4fc68c; --good-soft: #163327; --bad: #f07a63; --bad-soft: #3a1f1a; --warn: #f0b04c; --warn-soft: #3a2c12;
+  --teach: #8f9ef0; --teach-soft: #22274a;
+  --accent-soft: color-mix(in oklab, var(--accent) 22%, #1c1f27);
+  --accent-ink: color-mix(in oklab, var(--accent) 55%, white);
+  color-scheme: dark;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+::selection { background: var(--accent-soft); }
+
+/* Projection mode: bigger type for the classroom screen */
+.projection { font-size: 125%; }
+.projection .hide-in-projection { display: none !important; }
+
+/* ── Visual hook animations (all disabled under reduced motion) ── */
+@keyframes kb-rise { from { opacity: 0; transform: translateY(14px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes kb-draw { from { stroke-dashoffset: var(--len, 400); } to { stroke-dashoffset: 0; } }
+@keyframes kb-shrink { from { width: 100%; } to { width: var(--to, 70%); } }
+@keyframes kb-pop { 0% { transform: scale(.4); opacity: 0; } 70% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes kb-blink { 50% { opacity: 0; } }
+@keyframes kb-wiggle { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-3deg); } 75% { transform: rotate(3deg); } }
+@keyframes kb-confetti { 0% { transform: translateY(0) rotate(0); opacity: 1; } 100% { transform: translateY(70px) rotate(240deg); opacity: 0; } }
+
+.kb-rise { animation: kb-rise .5s cubic-bezier(.2,.8,.2,1) both; }
+.kb-pop { animation: kb-pop .45s cubic-bezier(.2,.8,.2,1) both; }
+.kb-draw { stroke-dasharray: var(--len, 400); animation: kb-draw var(--dur, 1.6s) ease-in-out both; }
+.kb-shrink { animation: kb-shrink .9s cubic-bezier(.6,0,.2,1) both; }
+.kb-caret::after { content: '▍'; animation: kb-blink 1s steps(1) infinite; margin-left: 2px; }
+.kb-wiggle:hover { animation: kb-wiggle .4s ease; }
+.kb-confetti span { position: absolute; width: 8px; height: 12px; border-radius: 2px; animation: kb-confetti 1.1s ease-in both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* Dotted tracing guide */
+.trace-guide { stroke-dasharray: 2 5; }
+
+/* Thin, quiet scrollbars for side panels */
+.thin-scroll { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }

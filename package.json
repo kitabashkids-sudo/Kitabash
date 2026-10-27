@@ -1,0 +1,40 @@
+{
+  "name": "kitabash",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Kitabash \u2014 universal, configurable, AI-assisted learning platform",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "tsx scripts/build.ts --watch & tsx watch server/index.ts",
+    "build": "tsx scripts/build.ts",
+    "start": "node --disable-warning=ExperimentalWarning dist/server.js",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:check": "tsx scripts/db-check.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:reset": "tsx scripts/seed.ts --reset",
+    "typecheck": "tsc --noEmit -p tsconfig.server.json",
+    "typecheck:client": "tsc --noEmit -p tsconfig.json",
+    "test": "tsx --test --test-concurrency=1 tests/unit/*.test.ts",
+    "test:e2e": "tsx tests/e2e/definition-of-done.ts",
+    "test:first-run": "tsx tests/e2e/first-run.ts"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "pdfjs-dist": "^6.2.108",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "esbuild": "^0.28.2",
+    "playwright": "^1.63.0",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.0",
+    "typescript": "^6.0.3"
+  }
+}

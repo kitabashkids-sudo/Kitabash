@@ -1,0 +1,29 @@
+# One-click deployment on Render (https://render.com).
+# In Render: New → Blueprint → pick this GitHub repository → fill in DATABASE_URL → Apply.
+services:
+  - type: web
+    name: kitabash
+    runtime: node
+    plan: free
+    # NODE_ENV=production would skip build tools, so include them for the build step.
+    buildCommand: npm install --include=dev --no-audit --no-fund && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      # Protects the first-run setup page. Find it under Environment in Render.
+      - key: SETUP_CODE
+        generateValue: true
+      # Paste your Supabase "Session pooler" connection string when Render asks.
+      - key: DATABASE_URL
+        sync: false
+      # Optional: Supabase Storage for uploaded files (Project Settings → API).
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
