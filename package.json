@@ -19,7 +19,9 @@
     "typecheck:client": "tsc --noEmit -p tsconfig.json",
     "test": "tsx --test --test-concurrency=1 tests/unit/*.test.ts",
     "test:e2e": "tsx tests/e2e/definition-of-done.ts",
-    "test:first-run": "tsx tests/e2e/first-run.ts"
+    "test:first-run": "tsx tests/e2e/first-run.ts",
+    "test:live": "tsx tests/e2e/live-class.ts",
+    "library:install": "tsx scripts/library.ts"
   },
   "dependencies": {
     "jszip": "^3.10.1",

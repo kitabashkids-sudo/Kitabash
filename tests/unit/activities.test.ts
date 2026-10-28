@@ -66,3 +66,11 @@ test('validation rejects broken configs and extension-only types', () => {
   assert.equal(isRunnable('coding_sandbox'), false);
   for (const t of Object.values(ACTIVITY_TYPES)) if (t.example) validateActivity(t.type, t.example.config, t.example.answer_key);
 });
+
+test('fill-in-the-blank accepts symbol answers exactly (code blanks)', async () => {
+  const { gradeActivity } = await import('../../src/lib/activities/registry.ts');
+  const cfg = { text: 'print(n [[1]] 2)' };
+  const key = { blanks: { '1': ['*'] } };
+  assert.equal(gradeActivity('fill_blank', 10, cfg, key, { answers: { '1': '*' } }).correct, true);
+  assert.equal(gradeActivity('fill_blank', 10, cfg, key, { answers: { '1': '+' } }).correct, false);
+});

@@ -2,7 +2,9 @@
 
 **Engaging learning. Easy understanding. Practical activities. Less teacher preparation.**
 
-Kitabash is a configurable learning engine. Administrators create any course — handwriting, spoken English, maths, financial literacy, coding, a board syllabus, an Olympiad pathway, or a subject that doesn't exist yet — **without changing code**. They then ground a course-specific AI learning agent in their own materials, generate and review Learn → Perform → Probe lessons, test the agent in a sandbox, and publish. Students learn through interactive activities; teachers run lessons with a right-hand resource panel that assembles itself from the course data.
+Kitabash is a configurable learning engine. Administrators create any course — handwriting, spoken English, maths, financial literacy, coding, a board syllabus, an Olympiad pathway, or a subject that doesn't exist yet — **without changing code**. They then ground a course-specific AI learning agent in their own materials, generate and review Learn → Perform → Probe lessons, test the agent in a sandbox, and publish. Students learn through interactive activities; teachers run lessons with a right-hand resource panel that assembles itself from the course data, and can teach small **live video classes** (up to about 10 students).
+
+It ships with a ready-to-use **K-12 course library**: **348 courses** (1,392 lessons) across 41 subjects in five categories. The courses sit in four grade bands (K–2, 3–5, 6–8, 9–12), and each band has a **Beginner → Intermediate → Advanced** level ladder, which gives learners a clear next step to sign up for.
 
 ---
 
@@ -47,7 +49,7 @@ Pick **one** of these. Neither needs typing commands.
 **Step 4: open your site and finish setup**
 1. In Render, click your **kitabash** service and open its address (`https://kitabash-….onrender.com`).
 2. The **Welcome! Let’s set up Kitabash** page appears. It asks for a **setup code**: in Render, open **Environment** and copy the value of `SETUP_CODE`. This stops strangers setting up your site before you do.
-3. Enter your name, email and a password, keep **Add 4 sample courses** ticked if you want examples, and click **Create my account and start**.
+3. Enter your name, email and a password. Keep **Install the full K-12 course library** ticked (recommended), and optionally **Add 4 sample courses**. Then click **Create my account and start**. The library finishes installing in the background, usually within a minute, and you can check its progress under **Platform → Course library**.
 
 You're in. Add teachers and students under **Platform → People**.
 
@@ -278,7 +280,9 @@ E2E_DATABASE_URL=postgresql://… npm run test:e2e
 | Media asset library (upload, replace, tag, alt text required, SVG sanitised) | Library | ✅ Working |
 | Teacher workspace with 6-tab right panel (Teach/Show/Facilitate/Resources/Assess/AI), projection mode, student preview, lesson nav, panel collapse, answer-key reveal | `/teach/lessons/:id` | ✅ Working |
 | Progress report + written-answer review queue with feedback/score override | `/teach/courses/:id/report` | ✅ Working |
-| CBSE / CISCE / IGCSE / Olympiad tracks, manual + CSV mapping, review workflow | Studio → Board mapping | ✅ Working — **no official alignment data is included**; seeded mappings are illustrative and unverified |
+| CBSE / CISCE / IGCSE / Olympiad tracks, manual + CSV mapping, review workflow | Studio → Board mapping | ✅ Working. **No official alignment data is included.** Library board courses are *designed to support* their board, and every mapping starts **unverified** |
+| **K-12 course library**: 348 published courses, 4 grade bands × 3 levels, level ladder and “next level” recommendations | Platform → Course library · `src/lib/library` | ✅ Working. Every course passes the content checks and its tutor tests. A subject teacher has not yet reviewed them (see below) |
+| **Live classes**: class groups, weekly schedules, WebRTC video, chat, raised hands, mute-all, lesson-card sharing, attendance, parent view | Live classes · `src/lib/live` | ✅ Working (tested browser-to-browser). ⚠️ Run one server instance, and add a TURN relay for strict networks |
 | Roles: admin, instructor, student, guardian · guardian consent for AI & audio | `src/lib/auth.ts` | ✅ Working |
 | Data export, right-to-erasure, AI log retention purge, audit log | Platform → People / Audit | ✅ Working |
 | Database: SQLite (default) or PostgreSQL/Supabase via `DATABASE_URL`, with RLS lock-down | `src/lib/db` | ✅ Working — both backends pass the full test suite |
@@ -305,6 +309,32 @@ E2E_DATABASE_URL=postgresql://… npm run test:e2e
 Unlimited *activities* of any registered type are created by configuration. A genuinely new *type* needs code — see `docs/ACTIVITY_EXTENSIONS.md`.
 
 ---
+
+## The K-12 course library
+
+| Category | Subjects | Courses |
+|---|---|---|
+| Language & Communication | Handwriting & Penmanship, Spoken English, English Grammar & Vocabulary, Reading Comprehension, Creative Writing, Storytelling, Public Speaking, Debate & Communication, Presentation Skills | 87 |
+| Academic Learning | Mathematics, Science, English, Environmental Studies, Logical Reasoning, Critical Thinking, Olympiad Preparation, Problem Solving, Homework & Revision Support | 87 |
+| School Board Curriculum | CBSE, ICSE / CISCE, Cambridge IGCSE | 24 |
+| Life & Financial Skills | Financial Literacy, Saving & Budgeting, Needs vs Wants, Money Management, Financial Decision-Making, Entrepreneurship, Digital Citizenship, Study Skills | 75 |
+| Coding, AI & Technology | Scratch Junior, Scratch, Python, MIT App Inventor, Micro:bit, Web Development, Artificial Intelligence, Prompt Engineering, AI-Assisted Website Creation, Robotics, Minecraft Education (MakeCode), No-code Automation & AI Agents | 75 |
+
+- **Grade bands, by age:** K–2 (5–7), Grades 3–5 (8–10), 6–8 (11–13), 9–12 (14–17). A subject appears only in bands that suit its age group. For example, Scratch Junior is K–2 only, and Debate is Grades 6–12. Handwriting covers every grade.
+- **Every course** has 2 modules × 2 lessons. Each lesson has a 3-second visual hook, Learn cards, Perform and Probe activities with answer keys and hints, a course-specific AI tutor with tested misconceptions, and a full teacher panel (explanation, analogy, vocabulary, demo, prompts, support, stretch, misconceptions, worksheet).
+- **Retention and upselling:** courses in a band form a Beginner → Intermediate → Advanced path. The course page shows the path, and finishing a level recommends the next one. Students see their own band first in **Explore**.
+- **Board courses** (CBSE, ICSE/CISCE, Cambridge IGCSE) say *designed to support*, never “aligned”. Their topic mappings install as **unverified**. Before claiming alignment, have a curriculum reviewer check each mapping against the board's current official syllabus and approve it in **Studio → Board mapping**.
+- **Before you sell it:** the content was written and machine-checked (consistent answers, numerical answers worked through, tutor tests passing), but a subject teacher has not reviewed it. Plan a teacher review of each course; you can edit anything in the Studio. Published courses are read-only, so move a course to Draft or duplicate it to make a new edition.
+- **Install or top up** at any time: **Platform → Course library**, or `npm run library:install`. Re-running only adds missing courses.
+
+## Live classes
+
+Teachers create a **class group** (up to ~10 students), set a weekly schedule, and start a class from **Live classes**. Video and audio go directly between browsers (WebRTC). The server only passes small signalling messages, so no video server or WebSocket is needed, and it runs on Render's free plan.
+
+- **Who sees whom:** by default students see only the teacher. The teacher can switch to **Everyone** for group discussion.
+- **Child safety:** students under 18 can use camera and mic only with guardian consent; otherwise they join view-only.
+- **Tools:** chat, raise hand, mute-all, lock chat, share a lesson card, remove a participant. Attendance and chat are saved, and parents see the classes their child attended.
+- **Hosting notes:** class state is kept in memory, so run **one** server instance (Render free = one). Some school and mobile networks block direct connections; if students can't see video, add a TURN relay (`TURN_URLS`, `TURN_USERNAME`, `TURN_CREDENTIAL`, see `.env.example`).
 
 ## How the AI agent works (plain English)
 
@@ -352,6 +382,9 @@ docs/              Architecture, agent, extensions, Supabase, deployment, testin
 | `npm run db:seed` / `db:reset` | Seed demo data / wipe Kitabash tables and reseed |
 | `npm test` | Unit + integration tests (`TEST_DATABASE_URL` → on Postgres) |
 | `npm run test:e2e` | Browser walkthrough of the 12-point Definition of Done (`npx playwright install chromium` first) |
+| `npm run test:first-run` | Browser test of the first-run setup page |
+| `npm run test:live` | Browser-to-browser live-class test (video, chat, controls, attendance) |
+| `npm run library:install` | Install (or top up) the K-12 course library |
 | `npm run typecheck` | TypeScript check (server + domain) · `typecheck:client` for the React code |
 
 ## Why not Next.js (yet)?
