@@ -71,6 +71,41 @@ learning.submitAttempt → assertCanView (published + approved, or staff)
 - Agent versions: edits land on the draft version; once it has left `draft`, a save creates a new version. `review`/`approved` require every sandbox test to have been run against that exact version. Rollback re-publishes any version that was ever approved.
 - Mappings: always created `unverified`; approval requires a reference source; students only see approved mappings.
 
+## K-12 course library
+
+`src/lib/library/` turns compact course specs into published courses. It uses the same services an admin uses in the Studio, so it adds no back door.
+
+```
+content/*.ts (CourseSpec[])  →  catalog.ts (LIBRARY)  →  expand.ts (lint + expand)  →  install.ts
+                                                                                        ├─ courses / modules / lessons / activities
+                                                                                        ├─ agent config + sandbox tests (must all pass)
+                                                                                        ├─ curriculum track + mappings (board courses, always UNVERIFIED)
+                                                                                        └─ review → approve → publish
+```
+
+- **Grade bands** (`bands.ts`): K-2 (ages 5–7), 3-5 (8–10), 6-8 (11–13), 9-12 (14–17). `SUBJECT_BANDS` lists the bands where each subject is offered, by age suitability. Every listed band has Beginner, Intermediate and Advanced, and a test enforces this.
+- **Level ladder**: each course gets `grade_band`, `level` and `pathway = subject--band`. The course page shows the three levels as one path, and recommendations offer the next level when a course is finished. This is the retention and upsell route.
+- **Content checks** (`expand.ts`) run before anything is written. Each lesson needs at least 2 Learn cards, at least one Perform and one Probe activity, valid answer indexes, unique match targets, blanks that line up with answers, ordering activities of 3+ steps, vocabulary and misconceptions. Tracing glyphs must exist in `glyphs.ts`.
+- **Idempotent**: each spec writes the setting `library:<subject--band--level>` → course id. Re-running the install skips installed courses and fills in only what is missing (`npm run library:install`, the setup page, or Platform → Course library).
+- **Board courses** (CBSE, ICSE/CISCE, Cambridge) carry a `pathway` block. Install creates a track titled “designed to support — awaiting verification”, and every topic mapping starts `unverified`. Students see alignment only after an admin approves a mapping with a reference source.
+- **Handwriting** uses `glyphs.ts`: stroke paths on a 100×100 canvas for patterns, a–z, A–Z and 0–9, graded by the tracing activity (coverage + precision).
+
+## Live classes
+
+```
+Teacher browser ⇄ (WebRTC media, peer-to-peer) ⇄ Student browsers
+       │                                           │
+       └── POST /api/live/:id/{signal,state,chat,control,sync}   (browser → server)
+       └── GET  /api/live/:id/events  (Server-Sent Events, server → browser)
+                         src/lib/live/hub.ts (in-memory rooms)
+```
+
+- Audio and video never pass through the server. The hub only relays signalling, chat and class controls, so plain HTTP is enough and no WebSocket support is needed.
+- Topology: **Teacher only** (default; students see the teacher, not each other) or **Everyone** (full mesh, suitable up to ~10 students). Capacity is `LIVE_MAX_PARTICIPANTS` (default 12, including the teacher).
+- Students under 18 publish camera/mic only with guardian consent; otherwise they join view-only.
+- Attendance, chat logs and session status are written to the database (`services/classes.ts`). Room state lives in memory, so **run a single server instance**. More instances would need a shared pub/sub such as Redis or Postgres LISTEN/NOTIFY.
+- ICE servers: public STUN by default (`STUN_URLS`). Add a TURN relay (`TURN_URLS`, `TURN_USERNAME`, `TURN_CREDENTIAL`) for students on strict school or mobile networks.
+
 ## Migrating to Next.js
 
 `src/lib/**` has no framework imports. To move:

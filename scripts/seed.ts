@@ -16,8 +16,9 @@ export async function seed(opts: { reset?: boolean; quiet?: boolean } = {}) {
     await initDb();
     if (currentDialect() === 'postgres') {
       // Drops ONLY Kitabash's own tables (listed in the migration), then re-runs migrations.
-      const sql = fs.readFileSync(path.resolve('db/migrations/postgres/001_init.sql'), 'utf8');
-      const tables = [...sql.matchAll(/CREATE TABLE (\w+)/g)].map((m) => m[1]);
+      const dir = path.resolve('db/migrations/postgres');
+      const sql = fs.readdirSync(dir).filter((f) => f.endsWith('.sql')).map((f) => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n');
+      const tables = [...sql.matchAll(/CREATE TABLE (?:IF NOT EXISTS )?(\w+)/g)].map((m) => m[1]);
       log(`Resetting ${tables.length} Kitabash tables in PostgreSQL…`);
       await run(`DROP TABLE IF EXISTS ${[...tables, 'schema_migrations'].join(', ')} CASCADE`);
       await closeDb();
