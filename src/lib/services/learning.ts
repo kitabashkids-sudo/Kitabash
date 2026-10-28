@@ -4,7 +4,8 @@ import { all, get, run, id, j, tx } from '../db/index.ts';
 import { HttpError } from '../validate.ts';
 import { gradeActivity } from '../activities/registry.ts';
 import { courseTree, getCourse, hydrateActivity, hydrateLesson } from './courses.ts';
-import type { User } from '../auth.ts';
+import { ageOf, type User } from '../auth.ts';
+import { BANDS, bandForAge } from '../library/bands.ts';
 
 const isStaff = (u: User) => u.role === 'admin' || u.role === 'instructor';
 
@@ -12,14 +13,52 @@ export async function catalogue() {
   const cats = await all('SELECT * FROM categories ORDER BY sort, name');
   const subjects = await all('SELECT * FROM subjects ORDER BY name');
   const courses = await all(
-    `SELECT c.id,c.slug,c.title,c.description,c.age_min,c.age_max,c.grade_level,c.proficiency,c.duration_minutes,c.theme,c.subject_id,
+    `SELECT c.id,c.slug,c.title,c.description,c.age_min,c.age_max,c.grade_level,c.proficiency,c.duration_minutes,c.theme,c.subject_id,c.grade_band,c.level,c.pathway,
       (SELECT COUNT(*) FROM lessons l WHERE l.course_id=c.id AND l.status='approved') lesson_count
      FROM courses c WHERE c.status='published' ORDER BY c.title`,
   );
+  courses.sort((a, b) => bandIdx(a.grade_band) - bandIdx(b.grade_band) || levelIdx(a.level) - levelIdx(b.level) || String(a.title).localeCompare(b.title));
   return cats.map((cat) => ({
     ...cat,
     subjects: subjects.filter((s) => s.category_id === cat.id).map((s) => ({ ...s, courses: courses.filter((c) => c.subject_id === s.id) })),
   }));
+}
+
+const LEVEL_ORDER = ['beginner', 'intermediate', 'advanced'];
+const levelIdx = (l: string) => (LEVEL_ORDER.includes(l) ? LEVEL_ORDER.indexOf(l) : 9);
+const bandIdx = (b: string) => {
+  const i = BANDS.findIndex((x) => x.id === b);
+  return i < 0 ? 9 : i;
+};
+
+/**
+ * The learner's path for a course: every level in the same subject + grade band, then the
+ * first course of the next band. Powers the level ladder and "next course" suggestions.
+ */
+export async function pathway(user: User, courseId: string) {
+  const c = await getCourse(courseId);
+  if (!c.pathway) return { steps: [], next: null };
+  const steps = (
+    await all(
+      `SELECT c.id, c.slug, c.title, c.level, c.grade_band,
+         (SELECT COUNT(*) FROM lessons l WHERE l.course_id=c.id AND l.status='approved') total,
+         (SELECT COUNT(*) FROM lesson_progress p WHERE p.course_id=c.id AND p.user_id=? AND p.status='completed') done,
+         (SELECT COUNT(*) FROM enrolments e WHERE e.course_id=c.id AND e.user_id=?) enrolled
+       FROM courses c WHERE c.pathway=? AND c.status='published'`,
+      user.id, user.id, c.pathway,
+    )
+  ).sort((a, b) => levelIdx(a.level) - levelIdx(b.level));
+  const at = steps.findIndex((s) => s.id === c.id);
+  let next = at >= 0 ? steps[at + 1] || null : null;
+  if (!next) {
+    // Top of this band → first course of the same subject in the next grade band.
+    const nb = BANDS[bandIdx(c.grade_band) + 1];
+    if (nb) {
+      const cand = await all(`SELECT id, slug, title, level, grade_band FROM courses WHERE subject_id=? AND grade_band=? AND status='published'`, c.subject_id, nb.id);
+      next = cand.sort((a, b) => levelIdx(a.level) - levelIdx(b.level))[0] || null;
+    }
+  }
+  return { steps: steps.map((s) => ({ ...s, current: s.id === c.id, total: Number(s.total), done: Number(s.done), enrolled: Number(s.enrolled) > 0 })), next };
 }
 
 /** Access rule for lesson content: students → published course + approved lesson; staff → anything (preview). */
@@ -62,6 +101,7 @@ export async function studentCourse(user: User, courseId: string) {
     mappings,
     achievements: await achievements(user, c.id),
     recommendations: await recommendations(user, c.id),
+    pathway: await pathway(user, c.id),
   };
 }
 
@@ -171,13 +211,31 @@ export async function recommendations(user: User, courseId: string) {
 
 export async function myLearning(user: User) {
   const rows = await all(
-    `SELECT c.id,c.slug,c.title,c.theme,
+    `SELECT c.id,c.slug,c.title,c.theme,c.level,c.grade_band,
        (SELECT COUNT(*) FROM lessons l WHERE l.course_id=c.id AND l.status='approved') total,
        (SELECT COUNT(*) FROM lesson_progress p WHERE p.course_id=c.id AND p.user_id=e.user_id AND p.status='completed') done
      FROM enrolments e JOIN courses c ON c.id=e.course_id WHERE e.user_id=? AND c.status='published' ORDER BY e.created_at DESC`,
     user.id,
   );
-  return { courses: rows, achievements: await achievements(user) };
+  // Continue the path: finished courses whose next step the learner hasn't joined yet.
+  const continuePath: any[] = [];
+  for (const r of rows.filter((r) => Number(r.total) > 0 && Number(r.done) >= Number(r.total))) {
+    const nx = (await pathway(user, r.id)).next;
+    if (nx && !rows.some((x) => x.id === nx.id) && !continuePath.some((x) => x.id === nx.id)) continuePath.push({ ...nx, after: r.title });
+  }
+  // Recommended for your grade: beginner courses in the learner's band, one per subject.
+  const myBand = bandForAge(ageOf(user));
+  let recommended: any[] = [];
+  if (myBand) {
+    const cand = await all(
+      `SELECT c.id, c.slug, c.title, c.description, c.theme, c.level, c.grade_band, s.name subject FROM courses c JOIN subjects s ON s.id=c.subject_id
+       WHERE c.status='published' AND c.grade_band=? AND c.level='beginner' AND c.id NOT IN (SELECT course_id FROM enrolments WHERE user_id=?) ORDER BY c.title`,
+      myBand, user.id,
+    );
+    const seen = new Set<string>();
+    recommended = cand.filter((x) => !seen.has(x.subject) && seen.add(x.subject)).slice(0, 6);
+  }
+  return { courses: rows, achievements: await achievements(user), continuePath, recommended, band: myBand && BANDS.find((b) => b.id === myBand) };
 }
 
 // ── Instructor/guardian reporting ───────────────────────────

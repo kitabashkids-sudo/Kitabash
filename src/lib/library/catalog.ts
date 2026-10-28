@@ -1,0 +1,33 @@
+// Every course in the Kitabash K-12 library, grouped by content file.
+import type { CourseSpec } from './types.ts';
+import { LIFE_1 } from './content/life-1.ts';
+import { LIFE_2 } from './content/life-2.ts';
+import { LIFE_3 } from './content/life-3.ts';
+import { LIFE_4 } from './content/life-4.ts';
+import { LIFE_5 } from './content/life-5.ts';
+import { LIFE_6 } from './content/life-6.ts';
+import { LIFE_7 } from './content/life-7.ts';
+import { LIFE_8 } from './content/life-8.ts';
+import { TECH_1 } from './content/tech-1.ts';
+import { TECH_2 } from './content/tech-2.ts';
+import { TECH_3 } from './content/tech-3.ts';
+import { TECH_4 } from './content/tech-4.ts';
+import { TECH_5 } from './content/tech-5.ts';
+import { TECH_6 } from './content/tech-6.ts';
+import { LANG_1 } from './content/lang-1.ts';
+import { LANG_2 } from './content/lang-2.ts';
+import { LANG_3 } from './content/lang-3.ts';
+import { LANG_4 } from './content/lang-4.ts';
+import { LANG_5 } from './content/lang-5.ts';
+import { LANG_6 } from './content/lang-6.ts';
+import { LANG_7 } from './content/lang-7.ts';
+import { ACAD_1 } from './content/acad-1.ts';
+import { ACAD_2 } from './content/acad-2.ts';
+import { ACAD_3 } from './content/acad-3.ts';
+import { ACAD_4 } from './content/acad-4.ts';
+import { ACAD_5 } from './content/acad-5.ts';
+import { ACAD_6 } from './content/acad-6.ts';
+import { ACAD_7 } from './content/acad-7.ts';
+import { ACAD_8 } from './content/acad-8.ts';
+
+export const LIBRARY: CourseSpec[] = [...LIFE_1, ...LIFE_2, ...LIFE_3, ...LIFE_4, ...LIFE_5, ...LIFE_6, ...LIFE_7, ...LIFE_8, ...TECH_1, ...TECH_2, ...TECH_3, ...TECH_4, ...TECH_5, ...TECH_6, ...LANG_1, ...LANG_2, ...LANG_3, ...LANG_4, ...LANG_5, ...LANG_6, ...LANG_7, ...ACAD_1, ...ACAD_2, ...ACAD_3, ...ACAD_4, ...ACAD_5, ...ACAD_6, ...ACAD_7, ...ACAD_8];

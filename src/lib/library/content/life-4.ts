@@ -1,0 +1,1057 @@
+// Life & Financial Skills — Saving & Budgeting (remaining bands/levels).
+import type { CourseSpec } from '../types.ts';
+
+const oos = ['stock tips', 'crypto', 'betting', 'gambling', 'lottery', 'loan apps'];
+const tutor: [string, string] = ['Ledger', 'A patient saving-and-budgeting coach who explains ideas at the learner’s level with Indian everyday examples.'];
+
+export const LIFE_4: CourseSpec[] = [
+  // ── K-2 ──
+  {
+    subject: 'Saving & Budgeting', band: 'K-2', level: 'Beginner', title: 'Now or Later?',
+    description: 'Little learners discover waiting, keeping and saving through stories, jars and counting games.',
+    intro: 'Can you wait for something even better? ⏳', theme: 'meadow', tutor,
+    style: 'Story-led, hands-on jars and counters, short sentences.',
+    outcomes: ['Explains “now” and “later”', 'Shows saving by keeping coins in a jar', 'Counts saved coins'],
+    outOfScope: oos,
+    modules: [
+      {
+        title: 'Module 1: Waiting is a superpower',
+        lessons: [
+          {
+            t: 'Now or later?', o: 'Tell the difference between using something now and keeping it for later.', min: 20,
+            hook: ['word', 'Now · Later', 'some things are worth waiting for'],
+            cards: [
+              ['🍪', 'Now', 'Now means using something straight away.'],
+              ['⏳', 'Later', 'Later means keeping it to use another time.'],
+              ['🌟', 'Waiting can help', 'Sometimes if we wait, we can get something even better.'],
+            ],
+            acts: [
+              { sort: 'Now or later?', buckets: ['Now', 'Later'], items: [['Eating a snack at break', 0], ['Keeping a coin in the piggy bank', 1], ['Saving a sticker for your book', 1], ['Playing on the swing today', 0]], why: 'Using today is now; keeping for another day is later.' },
+              { mcq: 'If Raju keeps his coin today, when can he use it?', options: ['Later', 'Never', 'Yesterday'], answer: 0, why: 'Kept money can be used later.' },
+              { phase: 'probe', mcq: 'One sweet now, or two sweets tomorrow? Which is “waiting for better”?', options: ['Two sweets tomorrow', 'One sweet now'], answer: 0, why: 'Waiting gets you more.' },
+              { phase: 'probe', write: 'Tell about something you waited for.', keywords: ['wait', 'later'], exemplar: 'I waited for my birthday to get a new bicycle.', minWords: 5 },
+            ],
+            teach: {
+              explain: 'Delayed gratification at its simplest.', analogy: 'Waiting is like a seed: plant now, flower later.',
+              vocab: [['now', 'Right away.'], ['later', 'Another time.'], ['wait', 'Stay patient.']],
+              demo: 'Play “one now or two later” with counters.',
+              prompts: [['What is hard about waiting?', 'We want it now.'], ['What helps us wait?', 'Thinking about the reward.']],
+              support: 'Use real objects.', stretch: 'Draw a now-and-later picture.',
+              mis: [['Waiting means losing it', 'Kept things are still yours later.']],
+              sheet: 'Draw one thing you use now and one thing you keep for later.',
+            },
+          },
+          {
+            t: 'My saving jar', o: 'Show how putting coins in a jar adds up over time.', min: 20,
+            hook: ['pattern', ['🪙', '🪙🪙', '🪙🪙🪙', '🪙🪙🪙🪙'], '🪙🪙🪙🪙🪙'],
+            cards: [
+              ['🫙', 'A jar for saving', 'A saving jar keeps coins safe until we need them.'],
+              ['➕', 'Adds up', 'One coin a day becomes many coins!'],
+              ['👀', 'See it grow', 'A clear jar helps you see your savings grow.'],
+            ],
+            acts: [
+              { mcq: 'You put 1 coin in your jar every day for 4 days. How many coins?', options: ['4', '1', '10'], answer: 0, why: '1, 2, 3, 4.' },
+              { mcq: 'Where is the best place for saving coins?', options: ['In a saving jar', 'On the floor', 'In a pocket with a hole'], answer: 0, why: 'A jar keeps them safe.' },
+              { phase: 'probe', mcq: 'Ana has 3 coins and adds 2 more. How many now?', options: ['5', '3', '1'], answer: 0, why: '3 + 2 = 5.' },
+              { phase: 'probe', write: 'What would you put a label on your jar to say?', keywords: ['save', 'for'], exemplar: 'Saving for a new ball!', minWords: 4 },
+            ],
+            teach: {
+              explain: 'Accumulation by repeated small amounts.', analogy: 'Like raindrops filling a bucket.',
+              vocab: [['jar', 'A container.'], ['add', 'Put more.']],
+              demo: 'Daily class jar: add a counter each day and count weekly.',
+              prompts: [['How many after a week of one a day?', '7.'], ['Why a clear jar?', 'To see it grow.']],
+              support: 'Count with counters.', stretch: 'Two coins a day for 5 days.',
+              mis: [['Small amounts don’t matter', 'Small amounts add up.']],
+              sheet: 'Colour one coin in the jar for each day you save.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Saving for something',
+        lessons: [
+          {
+            t: 'A wish to save for', o: 'Choose a small goal and say why you want it.', min: 20,
+            hook: ['word', 'My wish', 'something to save for'],
+            cards: [
+              ['⭐', 'A wish', 'A wish is something you would like to have.'],
+              ['🖼️', 'Draw it', 'Draw your wish and stick it on your jar to remember.'],
+              ['💡', 'Why?', 'Knowing why you want it helps you keep saving.'],
+            ],
+            acts: [
+              { mcq: 'Why stick a picture of your wish on your jar?', options: ['To remember what you are saving for', 'To make the jar heavy', 'No reason'], answer: 0, why: 'It reminds you of your goal.' },
+              { sort: 'Good saving wish or not?', buckets: ['Good wish to save for', 'Not something to buy'], items: [['A storybook', 0], ['A football', 0], ['The moon', 1], ['A box of crayons', 0], ['A real dinosaur', 1]], why: 'Good wishes are real things you can buy.' },
+              { phase: 'probe', mcq: 'Mia’s wish costs 10 coins. She has 6. How many more?', options: ['4', '6', '10'], answer: 0, why: '6 + 4 = 10.' },
+              { phase: 'probe', write: 'What is your wish and why?', keywords: ['wish', 'because'], exemplar: 'My wish is a skipping rope because I want to play with my sister.', minWords: 6 },
+            ],
+            teach: {
+              explain: 'Goal setting with purpose.', analogy: 'A goal is like a star to follow.',
+              vocab: [['wish', 'Something you want.'], ['goal', 'What you are saving for.']],
+              demo: 'Children draw wish cards and share.',
+              prompts: [['What is your wish?', 'Varies.'], ['How many coins do you need?', 'Count.']],
+              support: 'Choose from pictures.', stretch: 'Find the price of your wish with an adult.',
+              mis: [['You can save for anything imaginary', 'Save for real things.']],
+              sheet: 'Wish card to colour and stick on a jar.',
+            },
+          },
+          {
+            t: 'Keep going!', o: 'Explain ways to keep saving even when it is hard.', min: 20,
+            hook: ['word', 'Keep going!', 'small steps reach big wishes'],
+            cards: [
+              ['😣', 'It’s tricky', 'Sometimes we want to spend saved coins on something small.'],
+              ['🧠', 'Remember your wish', 'Look at your wish picture and remember why you are saving.'],
+              ['🎉', 'Celebrate', 'When you reach your goal, celebrate!'],
+            ],
+            acts: [
+              { mcq: 'You see sweets but you are saving for a book. What helps?', options: ['Remember your book wish', 'Spend all your coins', 'Forget the wish'], answer: 0, why: 'Remembering the goal helps you wait.' },
+              { order: 'Put the saving story in order', steps: ['Choose a wish', 'Put coins in the jar', 'Count your coins', 'Buy your wish', 'Celebrate!'], why: 'Wish → save → count → buy → celebrate.' },
+              { phase: 'probe', mcq: 'Tom spent 2 of his 8 saved coins on sweets. How many are left?', options: ['6', '10', '2'], answer: 0, why: '8 − 2 = 6.' },
+              { phase: 'probe', write: 'What could you say to a friend who wants to give up saving?', keywords: ['keep', 'wish', 'can'], exemplar: 'Keep going! Remember your wish — you are nearly there!', minWords: 6 },
+            ],
+            teach: {
+              explain: 'Persistence and self-talk.', analogy: 'Saving is like climbing a slide ladder — step by step to the fun part.',
+              vocab: [['keep going', 'Don’t give up.'], ['celebrate', 'Be happy about success.']],
+              demo: 'Act out a temptation scene with puppets.',
+              prompts: [['What helps you keep saving?', 'Wish picture, cheering.'], ['How will you celebrate?', 'Share with family.']],
+              support: 'Picture sequence.', stretch: 'Make a “keep going” poster.',
+              mis: [['If you spend once, saving is ruined', 'You can start again.']],
+              sheet: 'Saving story strip to colour in order.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Saving & Budgeting', band: 'K-2', level: 'Advanced', title: 'Saving Superstars',
+    description: 'Track savings on a chart, learn that banks keep savings safe, and plan to save for gifts and goals.',
+    intro: 'Become a saving superstar! 🌟', theme: 'meadow', tutor,
+    style: 'Charts, simple adding, role-play bank visits.',
+    outcomes: ['Records savings on a chart', 'Explains that a bank keeps money safe', 'Plans saving for a gift'],
+    outOfScope: oos,
+    modules: [
+      {
+        title: 'Module 1: Tracking and keeping safe',
+        lessons: [
+          {
+            t: 'My savings chart', o: 'Record savings on a chart and add up the total.', min: 25,
+            hook: ['pattern', ['₹5', '₹10', '₹15', '₹20'], '₹25'],
+            cards: [
+              ['📊', 'A chart', 'A savings chart shows how much you saved each week.'],
+              ['✏️', 'Write it down', 'Write the amount each time you save.'],
+              ['➕', 'Add it up', 'Add all the amounts to find your total.'],
+            ],
+            acts: [
+              { mcq: 'Week 1 ₹5, Week 2 ₹5, Week 3 ₹10. Total?', options: ['₹20', '₹15', '₹10'], answer: 0, why: '5 + 5 + 10 = 20.' },
+              { blanks: 'I saved ₹2, ₹3 and ₹5. My total is ₹[[1]].', answers: [['10']], bank: ['8', '10', '12'], why: '2 + 3 + 5 = 10.' },
+              { phase: 'probe', mcq: 'Why write down your savings?', options: ['So you know how much you have', 'To use up paper', 'No reason'], answer: 0, why: 'Records help you keep track.' },
+              { phase: 'probe', mcq: 'Your chart shows ₹15. You need ₹20. How much more?', options: ['₹5', '₹15', '₹35'], answer: 0, why: '15 + 5 = 20.' },
+            ],
+            teach: {
+              explain: 'Recording and totalling savings.', analogy: 'A chart is like a growth chart for your savings.',
+              vocab: [['chart', 'A picture that shows numbers.'], ['total', 'All added together.']],
+              demo: 'Class savings chart on the wall.',
+              prompts: [['What does the chart show?', 'Savings each week.'], ['How do you find the total?', 'Add.']],
+              support: 'Use counters.', stretch: 'Make a bar chart.',
+              mis: [['You only need to remember, not write', 'Writing helps you not forget.']],
+              sheet: '4-week savings chart to fill in.',
+            },
+          },
+          {
+            t: 'Banks keep money safe', o: 'Explain that a bank keeps people’s money safe.', min: 20,
+            hook: ['word', 'Bank', 'a safe place for money'],
+            cards: [
+              ['🏦', 'A bank', 'A bank is a safe place where people keep money.'],
+              ['📒', 'Your account', 'The bank writes down how much is yours in an account.'],
+              ['🌱', 'A little extra', 'Banks give a little extra money for saving with them.'],
+            ],
+            acts: [
+              { mcq: 'Where can grown-ups keep money safely?', options: ['In a bank', 'Under a tree', 'In a sandpit'], answer: 0, why: 'Banks keep money safe.' },
+              { mcq: 'What is an account?', options: ['The bank’s record of your money', 'A toy', 'A shop'], answer: 0, why: 'An account records your money.' },
+              { phase: 'probe', mcq: 'Why might a bank be safer than a piggy bank for lots of money?', options: ['It is guarded and keeps records', 'It is prettier', 'It is smaller'], answer: 0, why: 'Banks are secure and keep records.' },
+              { phase: 'probe', write: 'Draw or describe a bank you have seen.', keywords: ['bank', 'money'], exemplar: 'I saw a bank with a big door and a cash machine outside.', minWords: 6 },
+            ],
+            teach: {
+              explain: 'Banks as secure stores with records; interest as a bonus.', analogy: 'A bank is a super-safe locker.',
+              vocab: [['bank', 'Safe place for money.'], ['account', 'Record of your money.']],
+              demo: 'Role-play: class bank with a passbook.',
+              prompts: [['Why use a bank?', 'Safe.'], ['What is extra money for saving called?', 'Interest.']],
+              support: 'Pictures of a bank.', stretch: 'Visit (or video) a bank branch.',
+              mis: [['The bank keeps your exact coins in a box with your name', 'The bank keeps a record of how much is yours.']],
+              sheet: 'Draw a bank and label the door, counter and cash machine.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Saving for others',
+        lessons: [
+          {
+            t: 'Saving for a gift', o: 'Plan how to save for a gift for someone special.', min: 25,
+            hook: ['budget', 30, 20, 'Gift'],
+            cards: [
+              ['🎁', 'A gift', 'Giving a gift shows we care.'],
+              ['📅', 'Plan ahead', 'If a birthday is coming, start saving early.'],
+              ['🧮', 'How much each week?', 'For a ₹20 gift in 4 weeks, save ₹5 each week.'],
+            ],
+            acts: [
+              { mcq: 'A gift costs ₹20. You save ₹5 a week. How many weeks?', options: ['4', '5', '20'], answer: 0, why: '5, 10, 15, 20.' },
+              { mcq: 'Why start saving early for a gift?', options: ['So you have enough in time', 'Gifts get cheaper', 'No reason'], answer: 0, why: 'Planning ahead helps.' },
+              { phase: 'probe', mcq: 'Grandma’s birthday is in 2 weeks. The gift is ₹20. How much each week?', options: ['₹10', '₹5', '₹2'], answer: 0, why: '20 ÷ 2 = 10.' },
+              { phase: 'probe', write: 'Who would you save for and what gift?', keywords: ['gift', 'for', 'save'], exemplar: 'I would save for a flower pot for my mum.', minWords: 6 },
+            ],
+            teach: {
+              explain: 'Saving with a deadline; generosity.', analogy: 'Like counting down days to a festival.',
+              vocab: [['gift', 'Something given to show care.'], ['plan', 'Decide ahead.']],
+              demo: 'Make a countdown calendar for a gift goal.',
+              prompts: [['How many weeks until the birthday?', 'Count.'], ['How much each week?', 'Divide.']],
+              support: 'Use coins.', stretch: 'Save for two gifts.',
+              mis: [['Gifts must be expensive', 'Thoughtful small or homemade gifts are lovely.']],
+              sheet: 'Gift plan: who, what, price, weeks, amount per week.',
+            },
+          },
+          {
+            t: 'Super saver plan', o: 'Make a simple saving plan with a goal, amount and time.', min: 25,
+            hook: ['word', 'Goal · Amount · Time', 'my saving plan'],
+            cards: [
+              ['🎯', 'Goal', 'What are you saving for and how much does it cost?'],
+              ['💰', 'Amount', 'How much will you save each week?'],
+              ['📅', 'Time', 'How many weeks until you reach it?'],
+            ],
+            acts: [
+              { order: 'Make a saving plan in order', steps: ['Pick your goal', 'Find the price', 'Choose how much to save each week', 'Count the weeks', 'Save and tick your chart'], why: 'Goal → price → amount → time → do it.' },
+              { mcq: 'Goal ₹30, save ₹10 a week. Weeks?', options: ['3', '10', '30'], answer: 0, why: '10, 20, 30.' },
+              { phase: 'probe', mcq: 'If you save ₹5 instead of ₹10 a week for a ₹30 goal, what happens?', options: ['It takes longer — 6 weeks', 'It is faster', 'Same time'], answer: 0, why: '30 ÷ 5 = 6.' },
+              { phase: 'probe', write: 'Write your super saver plan.', keywords: ['goal', 'save', 'weeks'], exemplar: 'Goal: crayons ₹40. Save ₹10 a week. 4 weeks.', minWords: 8 },
+            ],
+            teach: {
+              explain: 'Goal, rate and time relationships.', analogy: 'Like a journey: destination, speed and time.',
+              vocab: [['plan', 'Steps to reach a goal.'], ['each week', 'Every week.']],
+              demo: 'Fill a class plan on the board.',
+              prompts: [['Save more each week means?', 'Faster.'], ['Less each week?', 'Slower.']],
+              support: 'Give round numbers.', stretch: 'Plan with a gift added mid-way.',
+              mis: [['Saving less gets there faster', 'Saving more each week is faster.']],
+              sheet: 'Super saver plan card.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ── 3-5 ──
+  {
+    subject: 'Saving & Budgeting', band: '3-5', level: 'Beginner', title: 'Budget Basics',
+    description: 'Learn what a budget is, track pocket money, and split money into spending, saving and sharing.',
+    intro: 'Take charge of your pocket money! 💼', theme: 'meadow', tutor,
+    style: 'Pocket-money scenarios, tables and friendly challenges.',
+    outcomes: ['Explains a budget', 'Tracks money in and out', 'Splits money between spend, save and share'],
+    outOfScope: oos,
+    modules: [
+      {
+        title: 'Module 1: Money in, money out',
+        lessons: [
+          {
+            t: 'What is a budget?', o: 'Explain that a budget is a plan for money made before spending.', min: 25,
+            hook: ['word', 'Budget', 'a plan for money'],
+            cards: [
+              ['📝', 'A plan', 'A budget is a plan for how you will use your money.'],
+              ['⬅️', 'Plan first', 'You make the plan before you spend.'],
+              ['🚫', 'Don’t go over', 'A good budget doesn’t spend more than you have.'],
+            ],
+            acts: [
+              { mcq: 'When do you make a budget?', options: ['Before you spend', 'After all money is gone', 'Never'], answer: 0, why: 'Plans come first.' },
+              { mcq: 'You have ₹100. Plan: ₹40 book, ₹30 snacks, ₹30 save. Does it work?', options: ['Yes — exactly ₹100', 'No — over by ₹10'], answer: 0, why: '40 + 30 + 30 = 100.' },
+              { phase: 'probe', mcq: 'Why might a family make a budget?', options: ['To make sure there is money for needs first', 'To spend more', 'For fun only'], answer: 0, why: 'Budgets protect needs.' },
+              { phase: 'probe', write: 'In your own words, what is a budget?', keywords: ['plan', 'money', 'spend'], exemplar: 'A budget is a plan that tells you how to use your money before you spend it.', minWords: 10 },
+            ],
+            teach: {
+              explain: 'Budget = forward plan of allocation.', analogy: 'A budget is like a timetable for money.',
+              vocab: [['budget', 'A plan for money.'], ['plan', 'Decide ahead.']],
+              demo: 'Plan a ₹100 day out on the board.',
+              prompts: [['What comes first in a budget?', 'Needs/saving.'], ['What if the plan is over?', 'Change it.']],
+              support: 'Use ₹10 blocks.', stretch: 'Make a budget for a week.',
+              mis: [['A budget stops you buying anything', 'It helps you buy what matters most.']],
+              sheet: 'My first budget: money I have, plan, total.',
+            },
+          },
+          {
+            t: 'Tracking pocket money', o: 'Record money in and out and find what is left.', min: 30,
+            hook: ['word', 'In − Out', 'what’s left?'],
+            cards: [
+              ['⬇️', 'Money in', 'Pocket money and gifts are money coming in.'],
+              ['⬆️', 'Money out', 'Snacks and stationery are money going out.'],
+              ['🧾', 'What’s left', 'Money in − money out = what is left.'],
+            ],
+            acts: [
+              { sort: 'In or out?', buckets: ['Money in', 'Money out'], items: [['₹50 pocket money', 0], ['₹10 juice', 1], ['₹100 birthday gift', 0], ['₹20 pencils', 1], ['₹5 sticker', 1]], why: 'Receiving = in; spending = out.' },
+              { mcq: 'In: ₹150. Out: ₹20 + ₹35 + ₹15. Left?', options: ['₹80', '₹70', '₹220'], answer: 0, why: 'Out = 70; 150 − 70 = 80.' },
+              { phase: 'probe', mcq: 'Arun is surprised he has no money left. What would help next time?', options: ['Writing down each spend', 'Spending faster', 'Hiding his wallet'], answer: 0, why: 'Tracking shows where money goes.' },
+              { phase: 'probe', write: 'Write down 3 things you spent money on recently (or might).', keywords: ['₹', 'spent', 'on'], exemplar: '₹10 on a pencil, ₹20 on juice, ₹15 on stickers.', minWords: 8 },
+            ],
+            teach: {
+              explain: 'Simple ledger tracking.', analogy: 'Tracking money is like keeping score in a game.',
+              vocab: [['money in', 'Money you get.'], ['money out', 'Money you spend.'], ['left', 'What remains.']],
+              demo: 'Model a week’s pocket-money ledger.',
+              prompts: [['Where did the money go?', 'Read the ledger.'], ['Why track?', 'To see patterns.']],
+              support: 'Ledger with pictures.', stretch: 'Track for 2 weeks and compare.',
+              mis: [['You can remember everything you spend', 'Writing it down is more reliable.']],
+              sheet: 'Pocket money tracker for one week.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Spend, save, share',
+        lessons: [
+          {
+            t: 'Splitting money', o: 'Split money into spend, save and share using simple fractions.', min: 30,
+            hook: ['word', '½ · ¼ · ¼', 'spend · save · share'],
+            cards: [
+              ['🍕', 'Fractions help', 'Half of ₹100 is ₹50; a quarter is ₹25.'],
+              ['🫙', 'Three jars', 'Spend jar, save jar, share jar.'],
+              ['⚖️', 'Your choice', 'You decide the split — but it must add up to all your money.'],
+            ],
+            acts: [
+              { blanks: '₹80 split: half to spend = ₹[[1]], a quarter to save = ₹[[2]], a quarter to share = ₹[[3]].', answers: [['40'], ['20'], ['20']], why: '80 ÷ 2 = 40; 80 ÷ 4 = 20.' },
+              { mcq: 'Which split of ₹60 adds up correctly?', options: ['₹30 spend, ₹20 save, ₹10 share', '₹30 spend, ₹30 save, ₹10 share', '₹20, ₹20, ₹10'], answer: 0, why: '30 + 20 + 10 = 60.' },
+              { phase: 'probe', mcq: 'Diya wants to buy a bicycle soon. Which jar should get more?', options: ['Save', 'Spend', 'Share'], answer: 0, why: 'A big goal needs more saving.' },
+              { phase: 'probe', write: 'How would you split ₹200 and why?', keywords: ['spend', 'save', 'share', 'because'], exemplar: 'Save ₹100 for a cricket bat, spend ₹70 on snacks and books, share ₹30 for a gift, because the bat is my big goal.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Fractional allocation; values-based split.', analogy: 'Like sharing a chocolate bar into pieces.',
+              vocab: [['half', 'One of two equal parts.'], ['quarter', 'One of four equal parts.'], ['split', 'Divide.']],
+              demo: 'Use paper strips to show halves and quarters of ₹100.',
+              prompts: [['What is a quarter of ₹40?', '₹10.'], ['Why might splits differ?', 'Different goals.']],
+              support: 'Fraction strips.', stretch: 'Use thirds.',
+              mis: [['All jars must be equal', 'You choose the split.']],
+              sheet: 'Three-jar splitter for ₹40, ₹100 and ₹200.',
+            },
+          },
+          {
+            t: 'Saving challenge', o: 'Plan and run a 4-week saving challenge.', min: 30,
+            hook: ['pattern', ['₹10', '₹20', '₹30', '₹40'], '₹50'],
+            cards: [
+              ['🏁', 'A challenge', 'Set a challenge: save a fixed amount each week for 4 weeks.'],
+              ['📈', 'Track it', 'Tick off each week on a chart.'],
+              ['🎉', 'Reward', 'At the end, look at what you achieved!'],
+            ],
+            acts: [
+              { mcq: 'Save ₹15 a week for 4 weeks. Total?', options: ['₹60', '₹19', '₹45'], answer: 0, why: '15 × 4 = 60.' },
+              { mcq: 'An increasing challenge: ₹5, ₹10, ₹15, ₹20. Total?', options: ['₹50', '₹20', '₹40'], answer: 0, why: '5 + 10 + 15 + 20 = 50.' },
+              { phase: 'probe', mcq: 'You missed week 2. What could you do?', options: ['Save a bit extra in weeks 3 and 4', 'Give up', 'Start a new goal'], answer: 0, why: 'You can catch up.' },
+              { phase: 'probe', write: 'Design your own 4-week saving challenge with weekly amounts and a total.', keywords: ['week', 'total', 'save'], exemplar: 'Week 1 ₹10, week 2 ₹15, week 3 ₹20, week 4 ₹25. Total ₹70.', minWords: 10 },
+            ],
+            teach: {
+              explain: 'Commitment devices and tracking.', analogy: 'Like a fitness challenge — daily small efforts.',
+              vocab: [['challenge', 'A goal to test yourself.'], ['commit', 'Promise to do.']],
+              demo: 'Launch a class saving challenge chart.',
+              prompts: [['How will you remember?', 'Chart, reminders.'], ['What if you slip?', 'Catch up.']],
+              support: 'Fixed weekly amount.', stretch: 'Increasing amounts and totals.',
+              mis: [['Missing a week means failure', 'Adjust and keep going.']],
+              sheet: '4-week challenge tracker.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Saving & Budgeting', band: '3-5', level: 'Intermediate', title: 'Goals, Choices and Weekly Budgets',
+    description: 'Set savings goals, make trade-offs and build a weekly budget that balances needs, wants and saving.',
+    intro: 'Plan your week like a pro. 🗓️', theme: 'meadow', tutor,
+    style: 'Scenario cards, maths in context, peer discussion.',
+    outcomes: ['Calculates time to reach a goal', 'Makes trade-off decisions', 'Builds a weekly budget'],
+    outOfScope: oos,
+    modules: [
+      {
+        title: 'Module 1: Goals',
+        lessons: [
+          {
+            t: 'How long will it take?', o: 'Calculate how many weeks it takes to reach a savings goal.', min: 30,
+            hook: ['word', 'Goal ÷ Weekly = Weeks', 'plan your timeline'],
+            cards: [
+              ['🎯', 'Goal', 'Know the price of what you want.'],
+              ['➗', 'Divide', 'Weeks = goal ÷ amount saved each week. ₹120 ÷ ₹20 = 6 weeks.'],
+              ['🔁', 'Round up', 'If it doesn’t divide exactly, round up: ₹100 ÷ ₹30 → 4 weeks.'],
+            ],
+            acts: [
+              { mcq: '₹240 goal, ₹40 a week. Weeks?', options: ['6', '4', '8'], answer: 0, why: '240 ÷ 40 = 6.' },
+              { mcq: '₹150 goal, ₹40 a week. Weeks?', options: ['4 (₹160 after 4)', '3', '3.75 so 3'], answer: 0, why: 'After 3 weeks ₹120 isn’t enough, so 4 weeks.' },
+              { phase: 'probe', mcq: 'Ravi already has ₹60 for a ₹300 goal and saves ₹40 a week. Weeks?', options: ['6', '8', '7'], answer: 0, why: '300 − 60 = 240; 240 ÷ 40 = 6.' },
+              { phase: 'probe', write: 'Choose a goal and calculate how many weeks it will take. Show your working.', keywords: ['÷', 'weeks', 'goal'], exemplar: 'Football ₹450. I save ₹50 a week. 450 ÷ 50 = 9 weeks.', minWords: 10 },
+            ],
+            teach: {
+              explain: 'Division for time-to-goal; rounding up with remainders.', analogy: 'Like counting how many trips to carry all books.',
+              vocab: [['remainder', 'What is left after dividing.'], ['timeline', 'How long something takes.']],
+              demo: 'Number line in jumps of the weekly amount.',
+              prompts: [['Why round up?', 'Need full amount.'], ['How to go faster?', 'Save more or start with some.']],
+              support: 'Use repeated addition.', stretch: 'Include a gift mid-way.',
+              mis: [['Always round down', 'Round up so you have enough.']],
+              sheet: 'Goal timeline calculator for 5 goals.',
+            },
+          },
+          {
+            t: 'Trade-offs', o: 'Explain trade-offs and choose between options.', min: 30,
+            hook: ['word', 'Trade-off', 'get one, give up another'],
+            cards: [
+              ['⚖️', 'Trade-off', 'A trade-off means giving up one thing to get another.'],
+              ['🔍', 'Compare', 'Think about which you’ll value more and for longer.'],
+              ['🧠', 'Choose wisely', 'There’s no single right answer — but think it through.'],
+            ],
+            acts: [
+              { mcq: 'You can afford either a ₹200 book or a ₹200 movie trip. If you choose the book, what is the trade-off?', options: ['Missing the movie', 'Getting the book', 'Nothing'], answer: 0, why: 'You give up the movie.' },
+              { sort: 'Lasts longer or used up quickly?', buckets: ['Lasts longer', 'Used up quickly'], items: [['Cricket bat', 0], ['Ice cream', 1], ['Storybook', 0], ['Fizzy drink', 1], ['Art kit', 0]], why: 'Some things give value for a long time.' },
+              { phase: 'probe', mcq: 'Neha can buy sweets now or keep saving for a bicycle. What will she give up if she buys sweets?', options: ['Getting to her bicycle goal sooner', 'Nothing', 'The sweets'], answer: 0, why: 'Spending now delays the goal.' },
+              { phase: 'probe', write: 'Describe a trade-off you made. Would you choose the same again?', keywords: ['chose', 'gave up', 'because'], exemplar: 'I chose to go to my friend’s party instead of a cricket match. I gave up the match, but I’d choose the same because I love seeing my friend.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Opportunity cost framed as trade-offs.', analogy: 'Choosing a road at a fork.',
+              vocab: [['trade-off', 'Giving up one thing for another.'], ['value', 'How much something matters to you.']],
+              demo: 'Two-choice cards; class votes and names the trade-off.',
+              prompts: [['What did you give up?', 'The other choice.'], ['Which lasts longer?', 'Discuss.']],
+              support: 'Two-picture choices.', stretch: 'Three options with costs.',
+              mis: [['Free choices have no trade-off', 'Time is a trade-off too.']],
+              sheet: 'Trade-off table: choice, gave up, why.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Weekly budgets',
+        lessons: [
+          {
+            t: 'Needs, wants and savings in a budget', o: 'Build a weekly budget with needs first, then savings and wants.', min: 30,
+            hook: ['budget', 200, 80, 'School needs'],
+            cards: [
+              ['1️⃣', 'Needs first', 'Pay for needs like bus fare and school supplies first.'],
+              ['2️⃣', 'Save next', 'Put some money aside for your goal.'],
+              ['3️⃣', 'Wants last', 'Use what’s left for wants.'],
+            ],
+            acts: [
+              { order: 'Order the budget steps', steps: ['Write down your money', 'Pay for needs', 'Set aside savings', 'Choose wants with what is left'], why: 'Money → needs → savings → wants.' },
+              { mcq: '₹200 week: needs ₹80, savings ₹50. Most you can spend on wants?', options: ['₹70', '₹120', '₹150'], answer: 0, why: '200 − 80 − 50 = 70.' },
+              { phase: 'probe', mcq: 'Needs went up to ₹110 this week. What should change?', options: ['Spend less on wants', 'Skip needs', 'Spend more on wants'], answer: 0, why: 'Wants adjust first.' },
+              { phase: 'probe', write: 'Make a weekly budget for ₹250. Label needs, savings and wants.', keywords: ['needs', 'savings', 'wants', 'total'], exemplar: 'Needs ₹100 (bus, pencils), savings ₹80, wants ₹70 (snack, comic). Total ₹250.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Prioritised budgeting.', analogy: 'Filling a bucket: big rocks (needs) first, then pebbles, then sand.',
+              vocab: [['needs', 'Must-haves.'], ['wants', 'Nice-to-haves.'], ['savings', 'Money kept for later.']],
+              demo: 'Big rocks jar demonstration.',
+              prompts: [['Why needs first?', 'They are essential.'], ['What flexes?', 'Wants.']],
+              support: 'Partially filled template.', stretch: 'Budget for two weeks with a surprise expense.',
+              mis: [['Savings are what’s left at the end', 'Plan savings before wants.']],
+              sheet: 'Weekly budget planner.',
+            },
+          },
+          {
+            t: 'When plans change', o: 'Adjust a budget when something unexpected happens.', min: 30,
+            hook: ['word', 'Surprise!', 'budgets can bend'],
+            cards: [
+              ['😮', 'Surprises happen', 'A broken bottle or a school trip fee can change your plan.'],
+              ['🔧', 'Adjust', 'Move money from wants (or savings, if needed) to cover it.'],
+              ['🛟', 'Be ready', 'A small “surprise fund” helps next time.'],
+            ],
+            acts: [
+              { mcq: 'Your ₹150 plan: needs ₹60, save ₹40, wants ₹50. A ₹30 trip fee appears. Best fix?', options: ['Reduce wants to ₹20', 'Skip the trip fee', 'Spend ₹180'], answer: 0, why: 'Cut wants by ₹30.' },
+              { mcq: 'What is a surprise fund?', options: ['Money kept for unexpected costs', 'Money for parties', 'Free money'], answer: 0, why: 'It covers surprises.' },
+              { phase: 'probe', mcq: 'If surprises keep happening, what should you do?', options: ['Add a surprise fund to your budget', 'Stop budgeting', 'Borrow every time'], answer: 0, why: 'Plan for them.' },
+              { phase: 'probe', write: 'Describe a surprise cost and how you would adjust your budget.', keywords: ['cut', 'wants', 'cover', 'fund'], exemplar: 'If my water bottle broke and cost ₹50, I would cut my snack money by ₹50 that week and start a small surprise fund.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Flexibility and contingency.', analogy: 'A budget is a bridge that can flex in the wind without breaking.',
+              vocab: [['unexpected', 'Not planned.'], ['adjust', 'Change to fit.'], ['fund', 'Money kept for a purpose.']],
+              demo: 'Surprise cards drawn mid-budget activity.',
+              prompts: [['What do you cut first?', 'Wants.'], ['How big should a surprise fund be?', 'Small, regular.']],
+              support: 'One surprise only.', stretch: 'Two surprises in one week.',
+              mis: [['A budget can’t change', 'Good budgets adapt.']],
+              sheet: 'Budget-with-surprises worksheet.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Saving & Budgeting', band: '3-5', level: 'Advanced', title: 'Interest, Events and Money Plans',
+    description: 'See how savings grow with interest, plan an event budget with a group, and present a money plan.',
+    intro: 'Make your money plans grow! 🌳', theme: 'meadow', tutor,
+    style: 'Group projects, calculations, presentations.',
+    outcomes: ['Calculates simple interest on savings', 'Plans a group event budget', 'Presents and justifies a money plan'],
+    outOfScope: oos,
+    modules: [
+      {
+        title: 'Module 1: Growing savings',
+        lessons: [
+          {
+            t: 'Interest: money that grows', o: 'Calculate simple yearly interest on savings.', min: 30,
+            hook: ['pattern', ['₹100', '₹110', '₹120', '₹130'], '₹140'],
+            cards: [
+              ['🌱', 'Interest', 'Banks add interest to savings. At 10% a year, ₹100 earns ₹10.'],
+              ['🧮', 'Work it out', '10% means divide by 10. 5% means half of 10%.'],
+              ['⏳', 'More years, more interest', 'Keep saving longer and interest adds up.'],
+            ],
+            acts: [
+              { mcq: '₹500 at 10% a year. Interest after 1 year?', options: ['₹50', '₹10', '₹510'], answer: 0, why: '10% of 500 = 50.' },
+              { mcq: '₹200 at 5% a year. Interest after 1 year?', options: ['₹10', '₹5', '₹20'], answer: 0, why: '10% is 20, so 5% is 10.' },
+              { phase: 'probe', mcq: '₹1000 at 10% simple interest for 3 years. Total?', options: ['₹1300', '₹1030', '₹1100'], answer: 0, why: '₹100 each year × 3 = 300.' },
+              { phase: 'probe', write: 'Why might it be better to save in a bank than a piggy bank for a long time?', keywords: ['interest', 'grow', 'safe'], exemplar: 'A bank pays interest so the money grows, and it is kept safe.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Simple interest with friendly percentages.', analogy: 'Interest is like a plant growing new leaves each year.',
+              vocab: [['interest', 'Extra money paid on savings.'], ['percent', 'Out of 100.']],
+              demo: 'Table of ₹100 at 10% for 5 years.',
+              prompts: [['What is 10% of ₹300?', '₹30.'], ['Why do banks pay interest?', 'They use the money.']],
+              support: '10% only.', stretch: 'Compound interest for 2 years.',
+              mis: [['Interest is paid only once', 'It’s paid each year.']],
+              sheet: 'Interest table for 3 amounts over 3 years.',
+            },
+          },
+          {
+            t: 'Saving versus spending over time', o: 'Compare outcomes of saving regularly vs spending everything.', min: 30,
+            hook: ['upgrade', 'Spend it all', 'Save a little every week'],
+            cards: [
+              ['🧑‍🤝‍🧑', 'Two friends', 'Aman spends all ₹50 each week. Bela saves ₹20 and spends ₹30.'],
+              ['📆', 'After a year', 'Bela has ₹20 × 52 = ₹1040 saved. Aman has ₹0.'],
+              ['🎯', 'Choices', 'Small weekly choices make a big difference over time.'],
+            ],
+            acts: [
+              { mcq: 'Save ₹25 a week for 20 weeks. Total?', options: ['₹500', '₹250', '₹45'], answer: 0, why: '25 × 20 = 500.' },
+              { mcq: 'Which habit helps most in an emergency?', options: ['Saving regularly', 'Spending everything', 'Borrowing from friends'], answer: 0, why: 'Savings are ready when needed.' },
+              { phase: 'probe', mcq: 'Bela saved ₹1040 in a year. If she also earned 5% interest at the end, about how much more?', options: ['About ₹52', 'About ₹5', 'About ₹520'], answer: 0, why: '5% of 1040 ≈ 52.' },
+              { phase: 'probe', write: 'Write advice to Aman about saving.', keywords: ['save', 'week', 'year', 'because'], exemplar: 'Try saving just ₹10 a week. In a year that’s ₹520, which could help in an emergency or buy something you really want.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Accumulation over time; habits.', analogy: 'Two paths in a forest — small steps lead to very different places.',
+              vocab: [['habit', 'Something you do regularly.'], ['accumulate', 'Build up.']],
+              demo: 'Graph two friends’ savings over 12 months.',
+              prompts: [['What’s the effect of ₹10/week for a year?', '₹520.'], ['Why do habits matter?', 'They add up.']],
+              support: 'Use 10 weeks.', stretch: 'Add interest.',
+              mis: [['Small savings are pointless', 'They add up over a year.']],
+              sheet: 'Two-friends comparison chart.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Group money plans',
+        lessons: [
+          {
+            t: 'Plan a class event budget', o: 'Plan an event budget with per-person costs.', min: 35,
+            hook: ['budget', 2000, 1200, 'Food for 30'],
+            cards: [
+              ['👥', 'Per person', 'Cost per person = total cost ÷ number of people.'],
+              ['📋', 'List and price', 'List items, find prices, add them up.'],
+              ['🗳️', 'Agree', 'Groups discuss and agree on what matters most.'],
+            ],
+            acts: [
+              { mcq: 'Food costs ₹1200 for 30 children. Per child?', options: ['₹40', '₹30', '₹400'], answer: 0, why: '1200 ÷ 30 = 40.' },
+              { mcq: 'Budget ₹2000: food ₹1200, decorations ₹500, games ₹400. Within budget?', options: ['No — ₹100 over', 'Yes — ₹100 under'], answer: 0, why: '1200 + 500 + 400 = 2100.' },
+              { phase: 'probe', mcq: 'How could the class fix the ₹100 overspend?', options: ['Make decorations instead of buying some', 'Add more games', 'Ignore it'], answer: 0, why: 'Reduce a cost.' },
+              { phase: 'probe', write: 'Your group has ₹1500 for a picnic of 25. Write a budget and the cost per person.', keywords: ['per person', 'total', '1500', 'food'], exemplar: 'Food ₹1000, drinks ₹250, games ₹200, total ₹1450. Per person = ₹58.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Group budgeting, unit costs.', analogy: 'Planning together is like a team building a sandcastle.',
+              vocab: [['per person', 'For each person.'], ['estimate', 'Close guess.']],
+              demo: 'Plan a class party in groups and compare.',
+              prompts: [['How to find per-person cost?', 'Divide total by people.'], ['How do groups decide?', 'Discuss and vote.']],
+              support: 'Price list given.', stretch: 'Include a 10% buffer.',
+              mis: [['Per-person cost = total cost', 'Divide by the number of people.']],
+              sheet: 'Event planner with per-person column.',
+            },
+          },
+          {
+            t: 'Present your money plan', o: 'Present a savings or event plan and justify choices.', min: 35,
+            hook: ['upgrade', 'We will buy stuff.', 'We’ll save ₹50 a week for 6 weeks to buy a ₹300 class library!'],
+            cards: [
+              ['🎤', 'Explain clearly', 'Say your goal, your numbers and your reasons.'],
+              ['📊', 'Show your working', 'Use a table or chart so others can check.'],
+              ['💬', 'Answer questions', 'Be ready to explain your choices.'],
+            ],
+            acts: [
+              { order: 'Order a good money presentation', steps: ['State the goal', 'Show the budget or saving plan', 'Explain your choices', 'Answer questions'], why: 'Goal → plan → reasons → questions.' },
+              { mcq: 'Which is the strongest reason for a plan?', options: ['“We save ₹50 weekly because 6 × ₹50 = ₹300 — the book cost.”', '“Because we want to.”', '“It looks nice.”'], answer: 0, why: 'Numbers support the reason.' },
+              { phase: 'probe', speak: 'Our goal is ₹300 for a class library. We will save ₹50 every week for six weeks.', checklist: ['I said the goal', 'I said the numbers', 'I spoke clearly'], tips: 'Look at your audience and pause after numbers.' },
+              { phase: 'probe', write: 'Write the script for your money plan presentation.', keywords: ['goal', 'save', 'weeks', 'because'], exemplar: 'Our goal is a ₹600 class garden. We will each bring ₹20 a week, which is ₹600 in 3 weeks for 10 students. We chose seeds and pots because they help us learn science.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Communication of financial reasoning.', analogy: 'A presentation is a guided tour of your plan.',
+              vocab: [['justify', 'Give reasons.'], ['present', 'Share with an audience.']],
+              demo: 'Model a 1-minute plan pitch.',
+              prompts: [['What makes a strong reason?', 'Evidence/numbers.'], ['How to handle questions?', 'Listen, answer simply.']],
+              support: 'Sentence frames.', stretch: 'Add a chart.',
+              mis: [['Presenting is just reading', 'Explain and engage.']],
+              sheet: 'Presentation planner: goal, numbers, reasons, chart.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ── 6-8 ──
+  {
+    subject: 'Saving & Budgeting', band: '6-8', level: 'Intermediate', title: 'Saving Strategies That Work',
+    description: 'Pay yourself first, automate savings, cut costs smartly and use sinking funds for planned expenses.',
+    intro: 'Save smarter, not harder. 🧠', theme: 'meadow', tutor,
+    style: 'Habit science, experiments, maths in context.',
+    outcomes: ['Applies pay-yourself-first', 'Calculates savings from cost cuts', 'Plans sinking funds'],
+    outOfScope: oos,
+    modules: [
+      {
+        title: 'Module 1: Habits',
+        lessons: [
+          {
+            t: 'Pay yourself first', o: 'Explain and apply the pay-yourself-first rule.', min: 30,
+            hook: ['upgrade', 'Save what’s left', 'Save first, spend what’s left'],
+            cards: [
+              ['🥇', 'Save first', 'When money arrives, move your savings amount first.'],
+              ['🤖', 'Automate', 'Automatic transfers or a fixed routine make saving easy.'],
+              ['📉', 'Why it works', 'If you wait until the end, there is often nothing left.'],
+            ],
+            acts: [
+              { mcq: 'You get ₹1000 monthly and want to save 20%. Pay-yourself-first means…', options: ['Move ₹200 to savings as soon as you get it', 'Save whatever is left at month-end', 'Spend first'], answer: 0, why: 'Savings first.' },
+              { mcq: 'Why does saving at the end often fail?', options: ['Money tends to get spent', 'Banks close', 'It is illegal'], answer: 0, why: 'Spending expands to fill money available.' },
+              { phase: 'probe', mcq: 'Which is an example of automating savings?', options: ['A standing instruction moving money monthly', 'Remembering sometimes', 'Asking a friend'], answer: 0, why: 'Automation removes reliance on willpower.' },
+              { phase: 'probe', write: 'Describe how you could “pay yourself first” with pocket money.', keywords: ['first', 'save', 'jar', 'account'], exemplar: 'As soon as I get pocket money, I put 25% in my savings jar before buying anything.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Behavioural design for savings.', analogy: 'Like putting your homework first, then playing.',
+              vocab: [['automate', 'Make it happen automatically.'], ['standing instruction', 'A regular automatic bank transfer.']],
+              demo: 'Compare two months: save-first vs save-last (illustrative).',
+              prompts: [['Why save first?', 'Avoid running out.'], ['How to automate?', 'Bank standing instruction/routine.']],
+              support: 'Percent table.', stretch: 'Plan automatic saving for a year.',
+              mis: [['Saving first leaves too little to live', 'Choose a percentage that fits.']],
+              sheet: 'Pay-yourself-first planner.',
+            },
+          },
+          {
+            t: 'Cutting costs smartly', o: 'Identify small recurring costs and calculate yearly savings.', min: 30,
+            hook: ['pattern', ['₹30/day', '₹210/week', '₹900/month'], '₹10,950/year'],
+            cards: [
+              ['☕', 'Latte factor', 'Small daily spends add up to big yearly amounts.'],
+              ['🔁', 'Subscriptions', 'Check subscriptions you don’t use and cancel them.'],
+              ['🛍️', 'Plan purchases', 'Lists and comparisons reduce impulse buys.'],
+            ],
+            acts: [
+              { mcq: '₹20 per day on snacks. Per year (365 days)?', options: ['₹7,300', '₹730', '₹2,000'], answer: 0, why: '20 × 365 = 7,300.' },
+              { mcq: 'An unused ₹149/month subscription costs per year…', options: ['₹1,788', '₹149', '₹1,490'], answer: 0, why: '149 × 12 = 1,788.' },
+              { phase: 'probe', mcq: 'Which change saves most per year?', options: ['Cutting ₹50/day to ₹20/day', 'Saving ₹100 once', 'Skipping one ₹200 movie'], answer: 0, why: '₹30 × 365 = ₹10,950.' },
+              { phase: 'probe', write: 'Find one small regular cost in your life and calculate its yearly total. What would you do?', keywords: ['day', 'week', 'year', 'save'], exemplar: 'I spend ₹15 on juice daily — ₹5,475 a year. I will carry a bottle from home three days a week.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Annualising recurring costs.', analogy: 'A dripping tap fills a bucket overnight.',
+              vocab: [['recurring', 'Happening again and again.'], ['annual', 'Per year.']],
+              demo: 'Annualise class-suggested small costs.',
+              prompts: [['How to annualise weekly?', '× 52.'], ['Which costs are easiest to cut?', 'Unused subscriptions.']],
+              support: 'Calculator.', stretch: 'Combine three cuts.',
+              mis: [['Small costs don’t matter', 'They add up.']],
+              sheet: 'Recurring cost audit.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Planned expenses',
+        lessons: [
+          {
+            t: 'Sinking funds', o: 'Plan monthly saving for known future expenses.', min: 30,
+            hook: ['word', 'Sinking fund', 'save now for a known cost later'],
+            cards: [
+              ['📅', 'Known costs', 'School trips, gifts and festivals are expenses you can predict.'],
+              ['➗', 'Monthly amount', 'Divide the cost by the months until it is due.'],
+              ['🗂️', 'Separate pots', 'Keep each sinking fund separate so you know what it’s for.'],
+            ],
+            acts: [
+              { mcq: 'A ₹2,400 school trip in 6 months. Monthly saving?', options: ['₹400', '₹240', '₹600'], answer: 0, why: '2400 ÷ 6 = 400.' },
+              { mcq: 'Diwali gifts ₹1,200 in 4 months and a ₹600 class fee in 3 months. Total monthly for both?', options: ['₹500', '₹300', '₹1,800'], answer: 0, why: '300 + 200 = 500.' },
+              { phase: 'probe', mcq: 'Why keep sinking funds separate?', options: ['So you don’t accidentally spend money meant for a goal', 'Banks require it', 'It earns double interest'], answer: 0, why: 'Clarity prevents mixing.' },
+              { phase: 'probe', write: 'List two known expenses in the next year and plan monthly sinking funds for them.', keywords: ['month', 'save', 'cost'], exemplar: 'Birthday gifts ₹1,200 in 6 months → ₹200/month. New shoes ₹1,800 in 9 months → ₹200/month.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Smoothing irregular expenses.', analogy: 'Filling a bucket slowly before the big wash day.',
+              vocab: [['sinking fund', 'Savings for a known future expense.'], ['due', 'When payment is needed.']],
+              demo: 'Calendar with expenses and monthly pots.',
+              prompts: [['How do you calculate?', 'Cost ÷ months.'], ['Difference from emergency fund?', 'Known vs unknown.']],
+              support: 'One expense.', stretch: 'Three overlapping expenses.',
+              mis: [['Only adults need sinking funds', 'Students have predictable costs too.']],
+              sheet: 'Sinking fund planner with calendar.',
+            },
+          },
+          {
+            t: 'Track and review', o: 'Review a month of savings data and adjust the plan.', min: 30,
+            hook: ['word', 'Review', 'what worked, what didn’t?'],
+            cards: [
+              ['📒', 'Compare plan vs actual', 'Check what you planned against what really happened.'],
+              ['🔍', 'Find gaps', 'Where did you overspend or under-save?'],
+              ['🔧', 'Adjust', 'Change one thing next month.'],
+            ],
+            acts: [
+              { mcq: 'Plan: save ₹500. Actual: ₹350. Gap?', options: ['₹150 short', '₹150 over', '₹850'], answer: 0, why: '500 − 350 = 150.' },
+              { mcq: 'Snacks planned ₹300, actual ₹480. % over plan?', options: ['60%', '18%', '160%'], answer: 0, why: '180/300 = 60%.' },
+              { phase: 'probe', mcq: 'Best adjustment after overspending on snacks?', options: ['Set a weekly snack limit and track it', 'Stop saving', 'Ignore it'], answer: 0, why: 'A specific limit targets the problem.' },
+              { phase: 'probe', write: 'Write a short monthly review: one success, one problem, one change.', keywords: ['success', 'problem', 'change', 'next month'], exemplar: 'Success: saved ₹400 by bringing lunch. Problem: spent ₹300 on games. Change: set a ₹150 game limit next month.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Variance analysis in simple form.', analogy: 'Like a coach reviewing match footage.',
+              vocab: [['actual', 'What really happened.'], ['variance', 'Difference from plan.']],
+              demo: 'Plan vs actual table with highlights.',
+              prompts: [['What does a negative gap mean?', 'Under target.'], ['How many changes at once?', 'One or two.']],
+              support: 'Pre-filled table.', stretch: 'Chart plan vs actual over 3 months.',
+              mis: [['Missing a plan means budgeting doesn’t work', 'Review and adjust is part of budgeting.']],
+              sheet: 'Monthly review template.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Saving & Budgeting', band: '6-8', level: 'Advanced', title: 'Household Budgets and Big Goals',
+    description: 'Understand how a household budget works, use a spreadsheet to plan, and design a savings plan for a big goal.',
+    intro: 'Think like the family finance manager. 🏠', theme: 'meadow', tutor,
+    style: 'Spreadsheets, case families (fictional), sensitivity to different family situations.',
+    outcomes: ['Describes household income and expense categories', 'Builds a spreadsheet budget with formulas', 'Plans a big-goal savings strategy'],
+    outOfScope: oos,
+    safety: 'Use only fictional families. Never ask learners about their own family’s income.',
+    modules: [
+      {
+        title: 'Module 1: Household budgets',
+        lessons: [
+          {
+            t: 'How a household budget works', o: 'Describe household income and expense categories using a fictional family.', min: 30,
+            hook: ['budget', 40000, 15000, 'Rent'],
+            cards: [
+              ['🏠', 'Big categories', 'Housing, food, utilities, transport, education, health, savings.'],
+              ['📌', 'Fixed and variable', 'Rent and fees are fixed; groceries and electricity vary.'],
+              ['👨‍👩‍👧', 'Shared decisions', 'Families make trade-offs together.'],
+            ],
+            acts: [
+              { sort: 'Fixed or variable household cost?', buckets: ['Fixed', 'Variable'], items: [['Rent', 0], ['Electricity bill', 1], ['School fees', 0], ['Groceries', 1], ['Fuel', 1], ['Insurance premium', 0]], why: 'Fixed stays the same; variable changes.' },
+              { mcq: 'The Sharma family (fictional) earns ₹40,000 and spends ₹15,000 on rent. What % is rent?', options: ['37.5%', '15%', '62.5%'], answer: 0, why: '15000/40000 = 0.375.' },
+              { phase: 'probe', mcq: 'Electricity bills jump in summer. What could a family do?', options: ['Plan a higher amount for summer months', 'Ignore it', 'Stop paying'], answer: 0, why: 'Seasonal planning.' },
+              { phase: 'probe', write: 'Suggest two ways the fictional Sharma family could reduce variable costs.', keywords: ['reduce', 'electricity', 'groceries', 'plan'], exemplar: 'Switch off fans and lights when not in use, and plan weekly meals to avoid waste.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Household categories, seasonality; respect privacy.', analogy: 'A household budget is a ship’s map — everyone helps steer.',
+              vocab: [['utilities', 'Electricity, water, gas.'], ['seasonal', 'Changes with the season.']],
+              demo: 'Fictional family budget on the board.',
+              prompts: [['Which costs vary most?', 'Utilities, food.'], ['How can children help?', 'Save energy, avoid waste.']],
+              support: 'Provide category list.', stretch: 'Compare two fictional families.',
+              mis: [['All families spend the same way', 'Needs differ widely.']],
+              sheet: 'Fictional family budget analysis.',
+            },
+          },
+          {
+            t: 'Spreadsheet budgets', o: 'Build a budget spreadsheet using SUM and percentage formulas.', min: 35,
+            hook: ['code', '=SUM(B2:B8)', '₹38,500'],
+            cards: [
+              ['📊', 'Rows and columns', 'Put categories in column A and amounts in column B.'],
+              ['➕', 'SUM', '=SUM(B2:B8) adds the amounts.'],
+              ['%', 'Percent formula', '=B2/$B$9 shows each category’s share of the total.'],
+            ],
+            acts: [
+              { code: 'A: Rent | B: 15000\nA: Food | B: 9000\nA: Transport | B: 4000\n=SUM(B1:B3)', ask: 'What does the formula return?', options: ['28000', '15000', '3'], answer: 0, why: '15000 + 9000 + 4000.' },
+              { mcq: 'Which formula shows Food as a percentage of total in B4?', options: ['=B2/B4', '=B4/B2', '=B2+B4'], answer: 0, why: 'Part ÷ total.' },
+              { phase: 'probe', mcq: 'Why use $B$9 (absolute reference) when copying a % formula down?', options: ['So every row divides by the same total cell', 'To add dollars', 'To make it bold'], answer: 0, why: 'Absolute references don’t shift when copied.' },
+              { phase: 'probe', write: 'Describe how a spreadsheet makes budgeting easier than paper.', keywords: ['formula', 'update', 'automatic', 'chart'], exemplar: 'Formulas update totals automatically when a number changes, and you can make charts instantly.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Spreadsheet basics: cells, SUM, relative vs absolute references, charts.', analogy: 'A spreadsheet is a calculator that remembers.',
+              vocab: [['cell', 'One box in a spreadsheet.'], ['formula', 'A calculation starting with =.'], ['absolute reference', 'A cell address that doesn’t change when copied ($B$9).']],
+              demo: 'Live build in any spreadsheet app.',
+              prompts: [['What does =SUM do?', 'Adds a range.'], ['When use $?', 'Fixed reference.']],
+              support: 'Template file.', stretch: 'Add a pie chart and conditional formatting.',
+              mis: [['Formulas must be retyped each row', 'Copy them down.']],
+              sheet: 'Spreadsheet build steps checklist.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Big goals',
+        lessons: [
+          {
+            t: 'Planning a big goal', o: 'Plan monthly saving for a big goal with interest.', min: 35,
+            hook: ['pattern', ['₹1,500', '₹3,000', '₹4,500', '₹6,000'], '₹7,500'],
+            cards: [
+              ['🎯', 'Big goal', 'A laptop, a trip or a course may cost tens of thousands.'],
+              ['🧮', 'Monthly target', 'Monthly saving = (goal − current savings) ÷ months.'],
+              ['🌱', 'Interest helps', 'Interest on savings can shorten the time a little.'],
+            ],
+            acts: [
+              { mcq: 'Goal ₹36,000 laptop in 24 months, already ₹6,000 saved. Monthly?', options: ['₹1,250', '₹1,500', '₹1,000'], answer: 0, why: '30,000 ÷ 24 = 1,250.' },
+              { mcq: 'If you can only save ₹1,000/month for that goal, how many months?', options: ['30', '24', '36'], answer: 0, why: '30,000 ÷ 1,000 = 30.' },
+              { phase: 'probe', mcq: 'Which option reaches the goal sooner?', options: ['Saving ₹1,500/month', 'Saving ₹1,000/month', 'Saving ₹800/month'], answer: 0, why: 'More per month → faster.' },
+              { phase: 'probe', write: 'Plan a big goal: cost, current savings, months, monthly target, and one way to speed it up.', keywords: ['goal', 'months', 'monthly', 'faster'], exemplar: 'Goal: ₹24,000 bicycle. Saved ₹4,000. 20 months → ₹1,000 a month. To speed up, I could sell old books and add birthday money.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Goal arithmetic, levers: time, amount, starting balance, interest.', analogy: 'Like filling a tank: tap speed, tank size and time.',
+              vocab: [['target', 'Amount needed each period.'], ['lever', 'Something you can change to get a result.']],
+              demo: 'Spreadsheet goal calculator.',
+              prompts: [['What are the levers?', 'Amount, time, start, interest.'], ['How to handle a shortfall?', 'Extend time or increase saving.']],
+              support: 'Formula given.', stretch: 'Include 5% interest per year.',
+              mis: [['Big goals need loans', 'Planning can avoid debt.']],
+              sheet: 'Big-goal calculator worksheet.',
+            },
+          },
+          {
+            t: 'Needs of a growing family', o: 'Analyse how budgets change with life events (fictional case).', min: 30,
+            hook: ['word', 'Life events', 'budgets change'],
+            cards: [
+              ['👶', 'New baby', 'Costs for health, clothes and care rise.'],
+              ['🏫', 'School years', 'Fees, books and transport grow.'],
+              ['🧓', 'Caring for elders', 'Health and support costs may rise.'],
+            ],
+            acts: [
+              { match: 'Match life event to likely budget change', pairs: [['New baby', 'More health and care costs'], ['Moving cities', 'New rent and transport costs'], ['Child starts college', 'Fees and hostel costs'], ['Job promotion', 'Higher income to plan for']], why: 'Life events shift budgets.' },
+              { mcq: 'A fictional family’s school fees rise 10% from ₹50,000. New fee?', options: ['₹55,000', '₹60,000', '₹50,010'], answer: 0, why: '10% of 50,000 = 5,000.' },
+              { phase: 'probe', mcq: 'Why is an emergency fund especially important for families?', options: ['Many people depend on the income', 'Families never have surprises', 'It is a want'], answer: 0, why: 'More people affected by shocks.' },
+              { phase: 'probe', write: 'Choose a life event and explain how a fictional family could prepare their budget.', keywords: ['save', 'plan', 'cost', 'months'], exemplar: 'Before a move, the family could save 3 months of rent for the deposit and research transport costs in the new city.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Life-cycle budgeting; anticipation.', analogy: 'Budgets are like clothes — they need resizing as families grow.',
+              vocab: [['life event', 'A big change in life.'], ['dependants', 'People who rely on someone’s income.']],
+              demo: 'Timeline of a fictional family over 20 years.',
+              prompts: [['Which events can be predicted?', 'School, college.'], ['Which cannot?', 'Illness.']],
+              support: 'Event cards.', stretch: 'Model a 5-year budget change.',
+              mis: [['Budgets are set once', 'They change with life.']],
+              sheet: 'Life-event planning grid.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ── 9-12 ──
+  {
+    subject: 'Saving & Budgeting', band: '9-12', level: 'Beginner', title: 'Student Budgets: Pocket Money to Part-Time Pay',
+    description: 'Build a zero-based budget, manage digital spending and subscriptions, and plan for student costs.',
+    intro: 'Own your money decisions. 💳', theme: 'meadow', tutor,
+    style: 'Practical, app-aware, discussion of real student situations.',
+    outcomes: ['Builds a zero-based budget', 'Controls digital spending and subscriptions', 'Plans for student costs'],
+    outOfScope: oos,
+    modules: [
+      {
+        title: 'Module 1: Budget methods',
+        lessons: [
+          {
+            t: 'Zero-based budgeting', o: 'Build a budget where every rupee has a job.', min: 30,
+            hook: ['word', 'Income − Plan = 0', 'every rupee has a job'],
+            cards: [
+              ['0️⃣', 'Zero-based', 'Assign all income to categories (including savings) until nothing is unassigned.'],
+              ['🧾', 'Categories', 'Transport, food, phone, study, fun, savings, giving.'],
+              ['🔄', 'Monthly reset', 'Rebuild each month based on what’s coming.'],
+            ],
+            acts: [
+              { mcq: 'Income ₹3,000. Assigned: transport ₹800, food ₹700, phone ₹300, fun ₹500, savings ₹500. Unassigned?', options: ['₹200', '₹0', '₹500'], answer: 0, why: '3000 − 2800 = 200.' },
+              { mcq: 'In zero-based budgeting, where should the ₹200 go?', options: ['Give it a job, e.g. savings or study', 'Leave it unplanned', 'Spend randomly'], answer: 0, why: 'Every rupee gets a job.' },
+              { phase: 'probe', mcq: 'Zero-based budget means…', options: ['Income minus planned allocations equals zero', 'You spend everything', 'You have zero money'], answer: 0, why: 'It’s about full allocation, not spending all.' },
+              { phase: 'probe', write: 'Create a zero-based budget for ₹2,500 monthly student income.', keywords: ['savings', 'transport', 'total', '2500'], exemplar: 'Transport ₹700, food ₹600, phone ₹250, study ₹300, fun ₹300, savings ₹350. Total ₹2,500.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Zero-based vs percentage budgeting.', analogy: 'Every rupee is an employee that needs a job description.',
+              vocab: [['zero-based budget', 'Allocating all income.'], ['allocate', 'Assign.']],
+              demo: 'Build a ZBB live in a spreadsheet.',
+              prompts: [['Is savings a category?', 'Yes.'], ['Does ZBB mean spending all?', 'No.']],
+              support: 'Category list.', stretch: 'Compare ZBB with 50-30-20.',
+              mis: [['Zero-based means spending everything', 'Savings is a job too.']],
+              sheet: 'ZBB template.',
+            },
+          },
+          {
+            t: 'Digital spending traps', o: 'Identify digital spending traps and set controls.', min: 30,
+            hook: ['word', 'Tap to pay', 'easy to overspend'],
+            cards: [
+              ['📲', 'Frictionless', 'One-tap payments make spending feel painless.'],
+              ['🎮', 'In-app purchases', 'Small game purchases add up fast.'],
+              ['🔔', 'Controls', 'Use spending limits, notifications and monthly subscription checks.'],
+            ],
+            acts: [
+              { sort: 'Trap or control?', buckets: ['Spending trap', 'Spending control'], items: [['Auto-renewing free trials', 0], ['Monthly subscription review', 1], ['Saved card for one-tap buying', 0], ['UPI daily limit', 1], ['Loot boxes in games', 0], ['Spending notifications', 1]], why: 'Traps make spending easy; controls add awareness.' },
+              { mcq: 'Three subscriptions: ₹129, ₹199, ₹99 per month. Yearly cost?', options: ['₹5,124', '₹427', '₹4,270'], answer: 0, why: '427 × 12 = 5,124.' },
+              { phase: 'probe', mcq: 'A free trial asks for card details. What should you do?', options: ['Set a reminder to cancel before it renews', 'Ignore', 'Give a friend’s card'], answer: 0, why: 'Free trials often auto-renew.' },
+              { phase: 'probe', write: 'Design three personal rules to control digital spending.', keywords: ['limit', 'review', 'notify', 'wait'], exemplar: '1) Review subscriptions monthly. 2) Turn on notifications for every payment. 3) Wait 24 hours before any in-app purchase over ₹100.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Pain-of-paying, dark patterns, controls.', analogy: 'Digital spending is a slippery slide — add steps.',
+              vocab: [['auto-renew', 'Automatically charges again.'], ['dark pattern', 'Design that tricks users.'], ['in-app purchase', 'Buying inside an app.']],
+              demo: 'Show fictional screens with dark patterns.',
+              prompts: [['What is a dark pattern?', 'Tricky design.'], ['What control helps most?', 'Limits/notifications.']],
+              support: 'Checklist.', stretch: 'Audit your own apps (privately).',
+              mis: [['Free trials are free', 'They often become paid.']],
+              sheet: 'Subscription audit sheet.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Earning and student costs',
+        lessons: [
+          {
+            t: 'Part-time and freelance income', o: 'Budget with irregular income from part-time or freelance work.', min: 30,
+            hook: ['pattern', ['₹2,000', '₹5,000', '₹1,000', '₹4,000'], 'average ₹3,000'],
+            cards: [
+              ['💼', 'Irregular income', 'Tutoring, freelancing or gig work can pay differently each month.'],
+              ['📉', 'Budget on the low', 'Plan on your lowest typical month; save the extra in good months.'],
+              ['🧾', 'Keep records', 'Track what you earn and keep receipts.'],
+            ],
+            acts: [
+              { mcq: 'Earnings: ₹2,000, ₹5,000, ₹1,000, ₹4,000. Average?', options: ['₹3,000', '₹12,000', '₹2,500'], answer: 0, why: '12,000 ÷ 4.' },
+              { mcq: 'Safest monthly budget base for that income?', options: ['Around the low months (~₹1,000–2,000)', '₹5,000', '₹12,000'], answer: 0, why: 'Plan conservatively.' },
+              { phase: 'probe', mcq: 'In a ₹5,000 month, what is wise?', options: ['Save the extra above your base budget', 'Spend it all', 'Buy something on EMI'], answer: 0, why: 'Smooth income.' },
+              { phase: 'probe', write: 'Explain how you would budget if you tutored younger students and your income changed every month.', keywords: ['average', 'low', 'save', 'extra'], exemplar: 'I would budget on my lowest normal month and put any extra into a buffer fund, using it in slow months.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Income smoothing with buffers.', analogy: 'Like a reservoir storing rain for dry months.',
+              vocab: [['irregular income', 'Income that varies.'], ['buffer', 'Extra savings to smooth ups and downs.']],
+              demo: 'Graph irregular income with a buffer line.',
+              prompts: [['Why plan on the low month?', 'Avoid shortfalls.'], ['What is a buffer?', 'Savings for slow months.']],
+              support: 'Simple averages.', stretch: 'Simulate 12 months.',
+              mis: [['Average month = safe budget', 'Below-average months need a buffer.']],
+              sheet: 'Irregular income planner.',
+            },
+          },
+          {
+            t: 'Planning student costs', o: 'Estimate the costs of a year of further study and plan to meet them.', min: 35,
+            hook: ['budget', 120000, 60000, 'Fees'],
+            cards: [
+              ['🎓', 'Beyond fees', 'Count books, devices, travel, food, hostel and exam fees.'],
+              ['🏅', 'Scholarships', 'Search scholarships and fee waivers early; many have deadlines.'],
+              ['📝', 'Plan', 'Combine savings, family support, scholarships and part-time income.'],
+            ],
+            acts: [
+              { mcq: 'Fees ₹60,000; hostel ₹36,000; books ₹8,000; travel ₹6,000. Total?', options: ['₹1,10,000', '₹96,000', '₹60,000'], answer: 0, why: '60 + 36 + 8 + 6 = 110 thousand.' },
+              { mcq: 'If a scholarship covers 50% of fees, how much is saved?', options: ['₹30,000', '₹55,000', '₹6,000'], answer: 0, why: 'Half of 60,000.' },
+              { phase: 'probe', mcq: 'What’s a good first step when planning further study costs?', options: ['List all costs and research scholarships', 'Take the biggest loan available', 'Wait until admission day'], answer: 0, why: 'Know the full picture early.' },
+              { phase: 'probe', write: 'Make a one-year cost plan for a course you’re interested in, including at least 5 cost items and 2 funding sources.', keywords: ['fees', 'books', 'hostel', 'scholarship', 'savings'], exemplar: 'Fees ₹50,000, hostel ₹30,000, books ₹5,000, laptop ₹35,000 (one-off), travel ₹5,000. Funding: merit scholarship ₹25,000 and family savings.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Total cost of attendance; scholarships; funding mix.', analogy: 'Planning study costs is like packing for a long trip — list everything.',
+              vocab: [['cost of attendance', 'All costs of studying.'], ['scholarship', 'Money for study that doesn’t need repaying.'], ['fee waiver', 'Reduction of fees.']],
+              demo: 'Build a cost-of-attendance table.',
+              prompts: [['What costs are often forgotten?', 'Devices, travel, exams.'], ['Where to find scholarships?', 'Official national scholarship portals, institutions.']],
+              support: 'Cost list provided.', stretch: 'Compare two cities’ costs.',
+              mis: [['Fees are the only cost', 'Living costs can be as large.']],
+              sheet: 'Cost of attendance planner.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Saving & Budgeting', band: '9-12', level: 'Advanced', title: 'Independence: Loans, Moving Out and Long-Term Budgets',
+    description: 'Plan for independence: education loans and repayment, a moving-out budget, net worth, and long-term budget reviews.',
+    intro: 'Plan your launch into independent life. 🚀', theme: 'meadow', tutor: ['Ledger', 'A mentor for independent-living budgets — education only, not personal advice.'],
+    style: 'Scenario modelling, spreadsheets, critical discussion.',
+    outcomes: ['Calculates loan repayments and total interest', 'Builds a moving-out budget', 'Calculates net worth', 'Sets up an annual budget review'],
+    prereq: ['Percentages', 'Compound interest'], outOfScope: oos,
+    modules: [
+      {
+        title: 'Module 1: Borrowing for study',
+        lessons: [
+          {
+            t: 'Education loans', o: 'Explain how education loans work and calculate total cost.', min: 35,
+            hook: ['word', 'Moratorium', 'repay after study — but interest may run'],
+            cards: [
+              ['🎓', 'Education loans', 'Banks lend for study; repayment usually starts after a moratorium (course + a grace period).'],
+              ['📈', 'Interest still grows', 'Interest may build during the moratorium, increasing what you owe.'],
+              ['🧮', 'EMI', 'After the moratorium, you repay in monthly EMIs over several years.'],
+            ],
+            acts: [
+              { mcq: 'Loan ₹4,00,000 at 10% simple interest during a 2-year moratorium. Interest added?', options: ['₹80,000', '₹40,000', '₹8,000'], answer: 0, why: '4,00,000 × 10% × 2 = 80,000.' },
+              { mcq: 'EMI ₹10,000 for 60 months. Total repaid?', options: ['₹6,00,000', '₹60,000', '₹1,60,000'], answer: 0, why: '10,000 × 60.' },
+              { phase: 'probe', mcq: 'How can a student reduce total loan cost?', options: ['Pay the interest during study if possible', 'Borrow extra for gadgets', 'Delay repayment as long as possible'], answer: 0, why: 'Stops interest building up.' },
+              { phase: 'probe', write: 'Compare borrowing ₹3 lakh vs ₹5 lakh for a course. What questions would you ask before deciding?', keywords: ['interest', 'EMI', 'salary', 'scholarship', 'need'], exemplar: 'What is the interest rate and EMI? What salary can graduates expect? Can scholarships or savings reduce the amount? Do I need the full ₹5 lakh?', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Loan mechanics: principal, interest, moratorium, EMI, total cost; affordability vs expected income.', analogy: 'A loan is a ladder you must climb down later — the higher you go, the longer the climb.',
+              vocab: [['moratorium', 'Period before repayment starts.'], ['principal', 'Amount borrowed.'], ['EMI', 'Monthly instalment.']],
+              demo: 'Spreadsheet loan schedule (PMT function).',
+              prompts: [['What happens during moratorium?', 'Interest may accrue.'], ['Rule of thumb for affordability?', 'EMI a manageable share of expected income.']],
+              support: 'Pre-calculated EMIs.', stretch: 'Use =PMT to compute EMI.',
+              mis: [['No repayment during study means no cost', 'Interest may still grow.']],
+              sheet: 'Loan comparison table.',
+            },
+          },
+          {
+            t: 'Good debt, bad debt', o: 'Evaluate whether borrowing is sensible using cost, purpose and repayment ability.', min: 30,
+            hook: ['upgrade', 'Borrow for the latest phone', 'Borrow only for things that build your future'],
+            cards: [
+              ['🏗️', 'Productive borrowing', 'Borrowing for education or a business can increase future income — if chosen carefully.'],
+              ['🛍️', 'Consumption debt', 'Borrowing for wants (gadgets, holidays) costs interest without increasing income.'],
+              ['✅', 'Checklist', 'Purpose, total cost, ability to repay, alternatives.'],
+            ],
+            acts: [
+              { sort: 'More likely productive or consumption borrowing?', buckets: ['Productive', 'Consumption'], items: [['Loan for a nursing course', 0], ['EMI for the newest phone', 1], ['Loan for equipment for a tailoring business', 0], ['Credit card holiday', 1], ['Buy-now-pay-later sneakers', 1]], why: 'Productive borrowing aims to raise future income.' },
+              { mcq: 'Which question matters most before any loan?', options: ['Can I afford the repayments reliably?', 'Is the logo nice?', 'Do friends have one?'], answer: 0, why: 'Repayment ability is key.' },
+              { phase: 'probe', mcq: 'Is all education debt “good”?', options: ['No — it depends on cost, course value and repayment ability', 'Yes, always', 'Education never needs loans'], answer: 0, why: 'Context matters.' },
+              { phase: 'probe', write: 'Evaluate a borrowing decision using the four-point checklist.', keywords: ['purpose', 'cost', 'repay', 'alternative'], exemplar: 'Purpose: a ₹60,000 coding course. Cost: ₹8,000 interest over a year. Repay: part-time income of ₹6,000/month covers EMI. Alternative: a free online course plus a cheaper certificate — I would try that first.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Debt evaluation framework.', analogy: 'Borrowing is a tool — like a knife, useful or harmful depending on use.',
+              vocab: [['BNPL', 'Buy now, pay later.'], ['productive debt', 'Borrowing that can increase future income.']],
+              demo: 'Case discussions with fictional borrowers.',
+              prompts: [['Is BNPL free?', 'Late fees/interest risk.'], ['What makes debt risky?', 'Unaffordable repayments.']],
+              support: 'Checklist card.', stretch: 'Debate: “Education loans are always worth it.”',
+              mis: [['Low EMI means cheap loan', 'Long tenure can mean high total interest.']],
+              sheet: 'Borrowing checklist.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Living independently',
+        lessons: [
+          {
+            t: 'A moving-out budget', o: 'Build a realistic first-month and monthly budget for living independently.', min: 35,
+            hook: ['budget', 30000, 22000, 'Deposit'],
+            cards: [
+              ['🔑', 'One-off costs', 'Security deposit (often 2–10 months’ rent in Indian cities), brokerage, basic furniture and utensils.'],
+              ['📅', 'Monthly costs', 'Rent, food, utilities, internet, transport, phone, savings.'],
+              ['🤝', 'Sharing', 'Sharing a flat splits rent and utilities.'],
+            ],
+            acts: [
+              { mcq: 'Rent ₹10,000; deposit 2 months; brokerage 1 month. Upfront cost (incl. first rent)?', options: ['₹40,000', '₹30,000', '₹20,000'], answer: 0, why: '20,000 deposit + 10,000 brokerage + 10,000 rent.' },
+              { mcq: 'Sharing a ₹15,000 flat and ₹3,000 utilities with 2 others. Your share?', options: ['₹6,000', '₹9,000', '₹5,000'], answer: 0, why: '18,000 ÷ 3.' },
+              { phase: 'probe', mcq: 'Which is most often forgotten in a moving-out budget?', options: ['Deposits and one-off setup costs', 'Rent', 'Food'], answer: 0, why: 'Upfront costs surprise people.' },
+              { phase: 'probe', write: 'Build a monthly budget for living independently on ₹28,000 take-home pay in a shared flat.', keywords: ['rent', 'food', 'transport', 'savings', 'total'], exemplar: 'Rent share ₹8,000, utilities ₹1,500, food ₹6,000, transport ₹2,500, phone/internet ₹800, personal ₹3,000, savings ₹5,000, buffer ₹1,200. Total ₹28,000.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Upfront vs recurring costs; shared living; deposit norms vary by city.', analogy: 'Moving out is launching a boat — supplies first, then steady rowing.',
+              vocab: [['security deposit', 'Refundable money held by the landlord.'], ['brokerage', 'Agent fee.'], ['utilities', 'Electricity, water, gas.']],
+              demo: 'Spreadsheet: first-month vs ongoing monthly costs.',
+              prompts: [['Why save before moving?', 'Upfront costs.'], ['How does sharing help?', 'Splits fixed costs.']],
+              support: 'Cost list.', stretch: 'Compare two cities.',
+              mis: [['Rent is the only big cost', 'Deposits and setup can be large.']],
+              sheet: 'Moving-out planner.',
+            },
+          },
+          {
+            t: 'Net worth and annual review', o: 'Calculate net worth and run an annual budget review.', min: 30,
+            hook: ['word', 'Assets − Liabilities', '= Net worth'],
+            cards: [
+              ['📦', 'Assets', 'What you own that has value: savings, investments, a bike.'],
+              ['🧾', 'Liabilities', 'What you owe: loans, credit card balances.'],
+              ['📆', 'Annual review', 'Each year, update net worth, review goals and adjust the budget.'],
+            ],
+            acts: [
+              { mcq: 'Savings ₹50,000; bike ₹30,000; education loan ₹1,20,000. Net worth?', options: ['−₹40,000', '₹2,00,000', '₹40,000'], answer: 0, why: '80,000 − 1,20,000 = −40,000.' },
+              { sort: 'Asset or liability?', buckets: ['Asset', 'Liability'], items: [['Fixed deposit', 0], ['Credit card balance', 1], ['Laptop', 0], ['Education loan', 1], ['Mutual fund units', 0]], why: 'Own = asset; owe = liability.' },
+              { phase: 'probe', mcq: 'A negative net worth for a recent graduate with an education loan is…', options: ['Common, and can improve as the loan is repaid', 'A disaster forever', 'Impossible'], answer: 0, why: 'Net worth changes over time.' },
+              { phase: 'probe', write: 'List five questions for your annual money review.', keywords: ['goals', 'net worth', 'spending', 'insurance', 'savings rate'], exemplar: 'Did my net worth rise? Did I meet my savings rate? Which category overspent? Are my goals still right? Is my insurance enough?', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Balance-sheet thinking; review cadence.', analogy: 'Net worth is your financial health check.',
+              vocab: [['asset', 'Something of value you own.'], ['liability', 'Money you owe.'], ['net worth', 'Assets minus liabilities.']],
+              demo: 'Build a personal balance sheet for a fictional graduate.',
+              prompts: [['Can net worth be negative?', 'Yes.'], ['How often to review?', 'At least yearly.']],
+              support: 'Template.', stretch: 'Project net worth for 5 years.',
+              mis: [['Income = wealth', 'Wealth is what you keep (net worth).']],
+              sheet: 'Personal balance sheet and annual review checklist.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+];

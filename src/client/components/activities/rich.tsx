@@ -117,7 +117,7 @@ export function Tracing({ activity, value, setValue, locked, result }: ActivityP
           onPointerCancel={end}
           onPointerLeave={end}
           role="img"
-          aria-label={`Tracing area for the letter ${c.glyph || ''}. Draw over the dotted guide starting at the green dot.`}
+          aria-label={`Tracing area for ${!c.glyph ? 'the shape' : c.glyph.length === 1 ? (/[0-9]/.test(c.glyph) ? `the number ${c.glyph}` : `the letter ${c.glyph}`) : `the ${String(c.glyph).replace(/-/g, ' ')} pattern`}. Draw over the dotted guide starting at the green dot.`}
         >
           <line x1="6" y1="40" x2="94" y2="40" stroke="var(--line)" strokeWidth=".8" strokeDasharray="2 2" />
           <line x1="6" y1="80" x2="94" y2="80" stroke="var(--muted)" strokeOpacity=".4" strokeWidth="1" />

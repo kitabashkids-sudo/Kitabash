@@ -68,7 +68,7 @@ export function securityHeaders(res: ServerResponse) {
   res.setHeader('x-content-type-options', 'nosniff');
   res.setHeader('referrer-policy', 'same-origin');
   res.setHeader('x-frame-options', 'DENY');
-  res.setHeader('permissions-policy', 'camera=(), geolocation=(), microphone=(self)');
+  res.setHeader('permissions-policy', 'camera=(self), microphone=(self), display-capture=(self), geolocation=()');
   res.setHeader(
     'content-security-policy',
     "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; font-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",

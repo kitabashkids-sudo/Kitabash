@@ -86,16 +86,19 @@ function LetterTrace({ p }: { p: any }) {
 }
 
 function PatternReveal({ p, run }: { p: any; run: number }) {
-  const seq: number[] = p.sequence || [2, 4, 6, 8];
+  const seq: (number | string)[] = p.sequence || [2, 4, 6, 8];
   const step = useTicker(seq.length + 2, 2600, run);
+  // Tiles grow to fit longer values like "₹1,050" or "every month".
+  const long = [...seq, p.next].some((x) => String(x).length > 4);
+  const tile = `grid h-14 min-w-14 place-items-center rounded-2xl px-3 font-display font-black whitespace-nowrap sm:h-16 sm:min-w-16 ${long ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl'}`;
   return (
     <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3" aria-hidden>
       {seq.map((n, i) => (
-        <span key={i} className={`grid size-14 place-items-center rounded-2xl bg-card font-display text-2xl font-black shadow-[var(--shadow-card)] transition-all duration-300 sm:size-16 sm:text-3xl ${step > i ? 'opacity-100' : 'scale-75 opacity-0'}`}>
+        <span key={i} className={`${tile} bg-card shadow-[var(--shadow-card)] transition-all duration-300 ${step > i ? 'opacity-100' : 'scale-75 opacity-0'}`}>
           {n}
         </span>
       ))}
-      <span className={`grid size-14 place-items-center rounded-2xl font-display text-2xl font-black transition-all duration-500 sm:size-16 sm:text-3xl ${step > seq.length ? 'scale-110 bg-accent text-white' : 'border-2 border-dashed border-accent text-accent'}`}>
+      <span className={`${tile} transition-all duration-500 ${step > seq.length ? 'scale-110 bg-accent text-white' : 'border-2 border-dashed border-accent text-accent'}`}>
         {step > seq.length ? p.next : '?'}
       </span>
     </div>

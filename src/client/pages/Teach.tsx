@@ -1,3 +1,4 @@
+import { UpcomingClasses } from './Classes.tsx';
 import { useEffect, useState } from 'react';
 import { api, useApi } from '../lib/api.ts';
 import { Link, navigate } from '../lib/router.tsx';
@@ -13,8 +14,9 @@ export function TeachHome() {
   return (
     <>
       <PageHeader eyebrow="Teach" title="Ready-to-teach lessons">
-        Open any lesson to get the live workspace: the activity in the centre, everything you need on the right — explanations, demos, prompts, answer keys and an AI co-facilitator.
+        Open any lesson to get the teaching workspace: the activity in the centre, everything you need on the right — explanations, demos, prompts, answer keys and an AI co-facilitator.
       </PageHeader>
+      <UpcomingClasses title="Your live classes" />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data.map((c) => (
           <Card key={c.id} className="flex flex-col p-5" data-theme-accent={c.theme}>

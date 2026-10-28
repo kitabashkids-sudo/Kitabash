@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { api, upload, useApi } from '../../lib/api.ts';
 import { useRoute, navigate } from '../../lib/router.tsx';
-import { Badge, Button, Card, Empty, Field, Icon, Input, Modal, Notice, PageHeader, Select, Spinner, StatusPill, Tabs, toast, categoryIcon } from '../../components/ui.tsx';
+import { Badge, Button, Card, Empty, Field, Icon, Input, Modal, Notice, PageHeader, ProgressBar, Select, Spinner, StatusPill, Tabs, toast, categoryIcon } from '../../components/ui.tsx';
 
 // ── Media asset library ────────────────────────────────────
 export function Library() {
@@ -97,11 +97,11 @@ export function Library() {
 }
 
 // ── Platform: catalogue structure, activity engine, integrations, people, audit ──
-type PTab = 'catalogue' | 'activities' | 'integrations' | 'people' | 'audit';
+type PTab = 'library' | 'catalogue' | 'activities' | 'integrations' | 'people' | 'audit';
 
 export function Platform() {
   const { search } = useRoute();
-  const tab = (search.get('tab') as PTab) || 'catalogue';
+  const tab = (search.get('tab') as PTab) || 'library';
   return (
     <>
       <PageHeader eyebrow="Platform" title="Platform settings" />
@@ -110,6 +110,7 @@ export function Platform() {
         value={tab}
         onChange={(t) => navigate(`/admin/platform?tab=${t}`, true)}
         tabs={[
+          { id: 'library', label: 'Course library', icon: 'book' },
           { id: 'catalogue', label: 'Catalogue structure', icon: 'layers' },
           { id: 'activities', label: 'Activity engine', icon: 'play' },
           { id: 'integrations', label: 'Integrations', icon: 'plug' },
@@ -117,12 +118,89 @@ export function Platform() {
           { id: 'audit', label: 'Audit log', icon: 'shield' },
         ]}
       />
+      {tab === 'library' && <CourseLibrary />}
       {tab === 'catalogue' && <Taxonomy />}
       {tab === 'activities' && <ActivityTypes />}
       {tab === 'integrations' && <Integrations />}
       {tab === 'people' && <People />}
       {tab === 'audit' && <Audit />}
     </>
+  );
+}
+
+function CourseLibrary() {
+  const { data, reload } = useApi<any>('/api/admin/library');
+  const [busy, setBusy] = useState(false);
+  const running = data?.job?.running;
+  useEffect(() => {
+    if (!running) return;
+    const t = setInterval(reload, 1500);
+    return () => clearInterval(t);
+  }, [running, reload]);
+  if (!data) return <Spinner />;
+  const install = async (category?: string) => {
+    setBusy(true);
+    try {
+      await api('/api/admin/library/install', { body: { category } });
+      reload();
+    } catch (e) {
+      toast((e as Error).message, 'bad');
+    } finally {
+      setBusy(false);
+    }
+  };
+  const all = data.installed >= data.total;
+  return (
+    <div className="space-y-6">
+      <Card className="p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="max-w-2xl">
+            <h2 className="text-xl font-black">K-12 course library</h2>
+            <p className="mt-1 text-muted">
+              Ready-to-teach courses for every subject in four grade bands (K–2, 3–5, 6–8, 9–12), each with Beginner, Intermediate and Advanced levels — {data.total} courses, {data.lessons} lessons. Every lesson has a 3-second hook, Learn cards, Perform and Probe activities, the teacher resource panel, a rubric and a tutor trained on the course guide. Courses install as published; you can edit, unpublish or archive any of them.
+            </p>
+          </div>
+          <Button variant="primary" icon="download" busy={busy || running} disabled={all || running} onClick={() => void install()}>
+            {all ? 'All installed' : running ? 'Installing…' : `Install ${data.total - data.installed} course${data.total - data.installed === 1 ? '' : 's'}`}
+          </Button>
+        </div>
+        <div className="mt-5">
+          <ProgressBar value={running ? data.job.done : data.installed} max={running ? data.job.total || 1 : data.total} label="Library installed" />
+          <p className="mt-2 text-sm text-muted">{running ? `Installing ${data.job.done + 1} of ${data.job.total}: ${data.job.current}` : `${data.installed} of ${data.total} installed`}</p>
+        </div>
+        {data.job?.errors?.length > 0 && (
+          <Notice tone="bad" className="mt-4">
+            {data.job.errors.length} course(s) could not be installed:
+            <ul className="mt-1 list-disc pl-5">{data.job.errors.slice(0, 5).map((e: any) => <li key={e.key}><strong>{e.title}</strong>: {e.error}</li>)}</ul>
+          </Notice>
+        )}
+      </Card>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card className="p-5">
+          <h3 className="mb-3 font-bold">By grade band</h3>
+          <ul className="space-y-3">
+            {data.bands.map((b: any) => (
+              <li key={b.id}>
+                <div className="mb-1 flex justify-between text-sm"><span className="font-semibold">{b.label}</span><span className="text-muted">{b.installed}/{b.total}</span></div>
+                <ProgressBar value={b.installed} max={b.total || 1} label={b.label} />
+              </li>
+            ))}
+          </ul>
+        </Card>
+        <Card className="p-5">
+          <h3 className="mb-3 font-bold">By category</h3>
+          <ul className="space-y-2">
+            {data.categories.map((c: any) => (
+              <li key={c.name} className="flex items-center gap-3">
+                <span className="min-w-0 flex-1 text-sm"><span className="font-semibold">{c.name}</span> <span className="text-muted">{c.installed}/{c.total}</span></span>
+                {c.installed < c.total && <Button size="sm" disabled={running || busy} onClick={() => void install(c.name)}>Install</Button>}
+                {c.total > 0 && c.installed >= c.total && <Badge tone="good">Installed</Badge>}
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </div>
+    </div>
   );
 }
 

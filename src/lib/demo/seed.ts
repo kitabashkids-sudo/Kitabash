@@ -7,6 +7,7 @@ import * as C from '../services/courses.ts';
 import * as A from '../services/agents.ts';
 import * as K from '../services/knowledge.ts';
 import * as ADM from '../services/admin.ts';
+import * as CL from '../services/classes.ts';
 import { CATALOGUE, MONEY_GUIDE, MATHS_GUIDE, L_NEEDS, L_BUDGET, L_HANDWRITING, L_SPOKEN } from './content.ts';
 
 type Log = (...a: any[]) => void;
@@ -25,6 +26,9 @@ export async function seedCatalogue(admin: string): Promise<Record<string, strin
   const subj: Record<string, string> = {};
   if (await get('SELECT 1 FROM categories LIMIT 1')) {
     for (const r of await all('SELECT id, name FROM subjects')) subj[r.name] = r.id;
+    // Older installs said "Board-aligned"; courses are only "designed to support" until a reviewer verifies them.
+    const board = CATALOGUE.find((c) => c.name === 'School Board Curriculum')!;
+    await run("UPDATE categories SET description=? WHERE name=? AND description LIKE 'Board-aligned%'", board.description, board.name);
     return subj;
   }
   for (const [i, cat] of CATALOGUE.entries()) {
@@ -138,4 +142,14 @@ export async function seedDemoPeople(courseIds: string[]): Promise<void> {
     await ADM.adminEnrol(ids.student, c);
     await ADM.adminEnrol(ids.student2, c);
   }
+  // A demo live-class group: Mr. Rao teaches Money Smart to Aarav and Meera, weekly for 4 weeks.
+  const admin = (await get<{ id: string }>("SELECT id FROM users WHERE role='admin' ORDER BY created_at LIMIT 1"))!.id;
+  const batch = await CL.createBatch({ course_id: courseIds[0], name: 'Money Smart — Saturday group', instructor_id: ids.instructor, schedule_note: 'Saturdays, 10:00–10:45', capacity: 10 }, admin);
+  await CL.setMembers(batch, [ids.student, ids.student2], admin);
+  const first = new Date();
+  first.setDate(first.getDate() + ((6 - first.getDay() + 7) % 7 || 7));
+  first.setHours(10, 0, 0, 0);
+  const lessons = await all<{ id: string; title: string }>("SELECT l.id, l.title FROM lessons l JOIN modules m ON m.id=l.module_id WHERE l.course_id=? ORDER BY m.position, l.position", courseIds[0]);
+  const teacher = { id: ids.instructor, role: 'instructor' } as any;
+  await CL.scheduleSessions(teacher, batch, { title: lessons[0]?.title || 'Live class', lesson_id: lessons[0]?.id, starts_at: first.toISOString(), duration_min: 45, repeat_weeks: 4 });
 }

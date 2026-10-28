@@ -278,9 +278,17 @@ export async function respond(input: RespondInput): Promise<AgentReply> {
   // 5. Topic-relevance check for the offline provider (LLMs follow the scope instructions).
   if (!provider.isLLM && input.surface !== 'cofacilitator' && ['question', 'attempt'].includes(ctx.intent)) {
     const vocab = new Set(tokenize([course.title, course.subject, course.description, ...course.objectives, lesson?.title, lesson?.objective, lesson?.learnText, lesson?.activity?.instructions].join(' ')));
-    const qTok = tokenize(question);
+    const qTok = [...new Set(tokenize(question))];
     const overlap = qTok.filter((w) => vocab.has(w)).length;
-    if (!ctx.passages.length && overlap === 0) {
+    // A passage that shares only one incidental word (e.g. "win") with a longer question is not
+    // evidence the question is about the course: require reasonable coverage of the question.
+    const passageVocab = new Set(ctx.passages.flatMap((p) => tokenize(p.text)));
+    const covered = qTok.filter((w) => vocab.has(w) || passageVocab.has(w)).length;
+    const weak = qTok.length >= 3 && covered < 2 && covered / qTok.length < 0.34;
+    // Predictions, live scores, news and weather are never course questions, even when a course
+    // happens to mention cricket or the world.
+    const generalChat = /\b(who (will|is going to) win|who (won|wins)\b|what('?s| is) the (score|weather)|latest news|election results?|weather (today|tomorrow))\b/i.test(question);
+    if ((!ctx.passages.length && overlap === 0) || weak || generalChat) {
       ctx.intent = 'off_topic';
       return finish(piiNote + config.outOfScope.redirect, { refused: true, answered: false });
     }

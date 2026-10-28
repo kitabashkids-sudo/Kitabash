@@ -6,6 +6,7 @@ import { createUser } from '../auth.ts';
 import { HttpError } from '../validate.ts';
 import { storage } from '../storage.ts';
 import { DEMO_USERS, seedCatalogue, seedDemoCourses, seedDemoPeople } from '../demo/seed.ts';
+import { installLibrary } from '../library/install.ts';
 
 export async function setupStatus() {
   const anyUser = await get('SELECT 1 FROM users LIMIT 1');
@@ -30,7 +31,7 @@ export async function setupStatus() {
 
 let running = false;
 
-export async function runSetup(input: { name: string; email: string; password: string; loadDemo: boolean; demoPeople: boolean; code?: string }) {
+export async function runSetup(input: { name: string; email: string; password: string; loadDemo: boolean; demoPeople: boolean; installLibrary?: boolean; code?: string }) {
   if (process.env.SETUP_CODE && input.code !== process.env.SETUP_CODE) throw new HttpError(403, 'The setup code is not correct.');
   if (running) throw new HttpError(409, 'Setup is already running. Please wait.');
   running = true;
@@ -44,6 +45,8 @@ export async function runSetup(input: { name: string; email: string; password: s
       const courses = await seedDemoCourses(adminId, subj);
       if (input.demoPeople) await seedDemoPeople(courses);
     }
+    // The full K-12 library installs in the background; progress shows under Platform → Course library.
+    if (input.installLibrary) await installLibrary(adminId);
     return adminId;
   } finally {
     running = false;

@@ -11,6 +11,9 @@ import * as K from '../src/lib/services/knowledge.ts';
 import * as ADM from '../src/lib/services/admin.ts';
 import * as T from '../src/lib/services/teaching.ts';
 import * as S from '../src/lib/services/setup.ts';
+import * as LIB from '../src/lib/library/install.ts';
+import * as CL from '../src/lib/services/classes.ts';
+import * as HUB from '../src/lib/live/hub.ts';
 import { respond, rateLimit, insights } from '../src/lib/agent/runtime.ts';
 import { generateCurriculum } from '../src/lib/agent/generator.ts';
 import { ACTIVITY_TYPES } from '../src/lib/activities/registry.ts';
@@ -44,6 +47,7 @@ route('POST', '/api/setup', async (c) => {
       password: v.str({ min: 8, max: 200, trim: false }),
       loadDemo: v.bool({ optional: true }),
       demoPeople: v.bool({ optional: true }),
+      installLibrary: v.bool({ optional: true }),
       code: v.str({ optional: true, max: 200 }),
     }),
     await c.body(),
@@ -155,7 +159,10 @@ route('POST', '/api/teach/attempts/:id/feedback', async (c) => {
 });
 
 // ── Guardian ───────────────────────────────────────────────
-route('GET', '/api/guardian', async (c) => await L.guardianView(requirePerm(c.user, 'guardian.view').id));
+route('GET', '/api/guardian', async (c) => {
+  const g = requirePerm(c.user, 'guardian.view');
+  return { children: await L.guardianView(g.id), classes: await CL.guardianClasses(g.id) };
+});
 route('POST', '/api/guardian/consent', async (c) => {
   const u = requirePerm(c.user, 'guardian.view');
   const b = parse(v.obj({ studentId: v.str({ max: 40 }), ai: v.bool(), audio: v.bool() }), await c.body());
@@ -194,6 +201,7 @@ const courseShape = {
   age_min: v.int({ optional: true, min: 3, max: 99 }),
   age_max: v.int({ optional: true, min: 3, max: 99 }),
   grade_level: opt(80),
+  grade_band: v.oneOf(['', 'K-2', '3-5', '6-8', '9-12'] as const, { optional: true }),
   proficiency: opt(40),
   prerequisites: strList(),
   objectives: strList(),
@@ -471,3 +479,111 @@ route('DELETE', '/api/admin/users/:id', async (c) => await ADM.deleteLearnerData
 route('GET', '/api/admin/users/:id/export', async (c) => (requirePerm(c.user, 'users.manage'), await ADM.exportLearnerData(c.params.id)));
 route('GET', '/api/admin/audit', async (c) => (requirePerm(c.user, 'users.manage'), await ADM.auditLog()));
 route('POST', '/api/admin/retention/purge', async (c) => (requirePerm(c.user, 'users.manage'), { purged: await ADM.purgeOldLogs() }));
+
+// ── Course library ─────────────────────────────────────────
+route('GET', '/api/admin/library', async (c) => (requirePerm(c.user, 'course.edit'), await LIB.libraryStatus()));
+route('POST', '/api/admin/library/install', async (c) => {
+  const u = requirePerm(c.user, 'integrations.manage');
+  const b = parse(v.obj({ category: v.str({ optional: true, max: 120 }) }), await c.body());
+  const { job } = await LIB.installLibrary(u.id, { category: b.category || undefined });
+  return job;
+});
+
+// ── Class groups (batches) ─────────────────────────────────
+route('GET', '/api/classes', async (c) => CL.listBatches(requirePerm(c.user, 'classes.view')));
+const batchShape = {
+  course_id: v.str({ max: 40 }),
+  name: v.str({ min: 1, max: 120 }),
+  instructor_id: opt(40),
+  schedule_note: opt(200),
+  capacity: v.int({ optional: true, min: 1, max: 50 }),
+  starts_on: opt(20),
+};
+route('POST', '/api/classes', async (c) => {
+  const u = requirePerm(c.user, 'classes.manage');
+  return { id: await CL.createBatch(parse(v.obj(batchShape), await c.body()), u.id) };
+});
+route('GET', '/api/classes/:id', async (c) => CL.batchDetail(requirePerm(c.user, 'classes.view'), c.params.id));
+route('PATCH', '/api/classes/:id', async (c) => {
+  requirePerm(c.user, 'classes.manage');
+  const b = parse(v.obj({ name: opt(120), instructor_id: opt(40), schedule_note: v.str({ optional: true, max: 200, trim: false }), capacity: v.int({ optional: true, min: 1, max: 50 }), starts_on: opt(20), status: v.oneOf(['active', 'archived'] as const, { optional: true }) }), await c.body());
+  await CL.updateBatch(c.params.id, { ...b, name: b.name || undefined, instructor_id: b.instructor_id || undefined, starts_on: b.starts_on || undefined });
+});
+route('DELETE', '/api/classes/:id', async (c) => CL.deleteBatch(c.params.id, requirePerm(c.user, 'classes.manage').id));
+route('PUT', '/api/classes/:id/members', async (c) => {
+  const u = requirePerm(c.user, 'classes.manage');
+  const b = parse(v.obj({ userIds: v.arr(v.str({ max: 40 }), { max: 50 }) }), await c.body());
+  await CL.setMembers(c.params.id, b.userIds, u.id);
+});
+route('POST', '/api/classes/:id/sessions', async (c) => {
+  const u = requirePerm(c.user, 'classes.view');
+  const b = parse(v.obj({ title: v.str({ min: 1, max: 160 }), lesson_id: opt(40), starts_at: v.str({ max: 40 }), duration_min: v.int({ optional: true, min: 10, max: 300 }), repeat_weeks: v.int({ optional: true, min: 1, max: 52 }), external_url: opt(500) }), await c.body());
+  return { ids: await CL.scheduleSessions(u, c.params.id, b) };
+});
+
+// ── Live classes ───────────────────────────────────────────
+route('GET', '/api/live/upcoming', async (c) => CL.upcoming(requirePerm(c.user, 'classes.view')));
+route('GET', '/api/live/:id', async (c) => {
+  const u = requirePerm(c.user, 'classes.view');
+  const { session, role } = await CL.sessionAccess(u, c.params.id);
+  const consent = await consentFor(u);
+  const lessons = role === 'host' ? await all("SELECT l.id, l.title FROM lessons l JOIN modules m ON m.id=l.module_id WHERE l.course_id=? AND l.status='approved' ORDER BY m.position, l.position", session.course_id) : [];
+  return { session: { ...session, status: HUB.isLive(session.id) ? 'live' : session.status }, role, canPublish: role === 'host' || consent.audio, lessons, maxParticipants: HUB.MAX_PARTICIPANTS };
+});
+route('PATCH', '/api/live/:id', async (c) => {
+  const u = requirePerm(c.user, 'classes.view');
+  const b = parse(v.obj({ title: opt(160), starts_at: opt(40), duration_min: v.int({ optional: true, min: 10, max: 300 }), external_url: v.str({ optional: true, max: 500 }), lesson_id: opt(40), status: v.oneOf(['scheduled', 'cancelled'] as const, { optional: true }) }), await c.body());
+  await CL.updateSession(u, c.params.id, { ...b, title: b.title || undefined, starts_at: b.starts_at || undefined, lesson_id: b.lesson_id || undefined });
+});
+route('POST', '/api/live/:id/start', async (c) => {
+  const u = requirePerm(c.user, 'classes.view');
+  const { session, role } = await CL.sessionAccess(u, c.params.id);
+  if (role !== 'host') throw new HttpError(403, 'Only the teacher or an admin can start the class.');
+  if (session.status === 'ended' || session.status === 'cancelled') throw new HttpError(409, `This class is ${session.status}.`);
+  await CL.setSessionStatus(session.id, 'live');
+  HUB.markLive(session.id, true);
+});
+route('GET', '/api/live/:id/events', async (c) => {
+  const u = requirePerm(c.user, 'classes.view');
+  if (u.role === 'guardian') throw new HttpError(403, 'Parents can see the schedule but cannot join classes.');
+  const { session, role } = await CL.sessionAccess(u, c.params.id);
+  if (session.status === 'ended' || session.status === 'cancelled') throw new HttpError(409, `This class is ${session.status}.`);
+  const consent = await consentFor(u);
+  HUB.join(session.id, { userId: u.id, name: u.name.split(' (')[0], role, canPublish: role === 'host' || consent.audio }, c.res, session.status === 'live');
+});
+const connOf = async (c: Ctx) => {
+  const u = requirePerm(c.user, 'classes.view');
+  const b = await c.body();
+  const connId = typeof b?.connId === 'string' ? b.connId : '';
+  return { u, b, ...HUB.participant(c.params.id, connId, u.id) };
+};
+route('POST', '/api/live/:id/signal', async (c) => {
+  const { p, b } = await connOf(c);
+  if (typeof b.to !== 'string' || JSON.stringify(b.data ?? null).length > 60_000) throw new HttpError(400, 'Bad signal');
+  HUB.relay(c.params.id, p, b.to, b.data);
+});
+route('POST', '/api/live/:id/state', async (c) => {
+  const { p, b } = await connOf(c);
+  HUB.setMedia(c.params.id, p, { mic: b.mic, cam: b.cam, screen: b.screen, hand: b.hand });
+});
+route('POST', '/api/live/:id/chat', async (c) => {
+  const { p, b } = await connOf(c);
+  if (typeof b.body !== 'string') throw new HttpError(400, 'Message required');
+  await HUB.chat(c.params.id, p, b.body);
+});
+route('POST', '/api/live/:id/control', async (c) => {
+  const { p, b } = await connOf(c);
+  const actions = ['mute', 'muteAll', 'remove', 'lowerHand', 'lowerAllHands', 'mesh', 'micsLocked', 'chatLocked', 'end'];
+  if (!actions.includes(b.action)) throw new HttpError(400, 'Unknown action');
+  await HUB.control(c.params.id, p, b.action, typeof b.target === 'string' ? b.target : undefined, !!b.value);
+});
+route('POST', '/api/live/:id/sync', async (c) => {
+  const { p, b } = await connOf(c);
+  if (JSON.stringify(b.state ?? null).length > 20_000) throw new HttpError(400, 'Too large');
+  HUB.setSync(c.params.id, p, b.state ?? null);
+});
+route('POST', '/api/live/:id/leave', async (c) => {
+  const { p } = await connOf(c);
+  HUB.leave(c.params.id, p.connId, 'left');
+});
+route('GET', '/api/live/:id/report', async (c) => CL.sessionReport(requirePerm(c.user, 'classes.view'), c.params.id));

@@ -16,7 +16,7 @@ interface Status {
 export function Setup() {
   const { refresh } = useSession();
   const [st, setSt] = useState<Status | null>(null);
-  const [f, setF] = useState({ name: '', email: '', password: '', confirm: '', code: '', loadDemo: true, demoPeople: false });
+  const [f, setF] = useState({ name: '', email: '', password: '', confirm: '', code: '', loadDemo: true, demoPeople: false, installLibrary: true });
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   useEffect(() => {
@@ -30,7 +30,7 @@ export function Setup() {
     setBusy(true);
     setErr('');
     try {
-      await api('/api/setup', { body: { name: f.name, email: f.email, password: f.password, loadDemo: f.loadDemo, demoPeople: f.loadDemo && f.demoPeople, code: f.code || undefined } });
+      await api('/api/setup', { body: { name: f.name, email: f.email, password: f.password, loadDemo: f.loadDemo, demoPeople: f.loadDemo && f.demoPeople, installLibrary: f.installLibrary, code: f.code || undefined } });
       await refresh();
       navigate('/admin', true);
     } catch (e) {
@@ -82,6 +82,13 @@ export function Setup() {
               <Input type="password" value={f.confirm} onChange={(e) => setF({ ...f, confirm: e.target.value })} autoComplete="new-password" />
             </Field>
           </div>
+          <label className="flex items-start gap-3 rounded-2xl border border-accent/40 bg-accent-soft p-4">
+            <input type="checkbox" className="mt-1 size-5" checked={f.installLibrary} onChange={(e) => setF({ ...f, installLibrary: e.target.checked })} />
+            <span>
+              <span className="block font-semibold">Install the full K-12 course library (recommended)</span>
+              <span className="text-sm text-muted">Ready-to-teach courses for every subject, in grade bands K–2, 3–5, 6–8 and 9–12, each with Beginner, Intermediate and Advanced levels. It installs in the background — you can start using Kitabash straight away.</span>
+            </span>
+          </label>
           <label className="flex items-start gap-3 rounded-2xl border border-line p-4">
             <input type="checkbox" className="mt-1 size-5" checked={f.loadDemo} onChange={(e) => setF({ ...f, loadDemo: e.target.checked })} />
             <span>

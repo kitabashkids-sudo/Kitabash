@@ -91,6 +91,8 @@ export const PERMISSIONS = {
   'student.review': ['admin', 'instructor'],
   'learn': ['student', 'admin', 'instructor'],
   'guardian.view': ['guardian'],
+  'classes.manage': ['admin'],
+  'classes.view': ['admin', 'instructor', 'student', 'guardian'],
 } as const satisfies Record<string, readonly Role[]>;
 
 export type Permission = keyof typeof PERMISSIONS;

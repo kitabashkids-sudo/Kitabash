@@ -113,7 +113,9 @@ const defs: ActivityDefinition[] = [
     grade(c, k, r) {
       const blanks = [...String(c.text).matchAll(/\[\[(\w+)\]\]/g)].map((m) => m[1]);
       const perBlank: Record<string, boolean> = {};
-      for (const b of blanks) perBlank[b] = (k.blanks[b] as string[]).some((a) => norm(a) === norm(r?.answers?.[b]));
+      // Symbol answers (e.g. "*" or "==" in code blanks) normalise to nothing, so compare them exactly.
+      const same = (a: string, given: unknown) => (norm(a) ? norm(a) === norm(given) : String(a).trim() === String(given ?? '').trim());
+      for (const b of blanks) perBlank[b] = (k.blanks[b] as string[]).some((a) => same(a, r?.answers?.[b]));
       const right = Object.values(perBlank).filter(Boolean).length;
       const ratio = right / blanks.length;
       return {

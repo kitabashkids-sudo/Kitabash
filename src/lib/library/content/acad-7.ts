@@ -1,0 +1,1068 @@
+// School Board Curriculum — CBSE pathway (Grades 3-5, 6-8, 9-12).
+// These courses are DESIGNED TO SUPPORT CBSE-pattern learning. Kitabash is not affiliated with or endorsed by CBSE.
+// Every pathway mapping is installed as UNVERIFIED and must be checked by a curriculum reviewer against the current syllabus.
+import type { CourseSpec } from '../types.ts';
+
+const cb: [string, string] = ['Board Coach Asha', 'A board-exam coach who explains concepts simply, practises the question styles common in CBSE-pattern exams, and never claims official endorsement.'];
+const cbTools = ['NCERT textbooks for your class (or school-prescribed books)', 'Notebook', 'Pencil, ruler and geometry box'];
+const note = 'Designed to support CBSE-pattern learning; not affiliated with or endorsed by CBSE. Topic mapping awaits verification against the current syllabus.';
+
+export const ACAD_7: CourseSpec[] = [
+  // ───────── Grades 3-5 ─────────
+  {
+    subject: 'CBSE', band: '3-5', level: 'Beginner', title: 'Maths and EVS Foundations',
+    description: `Build primary-stage foundations in large numbers, fractions, water and food & health. ${note}`,
+    intro: 'Strong basics for your school year! 📘', theme: 'meadow', tutor: cb, tools: cbTools,
+    style: 'Textbook-linked practice with simple real-life examples.',
+    outcomes: ['Reads and writes large numbers in the Indian system', 'Finds fractions of quantities', 'Explains sources and uses of water', 'Describes a balanced diet'],
+    pathway: { board: 'CBSE', grade: 'Classes 3–5', subject: 'Mathematics & EVS', topics: ['Large numbers and place value', 'Fractions', 'Water: sources and conservation', 'Food and health'] },
+    modules: [
+      {
+        title: 'Module 1: Maths',
+        lessons: [
+          {
+            t: 'Large numbers and place value', o: 'Read, write and compare numbers up to lakhs using the Indian place-value system.', min: 25,
+            hook: ['word', '4,52,317', 'four lakh fifty-two thousand three hundred seventeen'],
+            cards: [
+              ['🔢', 'Indian system', 'Ones, tens, hundreds, thousands, ten thousands, lakhs: 4,52,317.'],
+              ['📍', 'Place value', 'In 4,52,317 the 5 is in the ten-thousands place, so its value is 50,000.'],
+              ['⚖️', 'Comparing', 'More digits = bigger number; if equal, compare from the left.'],
+            ],
+            acts: [
+              { mcq: 'Value of 5 in 4,52,317?', options: ['50,000', '5,000', '500'], answer: 0, why: 'Ten-thousands place.' },
+              { mcq: 'Which is greater?', options: ['3,05,000', '3,00,500', 'They are equal'], answer: 0, why: 'Compare thousands.' },
+              { phase: 'probe', mcq: '1 lakh = ?', options: ['1,00,000', '10,000', '10,00,000'], answer: 0, why: 'Indian system.' },
+              { phase: 'probe', mcq: 'Smallest 5-digit number?', options: ['10,000', '99,999', '1,000'], answer: 0, why: 'Definition.' },
+            ],
+            teach: {
+              explain: 'Place value in the Indian system.', analogy: 'Each place is a house where a digit lives; the house sets its value.',
+              vocab: [['lakh', '1,00,000.'], ['place value', 'Value from position.']],
+              demo: 'Place-value chart with abacus.',
+              prompts: [['Which place?', 'Name.'], ['Value?', 'Multiply.']],
+              support: 'Place-value chart.', stretch: 'International system comparison.',
+              mis: [['Digit value = place value', 'Value depends on place.']],
+              sheet: 'Place-value worksheet.',
+            },
+          },
+          {
+            t: 'Fractions', o: 'Find equivalent fractions and fractions of a quantity.', min: 25,
+            hook: ['word', '3/4 of 20 = 15', 'fraction of a number'],
+            cards: [
+              ['🍕', 'Fraction', 'Numerator (parts taken) over denominator (equal parts).'],
+              ['🟰', 'Equivalent', 'Multiply top and bottom by the same number: 2/3 = 4/6.'],
+              ['🔢', 'Fraction of a number', 'Divide by the denominator, multiply by the numerator.'],
+            ],
+            acts: [
+              { mcq: '3/4 of 20 = ?', options: ['15', '12', '5'], answer: 0, why: '20 ÷ 4 × 3.' },
+              { mcq: 'Which equals 2/3?', options: ['4/6', '2/6', '3/4'], answer: 0, why: '×2.' },
+              { phase: 'probe', mcq: 'Which is bigger: 3/5 or 2/5?', options: ['3/5', '2/5', 'Equal'], answer: 0, why: 'Same denominator.' },
+              { phase: 'probe', mcq: 'Riya ate 1/4 of 12 laddoos. How many?', options: ['3', '4', '6'], answer: 0, why: '12 ÷ 4.' },
+            ],
+            teach: {
+              explain: 'Fraction concepts.', analogy: 'Sharing a roti equally.',
+              vocab: [['numerator', 'Top number.'], ['denominator', 'Bottom number.']],
+              demo: 'Paper folding.',
+              prompts: [['Equal parts?', 'Check.'], ['Of a number?', 'Divide, multiply.']],
+              support: 'Fraction strips.', stretch: 'Adding like fractions.',
+              mis: [['Bigger denominator = bigger fraction', 'Smaller pieces.']],
+              sheet: 'Fractions worksheet.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: EVS',
+        lessons: [
+          {
+            t: 'Water: sources and conservation', o: 'Describe water sources, uses and ways to save water.', min: 25,
+            hook: ['word', '🌧️ → 🏞️ → 🚰', 'water journey'],
+            cards: [
+              ['🏞️', 'Sources', 'Rain, rivers, lakes, ponds, wells, groundwater.'],
+              ['💧', 'Uses', 'Drinking, cooking, farming, cleaning, industry.'],
+              ['🪣', 'Saving water', 'Fix leaks, harvest rainwater, reuse water for plants.'],
+            ],
+            acts: [
+              { sort: 'Saves or wastes water?', buckets: ['Saves', 'Wastes'], items: [['Rainwater harvesting', 0], ['Leaving taps running', 1], ['Reusing vegetable-wash water for plants', 0], ['Washing a car with a running hose', 1]], why: 'Conservation.' },
+              { mcq: 'Water stored under the ground is called…', options: ['Groundwater', 'Rainwater', 'Seawater'], answer: 0, why: 'Definition.' },
+              { phase: 'probe', mcq: 'Why is sea water not used for drinking?', options: ['It is too salty', 'It is too cold', 'It is blue'], answer: 0, why: 'Salinity.' },
+              { phase: 'probe', write: 'Write two ways your family can save water.', keywords: ['tap', 'reuse', 'bucket', 'leak'], exemplar: 'We can use a bucket instead of a shower and fix leaking taps.', minWords: 10 },
+            ],
+            teach: {
+              explain: 'Water resources.', analogy: 'Water is a shared piggy bank.',
+              vocab: [['groundwater', 'Water under the ground.'], ['harvesting', 'Collecting.']],
+              demo: 'Rooftop harvesting model.',
+              prompts: [['Source?', 'Name.'], ['Save how?', 'List.']],
+              support: 'Picture cards.', stretch: 'Home water audit.',
+              mis: [['Water never runs out', 'Clean water is limited.']],
+              sheet: 'Water worksheet.',
+            },
+          },
+          {
+            t: 'Food and health', o: 'Identify nutrients and plan a balanced meal.', min: 25,
+            hook: ['word', 'Carbohydrates · Proteins · Fats · Vitamins · Minerals', 'nutrients'],
+            cards: [
+              ['🍚', 'Energy foods', 'Rice, wheat, potatoes give carbohydrates.'],
+              ['🫘', 'Body-building foods', 'Dal, milk, eggs, paneer give proteins.'],
+              ['🥕', 'Protective foods', 'Fruits and vegetables give vitamins and minerals.'],
+            ],
+            acts: [
+              { match: 'Match the food to its main nutrient', pairs: [['Rice', 'Carbohydrates'], ['Dal', 'Proteins'], ['Ghee', 'Fats'], ['Orange', 'Vitamin C']], why: 'Nutrients.' },
+              { mcq: 'A balanced diet has…', options: ['All nutrients in the right amounts', 'Only sweets', 'Only rice'], answer: 0, why: 'Balance.' },
+              { phase: 'probe', mcq: 'Lack of vitamin C can cause…', options: ['Bleeding gums (scurvy)', 'Strong bones', 'Better eyesight'], answer: 0, why: 'Deficiency.' },
+              { phase: 'probe', write: 'Plan a balanced lunch and name the nutrient in each item.', keywords: ['protein', 'carbohydrate', 'vitamin'], exemplar: 'Roti (carbohydrate), dal (protein), salad (vitamins), curd (protein and calcium).', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Nutrition basics.', analogy: 'Food groups are a team — each player has a job.',
+              vocab: [['nutrient', 'Useful substance in food.'], ['deficiency', 'Lack of a nutrient.']],
+              demo: 'Plate model.',
+              prompts: [['Nutrient?', 'Match.'], ['Balanced?', 'Check.']],
+              support: 'Food chart.', stretch: 'Weekly meal plan.',
+              mis: [['Fats are always bad', 'Needed in small amounts.']],
+              sheet: 'Balanced plate worksheet.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'CBSE', band: '3-5', level: 'Intermediate', title: 'English and EVS Skills',
+    description: `Practise reading comprehension, tenses, maps and directions, and travel and shelter topics. ${note}`,
+    intro: 'Read, write and explore your world. 🌏📖', theme: 'meadow', tutor: cb, tools: cbTools,
+    style: 'Comprehension, grammar drills and map activities.',
+    outcomes: ['Answers comprehension questions in full sentences', 'Uses past, present and future tense', 'Reads simple maps', 'Explains how homes and travel differ across regions'],
+    prereq: ['Maths and EVS Foundations'],
+    pathway: { board: 'CBSE', grade: 'Classes 3–5', subject: 'English & EVS', topics: ['Reading comprehension', 'Tenses', 'Maps and directions', 'Shelter and travel'] },
+    modules: [
+      {
+        title: 'Module 1: English',
+        lessons: [
+          {
+            t: 'Reading comprehension', o: 'Answer factual and inference questions in complete sentences.', min: 25,
+            hook: ['word', 'Read · Find · Answer in a sentence', 'comprehension'],
+            cards: [
+              ['📖', 'Passage', 'Meera planted a neem sapling near her gate. Every evening she watered it. By summer, it gave shade to the milkman’s cycle and a home to two sparrows.'],
+              ['🔍', 'Find it', 'Factual answers are in the text; inference answers use clues.'],
+              ['✍️', 'Full sentence', 'Use words from the question in your answer.'],
+            ],
+            acts: [
+              { mcq: 'What did Meera plant?', options: ['A neem sapling', 'A mango tree', 'Flowers'], answer: 0, why: 'Factual.' },
+              { mcq: 'Which word shows Meera was caring?', options: ['Every evening she watered it', 'near her gate', 'By summer'], answer: 0, why: 'Inference from action.' },
+              { phase: 'probe', write: 'Answer in a full sentence: How did the tree help others?', keywords: ['shade', 'sparrows', 'home'], exemplar: 'The tree gave shade to the milkman’s cycle and a home to two sparrows.', minWords: 12 },
+              { phase: 'probe', mcq: 'A good title for the passage?', options: ['Meera’s Neem Tree', 'The Milkman', 'Summer Holidays'], answer: 0, why: 'Main idea.' },
+            ],
+            teach: {
+              explain: 'Comprehension answering.', analogy: 'Treasure hunt in the passage.',
+              vocab: [['inference', 'Reading between lines.'], ['factual', 'Directly stated.']],
+              demo: 'Underline answers in text.',
+              prompts: [['Where in the text?', 'Find.'], ['Full sentence?', 'Check.']],
+              support: 'Answer frames.', stretch: 'Write your own questions.',
+              mis: [['One-word answers are enough', 'Use full sentences.']],
+              sheet: 'Unseen passage practice.',
+            },
+          },
+          {
+            t: 'Tenses', o: 'Use simple past, present and future tenses correctly.', min: 25,
+            hook: ['pattern', ['I played', 'I play'], 'I will play'],
+            cards: [
+              ['⏪', 'Past', 'Already happened: walked, ate, went.'],
+              ['⏺️', 'Present', 'Happens now or regularly: walk, eats.'],
+              ['⏩', 'Future', 'Will happen: will walk, will eat.'],
+            ],
+            acts: [
+              { sort: 'Past, present or future?', buckets: ['Past', 'Present', 'Future'], items: [['She danced', 0], ['He reads daily', 1], ['We will travel', 2], ['They went', 0], ['I eat', 1]], why: 'Tense.' },
+              { blanks: 'Yesterday I [[1]] to the market.', answers: [['went']], bank: ['went', 'go', 'will go'], why: 'Past.' },
+              { phase: 'probe', blanks: 'Tomorrow we [[1]] a test.', answers: [['will have', 'will write']], bank: ['will have', 'had', 'have'], why: 'Future.' },
+              { phase: 'probe', mcq: 'Correct sentence?', options: ['She goes to school every day.', 'She go to school every day.', 'She going to school every day.'], answer: 0, why: 'Subject–verb.' },
+            ],
+            teach: {
+              explain: 'Simple tenses.', analogy: 'A timeline of yesterday, today, tomorrow.',
+              vocab: [['tense', 'Time of the verb.'], ['verb', 'Action word.']],
+              demo: 'Timeline sentences.',
+              prompts: [['When?', 'Clue word.'], ['Verb form?', 'Choose.']],
+              support: 'Verb table.', stretch: 'Continuous tenses.',
+              mis: [['“Goed” for past of go', 'Irregular: went.']],
+              sheet: 'Tense practice.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: EVS',
+        lessons: [
+          {
+            t: 'Maps and directions', o: 'Use directions, symbols and a map key.', min: 25,
+            hook: ['word', 'N ↑ · S ↓ · E → · W ←', 'directions'],
+            cards: [
+              ['🧭', 'Directions', 'North is usually at the top of a map.'],
+              ['🗝️', 'Key', 'Symbols stand for things: ✚ hospital, 🏫 school.'],
+              ['📏', 'Distance', 'Maps are drawn smaller than real places.'],
+            ],
+            acts: [
+              { mcq: 'On a map, East is usually to the…', options: ['Right', 'Left', 'Top'], answer: 0, why: 'Convention.' },
+              { mcq: 'The map key helps you…', options: ['Understand symbols', 'Find the scale only', 'Colour the map'], answer: 0, why: 'Purpose.' },
+              { phase: 'probe', mcq: 'Facing North, the school is on your left. It is to the…', options: ['West', 'East', 'South'], answer: 0, why: 'Left of North = West.' },
+              { phase: 'probe', write: 'Describe the way from your home to a nearby shop using directions.', keywords: ['left', 'right', 'straight'], exemplar: 'Go straight from my gate, turn left at the temple, and the shop is on the right.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Map skills.', analogy: 'A map is a bird’s-eye picture.',
+              vocab: [['symbol', 'Picture standing for something.'], ['key', 'List of symbols.']],
+              demo: 'Draw a classroom map.',
+              prompts: [['Direction?', 'Name.'], ['Symbol?', 'Key.']],
+              support: 'Compass card.', stretch: 'Sketch map of neighbourhood.',
+              mis: [['Left is always West', 'Depends on facing.']],
+              sheet: 'Map skills worksheet.',
+            },
+          },
+          {
+            t: 'Shelter and travel', o: 'Explain how homes and travel suit different regions.', min: 25,
+            hook: ['word', 'Stilts · Sloping roofs · Houseboats', 'homes by region'],
+            cards: [
+              ['🏠', 'Homes', 'Stilt houses in flood areas; sloping roofs in rainy and snowy hills.'],
+              ['🐫', 'Travel', 'Camels in deserts, boats in backwaters, trains across the country.'],
+              ['🧭', 'Why different?', 'Climate, landscape and materials available.'],
+            ],
+            acts: [
+              { match: 'Match the place to the transport', pairs: [['Desert', 'Camel'], ['Backwaters of Kerala', 'Boat'], ['Snowy mountains', 'Yak or jeep'], ['Big city', 'Metro']], why: 'Suitability.' },
+              { mcq: 'Why do houses in Assam’s flood areas stand on stilts?', options: ['To stay above flood water', 'For decoration', 'To catch fish'], answer: 0, why: 'Adaptation.' },
+              { phase: 'probe', mcq: 'Sloping roofs help because…', options: ['Rain and snow slide off', 'They look tall', 'They are cheaper always'], answer: 0, why: 'Climate.' },
+              { phase: 'probe', write: 'Describe how your home suits your local weather.', keywords: ['roof', 'window', 'weather'], exemplar: 'My house has thick walls and a fan in every room because summers are very hot.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Regional diversity.', analogy: 'Homes dress for the weather like people do.',
+              vocab: [['stilts', 'Tall posts.'], ['climate', 'Usual weather.']],
+              demo: 'Picture comparison.',
+              prompts: [['Why that design?', 'Climate.'], ['Transport?', 'Landscape.']],
+              support: 'Picture cards.', stretch: 'Interview an elder about travel then and now.',
+              mis: [['Everyone travels the same way', 'It depends on place.']],
+              sheet: 'Homes and travel chart.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'CBSE', band: '3-5', level: 'Advanced', title: 'Answer Writing and Assessment Skills',
+    description: `Practise competency-style questions, picture- and situation-based questions, neat answer presentation and revision for school assessments. ${note}`,
+    intro: 'Show what you know — clearly and confidently! 🌟', theme: 'meadow', tutor: cb, tools: cbTools,
+    style: 'Question-type practice and self-review.',
+    outcomes: ['Answers real-life (competency-style) questions', 'Reads picture- and situation-based questions', 'Presents answers neatly', 'Uses a simple revision routine'],
+    prereq: ['English and EVS Skills'],
+    pathway: { board: 'CBSE', grade: 'Classes 3–5', subject: 'Assessment skills (all subjects)', topics: ['Competency-style questions', 'Picture- and situation-based questions', 'Answer presentation', 'Revision routine'] },
+    modules: [
+      {
+        title: 'Module 1: Question types',
+        lessons: [
+          {
+            t: 'Real-life questions', o: 'Apply what you learned to everyday situations.', min: 25,
+            hook: ['word', 'Learned it → Use it', 'competency'],
+            cards: [
+              ['🛒', 'Real situations', 'Shopping, cooking, travelling, saving water.'],
+              ['🧠', 'Think, don’t just remember', 'Use what you know to solve something new.'],
+              ['✅', 'Explain', 'Show working or give a reason.'],
+            ],
+            acts: [
+              { mcq: 'A pencil costs ₹6. How much for 7 pencils?', options: ['₹42', '₹13', '₹48'], answer: 0, why: '6 × 7.' },
+              { mcq: 'You have ₹50 and buy a book for ₹35. Change?', options: ['₹15', '₹25', '₹85'], answer: 0, why: '50 − 35.' },
+              { phase: 'probe', mcq: 'Your plant’s leaves turn yellow in a dark room. What should you do?', options: ['Move it to sunlight', 'Give it more sugar', 'Paint it'], answer: 0, why: 'Apply science.' },
+              { phase: 'probe', write: 'A tap leaks 1 litre every hour. How much is wasted in a day? Explain.', keywords: ['24', 'litres', 'hours'], exemplar: '24 litres, because a day has 24 hours and 1 litre leaks each hour.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Competency-style questions.', analogy: 'School learning is a toolkit for real life.',
+              vocab: [['apply', 'Use in a new situation.'], ['reason', 'Why.']],
+              demo: 'Model a real-life question.',
+              prompts: [['What do you know?', 'Use it.'], ['Reason?', 'Explain.']],
+              support: 'Picture context cards.', stretch: 'Make your own real-life question.',
+              mis: [['Only textbook questions come in tests', 'Real-life ones too.']],
+              sheet: 'Real-life question set.',
+            },
+          },
+          {
+            t: 'Picture- and situation-based questions', o: 'Read pictures, tables and short situations to answer.', min: 25,
+            hook: ['word', 'Look carefully · Read the data · Answer', 'picture questions'],
+            cards: [
+              ['🖼️', 'Look carefully', 'Notice labels, numbers and details.'],
+              ['📊', 'Tables', 'Data: Mon 5 kites, Tue 8 kites, Wed 3 kites.'],
+              ['❓', 'Answer what is asked', 'Most? Least? Total? Difference?'],
+            ],
+            acts: [
+              { mcq: 'Kites sold: Mon 5, Tue 8, Wed 3. On which day were the most sold?', options: ['Tuesday', 'Monday', 'Wednesday'], answer: 0, why: '8 is highest.' },
+              { mcq: 'Total kites sold?', options: ['16', '15', '13'], answer: 0, why: '5 + 8 + 3.' },
+              { phase: 'probe', mcq: 'How many more on Tuesday than Wednesday?', options: ['5', '3', '11'], answer: 0, why: '8 − 3.' },
+              { phase: 'probe', mcq: 'Situation: dark clouds and strong winds. What should children playing outside do?', options: ['Go indoors safely', 'Climb a tree', 'Fly kites near wires'], answer: 0, why: 'Safety.' },
+            ],
+            teach: {
+              explain: 'Reading visual information.', analogy: 'Be a detective looking at a clue picture.',
+              vocab: [['data', 'Information.'], ['table', 'Rows and columns.']],
+              demo: 'Read a pictograph.',
+              prompts: [['What does it show?', 'Describe.'], ['Most/least?', 'Compare.']],
+              support: 'Pictographs.', stretch: 'Make a bar graph.',
+              mis: [['Skip the picture', 'The answer is often there.']],
+              sheet: 'Picture-based question set.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Presentation and revision',
+        lessons: [
+          {
+            t: 'Neat answer presentation', o: 'Write well-organised, neat answers.', min: 25,
+            hook: ['word', 'Number · Margin · Neat · Underline', 'presentation'],
+            cards: [
+              ['🔢', 'Number correctly', 'Write the question number clearly.'],
+              ['📏', 'Margins and spacing', 'Leave space between answers.'],
+              ['✏️', 'Working and units', 'Show maths steps; write units like cm, ₹, kg.'],
+            ],
+            acts: [
+              { sort: 'Good or poor presentation?', buckets: ['Good', 'Poor'], items: [['Writing the question number', 0], ['Overwriting answers', 1], ['Showing working steps', 0], ['Forgetting units', 1], ['Leaving space between answers', 0]], why: 'Presentation.' },
+              { mcq: 'Answer “The length is 12” is missing…', options: ['The unit (cm/m)', 'A title', 'A drawing'], answer: 0, why: 'Units.' },
+              { phase: 'probe', mcq: 'Made a mistake? Best way to correct it?', options: ['Strike through once neatly and rewrite', 'Scribble heavily', 'Overwrite letters'], answer: 0, why: 'Neatness.' },
+              { phase: 'probe', write: 'Write a neat answer: A ribbon of 30 cm is cut into 5 equal pieces. Find each piece.', keywords: ['30', '5', '6 cm'], exemplar: 'Length of ribbon = 30 cm. Number of pieces = 5. Each piece = 30 ÷ 5 = 6 cm.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Answer presentation.', analogy: 'A neat answer is like a tidy room — easy to find things.',
+              vocab: [['working', 'Steps shown.'], ['unit', 'cm, kg, ₹…']],
+              demo: 'Before/after answers.',
+              prompts: [['Number?', 'Check.'], ['Unit?', 'Add.']],
+              support: 'Answer checklist.', stretch: 'Peer review.',
+              mis: [['Only the final answer matters', 'Steps earn marks too.']],
+              sheet: 'Presentation checklist.',
+            },
+          },
+          {
+            t: 'My revision routine', o: 'Revise little and often using simple tools.', min: 25,
+            hook: ['word', 'Read · Close · Recall · Check', 'revision routine'],
+            cards: [
+              ['📚', 'Little and often', '20 minutes a day beats 2 hours once.'],
+              ['🙈', 'Close and recall', 'Shut the book and say or write what you remember.'],
+              ['✅', 'Check', 'Open and see what you missed.'],
+            ],
+            acts: [
+              { order: 'Order the revision routine', steps: ['Read a short section', 'Close the book', 'Recall what you remember', 'Check and fix gaps'], why: 'Retrieval.' },
+              { mcq: 'Best revision plan for a test in one week?', options: ['20 minutes every day', '3 hours the night before', 'No revision'], answer: 0, why: 'Spacing.' },
+              { phase: 'probe', mcq: 'Why close the book and recall?', options: ['It shows what you really remember', 'It saves the book', 'No reason'], answer: 0, why: 'Self-testing.' },
+              { phase: 'probe', write: 'Write your revision plan for next week (subject per day).', keywords: ['Monday', 'Tuesday'], exemplar: 'Mon: Maths fractions. Tue: EVS water. Wed: English tenses. Thu: Maths place value. Fri: quick recall of all.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Simple revision habits.', analogy: 'Watering a plant a little each day.',
+              vocab: [['revise', 'Study again.'], ['recall', 'Remember.']],
+              demo: 'Close-and-recall.',
+              prompts: [['What do you remember?', 'Recall.'], ['Missed?', 'Fix.']],
+              support: 'Plan template.', stretch: 'Flashcards.',
+              mis: [['Reading again = remembering', 'Test yourself.']],
+              sheet: 'Weekly revision planner.',
+              exit: 'Follow your plan for 3 days and tick it off.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ───────── Grades 6-8 ─────────
+  {
+    subject: 'CBSE', band: '6-8', level: 'Beginner', title: 'Maths and Science Core',
+    description: `Strengthen middle-school core topics: integers, ratio and proportion, nutrition in plants, and electric circuits. ${note}`,
+    intro: 'Master the core of middle-school maths and science. 📐🔬', theme: 'ocean', tutor: cb, tools: cbTools,
+    style: 'Concept explanation, solved examples and practice.',
+    outcomes: ['Computes with integers', 'Solves ratio and proportion problems', 'Explains modes of nutrition in plants', 'Builds and explains simple circuits'],
+    pathway: { board: 'CBSE', grade: 'Classes 6–8', subject: 'Mathematics & Science', topics: ['Integers', 'Ratio and proportion', 'Nutrition in plants', 'Electric current and circuits'] },
+    modules: [
+      {
+        title: 'Module 1: Maths',
+        lessons: [
+          {
+            t: 'Integers', o: 'Add, subtract, multiply and divide integers.', min: 35,
+            hook: ['word', '(−) × (−) = (+)', 'sign rules'],
+            cards: [
+              ['➖', 'Number line', 'Negative numbers lie left of zero.'],
+              ['➕', 'Adding', '−7 + 12 = 5 (move right 12 from −7).'],
+              ['✖️', 'Sign rules', 'Same signs → positive; different signs → negative.'],
+            ],
+            acts: [
+              { mcq: '−7 + 12 = ?', options: ['5', '−19', '−5'], answer: 0, why: 'Number line.' },
+              { mcq: '(−3) × (−4) = ?', options: ['12', '−12', '7'], answer: 0, why: 'Same signs.' },
+              { mcq: '(−15) ÷ 3 = ?', options: ['−5', '5', '−45'], answer: 0, why: 'Different signs.' },
+              { phase: 'probe', mcq: 'Temperature falls from 4 °C to −3 °C. Fall?', options: ['7 °C', '1 °C', '−7 °C'], answer: 0, why: '4 − (−3).' },
+              { phase: 'probe', mcq: '−8 − (−5) = ?', options: ['−3', '−13', '3'], answer: 0, why: '−8 + 5.' },
+            ],
+            teach: {
+              explain: 'Integer operations.', analogy: 'Lift going up and down floors including basements.',
+              vocab: [['integer', 'Whole number including negatives.'], ['additive inverse', 'Opposite number.']],
+              demo: 'Number line walk.',
+              prompts: [['Direction?', 'Left/right.'], ['Sign?', 'Rule.']],
+              support: 'Number line.', stretch: 'Properties of integers.',
+              mis: [['Subtracting a negative makes smaller', 'It adds.']],
+              sheet: 'Integers practice.',
+            },
+          },
+          {
+            t: 'Ratio and proportion', o: 'Simplify ratios and solve proportion problems with the unitary method.', min: 35,
+            hook: ['word', '5 pens = ₹60 → 1 pen = ₹12', 'unitary method'],
+            cards: [
+              ['⚖️', 'Ratio', 'Compares quantities: 12 : 18 = 2 : 3.'],
+              ['🟰', 'Proportion', 'Two equal ratios: 2 : 3 = 4 : 6.'],
+              ['1️⃣', 'Unitary method', 'Find the value of one, then many.'],
+            ],
+            acts: [
+              { mcq: 'Simplify 12 : 18.', options: ['2 : 3', '3 : 2', '6 : 9'], answer: 0, why: '÷6.' },
+              { mcq: '5 pens cost ₹60. Cost of 8 pens?', options: ['₹96', '₹80', '₹100'], answer: 0, why: '12 × 8.' },
+              { phase: 'probe', mcq: 'Are 3 : 4 and 9 : 12 in proportion?', options: ['Yes', 'No', 'Cannot tell'], answer: 0, why: '×3.' },
+              { phase: 'probe', mcq: 'Share ₹200 between A and B in ratio 3 : 2. A gets…', options: ['₹120', '₹80', '₹100'], answer: 0, why: '200 ÷ 5 × 3.' },
+            ],
+            teach: {
+              explain: 'Ratio, proportion, unitary method.', analogy: 'Recipe scaling.',
+              vocab: [['ratio', 'Comparison by division.'], ['proportion', 'Equality of ratios.']],
+              demo: 'Recipe for 2 → for 6.',
+              prompts: [['Simplest form?', 'HCF.'], ['One unit?', 'Divide.']],
+              support: 'Ratio tables.', stretch: 'Inverse proportion.',
+              mis: [['Order doesn’t matter in ratio', 'It does.']],
+              sheet: 'Ratio and proportion practice.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Science',
+        lessons: [
+          {
+            t: 'Nutrition in plants', o: 'Explain autotrophic and heterotrophic nutrition in plants.', min: 35,
+            hook: ['word', 'carbon dioxide + water —(sunlight, chlorophyll)→ glucose + oxygen', 'photosynthesis'],
+            cards: [
+              ['🌿', 'Autotrophs', 'Green plants make food by photosynthesis.'],
+              ['🍄', 'Saprotrophs', 'Fungi absorb nutrients from dead and decaying matter.'],
+              ['🪢', 'Parasites and insectivores', 'Cuscuta (amarbel) takes food from a host; pitcher plants trap insects for nitrogen.'],
+            ],
+            acts: [
+              { match: 'Match the plant to its mode of nutrition', pairs: [['Mango tree', 'Autotrophic'], ['Mushroom', 'Saprotrophic'], ['Cuscuta', 'Parasitic'], ['Pitcher plant', 'Insectivorous']], why: 'Modes.' },
+              { mcq: 'Raw materials of photosynthesis?', options: ['Carbon dioxide and water', 'Oxygen and glucose', 'Soil and air only'], answer: 0, why: 'Reactants.' },
+              { phase: 'probe', mcq: 'Why do pitcher plants trap insects?', options: ['To get nitrogen missing from their soil', 'To make chlorophyll', 'For fun'], answer: 0, why: 'Nutrient.' },
+              { phase: 'probe', mcq: 'Tiny pores on leaves for gas exchange are…', options: ['Stomata', 'Roots', 'Petals'], answer: 0, why: 'Structure.' },
+            ],
+            teach: {
+              explain: 'Plant nutrition.', analogy: 'Leaves are kitchens; sunlight is the stove.',
+              vocab: [['autotroph', 'Makes own food.'], ['stomata', 'Leaf pores.']],
+              demo: 'Starch test on a leaf (teacher-led).',
+              prompts: [['Mode?', 'Classify.'], ['Raw materials?', 'List.']],
+              support: 'Diagram.', stretch: 'Symbiosis in lichens.',
+              mis: [['Plants eat soil', 'They make food.']],
+              sheet: 'Nutrition in plants worksheet.',
+            },
+          },
+          {
+            t: 'Electric current and circuits', o: 'Draw circuit diagrams and explain conductors, switches and heating effect.', min: 35,
+            hook: ['word', 'Cell → switch → bulb → back', 'closed circuit'],
+            cards: [
+              ['🔋', 'Circuit symbols', 'Cell, battery, switch, bulb, wire.'],
+              ['🔌', 'Closed vs open', 'Current flows only in a closed circuit.'],
+              ['🔥', 'Heating effect', 'Current heats wires: used in heaters, irons and fuses.'],
+            ],
+            acts: [
+              { mcq: 'A switch in the OFF position makes the circuit…', options: ['Open', 'Closed', 'Shorter'], answer: 0, why: 'Break.' },
+              { sort: 'Conductor or insulator?', buckets: ['Conductor', 'Insulator'], items: [['Copper', 0], ['Rubber', 1], ['Iron nail', 0], ['Plastic', 1], ['Dry wood', 1]], why: 'Materials.' },
+              { phase: 'probe', mcq: 'A fuse protects a circuit by…', options: ['Melting when current is too high', 'Storing electricity', 'Making bulbs brighter'], answer: 0, why: 'Heating effect.' },
+              { phase: 'probe', mcq: 'In a cell symbol, the longer line represents…', options: ['The positive terminal', 'The negative terminal', 'A switch'], answer: 0, why: 'Convention.' },
+            ],
+            teach: {
+              explain: 'Circuits and effects of current (low-voltage practicals only).', analogy: 'Current is like water flowing in a closed pipe loop.',
+              vocab: [['circuit', 'Closed path.'], ['fuse', 'Safety wire.']],
+              demo: 'Build a circuit with a switch.',
+              prompts: [['Open or closed?', 'Check.'], ['Symbol?', 'Draw.']],
+              support: 'Symbol card.', stretch: 'Electromagnets.',
+              mis: [['Current flows in an open circuit', 'Needs a closed path.']],
+              sheet: 'Circuit diagram practice.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'CBSE', band: '6-8', level: 'Intermediate', title: 'Social Science and English Writing',
+    description: `Work with historical sources, resources and maps, democracy and the Constitution, and formal writing formats such as letters and notices. ${note}`,
+    intro: 'Understand society and write with purpose. 🏛️✍️', theme: 'ocean', tutor: cb, tools: cbTools,
+    style: 'Source work, map work and format-based writing.',
+    outcomes: ['Distinguishes primary and secondary sources', 'Classifies resources', 'Explains key features of the Constitution', 'Writes formal letters and notices in standard formats'],
+    prereq: ['Maths and Science Core'],
+    pathway: { board: 'CBSE', grade: 'Classes 6–8', subject: 'Social Science & English', topics: ['Historical sources', 'Resources', 'The Constitution and democracy', 'Formal letters and notices'] },
+    modules: [
+      {
+        title: 'Module 1: Social Science',
+        lessons: [
+          {
+            t: 'Historical sources', o: 'Distinguish primary and secondary sources and evaluate them.', min: 35,
+            hook: ['word', 'Inscriptions · Coins · Manuscripts', 'clues from the past'],
+            cards: [
+              ['📜', 'Primary sources', 'Created at the time: inscriptions, coins, manuscripts, travellers’ accounts.'],
+              ['📚', 'Secondary sources', 'Written later by historians using primary sources.'],
+              ['🔍', 'Ask questions', 'Who made it? When? Why? Is it biased?'],
+            ],
+            acts: [
+              { sort: 'Primary or secondary source?', buckets: ['Primary', 'Secondary'], items: [['A coin from the Gupta period', 0], ['A modern history textbook', 1], ['A traveller’s diary from the 1600s', 0], ['A documentary made in 2020', 1], ['A temple inscription', 0]], why: 'Source types.' },
+              { mcq: 'Why might a king’s court poet’s account be biased?', options: ['He was paid to praise the king', 'Poems are always false', 'He wrote too much'], answer: 0, why: 'Purpose.' },
+              { phase: 'probe', mcq: 'Archaeologists study…', options: ['Material remains like tools, pottery and buildings', 'Only written books', 'Future events'], answer: 0, why: 'Archaeology.' },
+              { phase: 'probe', write: 'What questions would you ask about an old coin to learn history from it?', keywords: ['who', 'when', 'metal', 'ruler'], exemplar: 'Who issued it? When? What metal is it made of? What symbols or script are on it, and what do they tell us about trade and the ruler?', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Historical method.', analogy: 'Historians are detectives with clues.',
+              vocab: [['manuscript', 'Handwritten document.'], ['inscription', 'Writing on stone or metal.']],
+              demo: 'Source analysis.',
+              prompts: [['When made?', 'Primary/secondary.'], ['Bias?', 'Purpose.']],
+              support: 'Source cards.', stretch: 'Compare two accounts.',
+              mis: [['Old sources are always reliable', 'Check purpose and bias.']],
+              sheet: 'Source analysis worksheet.',
+            },
+          },
+          {
+            t: 'Resources and the Constitution', o: 'Classify resources and explain key features of India’s Constitution.', min: 35,
+            hook: ['word', 'Justice · Liberty · Equality · Fraternity', 'Preamble ideals'],
+            cards: [
+              ['🌳', 'Resources', 'Natural (renewable and non-renewable), human-made and human resources.'],
+              ['📘', 'The Constitution', 'Came into effect on 26 January 1950; sets out rights, duties and how government works.'],
+              ['🗳️', 'Democracy', 'Citizens choose representatives through elections; Fundamental Rights protect individuals.'],
+            ],
+            acts: [
+              { sort: 'Natural, human-made or human resource?', buckets: ['Natural', 'Human-made', 'Human'], items: [['Forests', 0], ['Bridges', 1], ['A skilled doctor', 2], ['Sunlight', 0], ['Machines', 1]], why: 'Classification.' },
+              { mcq: 'The Constitution of India came into effect on…', options: ['26 January 1950', '15 August 1947', '2 October 1869'], answer: 0, why: 'Republic Day.' },
+              { phase: 'probe', mcq: 'Which is a Fundamental Right?', options: ['Right to Equality', 'Right to free cinema tickets', 'Right to skip school'], answer: 0, why: 'Constitutional rights.' },
+              { phase: 'probe', write: 'Explain why the Right to Equality matters, with an example.', keywords: ['equal', 'law', 'example'], exemplar: 'It means everyone is equal before the law, so a shop cannot refuse to serve someone because of their religion or caste.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Resources; constitutional basics.', analogy: 'The Constitution is the rulebook for the country’s game.',
+              vocab: [['Preamble', 'Introduction to the Constitution.'], ['Fundamental Rights', 'Basic rights guaranteed to citizens.']],
+              demo: 'Read the Preamble together.',
+              prompts: [['Which resource?', 'Classify.'], ['Which right?', 'Name.']],
+              support: 'Rights cards.', stretch: 'Fundamental Duties.',
+              mis: [['Rights have no limits', 'Rights come with reasonable limits and duties.']],
+              sheet: 'Resources and rights worksheet.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: English writing',
+        lessons: [
+          {
+            t: 'Formal letters', o: 'Write a formal letter in the standard format.', min: 35,
+            hook: ['word', 'Sender · Date · Receiver · Subject · Salutation · Body · Close', 'formal letter format'],
+            cards: [
+              ['📬', 'Format', 'Sender’s address, date, receiver’s address, subject, salutation, body, complimentary close, name.'],
+              ['🎯', 'Subject line', 'States the purpose in a few words.'],
+              ['🙏', 'Tone', 'Polite, clear and concise.'],
+            ],
+            acts: [
+              { order: 'Order the formal letter parts', steps: ['Sender’s address', 'Date', 'Receiver’s address', 'Subject', 'Salutation (Sir/Madam)', 'Body', 'Complimentary close and name'], why: 'Format.' },
+              { mcq: 'Best subject line for a letter asking for a library card?', options: ['Request for issue of a library card', 'Hello', 'Library'], answer: 0, why: 'Purpose.' },
+              { phase: 'probe', mcq: 'Appropriate complimentary close for a formal letter to a principal?', options: ['Yours sincerely / Yours obediently', 'Love', 'Bye'], answer: 0, why: 'Formal close.' },
+              { phase: 'probe', write: 'Write the body of a letter to your principal requesting a water cooler on your floor.', keywords: ['request', 'students', 'kindly'], exemplar: 'I am writing to request a water cooler on the second floor. Students currently walk down two floors during short breaks, which wastes time. I kindly request you to consider installing one.', minWords: 35 },
+            ],
+            teach: {
+              explain: 'Formal letter format.', analogy: 'A formal letter is like school uniform — a set format.',
+              vocab: [['salutation', 'Greeting.'], ['complimentary close', 'Ending phrase.']],
+              demo: 'Annotated model letter.',
+              prompts: [['Format complete?', 'Check.'], ['Purpose clear?', 'Subject.']],
+              support: 'Format template.', stretch: 'Letter to an editor.',
+              mis: [['Formal letters can use slang', 'Keep it formal.']],
+              sheet: 'Formal letter template.',
+            },
+          },
+          {
+            t: 'Notices', o: 'Write a clear notice for a school notice board.', min: 35,
+            hook: ['word', 'NAME OF INSTITUTION · NOTICE · Date · HEADING · Body · Name & designation', 'notice format'],
+            cards: [
+              ['📌', 'Purpose', 'Informs a group about an event or instruction.'],
+              ['🗒️', 'Content', 'What, when, where, who can participate, contact person.'],
+              ['✂️', 'Concise', 'Short and boxed; usually within a word limit set by your teacher.'],
+            ],
+            acts: [
+              { mcq: 'A notice should include…', options: ['What, when, where and who to contact', 'A long story', 'Personal opinions'], answer: 0, why: 'Key details.' },
+              { order: 'Order the notice parts', steps: ['School name', 'NOTICE', 'Date', 'Heading', 'Body with details', 'Name and designation of writer'], why: 'Format.' },
+              { phase: 'probe', write: 'Write a notice announcing an inter-house quiz.', keywords: ['NOTICE', 'date', 'venue', 'contact'], exemplar: 'GREEN VALLEY SCHOOL · NOTICE · 12 August · INTER-HOUSE QUIZ · An inter-house quiz will be held on 20 August at 10 a.m. in the auditorium. Each house may send 3 students from Classes 6–8. Submit names to the undersigned by 16 August. · Riya Sen, Quiz Club Secretary', minWords: 40 },
+              { phase: 'probe', mcq: 'Notices are written in…', options: ['Formal, impersonal language', 'Chatty language', 'Poetry'], answer: 0, why: 'Register.' },
+            ],
+            teach: {
+              explain: 'Notice writing.', analogy: 'A notice is a mini-poster of facts.',
+              vocab: [['designation', 'Job title.'], ['venue', 'Place.']],
+              demo: 'Model notice.',
+              prompts: [['5 Ws?', 'Check.'], ['Contact?', 'Include.']],
+              support: 'Notice template.', stretch: 'Posters vs notices.',
+              mis: [['Notices need decorations', 'Clarity matters.']],
+              sheet: 'Notice writing practice.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'CBSE', band: '6-8', level: 'Advanced', title: 'Competency-Based Question Practice',
+    description: `Practise case-based, assertion–reason, diagram/map and timed mixed questions across subjects. ${note}`,
+    intro: 'Think, apply and score. 🎯', theme: 'ocean', tutor: cb, tools: cbTools,
+    style: 'Question-type workshops and timed sets.',
+    outcomes: ['Solves case-based questions', 'Evaluates assertion–reason pairs', 'Labels diagrams and maps accurately', 'Manages time in mixed papers'],
+    prereq: ['Social Science and English Writing'],
+    pathway: { board: 'CBSE', grade: 'Classes 6–8', subject: 'Assessment skills (all subjects)', topics: ['Case-based questions', 'Assertion–reason questions', 'Diagrams and map work', 'Timed mixed practice'] },
+    modules: [
+      {
+        title: 'Module 1: Question formats',
+        lessons: [
+          {
+            t: 'Case-based questions', o: 'Read a short case and answer linked questions.', min: 35,
+            hook: ['word', 'Read the case · Pick out data · Apply concepts', 'case-based'],
+            cards: [
+              ['📄', 'Case', 'A school canteen sells 120 samosas at ₹15 each and 80 juices at ₹20 each daily.'],
+              ['🔗', 'Linked questions', 'Several questions use the same case.'],
+              ['🧠', 'Apply', 'Use maths or science concepts on the case data.'],
+            ],
+            acts: [
+              { mcq: 'Daily income from samosas?', options: ['₹1,800', '₹1,200', '₹2,000'], answer: 0, why: '120 × 15.' },
+              { mcq: 'Daily income from juices?', options: ['₹1,600', '₹1,800', '₹1,400'], answer: 0, why: '80 × 20.' },
+              { phase: 'probe', mcq: 'Total daily income?', options: ['₹3,400', '₹3,200', '₹3,600'], answer: 0, why: '1,800 + 1,600.' },
+              { phase: 'probe', mcq: 'Ratio of samosas to juices sold?', options: ['3 : 2', '2 : 3', '4 : 3'], answer: 0, why: '120 : 80.' },
+            ],
+            teach: {
+              explain: 'Case-based questioning.', analogy: 'One story, many questions.',
+              vocab: [['case', 'Short real-life passage.'], ['data', 'Given numbers or facts.']],
+              demo: 'Underline data in a case.',
+              prompts: [['Data?', 'Underline.'], ['Concept?', 'Name.']],
+              support: 'Highlight guide.', stretch: 'Write your own case.',
+              mis: [['Each question is independent', 'They share data.']],
+              sheet: 'Case-based set.',
+            },
+          },
+          {
+            t: 'Assertion–reason questions', o: 'Judge whether an assertion and reason are true and linked.', min: 35,
+            hook: ['word', 'A true? R true? R explains A?', 'three checks'],
+            cards: [
+              ['🅰️', 'Assertion', 'A statement to judge true/false.'],
+              ['🆁', 'Reason', 'Another statement; check true/false.'],
+              ['🔗', 'Link', 'If both true, does R correctly explain A?'],
+            ],
+            acts: [
+              { mcq: 'A: Plants need sunlight. R: Sunlight is used in photosynthesis.', options: ['Both true; R explains A', 'Both true; R does not explain A', 'A true; R false'], answer: 0, why: 'Linked.' },
+              { mcq: 'A: Copper is used for electric wires. R: Copper is a magnetic metal.', options: ['A true; R false', 'Both true; R explains A', 'Both false'], answer: 0, why: 'Copper isn’t magnetic; it’s a good conductor.' },
+              { phase: 'probe', mcq: 'A: −5 is less than −2. R: On the number line, −5 is to the left of −2.', options: ['Both true; R explains A', 'A false; R true', 'Both false'], answer: 0, why: 'Linked.' },
+              { phase: 'probe', mcq: 'A: The Sun rises in the east. R: The Moon has no light of its own.', options: ['Both true; R does not explain A', 'Both true; R explains A', 'A false'], answer: 0, why: 'Unrelated truths.' },
+            ],
+            teach: {
+              explain: 'Assertion–reason logic.', analogy: 'A claim and a “because” — check both, then the link.',
+              vocab: [['assertion', 'Claim.'], ['reason', 'Explanation offered.']],
+              demo: 'Three-step check.',
+              prompts: [['A true?', 'Check.'], ['R explains A?', 'Check.']],
+              support: 'Decision chart.', stretch: 'Write A–R pairs.',
+              mis: [['Both true means R explains A', 'Check the link.']],
+              sheet: 'Assertion–reason set.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Diagrams, maps and timing',
+        lessons: [
+          {
+            t: 'Diagrams and map work', o: 'Draw and label diagrams and locate places on maps accurately.', min: 35,
+            hook: ['word', 'Pencil · Label lines · Neat · Title', 'diagram rules'],
+            cards: [
+              ['✏️', 'Diagrams', 'Use pencil, straight label lines, labels on one side, a title.'],
+              ['🗺️', 'Maps', 'Mark with a symbol and write the name neatly; use the key.'],
+              ['🎯', 'Accuracy', 'Correct position matters more than artistic detail.'],
+            ],
+            acts: [
+              { sort: 'Good diagram practice or not?', buckets: ['Good', 'Poor'], items: [['Labels with straight lines', 0], ['Crossing label lines', 1], ['Adding a title', 0], ['Using pen and heavy shading', 1]], why: 'Rules.' },
+              { mcq: 'Which river flows through Varanasi?', options: ['Ganga', 'Narmada', 'Kaveri'], answer: 0, why: 'Geography.' },
+              { phase: 'probe', mcq: 'Which state is on India’s western coast?', options: ['Gujarat', 'Odisha', 'Assam'], answer: 0, why: 'Map knowledge.' },
+              { phase: 'probe', write: 'List the labels you’d add to a diagram of a plant cell.', keywords: ['cell wall', 'nucleus', 'chloroplast', 'vacuole'], exemplar: 'Cell wall, cell membrane, nucleus, cytoplasm, chloroplast, large vacuole.', minWords: 8 },
+            ],
+            teach: {
+              explain: 'Diagram and map conventions.', analogy: 'Labels are name tags at a party.',
+              vocab: [['label line', 'Line pointing to a part.'], ['locate', 'Find position.']],
+              demo: 'Model labelled diagram.',
+              prompts: [['Straight lines?', 'Check.'], ['Title?', 'Add.']],
+              support: 'Outline maps.', stretch: 'Timed map quiz.',
+              mis: [['Prettier diagrams score more', 'Accuracy and labels matter.']],
+              sheet: 'Diagram and map practice.',
+            },
+          },
+          {
+            t: 'Timed mixed practice', o: 'Plan time across a mixed question paper.', min: 40,
+            hook: ['word', 'Marks guide minutes', 'time planning'],
+            cards: [
+              ['⏱️', 'Budget', 'If 80 marks in 2 hours, about 1.5 minutes per mark.'],
+              ['📋', 'Order', 'Attempt confident sections first; return to tough ones.'],
+              ['✅', 'Review', 'Keep 10 minutes to check.'],
+            ],
+            acts: [
+              { mcq: '80 marks in 120 minutes: minutes per mark?', options: ['1.5', '2', '1'], answer: 0, why: '120 ÷ 80.' },
+              { mcq: 'A 5-mark question should take about…', options: ['7–8 minutes', '1 minute', '20 minutes'], answer: 0, why: '5 × 1.5.' },
+              { phase: 'probe', mcq: 'You’ve spent 12 minutes on a 3-mark question. Best move?', options: ['Move on and return later', 'Keep going', 'Leave the exam'], answer: 0, why: 'Time management.' },
+              { phase: 'probe', write: 'Plan your time for a 40-mark, 1-hour test with 4 sections.', keywords: ['minutes', 'section', 'check'], exemplar: 'Read paper 5 min; Section A (10 marks) 12 min; B (10) 12 min; C (10) 12 min; D (10) 12 min; check 7 min.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Exam time management.', analogy: 'Pocket money for minutes.',
+              vocab: [['allocate', 'Share out.'], ['review', 'Check.']],
+              demo: 'Plan a sample paper.',
+              prompts: [['Per mark?', 'Calculate.'], ['Stuck?', 'Move on.']],
+              support: 'Timing card.', stretch: 'Full-length timed paper.',
+              mis: [['Spend equal time on every question', 'Use marks.']],
+              sheet: 'Timed mixed paper.',
+              exit: 'Attempt one timed mixed paper this week.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ───────── Grades 9-12 ─────────
+  {
+    subject: 'CBSE', band: '9-12', level: 'Beginner', title: 'Secondary Maths and Science Core',
+    description: `Secondary-stage core: polynomials, pairs of linear equations, chemical reactions and equations, and life processes. ${note}`,
+    intro: 'Build a strong secondary-stage base. 📈⚗️', theme: 'grape', tutor: cb, tools: cbTools,
+    style: 'Concept + solved examples + exam-style practice.',
+    outcomes: ['Finds zeros and relationships of polynomials', 'Solves pairs of linear equations', 'Balances and classifies chemical equations', 'Explains nutrition and respiration as life processes'],
+    pathway: { board: 'CBSE', grade: 'Classes 9–10', subject: 'Mathematics & Science', topics: ['Polynomials', 'Pair of linear equations in two variables', 'Chemical reactions and equations', 'Life processes'] },
+    modules: [
+      {
+        title: 'Module 1: Mathematics',
+        lessons: [
+          {
+            t: 'Polynomials', o: 'Find degree and zeros, and relate zeros to coefficients.', min: 45,
+            hook: ['word', 'x² − 5x + 6 = (x − 2)(x − 3)', 'zeros 2 and 3'],
+            cards: [
+              ['📐', 'Degree', 'Highest power of the variable: 3x³ − 2x + 5 has degree 3.'],
+              ['0️⃣', 'Zeros', 'Values of x that make p(x) = 0.'],
+              ['🔗', 'Relationship', 'For ax² + bx + c: sum of zeros = −b/a, product = c/a.'],
+            ],
+            acts: [
+              { mcq: 'Degree of 3x³ − 2x + 5?', options: ['3', '2', '5'], answer: 0, why: 'Highest power.' },
+              { mcq: 'Zeros of x² − 5x + 6?', options: ['2 and 3', '−2 and −3', '1 and 6'], answer: 0, why: 'Factorise.' },
+              { phase: 'probe', mcq: 'Sum of zeros of 2x² − 8x + 6?', options: ['4', '−4', '3'], answer: 0, why: '−(−8)/2.' },
+              { phase: 'probe', mcq: 'Product of zeros of 2x² − 8x + 6?', options: ['3', '6', '−3'], answer: 0, why: '6/2.' },
+            ],
+            teach: {
+              explain: 'Polynomial basics.', analogy: 'Zeros are where the graph touches the x-axis.',
+              vocab: [['zero of a polynomial', 'x making p(x) = 0.'], ['coefficient', 'Number multiplying a term.']],
+              demo: 'Graph a quadratic.',
+              prompts: [['Degree?', 'Highest power.'], ['Sum/product?', 'Formula.']],
+              support: 'Formula card.', stretch: 'Division algorithm.',
+              mis: [['Sum of zeros = b/a', 'It is −b/a.']],
+              sheet: 'Polynomials practice.',
+            },
+          },
+          {
+            t: 'Pair of linear equations', o: 'Solve pairs of linear equations by substitution and elimination.', min: 45,
+            hook: ['word', '2x + y = 7 · x − y = 2 → (3, 1)', 'simultaneous equations'],
+            cards: [
+              ['🔁', 'Substitution', 'Express one variable from one equation; substitute into the other.'],
+              ['➕', 'Elimination', 'Add or subtract equations to remove a variable.'],
+              ['📈', 'Graphically', 'Intersecting lines → unique solution; parallel → none; coincident → infinitely many.'],
+            ],
+            acts: [
+              { mcq: 'Solve 2x + y = 7 and x − y = 2.', options: ['x = 3, y = 1', 'x = 2, y = 3', 'x = 1, y = 5'], answer: 0, why: 'Add: 3x = 9.' },
+              { mcq: 'Lines x + y = 4 and x + y = 6 are…', options: ['Parallel (no solution)', 'Intersecting', 'Coincident'], answer: 0, why: 'Same slope, different intercept.' },
+              { phase: 'probe', mcq: '5 pens and 3 pencils cost ₹62; 2 pens and 3 pencils cost ₹32. Cost of one pen?', options: ['₹10', '₹4', '₹12'], answer: 0, why: 'Subtract: 3 pens = ₹30.' },
+              { phase: 'probe', mcq: 'Then the cost of one pencil?', options: ['₹4', '₹10', '₹6'], answer: 0, why: '2(10) + 3p = 32.' },
+            ],
+            teach: {
+              explain: 'Simultaneous linear equations.', analogy: 'Two clues pinpoint one location.',
+              vocab: [['consistent', 'Has a solution.'], ['elimination', 'Remove a variable.']],
+              demo: 'Graph and algebra side by side.',
+              prompts: [['Which method?', 'Choose.'], ['Check?', 'Substitute.']],
+              support: 'Method flowchart.', stretch: 'Word problems with ages and speeds.',
+              mis: [['Forgetting to multiply every term', 'Multiply whole equation.']],
+              sheet: 'Linear equations practice.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Science',
+        lessons: [
+          {
+            t: 'Chemical reactions and equations', o: 'Balance chemical equations and classify reaction types.', min: 45,
+            hook: ['word', '2Mg + O₂ → 2MgO', 'balanced equation'],
+            cards: [
+              ['⚖️', 'Balancing', 'Same number of each type of atom on both sides (law of conservation of mass).'],
+              ['🔀', 'Types', 'Combination, decomposition, displacement, double displacement, redox.'],
+              ['🧪', 'Examples', 'CaCO₃ → CaO + CO₂ (decomposition); Zn + CuSO₄ → ZnSO₄ + Cu (displacement).'],
+            ],
+            acts: [
+              { mcq: 'Balance: _Mg + O₂ → _MgO', options: ['2, 2', '1, 1', '2, 1'], answer: 0, why: 'O atoms.' },
+              { match: 'Match the reaction to its type', pairs: [['CaCO₃ → CaO + CO₂', 'Decomposition'], ['C + O₂ → CO₂', 'Combination'], ['Zn + CuSO₄ → ZnSO₄ + Cu', 'Displacement'], ['Na₂SO₄ + BaCl₂ → BaSO₄ + 2NaCl', 'Double displacement']], why: 'Types.' },
+              { phase: 'probe', mcq: 'Iron nails in copper sulphate solution turn brownish because…', options: ['Iron displaces copper', 'Copper displaces iron', 'Nothing reacts'], answer: 0, why: 'Reactivity.' },
+              { phase: 'probe', mcq: 'Rusting of iron is an example of…', options: ['Oxidation (corrosion)', 'Reduction only', 'Decomposition'], answer: 0, why: 'Redox.' },
+            ],
+            teach: {
+              explain: 'Chemical equations.', analogy: 'Balancing is like counting Lego bricks before and after rebuilding.',
+              vocab: [['reactant', 'Starting substance.'], ['oxidation', 'Gain of oxygen/loss of hydrogen (at this level).']],
+              demo: 'Balancing step by step.',
+              prompts: [['Atoms equal?', 'Count.'], ['Type?', 'Classify.']],
+              support: 'Atom count table.', stretch: 'Redox with electron transfer.',
+              mis: [['Change subscripts to balance', 'Change coefficients only.']],
+              sheet: 'Balancing and classification practice.',
+            },
+          },
+          {
+            t: 'Life processes', o: 'Explain nutrition and respiration in humans and plants.', min: 45,
+            hook: ['word', 'Nutrition · Respiration · Transport · Excretion', 'life processes'],
+            cards: [
+              ['🍽️', 'Human nutrition', 'Mouth → oesophagus → stomach → small intestine (absorption) → large intestine.'],
+              ['⚡', 'Respiration', 'Aerobic: glucose + oxygen → CO₂ + water + energy (in mitochondria). Anaerobic: lactic acid in muscles; ethanol + CO₂ in yeast.'],
+              ['🌿', 'Plants', 'Gas exchange through stomata; photosynthesis in chloroplasts.'],
+            ],
+            acts: [
+              { mcq: 'Most digestion and absorption happens in the…', options: ['Small intestine', 'Stomach', 'Large intestine'], answer: 0, why: 'Villi.' },
+              { mcq: 'Site of aerobic respiration in cells?', options: ['Mitochondria', 'Nucleus', 'Ribosome'], answer: 0, why: 'Powerhouse.' },
+              { phase: 'probe', mcq: 'Muscle cramps after intense exercise are linked to…', options: ['Lactic acid from anaerobic respiration', 'Too much oxygen', 'Excess vitamins'], answer: 0, why: 'Anaerobic.' },
+              { phase: 'probe', mcq: 'Yeast in anaerobic conditions produces…', options: ['Ethanol and carbon dioxide', 'Lactic acid only', 'Oxygen'], answer: 0, why: 'Fermentation.' },
+            ],
+            teach: {
+              explain: 'Life processes.', analogy: 'Cells are factories needing raw materials, power and waste removal.',
+              vocab: [['villi', 'Finger-like projections.'], ['anaerobic', 'Without oxygen.']],
+              demo: 'Flow diagram of digestion.',
+              prompts: [['Where absorbed?', 'Small intestine.'], ['Products?', 'Respiration.']],
+              support: 'Labelled diagrams.', stretch: 'Double circulation.',
+              mis: [['Respiration = breathing', 'It’s a cellular process.']],
+              sheet: 'Life processes worksheet.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'CBSE', band: '9-12', level: 'Intermediate', title: 'Board Answer Writing',
+    description: `Write high-scoring answers: step-wise maths solutions, structured science answers, social science answers with map work, and English writing tasks. ${note}`,
+    intro: 'Write answers examiners can reward. 🖊️', theme: 'grape', tutor: cb, tools: cbTools,
+    style: 'Model answers, annotated marking and rewrites.',
+    outcomes: ['Shows step-wise maths working', 'Structures science answers with diagrams and equations', 'Frames social science answers with points and examples', 'Writes formal letters and analytical paragraphs'],
+    prereq: ['Secondary Maths and Science Core'],
+    pathway: { board: 'CBSE', grade: 'Classes 9–10', subject: 'Answer writing (all subjects)', topics: ['Step-wise mathematics solutions', 'Structured science answers', 'Social science answers and map work', 'English writing tasks'] },
+    modules: [
+      {
+        title: 'Module 1: Maths and science answers',
+        lessons: [
+          {
+            t: 'Step-wise maths solutions', o: 'Present maths solutions so every step can earn credit.', min: 45,
+            hook: ['word', 'Given · To find · Formula · Substitute · Answer with units', 'solution layout'],
+            cards: [
+              ['📝', 'Layout', 'Write given data, what to find, formula, substitution, simplification, final answer.'],
+              ['🔢', 'Step marks', 'Marks are often awarded for correct steps, not only the final answer.'],
+              ['📦', 'Box the answer', 'Highlight the final answer with units.'],
+            ],
+            acts: [
+              { order: 'Order a step-wise solution', steps: ['Write the given data', 'State what is to be found', 'Write the formula', 'Substitute values', 'Simplify', 'State the final answer with units'], why: 'Layout.' },
+              { mcq: 'Area of a circle with r = 7 cm (π = 22/7)?', options: ['154 cm²', '44 cm²', '49 cm²'], answer: 0, why: '22/7 × 49.' },
+              { phase: 'probe', mcq: 'Which loses marks even if the final number is right?', options: ['Missing units', 'Neat steps', 'Writing the formula'], answer: 0, why: 'Completeness.' },
+              { phase: 'probe', write: 'Write a step-wise solution: find the hypotenuse of a right triangle with legs 6 cm and 8 cm.', keywords: ['Pythagoras', '36', '64', '10 cm'], exemplar: 'Given: legs 6 cm and 8 cm. To find: hypotenuse h. By Pythagoras, h² = 6² + 8² = 36 + 64 = 100, so h = 10 cm.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Mathematical presentation.', analogy: 'Leave footprints the examiner can follow.',
+              vocab: [['step marking', 'Credit for correct steps.'], ['substitute', 'Put values in.']],
+              demo: 'Annotated model solution.',
+              prompts: [['Formula written?', 'Check.'], ['Units?', 'Check.']],
+              support: 'Solution template.', stretch: 'Proof-style geometry answers.',
+              mis: [['Mental shortcuts save marks', 'Show steps.']],
+              sheet: 'Step-wise solution practice.',
+            },
+          },
+          {
+            t: 'Structured science answers', o: 'Answer science questions with keywords, equations and labelled diagrams.', min: 45,
+            hook: ['word', 'Point · Keyword · Equation/Diagram', 'science answer'],
+            cards: [
+              ['🔑', 'Keywords', 'Use precise scientific terms: “diffusion”, “displacement reaction”.'],
+              ['🧪', 'Equations', 'Write balanced chemical equations with state symbols where asked.'],
+              ['🖼️', 'Diagrams', 'Neat, labelled diagrams often carry marks.'],
+            ],
+            acts: [
+              { mcq: 'Best answer to “Why is respiration called exothermic?”', options: ['Because energy is released when glucose is broken down in cells', 'Because we breathe', 'Because it is hot'], answer: 0, why: 'Concept + keyword.' },
+              { mcq: 'A 3-mark “explain with equation” answer should include…', options: ['Explanation, balanced equation and observation', 'Only the equation', 'One word'], answer: 0, why: 'Marks guide content.' },
+              { phase: 'probe', mcq: 'Which is the stronger keyword in biology answers?', options: ['Stomata', 'Small holes thing', 'Leaf dots'], answer: 0, why: 'Precision.' },
+              { phase: 'probe', write: 'Answer (3 marks): What happens when zinc is added to copper sulphate solution?', keywords: ['displacement', 'Zn + CuSO₄', 'blue', 'reactive'], exemplar: 'Zinc displaces copper because zinc is more reactive. Zn + CuSO₄ → ZnSO₄ + Cu. The blue colour of the solution fades and a reddish-brown copper deposit forms on the zinc.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Science answer structure.', analogy: 'Point–proof–picture.',
+              vocab: [['state symbols', '(s), (l), (g), (aq).'], ['observation', 'What you see.']],
+              demo: 'Mark sample answers.',
+              prompts: [['Keyword?', 'Use.'], ['Equation/diagram?', 'Add.']],
+              support: 'Keyword bank.', stretch: 'Practical-based questions.',
+              mis: [['Long answers score more', 'Relevant points score.']],
+              sheet: 'Science answer practice.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Social science and English',
+        lessons: [
+          {
+            t: 'Social science answers and maps', o: 'Write point-wise answers with examples and complete map work accurately.', min: 45,
+            hook: ['word', 'Intro line · Points · Examples · Conclusion', 'SS answer'],
+            cards: [
+              ['📋', 'Point-wise', 'Number your points; one idea per point.'],
+              ['🧾', 'Examples', 'Support points with facts, dates or places.'],
+              ['🗺️', 'Map work', 'Mark the correct location with a symbol and name it clearly.'],
+            ],
+            acts: [
+              { mcq: 'A 5-mark question asking for “five features” needs…', options: ['Five distinct, explained points', 'One long paragraph', 'A diagram only'], answer: 0, why: 'Marks guide points.' },
+              { mcq: 'Which is a resource conservation measure?', options: ['Rainwater harvesting', 'Deforestation', 'Over-irrigation'], answer: 0, why: 'Conservation.' },
+              { phase: 'probe', mcq: 'Black soil is especially suited to growing…', options: ['Cotton', 'Tea', 'Rice in terraces'], answer: 0, why: 'Regur soil.' },
+              { phase: 'probe', write: 'Write three points (with examples) on why sustainable development matters.', keywords: ['future', 'resources', 'example'], exemplar: '1) Resources are limited — e.g., groundwater is falling in many states. 2) It protects future generations’ needs. 3) It balances growth with environment — e.g., solar parks reduce coal use.', minWords: 35 },
+            ],
+            teach: {
+              explain: 'Social science answer framing.', analogy: 'Points are bricks; examples are cement.',
+              vocab: [['sustainable', 'Meeting needs without harming the future.'], ['conservation', 'Careful use.']],
+              demo: 'Point-wise model answer.',
+              prompts: [['Number of points?', 'Match marks.'], ['Example?', 'Add.']],
+              support: 'Answer frame.', stretch: 'Source-based questions.',
+              mis: [['Points without explanation', 'Explain each.']],
+              sheet: 'SS answer and map practice.',
+            },
+          },
+          {
+            t: 'English writing tasks', o: 'Write formal letters and analytical paragraphs from data.', min: 45,
+            hook: ['word', 'Introduce · Describe trends · Compare · Conclude', 'analytical paragraph'],
+            cards: [
+              ['✉️', 'Formal letters', 'Letters to editors, complaints, orders/enquiries: correct format, clear purpose.'],
+              ['📊', 'Analytical paragraph', 'Describe a chart or data: overview, key trends, comparisons, conclusion.'],
+              ['🎯', 'Word limit', 'Stay within the given limit; precise vocabulary.'],
+            ],
+            acts: [
+              { order: 'Order an analytical paragraph', steps: ['Introduce what the data shows', 'Describe the main trend', 'Compare key figures', 'Note any exception', 'Conclude'], why: 'Structure.' },
+              { mcq: 'Data: smartphone users 20% (2015), 45% (2020), 70% (2025). Best trend sentence?', options: ['Smartphone use rose steadily, more than tripling from 20% to 70% between 2015 and 2025.', 'Phones are popular.', 'In 2020 it was 45%.'], answer: 0, why: 'Trend + figures.' },
+              { phase: 'probe', mcq: 'A letter to the editor should…', options: ['Raise a public issue and suggest solutions formally', 'Discuss personal gossip', 'Use emojis'], answer: 0, why: 'Purpose.' },
+              { phase: 'probe', write: 'Write an analytical paragraph (about 80 words) on the smartphone data above.', keywords: ['rose', 'increase', 'between', 'overall'], exemplar: 'The data shows smartphone use among adults between 2015 and 2025. Usage rose sharply from 20% in 2015 to 45% in 2020, more than doubling. The growth continued, reaching 70% by 2025, a 25-point rise over the second period. Overall, smartphone use more than tripled in a decade, reflecting cheaper devices and data; this trend suggests digital services will reach most of the population.', minWords: 60 },
+            ],
+            teach: {
+              explain: 'Board-style writing tasks.', analogy: 'Data is a story; your paragraph is the narrator.',
+              vocab: [['trend', 'General direction.'], ['overview', 'Summary of the main point.']],
+              demo: 'Model paragraph annotation.',
+              prompts: [['Trend?', 'Name.'], ['Figures?', 'Quote.']],
+              support: 'Trend vocabulary bank.', stretch: 'Compare two charts.',
+              mis: [['List every number', 'Select key figures.']],
+              sheet: 'Writing task practice.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'CBSE', band: '9-12', level: 'Advanced', title: 'Board Exam Mastery and Senior Secondary Bridge',
+    description: `Use sample papers strategically, master assertion–reason and case-based items, plan the final revision and prepare for the senior secondary (Class 11–12) stream. ${note}`,
+    intro: 'Finish strong and step up confidently. 🏁', theme: 'grape', tutor: cb, tools: cbTools,
+    style: 'Full-paper strategy, analysis and future planning.',
+    outcomes: ['Uses sample papers to diagnose gaps', 'Solves advanced assertion–reason and case-based items', 'Builds a final revision plan', 'Chooses a Class 11 stream thoughtfully'],
+    prereq: ['Board Answer Writing'],
+    pathway: { board: 'CBSE', grade: 'Classes 10–12', subject: 'Exam strategy & transition', topics: ['Sample paper strategy', 'Advanced competency-based items', 'Final revision plan', 'Class 11 stream choice and bridge'] },
+    modules: [
+      {
+        title: 'Module 1: Exam strategy',
+        lessons: [
+          {
+            t: 'Sample paper strategy', o: 'Use official-style sample papers and marking schemes to find and fix gaps.', min: 50,
+            hook: ['word', 'Attempt · Mark · Analyse · Fix · Repeat', 'sample-paper cycle'],
+            cards: [
+              ['📄', 'Use the latest pattern', 'Check the board’s current sample papers and marking schemes on the official website — patterns change.'],
+              ['📊', 'Analyse', 'Track marks lost by chapter and by error type.'],
+              ['🔁', 'Repeat', 'Re-attempt weak sections after targeted revision.'],
+            ],
+            acts: [
+              { order: 'Order the sample-paper cycle', steps: ['Attempt under exam conditions', 'Mark using the marking scheme', 'Log errors by chapter and type', 'Revise weak areas', 'Re-attempt similar questions'], why: 'Cycle.' },
+              { mcq: 'Where should you confirm the current exam pattern?', options: ['The board’s official website and your school', 'A random forum', 'Last decade’s guidebook'], answer: 0, why: 'Reliable source.' },
+              { phase: 'probe', mcq: 'You lost 12 marks in Geometry and 3 in Algebra. Priority?', options: ['Geometry', 'Algebra', 'Neither'], answer: 0, why: 'Biggest gap.' },
+              { phase: 'probe', write: 'Write your error analysis from a recent sample paper (top 2 chapters, error types, fix).', keywords: ['chapter', 'error', 'fix'], exemplar: 'Chapters: Trigonometry (−8), Electricity (−6). Errors: formula recall and unit slips. Fix: daily formula flashcards and a unit-check step.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Diagnostic use of sample papers.', analogy: 'A health check-up before a marathon.',
+              vocab: [['marking scheme', 'How marks are awarded.'], ['diagnostic', 'Finds problems.']],
+              demo: 'Analyse a marked paper.',
+              prompts: [['Biggest loss?', 'Chapter.'], ['Error type?', 'Classify.']],
+              support: 'Error tracker.', stretch: 'Three-paper trend analysis.',
+              mis: [['Do many papers without analysis', 'Analyse each.']],
+              sheet: 'Sample paper analysis tracker.',
+            },
+          },
+          {
+            t: 'Advanced competency-based items', o: 'Solve multi-step case-based and assertion–reason questions.', min: 50,
+            hook: ['word', 'Concept + Context + Calculation', 'competency'],
+            cards: [
+              ['📄', 'Case', 'A family installs a 2 kW rooftop solar system that runs about 5 hours a day on average.'],
+              ['⚡', 'Concepts', 'Energy = power × time; 1 kWh = 1 unit of electricity.'],
+              ['🧠', 'Multi-step', 'Link several concepts to reach the answer.'],
+            ],
+            acts: [
+              { mcq: 'Daily energy produced?', options: ['10 kWh', '2.5 kWh', '7 kWh'], answer: 0, why: '2 × 5.' },
+              { mcq: 'At ₹7 per unit, approximate daily saving?', options: ['₹70', '₹14', '₹35'], answer: 0, why: '10 × 7.' },
+              { phase: 'probe', mcq: 'Monthly (30 days) saving?', options: ['₹2,100', '₹700', '₹210'], answer: 0, why: '70 × 30.' },
+              { phase: 'probe', mcq: 'A: Solar energy is renewable. R: The Sun will continue to provide energy for billions of years.', options: ['Both true; R explains A', 'A true; R false', 'Both true; R does not explain A'], answer: 0, why: 'Linked.' },
+            ],
+            teach: {
+              explain: 'Competency-based problem solving.', analogy: 'Science in a real household bill.',
+              vocab: [['kWh', 'Unit of electrical energy.'], ['renewable', 'Naturally replenished.']],
+              demo: 'Multi-step case walk-through.',
+              prompts: [['Concept?', 'Name.'], ['Units consistent?', 'Check.']],
+              support: 'Formula card.', stretch: 'Payback period calculation.',
+              mis: [['kW and kWh are the same', 'Power vs energy.']],
+              sheet: 'Advanced case set.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Final revision and next steps',
+        lessons: [
+          {
+            t: 'Final revision plan', o: 'Plan the last weeks before board exams for maximum retention and wellbeing.', min: 50,
+            hook: ['word', 'Weak first · Spaced · Papers · Sleep', 'final weeks'],
+            cards: [
+              ['📆', 'Map the date sheet', 'Plan backwards from each exam date; use gaps between papers wisely.'],
+              ['🧠', 'Active revision', 'Retrieval, formula sheets, error-log questions, timed sections.'],
+              ['😴', 'Wellbeing', 'Sleep 8 hours, short exercise breaks, regular meals.'],
+            ],
+            acts: [
+              { mcq: '3 days gap before the Maths exam. Best use?', options: ['Day 1–2: weak topics + timed sections; Day 3: light review and formula sheet', 'Learn new chapters only', 'Rest all 3 days'], answer: 0, why: 'Balanced.' },
+              { sort: 'Helpful or harmful in the final week?', buckets: ['Helpful', 'Harmful'], items: [['Error-log re-attempts', 0], ['All-nighters', 1], ['Short formula sheets', 0], ['Starting new reference books', 1], ['Regular sleep', 0]], why: 'Final-week habits.' },
+              { phase: 'probe', mcq: 'Night before an exam?', options: ['Light review, pack materials, sleep on time', 'Study till 3 a.m.', 'Skip dinner to study'], answer: 0, why: 'Readiness.' },
+              { phase: 'probe', write: 'Draft your plan for the 5 days before your first board paper.', keywords: ['day', 'revise', 'sleep'], exemplar: 'Day 1: Chapters 1–4 retrieval + one timed section. Day 2: Chapters 5–8. Day 3: Error log + full paper. Day 4: Weak topics. Day 5: Formula sheet, light review, sleep by 10 p.m.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Final revision planning.', analogy: 'Tapering before a race — sharpen, don’t exhaust.',
+              vocab: [['date sheet', 'Exam schedule.'], ['retention', 'Remembering.']],
+              demo: 'Plan from a sample date sheet.',
+              prompts: [['Gaps used?', 'Plan.'], ['Sleep?', 'Protect.']],
+              support: 'Planner template.', stretch: 'Contingency plan for illness.',
+              mis: [['Last-minute cramming is best', 'Retrieval and rest work better.']],
+              sheet: 'Final revision planner.',
+            },
+          },
+          {
+            t: 'Choosing your Class 11 stream', o: 'Choose a senior secondary stream using interests, strengths and goals.', min: 50,
+            hook: ['word', 'Interests · Strengths · Goals · Options', 'stream choice'],
+            cards: [
+              ['🧭', 'Streams', 'Science (with PCM/PCB), Commerce, Humanities — with electives in many schools.'],
+              ['🔍', 'Decide with evidence', 'Interests, performance, career curiosity and school options.'],
+              ['🌉', 'Bridge', 'Class 11 goes deeper: expect more abstraction and independent study.'],
+            ],
+            acts: [
+              { mcq: 'Best basis for choosing a stream?', options: ['Interests, strengths and goals, after research', 'Whatever friends choose', 'Only what relatives say'], answer: 0, why: 'Informed choice.' },
+              { match: 'Match the interest to a stream it often fits', pairs: [['Enjoys biology and wants to explore medicine', 'Science (PCB)'], ['Likes business and accounts', 'Commerce'], ['Loves history, politics and writing', 'Humanities'], ['Enjoys physics and maths problem-solving', 'Science (PCM)']], why: 'Fit.' },
+              { phase: 'probe', mcq: 'If unsure about careers, a good step is…', options: ['Talk to teachers/counsellors and explore course options and aptitude', 'Pick randomly', 'Delay all thinking'], answer: 0, why: 'Guidance.' },
+              { phase: 'probe', write: 'Write a short reflection: which stream suits you and why (interests, strengths, goals).', keywords: ['interest', 'strength', 'goal'], exemplar: 'I enjoy economics and data and score well in maths, so Commerce with Maths suits me. My goal is to explore economics or data analytics at university.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Informed subject choice.', analogy: 'Choosing a path at a fork — check the map first.',
+              vocab: [['stream', 'Group of subjects.'], ['elective', 'Optional subject.']],
+              demo: 'Interest–strength grid.',
+              prompts: [['Interest?', 'Name.'], ['Evidence?', 'Marks/projects.']],
+              support: 'Reflection template.', stretch: 'Research two career paths.',
+              mis: [['One stream is “best” for everyone', 'Fit matters.']],
+              sheet: 'Stream choice reflection.',
+              exit: 'Discuss your reflection with a parent or counsellor.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+];

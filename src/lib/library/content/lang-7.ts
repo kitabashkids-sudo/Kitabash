@@ -1,0 +1,1403 @@
+// Language & Communication — Debate & Communication (6-8, 9-12) and Presentation Skills (6-8, 9-12).
+import type { CourseSpec } from '../types.ts';
+
+const db: [string, string] = ['Socra', 'A debate coach who teaches clear argument, respectful rebuttal and fair-minded thinking on all sides of a motion.'];
+const pr: [string, string] = ['Slide', 'A presentation coach who helps students plan, design and deliver clear, engaging presentations with visuals.'];
+const dbTools = ['Timer', 'Notepad for flowing (debate notes)'];
+const prTools = ['Presentation software or poster paper', 'Timer'];
+const dbNotes = 'Motions cover a range of views. Students may be assigned sides they disagree with — this builds understanding, not endorsement. Keep debate respectful: attack arguments, never people.';
+
+export const LANG_7: CourseSpec[] = [
+  // ───────── Debate 6-8 ─────────
+  {
+    subject: 'Debate & Communication', band: '6-8', level: 'Beginner', title: 'Introduction to Debate',
+    description: 'Learn what a debate is, build arguments with claim–reason–evidence, and take part in simple class debates respectfully.',
+    intro: 'Argue well — and listen even better. 🗣️⚖️', theme: 'ocean', tutor: db, tools: dbTools, notes: dbNotes,
+    style: 'Mini-debates, argument building and reflective listening.',
+    outcomes: ['Explains debate roles and rules', 'Builds arguments with claim, reason, evidence', 'Rebuts respectfully', 'Participates in a simple class debate'],
+    modules: [
+      {
+        title: 'Module 1: Arguments',
+        lessons: [
+          {
+            t: 'What is a debate?', o: 'Explain motions, sides and the aim of debate.', min: 30,
+            hook: ['word', 'This House believes that…', 'a debate motion'],
+            cards: [
+              ['📜', 'Motion', 'The statement being debated: “This House would ban homework.”'],
+              ['⚖️', 'Proposition and opposition', 'One side supports the motion; the other opposes it.'],
+              ['🎯', 'Aim', 'Persuade the judge with better arguments — not louder voices.'],
+            ],
+            acts: [
+              { match: 'Match the term to its meaning', pairs: [['Motion', 'The statement being debated'], ['Proposition', 'The side supporting the motion'], ['Opposition', 'The side against the motion'], ['Adjudicator', 'The judge']], why: 'Debate vocabulary.' },
+              { mcq: 'Debates are won by…', options: ['Stronger, better-explained arguments', 'Shouting', 'Insulting opponents'], answer: 0, why: 'Quality of argument.' },
+              { phase: 'probe', mcq: 'Why might you argue for a side you disagree with?', options: ['To understand other views and build thinking skills', 'To lie', 'It’s a punishment'], answer: 0, why: 'Perspective-taking.' },
+              { phase: 'probe', write: 'Write two debate motions about school life.', keywords: ['This House'], exemplar: 'This House would make school start at 10 a.m. This House believes every school should have a vegetable garden.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Debate fundamentals.', analogy: 'Debate is a sport for the mind with rules and referees.',
+              vocab: [['motion', 'Debate statement.'], ['adjudicator', 'Judge.']],
+              demo: 'Watch a short student debate.',
+              prompts: [['Which side?', 'Prop/opp.'], ['How win?', 'Arguments.']],
+              support: 'Glossary.', stretch: 'Write a motion for each subject.',
+              mis: [['Debate is arguing angrily', 'It’s structured and respectful.']],
+              sheet: 'Debate glossary.',
+            },
+          },
+          {
+            t: 'Claim, reason, evidence', o: 'Build arguments with a claim, reasoning and evidence.', min: 30,
+            hook: ['word', 'Claim + Reason + Evidence = Argument', 'CRE'],
+            cards: [
+              ['📢', 'Claim', 'What you believe: “School uniforms should stay.”'],
+              ['🔗', 'Reason', 'Why: “They reduce peer pressure about clothes.”'],
+              ['📊', 'Evidence', 'Proof: example, statistic, expert, or logical illustration.'],
+            ],
+            acts: [
+              { sort: 'Claim, reason or evidence?', buckets: ['Claim', 'Reason', 'Evidence'], items: [['Homework should be limited.', 0], ['Too much homework reduces sleep.', 1], ['A survey of 500 students found…', 2], ['Phones should be allowed at lunch.', 0], ['Students can contact parents in emergencies.', 1]], why: 'CRE.' },
+              { mcq: 'Which argument is complete?', options: ['Libraries should open longer because students need quiet study space; last year’s exam results rose when hours were extended.', 'Libraries are great.', 'Open the library.'], answer: 0, why: 'CRE complete.' },
+              { phase: 'probe', mcq: 'Weakest evidence?', options: ['“Everyone knows it”', 'A government report', 'A real example from our school'], answer: 0, why: 'Not evidence.' },
+              { phase: 'probe', write: 'Write a CRE argument for or against: “Students should choose their own seats.”', keywords: ['because', 'for example', 'evidence'], exemplar: 'Claim: students should choose seats. Reason: comfort with peers improves participation. Evidence: in our trial week, more students answered questions.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Argument anatomy.', analogy: 'A table: claim is the top, reason and evidence are the legs.',
+              vocab: [['claim', 'Position.'], ['evidence', 'Proof.']],
+              demo: 'Build arguments together.',
+              prompts: [['Why?', 'Reason.'], ['Proof?', 'Evidence.']],
+              support: 'CRE frame.', stretch: 'Two pieces of evidence.',
+              mis: [['Opinions are arguments', 'Arguments need reasons and evidence.']],
+              sheet: 'CRE argument builder.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Rebuttal and class debate',
+        lessons: [
+          {
+            t: 'Respectful rebuttal', o: 'Respond to the other side’s argument respectfully and effectively.', min: 30,
+            hook: ['word', 'They said… · But… · Therefore…', 'rebuttal steps'],
+            cards: [
+              ['👂', 'They said', 'Accurately state the argument you’re responding to.'],
+              ['🔨', 'But', 'Show why it’s wrong, weak or less important.'],
+              ['➡️', 'Therefore', 'Explain why your side still wins that point.'],
+            ],
+            acts: [
+              { order: 'Order a rebuttal', steps: ['They said uniforms limit self-expression.', 'But students can express themselves through clubs, art and speech.', 'And uniforms reduce bullying over clothes.', 'Therefore, the benefit outweighs the cost.'], why: 'Rebuttal structure.' },
+              { sort: 'Respectful rebuttal or personal attack?', buckets: ['Respectful rebuttal', 'Personal attack'], items: [['Their evidence is from 1995 and may be outdated.', 0], ['They’re clearly not smart enough.', 1], ['This argument ignores rural students.', 0], ['Nobody likes them anyway.', 1]], why: 'Attack ideas, not people.' },
+              { phase: 'probe', mcq: 'Why restate their argument fairly first?', options: ['It shows you listened and makes your rebuttal credible', 'To waste time', 'To agree with them'], answer: 0, why: 'Fairness.' },
+              { phase: 'probe', write: 'Rebut: “Homework should be banned because students need free time.”', keywords: ['they said', 'but', 'therefore'], exemplar: 'They said students need free time. But short, focused homework still leaves free time and builds practice. Therefore, limiting homework is better than banning it.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Refutation techniques.', analogy: 'Rebuttal is untying their knot, not cutting their rope.',
+              vocab: [['rebuttal', 'Response to an argument.'], ['ad hominem', 'Attacking the person.']],
+              demo: 'Model rebuttals.',
+              prompts: [['Fair restatement?', 'Yes.'], ['Why it fails?', 'Explain.']],
+              support: 'Rebuttal frame.', stretch: 'Weighing arguments.',
+              mis: [['Rebuttal means saying “that’s wrong”', 'Explain why.']],
+              sheet: 'Rebuttal frame.',
+            },
+          },
+          {
+            t: 'Our first class debate', o: 'Participate in a structured class debate.', min: 40,
+            hook: ['word', 'Prop 1 · Opp 1 · Prop 2 · Opp 2 · Summaries', 'debate order'],
+            cards: [
+              ['⏱️', 'Timing', 'Each speaker has a set time, e.g. 2 minutes.'],
+              ['📝', 'Flowing', 'Take notes of each argument to rebut later.'],
+              ['🤝', 'Respect', 'Thank opponents; shake hands (or nod) at the end.'],
+            ],
+            acts: [
+              { order: 'Order a simple debate', steps: ['Chair introduces the motion', 'First proposition speaker', 'First opposition speaker', 'Second proposition speaker', 'Second opposition speaker', 'Summary speeches', 'Adjudication'], why: 'Format.' },
+              { mcq: 'What is “flowing” in debate?', options: ['Taking notes on arguments as they’re made', 'Speaking quickly', 'Leaving the room'], answer: 0, why: 'Note-taking.' },
+              { phase: 'probe', speak: 'Deliver a 2-minute speech for your assigned side on “This House would ban junk food in school canteens.”', checklist: ['Clear stance', 'Two CRE arguments', 'One rebuttal (if not first)', 'Within time', 'Respectful tone'], tips: 'Number your arguments: “My first argument is…”' },
+              { phase: 'probe', write: 'Reflect: which argument from the other side was strongest, and why?', keywords: ['strongest', 'because', 'other side'], exemplar: 'The opposition’s strongest argument was that banning junk food doesn’t teach choices, because students may buy it outside school instead.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Running a class debate.', analogy: 'A debate is a match with turns and a referee.',
+              vocab: [['chair', 'Person running the debate.'], ['flow', 'Debate notes.']],
+              demo: 'Model flowing.',
+              prompts: [['Order?', 'Alternate.'], ['Respect?', 'Always.']],
+              support: 'Speech frames.', stretch: 'Points of information.',
+              mis: [['Winning matters most', 'Learning and respect matter most.']],
+              sheet: 'Flow sheet and debate rubric.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Debate & Communication', band: '6-8', level: 'Intermediate', title: 'Debate Skills and Formats',
+    description: 'Learn formal debate formats, case building, points of information and weighing arguments.',
+    intro: 'Level up your debating. 🏆', theme: 'ocean', tutor: db, tools: dbTools, notes: dbNotes,
+    style: 'Format practice, case workshops and timed debates.',
+    outcomes: ['Debates in a formal format', 'Builds a team case', 'Offers and handles points of information', 'Weighs and compares arguments'],
+    prereq: ['Introduction to Debate'],
+    modules: [
+      {
+        title: 'Module 1: Cases and formats',
+        lessons: [
+          {
+            t: 'Formal debate formats', o: 'Understand the structure of common school debate formats.', min: 35,
+            hook: ['word', '3 vs 3 · Constructive · Rebuttal · Reply', 'formal debate'],
+            cards: [
+              ['👥', 'Teams', 'Many school formats use teams of three per side.'],
+              ['🧱', 'Roles', 'First speaker defines and sets up; second extends; third rebuts and summarises.'],
+              ['⏪', 'Reply speeches', 'Some formats end with a short reply comparing both sides.'],
+            ],
+            acts: [
+              { match: 'Match the speaker to their main job', pairs: [['First speaker', 'Define the motion and present the case'], ['Second speaker', 'Rebut and add new arguments'], ['Third speaker', 'Rebut and summarise the clash'], ['Reply speaker', 'Compare why their side won key issues']], why: 'Roles.' },
+              { mcq: 'Should the third speaker add major new arguments?', options: ['Usually not — focus on rebuttal and summary', 'Yes, as many as possible', 'Only jokes'], answer: 0, why: 'Format convention.' },
+              { phase: 'probe', mcq: 'Defining the motion means…', options: ['Explaining what key terms mean in this debate', 'Reading a dictionary aloud', 'Skipping it'], answer: 0, why: 'Clarity.' },
+              { phase: 'probe', write: 'Define the key terms for: “This House would make cooking a compulsory school subject.”', keywords: ['compulsory', 'cooking', 'define', 'means'], exemplar: 'Compulsory means every student from Class 6–10 takes it; cooking means practical nutrition and basic meal preparation, taught weekly.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'School debate formats (e.g., Asian Parliamentary / World Schools style).', analogy: 'A relay race where each runner has a job.',
+              vocab: [['constructive', 'Speech building the case.'], ['definition', 'Setting key terms.']],
+              demo: 'Format diagram.',
+              prompts: [['Roles?', 'Three.'], ['Third speaker?', 'Rebut, summarise.']],
+              support: 'Role cards.', stretch: 'Compare two formats.',
+              mis: [['All speakers do the same job', 'Roles differ.']],
+              sheet: 'Format and role guide.',
+            },
+          },
+          {
+            t: 'Building a team case', o: 'Build a team case with a clear stance and split arguments.', min: 35,
+            hook: ['word', 'Stance · Arguments · Split · Stakeholders', 'case building'],
+            cards: [
+              ['🎯', 'Team stance', 'One clear line that every speaker supports.'],
+              ['👥', 'Stakeholders', 'Who is affected? Students, parents, teachers, society.'],
+              ['✂️', 'Split', 'Divide arguments between speakers so they don’t repeat.'],
+            ],
+            acts: [
+              { order: 'Order case preparation', steps: ['Understand the motion', 'Brainstorm arguments for both sides', 'Choose a team stance', 'Pick the strongest 3–4 arguments', 'Split arguments between speakers', 'Predict opposition arguments'], why: 'Prep process.' },
+              { mcq: 'Why brainstorm the other side too?', options: ['To prepare rebuttals', 'To switch sides', 'It’s not useful'], answer: 0, why: 'Anticipation.' },
+              { phase: 'probe', mcq: 'Thinking about stakeholders helps you…', options: ['Find arguments about who is affected and how', 'Avoid arguments', 'Make speeches longer'], answer: 0, why: 'Analysis.' },
+              { phase: 'probe', write: 'Build a case outline for proposition on “This House would ban plastic bags in our city.”', keywords: ['stance', 'argument', 'stakeholders', 'first speaker'], exemplar: 'Stance: a ban with affordable alternatives protects health and environment. Arguments: 1) drains and floods (city), 2) animal deaths (environment), 3) local cloth-bag jobs (economy). Split: Speaker 1 → 1 & 2, Speaker 2 → 3.', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Case construction.', analogy: 'Planning a team play.',
+              vocab: [['case', 'Team’s arguments.'], ['stakeholder', 'Affected group.']],
+              demo: 'Group case-building.',
+              prompts: [['Stance?', 'One line.'], ['Split?', 'No repeats.']],
+              support: 'Case template.', stretch: 'Mechanism (how the policy works).',
+              mis: [['More arguments = stronger case', 'Fewer, better ones.']],
+              sheet: 'Case building template.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Interaction and weighing',
+        lessons: [
+          {
+            t: 'Points of information', o: 'Offer and handle points of information (POIs).', min: 35,
+            hook: ['phrase', 'Point of information, sir/ma’am?', ['information']],
+            cards: [
+              ['✋', 'Offering', 'Stand and offer briefly; one short question or statement.'],
+              ['🎯', 'Good POIs', 'Point out contradictions or ask for evidence.'],
+              ['🛡️', 'Handling', 'Accept 1–2, answer briefly, return to your speech.'],
+            ],
+            acts: [
+              { mcq: 'Best POI?', options: ['If uniforms stop bullying, why did bullying continue at uniform schools in your example?', 'Your speech is boring.', 'Can I tell a long story?'], answer: 0, why: 'Targeted challenge.' },
+              { mcq: 'How long should a POI be?', options: ['About 15 seconds', '2 minutes', 'As long as you like'], answer: 0, why: 'Brevity.' },
+              { phase: 'probe', mcq: 'A strong POI hits you hard. Best response?', options: ['Answer briefly and show why it doesn’t change your point', 'Refuse all POIs forever', 'Get angry'], answer: 0, why: 'Composure.' },
+              { phase: 'probe', write: 'Write two POIs you could offer against “Homework should be banned”.', keywords: ['how', 'why', 'evidence'], exemplar: '1) How will students practise maths skills without any homework? 2) What evidence shows banning, rather than limiting, improves wellbeing?', minWords: 20 },
+            ],
+            teach: {
+              explain: 'POIs and live interaction.', analogy: 'A POI is a quick tap on the shoulder, not a takeover.',
+              vocab: [['POI', 'Point of information.'], ['decline', 'Say no thank you.']],
+              demo: 'POI drills.',
+              prompts: [['Length?', 'Short.'], ['Accept how many?', '1–2.']],
+              support: 'POI starters.', stretch: 'Use POI answers to strengthen your case.',
+              mis: [['Accepting POIs is weak', 'It shows confidence.']],
+              sheet: 'POI practice sheet.',
+            },
+          },
+          {
+            t: 'Weighing arguments', o: 'Compare arguments by importance, likelihood and scale.', min: 35,
+            hook: ['word', 'How many? How likely? How serious? How soon?', 'weighing questions'],
+            cards: [
+              ['📏', 'Scale', 'How many people are affected?'],
+              ['🎲', 'Likelihood', 'How likely is the outcome?'],
+              ['⚠️', 'Severity and reversibility', 'How serious? Can it be undone?'],
+            ],
+            acts: [
+              { mcq: 'Prop: a ban saves 100 lives a year. Opp: it inconveniences shoppers. Which weighs more and why?', options: ['Saving lives — more serious and irreversible harm', 'Inconvenience — affects more people daily', 'They’re equal'], answer: 0, why: 'Severity.' },
+              { sort: 'Which weighing factor?', buckets: ['Scale', 'Likelihood', 'Severity'], items: [['Affects every student in India', 0], ['Very probable within a year', 1], ['Could cost lives', 2], ['Only a small chance', 1], ['Thousands of families impacted', 0]], why: 'Weighing tools.' },
+              { phase: 'probe', mcq: 'Why is weighing important in summary speeches?', options: ['Judges need to know which arguments matter most', 'To repeat everything', 'To introduce new arguments'], answer: 0, why: 'Comparison.' },
+              { phase: 'probe', write: 'Weigh two arguments on “Should schools ban phones?” and explain which matters more.', keywords: ['more important', 'because', 'scale', 'likely'], exemplar: 'Distraction affects nearly all students daily (scale), while emergency contact matters rarely (likelihood); but emergencies can be handled with office phones, so reducing distraction matters more.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Impact weighing.', analogy: 'Putting arguments on a balance scale.',
+              vocab: [['weighing', 'Comparing importance.'], ['impact', 'Effect of an argument.']],
+              demo: 'Model weighing in a summary.',
+              prompts: [['Bigger impact?', 'Scale/severity.'], ['More likely?', 'Probability.']],
+              support: 'Weighing questions card.', stretch: 'Weigh principled vs practical arguments.',
+              mis: [['All arguments are equally important', 'Weigh them.']],
+              sheet: 'Weighing worksheet.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Debate & Communication', band: '6-8', level: 'Advanced', title: 'Competitive Debating',
+    description: 'Prepare for inter-school debates: research, impromptu case prep, advanced rebuttal, reply speeches and judging.',
+    intro: 'Debate at competition level. 🥇', theme: 'ocean', tutor: db, tools: dbTools, notes: dbNotes,
+    style: 'Tournament simulation and video review.',
+    outcomes: ['Researches motions efficiently', 'Prepares cases under time pressure', 'Delivers strong rebuttal and reply speeches', 'Judges debates with criteria'],
+    prereq: ['Debate Skills and Formats'],
+    modules: [
+      {
+        title: 'Module 1: Preparation',
+        lessons: [
+          {
+            t: 'Researching motions', o: 'Research motions using reliable sources and organised notes.', min: 35,
+            hook: ['word', 'Background · Stakeholders · Evidence · Counter-evidence', 'research map'],
+            cards: [
+              ['📚', 'Reliable sources', 'Government data, reputable news, research summaries.'],
+              ['🗂️', 'Organise', 'Group evidence by argument; note source and date.'],
+              ['⚖️', 'Both sides', 'Research evidence the other side will use.'],
+            ],
+            acts: [
+              { sort: 'Reliable or unreliable for debate research?', buckets: ['Reliable', 'Unreliable'], items: [['National statistics office report', 0], ['Anonymous forwarded message', 1], ['Reputable newspaper with named sources', 0], ['A meme', 1], ['Peer-reviewed study summary', 0]], why: 'Source quality.' },
+              { mcq: 'Why note the date of evidence?', options: ['Outdated data can be challenged', 'For decoration', 'Judges ask birthdays'], answer: 0, why: 'Currency.' },
+              { phase: 'probe', mcq: 'Best way to organise research?', options: ['By argument, with source and date for each item', 'One long unsorted list', 'In your head only'], answer: 0, why: 'Usability.' },
+              { phase: 'probe', write: 'Create a research map for “This House would make voting mandatory”: background, stakeholders, two pieces of evidence per side.', keywords: ['stakeholders', 'evidence', 'source', 'proposition', 'opposition'], exemplar: 'Background: some countries require voting… Stakeholders: citizens, government, minorities. Prop evidence: higher turnout in compulsory-voting countries… Opp evidence: concerns about forced, uninformed votes…', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Debate research methods.', analogy: 'Research is stocking the armoury before the battle.',
+              vocab: [['source', 'Where evidence comes from.'], ['currency', 'How recent it is.']],
+              demo: 'Live research session.',
+              prompts: [['Reliable?', 'Check.'], ['Both sides?', 'Yes.']],
+              support: 'Research template.', stretch: 'Evaluate conflicting data.',
+              mis: [['One source is enough', 'Triangulate.']],
+              sheet: 'Research map template.',
+            },
+          },
+          {
+            t: 'Impromptu case prep', o: 'Prepare a case in 15–30 minutes under pressure.', min: 40,
+            hook: ['word', '5 min brainstorm · 5 min select · 5 min split', 'prep timeline'],
+            cards: [
+              ['🧠', 'Brainstorm fast', 'All team members list arguments for both sides.'],
+              ['🎯', 'Select', 'Choose the strongest, most different arguments.'],
+              ['📝', 'Split and outline', 'Each speaker outlines their part with examples.'],
+            ],
+            acts: [
+              { order: 'Order a 15-minute prep', steps: ['Read and define the motion', 'Silent individual brainstorm', 'Share and select best arguments', 'Agree team stance', 'Split arguments and outline speeches', 'Predict and prepare rebuttals'], why: 'Prep sequence.' },
+              { mcq: 'Why brainstorm silently first?', options: ['More diverse ideas before group discussion', 'To avoid talking', 'Rules require silence'], answer: 0, why: 'Idea generation.' },
+              { phase: 'probe', mcq: 'With 2 minutes left, your outline is incomplete. Priority?', options: ['Ensure the first speaker has a clear case', 'Start over', 'Add more arguments'], answer: 0, why: 'Triage.' },
+              { phase: 'probe', write: 'In 15 minutes, outline an opposition case for “This House would replace textbooks with tablets.”', keywords: ['stance', 'argument', 'example', 'rebuttal'], exemplar: 'Stance: tablets should supplement, not replace, textbooks. Args: 1) digital divide and power cuts in rural schools, 2) screen-time health concerns, 3) high cost and maintenance. Rebuttal prep: “cheaper long-term” → hidden costs.', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Time-pressured case construction.', analogy: 'A pit stop crew — speed and teamwork.',
+              vocab: [['prep time', 'Preparation period.'], ['triage', 'Prioritising.']],
+              demo: 'Timed prep simulation.',
+              prompts: [['Priority?', 'Clear case.'], ['Split?', 'By argument.']],
+              support: 'Prep timeline card.', stretch: 'Prep in 10 minutes.',
+              mis: [['Spend prep writing full speeches', 'Outline only.']],
+              sheet: 'Prep timeline template.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Advanced speeches and judging',
+        lessons: [
+          {
+            t: 'Advanced rebuttal and reply', o: 'Deliver layered rebuttals and comparative reply speeches.', min: 40,
+            hook: ['word', 'Not true · Not important · Not unique · Turns', 'rebuttal layers'],
+            cards: [
+              ['❌', 'Not true', 'Challenge the facts or logic.'],
+              ['📉', 'Not important', 'Even if true, it matters less than our impacts.'],
+              ['🔄', 'Turn', 'Show their argument actually supports your side.'],
+            ],
+            acts: [
+              { sort: 'Which rebuttal layer?', buckets: ['Not true', 'Not important', 'Turn'], items: [['Their statistic is from a different country and decade.', 0], ['Even if some jobs are lost, public health gains are far larger.', 1], ['Their point about cost actually proves a ban saves money long-term.', 2], ['There’s no evidence that happens.', 0]], why: 'Layers.' },
+              { mcq: 'A reply speech should…', options: ['Compare the key clashes and show why your side won them', 'Add brand-new arguments', 'Repeat your first speech'], answer: 0, why: 'Reply purpose.' },
+              { phase: 'probe', mcq: 'Turning an argument means…', options: ['Showing it supports your side', 'Ignoring it', 'Agreeing completely'], answer: 0, why: 'Definition.' },
+              { phase: 'probe', speak: 'Give a 2-minute reply speech identifying two clashes and why your side won each.', checklist: ['Named clashes clearly', 'Compared both sides fairly', 'Weighed impacts', 'No new arguments'], tips: 'Use “The first clash was…”' },
+            ],
+            teach: {
+              explain: 'Advanced refutation and summary.', analogy: 'Layers of defence: wall, moat, then turning their cannon around.',
+              vocab: [['turn', 'Flip an argument.'], ['clash', 'Point of disagreement.']],
+              demo: 'Model a reply speech.',
+              prompts: [['Layer?', 'Choose.'], ['Clash?', 'Name and compare.']],
+              support: 'Reply frame.', stretch: 'Multiple turns.',
+              mis: [['Rebut everything equally', 'Prioritise key clashes.']],
+              sheet: 'Rebuttal layers card.',
+            },
+          },
+          {
+            t: 'Judging debates', o: 'Judge debates fairly using matter, manner and method.', min: 35,
+            hook: ['word', 'Matter · Manner · Method', 'judging criteria'],
+            cards: [
+              ['🧠', 'Matter', 'Quality of arguments, evidence and rebuttal.'],
+              ['🎙️', 'Manner', 'Delivery: clarity, persuasiveness, engagement.'],
+              ['🧱', 'Method', 'Structure, teamwork, role fulfilment.'],
+            ],
+            acts: [
+              { match: 'Match the observation to the criterion', pairs: [['Strong evidence on health impacts', 'Matter'], ['Confident eye contact and pace', 'Manner'], ['Clear team split and roadmap', 'Method'], ['Excellent rebuttal of key clash', 'Matter (rebuttal)']], why: 'Criteria.' },
+              { mcq: 'A fair judge decides based on…', options: ['What was said in the debate', 'Their personal opinion on the motion', 'Which school they like'], answer: 0, why: 'Impartiality.' },
+              { phase: 'probe', mcq: 'Good oral feedback includes…', options: ['Reason for decision and specific advice for both teams', 'Just the winner', 'Personal remarks'], answer: 0, why: 'Constructive.' },
+              { phase: 'probe', write: 'Judge a recorded or class debate: decision and two specific points of feedback per side.', keywords: ['decision', 'because', 'matter', 'manner', 'method'], exemplar: 'Decision: Opposition, because they won the key clash on cost with clearer weighing. Prop feedback: strong evidence; needed rebuttal of the cost point. Opp feedback: excellent reply; slow down in the first speech.', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Adjudication principles.', analogy: 'Judges are referees, not players.',
+              vocab: [['adjudication', 'Judging.'], ['impartial', 'Fair, unbiased.']],
+              demo: 'Model adjudication.',
+              prompts: [['Personal view?', 'Set aside.'], ['Feedback?', 'Specific.']],
+              support: 'Judging rubric.', stretch: 'Panel judging.',
+              mis: [['Best speaker’s team always wins', 'Team arguments decide.']],
+              sheet: 'Judging rubric.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ───────── Debate 9-12 ─────────
+  {
+    subject: 'Debate & Communication', band: '9-12', level: 'Beginner', title: 'Reasoning and Argumentation',
+    description: 'Build rigorous arguments: deductive and inductive reasoning, logical fallacies, burden of proof and ethical persuasion.',
+    intro: 'Think clearly, argue soundly. 🧠', theme: 'grape', tutor: db, tools: dbTools, notes: dbNotes,
+    style: 'Logic workshops and argument labs.',
+    outcomes: ['Uses deductive and inductive reasoning', 'Identifies common fallacies', 'Understands burden of proof', 'Constructs ethical arguments'],
+    modules: [
+      {
+        title: 'Module 1: Logic',
+        lessons: [
+          {
+            t: 'Deduction and induction', o: 'Distinguish deductive and inductive arguments and assess their strength.', min: 40,
+            hook: ['word', 'All → therefore · Many → probably', 'two kinds of reasoning'],
+            cards: [
+              ['🔒', 'Deductive', 'If premises are true, the conclusion must be true: All A are B; X is A; so X is B.'],
+              ['📈', 'Inductive', 'Premises make the conclusion probable: generalising from examples or data.'],
+              ['🧪', 'Assess', 'Deduction: check validity and truth. Induction: check sample size and representativeness.'],
+            ],
+            acts: [
+              { sort: 'Deductive or inductive?', buckets: ['Deductive', 'Inductive'], items: [['All mammals breathe air; whales are mammals; so whales breathe air.', 0], ['The last five monsoons came late, so this one probably will too.', 1], ['Every student in Class 10 passed; Riya is in Class 10; so Riya passed.', 0], ['Most surveyed students prefer later starts, so most students do.', 1]], why: 'Reasoning types.' },
+              { mcq: 'An inductive argument from a survey of 20 friends is weak because…', options: ['The sample is small and not representative', 'Surveys are always wrong', 'Friends lie'], answer: 0, why: 'Sampling.' },
+              { phase: 'probe', mcq: '“All birds fly; penguins are birds; so penguins fly.” The problem is…', options: ['A false premise', 'Invalid form', 'Nothing'], answer: 0, why: 'Soundness.' },
+              { phase: 'probe', write: 'Write one deductive and one inductive argument about your school, and assess each.', keywords: ['all', 'therefore', 'most', 'probably', 'sample'], exemplar: 'Deductive: All Class 11 science students take physics; Aman is in Class 11 science; so Aman takes physics (valid and true). Inductive: 8 of 10 students I asked want a longer lunch, so most do (weak: small sample).', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Basic formal and informal logic.', analogy: 'Deduction is a lock and key; induction is a weather forecast.',
+              vocab: [['valid', 'Conclusion follows from premises.'], ['sound', 'Valid with true premises.']],
+              demo: 'Syllogism analysis.',
+              prompts: [['Must or probably?', 'Type.'], ['Sample?', 'Size and bias.']],
+              support: 'Logic diagrams.', stretch: 'Venn-diagram syllogisms.',
+              mis: [['Valid means true', 'Valid can have false premises.']],
+              sheet: 'Reasoning practice set.',
+            },
+          },
+          {
+            t: 'Logical fallacies', o: 'Identify and avoid common logical fallacies.', min: 40,
+            hook: ['word', 'Straw man · Slippery slope · False dilemma · Ad hominem', 'fallacy spotting'],
+            cards: [
+              ['🌾', 'Straw man', 'Misrepresenting an argument to attack it easily.'],
+              ['⛷️', 'Slippery slope', 'Claiming one step will inevitably lead to extreme outcomes.'],
+              ['⚖️', 'False dilemma', 'Presenting only two options when more exist.'],
+            ],
+            acts: [
+              { match: 'Match the fallacy to the example', pairs: [['Straw man', '“They want to limit homework — so they want students to learn nothing!”'], ['Slippery slope', '“If we allow phones at lunch, soon students will use them in exams.”'], ['False dilemma', '“Either we ban cars or the planet is doomed.”'], ['Ad hominem', '“Don’t listen to her — she failed maths once.”']], why: 'Fallacies.' },
+              { mcq: '“Everyone is buying this phone, so it must be the best.” Fallacy?', options: ['Bandwagon (appeal to popularity)', 'Straw man', 'Valid reasoning'], answer: 0, why: 'Popularity ≠ quality.' },
+              { phase: 'probe', mcq: 'Pointing out a fallacy in debate should be done by…', options: ['Naming it briefly and explaining why the reasoning fails', 'Just shouting the fallacy name', 'Ignoring it'], answer: 0, why: 'Explain.' },
+              { phase: 'probe', write: 'Find a fallacy in an advert, speech or social post and explain it.', keywords: ['fallacy', 'because', 'reasoning'], exemplar: 'An ad says “9 out of 10 celebrities use this shampoo” — bandwagon/appeal to authority, because celebrity use doesn’t prove effectiveness.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Informal fallacies.', analogy: 'Fallacies are counterfeit coins in arguments.',
+              vocab: [['fallacy', 'Flawed reasoning.'], ['straw man', 'Distorted version of an argument.']],
+              demo: 'Fallacy bingo with media clips.',
+              prompts: [['Which fallacy?', 'Name.'], ['Why flawed?', 'Explain.']],
+              support: 'Fallacy cards.', stretch: 'Spot fallacies in your own writing.',
+              mis: [['Naming a fallacy wins the argument', 'Explain the flaw.']],
+              sheet: 'Fallacy reference sheet.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Burden and ethics',
+        lessons: [
+          {
+            t: 'Burden of proof and models', o: 'Understand burdens of proof and set up policy models.', min: 40,
+            hook: ['word', 'Who must prove what?', 'burden of proof'],
+            cards: [
+              ['📦', 'Burden', 'The side proposing change usually must show it’s beneficial.'],
+              ['🛠️', 'Model', 'In policy debates, propose how the policy works: who, what, when, enforcement.'],
+              ['🎯', 'Fair setup', 'Don’t define the motion so narrowly that the other side can’t argue.'],
+            ],
+            acts: [
+              { mcq: 'For “This House would introduce a four-day school week”, who carries the main burden?', options: ['Proposition — they propose the change', 'Opposition only', 'The judge'], answer: 0, why: 'Change requires proof.' },
+              { order: 'Order a policy model', steps: ['Define the policy', 'State who it applies to', 'Explain how it is implemented', 'Explain how it is funded or enforced', 'State exceptions'], why: 'Model structure.' },
+              { phase: 'probe', mcq: 'A “squirrel” definition is one that…', options: ['Twists the motion unfairly', 'Is fair and reasonable', 'Uses animals'], answer: 0, why: 'Fair debate.' },
+              { phase: 'probe', write: 'Write a fair model for “This House would make coding compulsory in schools”.', keywords: ['from Class', 'hours', 'teachers', 'funding', 'exception'], exemplar: 'From Class 6, two hours of coding per week; trained teachers via state programme; funding through existing ICT budget; exceptions for schools without power supply until infrastructure arrives.', minWords: 35 },
+            ],
+            teach: {
+              explain: 'Burdens and policy modelling.', analogy: 'The builder must show the bridge won’t fall.',
+              vocab: [['burden of proof', 'Obligation to prove.'], ['model', 'Policy details.']],
+              demo: 'Critique a squirrel definition.',
+              prompts: [['Who proves?', 'Change side.'], ['Fair?', 'Debatable.']],
+              support: 'Model template.', stretch: 'Counter-models.',
+              mis: [['Opposition must prove the opposite', 'They must show prop hasn’t met burden (or offer counter).']],
+              sheet: 'Policy model template.',
+            },
+          },
+          {
+            t: 'Ethical argument', o: 'Use ethical frameworks to argue principled cases.', min: 40,
+            hook: ['word', 'Consequences · Rights · Fairness', 'ethical lenses'],
+            cards: [
+              ['📊', 'Consequences', 'Which option produces the best outcomes for most people?'],
+              ['🛡️', 'Rights and duties', 'Are some actions wrong regardless of outcomes?'],
+              ['⚖️', 'Fairness', 'Does it treat people equally and justly?'],
+            ],
+            acts: [
+              { sort: 'Which ethical lens?', buckets: ['Consequences', 'Rights/duties', 'Fairness'], items: [['It saves more lives overall', 0], ['People have a right to privacy', 1], ['It treats rural and urban students equally', 2], ['The benefits outweigh the costs', 0], ['Breaking a promise is wrong', 1]], why: 'Frameworks.' },
+              { mcq: 'Why use more than one ethical lens?', options: ['Different lenses reveal different concerns', 'To confuse judges', 'One is always enough'], answer: 0, why: 'Depth.' },
+              { phase: 'probe', mcq: '“CCTV in classrooms improves safety” vs “students have a right to privacy” is a clash between…', options: ['Consequences and rights', 'Two facts', 'No clash'], answer: 0, why: 'Principle vs practical.' },
+              { phase: 'probe', write: 'Argue both sides of “Schools should monitor students’ online activity” using two ethical lenses.', keywords: ['consequences', 'rights', 'fairness', 'however'], exemplar: 'For (consequences): monitoring can prevent cyberbullying harm. Against (rights): students deserve privacy and trust. Fairness: monitoring may target some groups more. A balanced view…', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Applied ethics in debate.', analogy: 'Different lenses on the same camera.',
+              vocab: [['consequentialism', 'Judging by outcomes.'], ['deontology', 'Judging by duties/rights.']],
+              demo: 'Trolley-problem style discussion (age-appropriate).',
+              prompts: [['Which lens?', 'Name.'], ['Clash?', 'Principle vs outcome.']],
+              support: 'Lens cards.', stretch: 'Virtue ethics.',
+              mis: [['Ethics has one right answer always', 'Frameworks can conflict.']],
+              sheet: 'Ethical lenses worksheet.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Debate & Communication', band: '9-12', level: 'Intermediate', title: 'Parliamentary Debate and MUN',
+    description: 'Compete in parliamentary formats (Asian/British Parliamentary) and Model United Nations: positions, caucusing, resolutions.',
+    intro: 'Debate and negotiate like a diplomat. 🌐', theme: 'grape', tutor: db, tools: dbTools, notes: dbNotes,
+    style: 'Simulated tournaments and MUN committees.',
+    outcomes: ['Debates in Asian and British Parliamentary formats', 'Writes MUN position papers', 'Negotiates in caucuses', 'Drafts and amends resolutions'],
+    prereq: ['Reasoning and Argumentation'],
+    modules: [
+      {
+        title: 'Module 1: Parliamentary debate',
+        lessons: [
+          {
+            t: 'Asian and British Parliamentary', o: 'Understand roles and strategy in AP and BP formats.', min: 40,
+            hook: ['word', 'AP: 3 v 3 · BP: 4 teams of 2', 'parliamentary formats'],
+            cards: [
+              ['🏛️', 'Asian Parliamentary', 'Government vs Opposition, 3 speakers each plus reply speeches.'],
+              ['🇬🇧', 'British Parliamentary', 'Four teams: Opening and Closing Government, Opening and Closing Opposition.'],
+              ['🧩', 'Extensions', 'In BP, closing teams must add a new, distinct contribution.'],
+            ],
+            acts: [
+              { mcq: 'In BP, how many teams compete in a round?', options: ['Four', 'Two', 'Six'], answer: 0, why: 'Format.' },
+              { mcq: 'A closing team’s “extension” is…', options: ['A new argument or analysis distinct from their opening team', 'Repeating the opening team', 'A longer speech'], answer: 0, why: 'BP strategy.' },
+              { phase: 'probe', mcq: 'In AP, reply speeches are given by…', options: ['The first or second speaker of each side', 'The third speaker only', 'The judge'], answer: 0, why: 'Convention.' },
+              { phase: 'probe', write: 'Plan an extension for Closing Government on “This House would tax sugary drinks”, assuming Opening covered health.', keywords: ['extension', 'new', 'revenue', 'industry'], exemplar: 'Extension: use tax revenue to fund free school water stations and sports — shifting analysis from deterrence to positive reinvestment and industry reformulation incentives.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Parliamentary formats.', analogy: 'BP is like a relay with four teams racing.',
+              vocab: [['extension', 'New contribution.'], ['whip', 'Final summary speakers in BP.']],
+              demo: 'Format comparison chart.',
+              prompts: [['Teams?', 'AP 2, BP 4.'], ['Extension?', 'New angle.']],
+              support: 'Role cards.', stretch: 'Run a BP round.',
+              mis: [['Closing teams just agree with opening', 'They must extend.']],
+              sheet: 'AP and BP format guide.',
+            },
+          },
+          {
+            t: 'Analysis depth: mechanisms and impacts', o: 'Explain how and why arguments work (mechanisms) and what they lead to (impacts).', min: 40,
+            hook: ['word', 'Claim → Mechanism → Impact', 'depth over breadth'],
+            cards: [
+              ['⚙️', 'Mechanism', 'The step-by-step explanation of how something leads to something else.'],
+              ['💥', 'Impact', 'Why the outcome matters — to whom and how much.'],
+              ['🔍', 'Depth', 'One deeply explained argument beats three asserted ones.'],
+            ],
+            acts: [
+              { order: 'Order a deep argument on taxing sugary drinks', steps: ['Claim: the tax reduces consumption', 'Mechanism: higher prices make price-sensitive buyers (often teens) switch to cheaper alternatives', 'Mechanism: companies reformulate to avoid the tax', 'Impact: lower obesity and diabetes risk over time', 'Weighing: health costs avoided outweigh small price burden'], why: 'Depth.' },
+              { mcq: 'Which is an assertion, not analysis?', options: ['“This will obviously reduce crime.”', '“Better street lighting increases visibility, raising the chance of being seen, which deters opportunistic crime.”', 'Both are analysis'], answer: 0, why: 'No mechanism.' },
+              { phase: 'probe', mcq: 'Impacts are strongest when they…', options: ['Explain who is affected and how seriously', 'Use big words', 'Are vague'], answer: 0, why: 'Concrete.' },
+              { phase: 'probe', write: 'Write a mechanism-and-impact argument for or against school uniforms.', keywords: ['because', 'which leads to', 'this matters'], exemplar: 'Uniforms remove visible differences in family wealth, which reduces status competition among teens, which lowers bullying and anxiety; this matters because…', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Analytical depth in debating.', analogy: 'Showing the gears inside the clock.',
+              vocab: [['mechanism', 'Causal explanation.'], ['assertion', 'Unexplained claim.']],
+              demo: 'Upgrade assertions to analysis.',
+              prompts: [['How?', 'Mechanism.'], ['So what?', 'Impact.']],
+              support: 'Analysis chain frame.', stretch: 'Second-order impacts.',
+              mis: [['More arguments = more analysis', 'Depth wins.']],
+              sheet: 'Mechanism–impact chains.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Model United Nations',
+        lessons: [
+          {
+            t: 'Position papers and opening speeches', o: 'Write a position paper and deliver an opening speech for a MUN committee.', min: 40,
+            hook: ['word', 'Background · Country policy · Proposed solutions', 'position paper'],
+            cards: [
+              ['🌐', 'Background', 'The issue and past UN action.'],
+              ['🏳️', 'Country policy', 'Your assigned country’s real position — research it.'],
+              ['💡', 'Solutions', 'Proposals your country would support.'],
+            ],
+            acts: [
+              { order: 'Order a position paper', steps: ['Introduce the topic', 'Summarise past international action', 'State your country’s position and interests', 'Propose solutions', 'Conclude with willingness to cooperate'], why: 'Structure.' },
+              { mcq: 'In MUN you represent…', options: ['Your assigned country’s policy, even if you personally disagree', 'Only your own opinion', 'Your school'], answer: 0, why: 'Role.' },
+              { phase: 'probe', mcq: 'Diplomatic language in MUN sounds like…', options: ['“The delegation of Kenya urges member states to…”', '“Everyone else is wrong!”', '“I think…”'], answer: 0, why: 'Convention.' },
+              { phase: 'probe', speak: 'Deliver a 60–90 second opening speech for any country on “Access to clean water”.', checklist: ['Formal address to chair and delegates', 'Country position', 'One concrete proposal', 'Diplomatic tone'], tips: 'Research one real fact about your country’s water situation.' },
+            ],
+            teach: {
+              explain: 'MUN preparation.', analogy: 'You are an ambassador, not a debater.',
+              vocab: [['delegation', 'Country representatives.'], ['position paper', 'Policy summary.']],
+              demo: 'Model opening speech.',
+              prompts: [['Whose view?', 'Country’s.'], ['Tone?', 'Diplomatic.']],
+              support: 'Paper template.', stretch: 'Research bloc positions.',
+              mis: [['MUN is about winning', 'It’s about cooperation and resolution.']],
+              sheet: 'Position paper template.',
+            },
+          },
+          {
+            t: 'Caucusing and resolutions', o: 'Negotiate in caucus and draft resolution clauses.', min: 45,
+            hook: ['word', 'Preambulatory · Operative · Amendment', 'resolution parts'],
+            cards: [
+              ['🤝', 'Caucusing', 'Moderated and unmoderated sessions to build alliances.'],
+              ['📄', 'Resolution', 'Preambulatory clauses (context) and operative clauses (actions).'],
+              ['✏️', 'Amendments', 'Changes proposed to improve or win support.'],
+            ],
+            acts: [
+              { sort: 'Preambulatory or operative clause?', buckets: ['Preambulatory', 'Operative'], items: [['Recognising the impact of droughts on agriculture,', 0], ['Calls upon member states to invest in rainwater harvesting;', 1], ['Noting with concern the rise in waterborne disease,', 0], ['Encourages partnerships to share desalination technology;', 1]], why: 'Clause types.' },
+              { mcq: 'Best caucus strategy?', options: ['Find shared interests and build a bloc', 'Refuse to talk to others', 'Write alone'], answer: 0, why: 'Collaboration.' },
+              { phase: 'probe', mcq: 'Operative clauses begin with…', options: ['Action verbs like “Urges”, “Calls upon”', 'Dates', 'Questions'], answer: 0, why: 'Format.' },
+              { phase: 'probe', write: 'Draft two preambulatory and three operative clauses on clean water access.', keywords: ['Recognising', 'Noting', 'Urges', 'Calls upon', 'Encourages'], exemplar: 'Recognising that 2 billion people lack safe water, Noting the role of climate change, 1. Urges member states to prioritise rural water infrastructure; 2. Calls upon donors to fund low-cost filtration; 3. Encourages community water committees.', minWords: 40 },
+            ],
+            teach: {
+              explain: 'MUN negotiation and drafting.', analogy: 'Building a house with neighbours — everyone adds bricks.',
+              vocab: [['caucus', 'Informal negotiation session.'], ['operative clause', 'Action part of a resolution.']],
+              demo: 'Mini-committee simulation.',
+              prompts: [['Allies?', 'Shared interests.'], ['Clause form?', 'Action verb.']],
+              support: 'Clause verb list.', stretch: 'Amendment negotiation.',
+              mis: [['Resolutions are essays', 'They’re structured clauses.']],
+              sheet: 'Resolution template.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Debate & Communication', band: '9-12', level: 'Advanced', title: 'Advanced Argumentation and Civil Discourse',
+    description: 'Master advanced strategy, cross-examination, steelmanning and facilitating civil discourse on contested issues.',
+    intro: 'Argue at the highest level — and keep it civil. 🕊️', theme: 'grape', tutor: db, tools: dbTools, notes: dbNotes,
+    style: 'Advanced rounds, cross-examination drills and dialogue facilitation.',
+    outcomes: ['Applies advanced strategy (framing, weighing mechanisms)', 'Conducts cross-examination', 'Steelmans opposing views', 'Facilitates civil dialogue on contested topics'],
+    prereq: ['Parliamentary Debate and MUN'],
+    modules: [
+      {
+        title: 'Module 1: Advanced strategy',
+        lessons: [
+          {
+            t: 'Framing and strategic choices', o: 'Frame debates strategically and choose which battles to fight.', min: 40,
+            hook: ['word', 'Whoever frames the question often wins the answer', 'framing'],
+            cards: [
+              ['🖼️', 'Framing', 'Set the lens: “This debate is fundamentally about…”'],
+              ['🎯', 'Strategic concessions', 'Concede minor points to focus on the decisive clash.'],
+              ['🧭', 'Burden shifts', 'Show what the other side must prove to win.'],
+            ],
+            acts: [
+              { mcq: 'Prop frames “ban junk food ads to children” as protecting vulnerable minds. Opp could reframe as…', options: ['A question of parental responsibility and media literacy', 'Agreeing completely', 'Ignoring the frame'], answer: 0, why: 'Counter-framing.' },
+              { mcq: 'Why concede a minor point?', options: ['To gain credibility and focus on what decides the debate', 'To lose faster', 'Never concede'], answer: 0, why: 'Strategy.' },
+              { phase: 'probe', mcq: 'A strong framing statement is…', options: ['“This debate comes down to who should decide what children see: families or the state.”', '“This is a debate.”', '“We are right.”'], answer: 0, why: 'Clear lens.' },
+              { phase: 'probe', write: 'Write competing frames for prop and opp on “This House would lower the voting age to 16”.', keywords: ['frame', 'about', 'prop', 'opp'], exemplar: 'Prop frame: this debate is about giving a voice to those most affected by long-term decisions. Opp frame: this debate is about whether 16-year-olds have the independence and information to vote responsibly.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Framing theory in argument.', analogy: 'The frame decides what’s in the photo.',
+              vocab: [['frame', 'Interpretive lens.'], ['concession', 'Granting a point.']],
+              demo: 'Frame battles.',
+              prompts: [['Their frame?', 'Identify.'], ['Your counter?', 'Reframe.']],
+              support: 'Frame starters.', stretch: 'Meta-debate on framing.',
+              mis: [['Never concede anything', 'Strategic concessions help.']],
+              sheet: 'Framing practice.',
+            },
+          },
+          {
+            t: 'Cross-examination', o: 'Ask and answer cross-examination questions effectively.', min: 40,
+            hook: ['word', 'Short questions · Closed answers · Clear goal', 'cross-ex'],
+            cards: [
+              ['🎯', 'Goal first', 'Know what admission you want before asking.'],
+              ['🔒', 'Closed questions', 'Yes/no questions build a chain toward the admission.'],
+              ['🛡️', 'Answering', 'Answer honestly, briefly; clarify misleading premises.'],
+            ],
+            acts: [
+              { order: 'Order a cross-ex chain toward “the policy is unaffordable”', steps: ['Your plan gives every student a tablet, yes?', 'And there are about 25 crore students in India?', 'And each tablet costs at least ₹10,000?', 'So that’s around ₹2.5 lakh crore before maintenance — where does that money come from?'], why: 'Chain to admission.' },
+              { mcq: 'When answering a loaded cross-ex question you should…', options: ['Briefly challenge the assumption, then answer', 'Say yes to everything', 'Refuse to answer'], answer: 0, why: 'Integrity.' },
+              { phase: 'probe', mcq: '25 crore × ₹10,000 equals…', options: ['₹2.5 lakh crore', '₹25,000 crore', '₹250 crore'], answer: 0, why: '250,000,000 × 10,000 = 2.5 × 10^12.' },
+              { phase: 'probe', write: 'Write a 4-question cross-ex chain against “Exams should be abolished.”', keywords: ['yes', 'so', 'how'], exemplar: '1) Universities need a way to compare applicants, yes? 2) Without exams, they’d rely on school grades? 3) Grading standards differ between schools? 4) So how would you ensure fairness across schools?', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Cross-examination technique.', analogy: 'Laying stepping stones to a destination.',
+              vocab: [['cross-examination', 'Questioning the other side.'], ['admission', 'Concession obtained.']],
+              demo: 'Cross-ex drills in pairs.',
+              prompts: [['Goal?', 'Admission.'], ['Questions?', 'Short, closed.']],
+              support: 'Chain template.', stretch: 'Use admissions in rebuttal.',
+              mis: [['Cross-ex is for making speeches', 'It’s for questions.']],
+              sheet: 'Cross-ex chain planner.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Civil discourse',
+        lessons: [
+          {
+            t: 'Steelmanning', o: 'Represent opposing views in their strongest form before responding.', min: 40,
+            hook: ['word', 'Straw man ❌ → Steel man ✅', 'charitable interpretation'],
+            cards: [
+              ['🛡️', 'Steelman', 'State the opposing argument so well that its supporters would agree.'],
+              ['👂', 'Charity', 'Assume the best reasons behind others’ views.'],
+              ['💪', 'Stronger thinking', 'Engaging the best version makes your conclusion more robust.'],
+            ],
+            acts: [
+              { mcq: 'Which is a steelman of “Schools should keep homework”?', options: ['Spaced, purposeful practice at home consolidates learning and builds independent study habits needed later.', 'They just like making students suffer.', 'Homework is tradition.'], answer: 0, why: 'Strongest version.' },
+              { sort: 'Steelman or straw man?', buckets: ['Steelman', 'Straw man'], items: [['They worry phone bans could cut off emergency contact for families', 0], ['They just want to play games all day', 1], ['They believe strict rules protect students from harm', 0], ['They hate freedom', 1]], why: 'Charity.' },
+              { phase: 'probe', mcq: 'Why steelman in debate and discussion?', options: ['It builds trust and tests your view against the best objections', 'To lose', 'It’s too polite'], answer: 0, why: 'Intellectual honesty.' },
+              { phase: 'probe', write: 'Steelman a view you disagree with on a school or social issue, then respond.', keywords: ['strongest', 'they argue', 'however', 'I think'], exemplar: 'Steelman: Supporters of strict uniform rules argue they reduce visible inequality and help students focus. Response: However, allowing limited personal expression could achieve the same while respecting identity.', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Principle of charity.', analogy: 'Fight the champion, not a scarecrow.',
+              vocab: [['steelman', 'Strongest version of an argument.'], ['charity', 'Generous interpretation.']],
+              demo: 'Steelman challenge rounds.',
+              prompts: [['Would they agree?', 'Test.'], ['Response?', 'Then reply.']],
+              support: 'Steelman frame.', stretch: 'Ideological Turing test.',
+              mis: [['Steelmanning means agreeing', 'It means understanding fully.']],
+              sheet: 'Steelman practice.',
+            },
+          },
+          {
+            t: 'Facilitating civil dialogue', o: 'Facilitate respectful dialogue on contested topics.', min: 45,
+            hook: ['word', 'Norms · Curiosity · Listening · Common ground', 'civil dialogue'],
+            cards: [
+              ['📜', 'Ground rules', 'Speak from experience, one voice at a time, critique ideas not people.'],
+              ['❓', 'Curious questions', '“What experiences shaped your view?”'],
+              ['🤝', 'Common ground', 'Identify shared values before differences.'],
+            ],
+            acts: [
+              { order: 'Order a facilitated dialogue', steps: ['Agree ground rules', 'Share personal connections to the topic', 'Explore differing views with curious questions', 'Identify common ground and real differences', 'Reflect on what was learned'], why: 'Process.' },
+              { mcq: 'A participant makes a personal attack. Facilitator should…', options: ['Calmly restate the ground rules and redirect to ideas', 'Ignore it', 'End the session angrily'], answer: 0, why: 'Norms.' },
+              { phase: 'probe', mcq: 'Dialogue differs from debate because it aims to…', options: ['Understand, not win', 'Win at all costs', 'Avoid all disagreement'], answer: 0, why: 'Purpose.' },
+              { phase: 'probe', write: 'Write ground rules and three curious questions for a class dialogue on social media and teen wellbeing.', keywords: ['ground rules', 'listen', 'experience', 'what', 'how'], exemplar: 'Rules: one voice at a time; speak from experience; critique ideas, not people; confidentiality. Questions: What role does social media play in your day? When has it helped you? What would a healthier relationship look like?', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Dialogue facilitation for contested issues.', analogy: 'A facilitator is a bridge-builder.',
+              vocab: [['dialogue', 'Conversation for understanding.'], ['common ground', 'Shared values.']],
+              demo: 'Facilitated circle.',
+              prompts: [['Rules?', 'Agreed.'], ['Common ground?', 'Find.']],
+              support: 'Facilitator card.', stretch: 'Facilitate across classes.',
+              mis: [['Civil means avoiding disagreement', 'It means disagreeing respectfully.']],
+              sheet: 'Dialogue facilitation guide.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ───────── Presentation Skills 6-8 ─────────
+  {
+    subject: 'Presentation Skills', band: '6-8', level: 'Beginner', title: 'Great Presentations Start Here',
+    description: 'Plan presentations for an audience, design clear slides, and present projects confidently.',
+    intro: 'Present your projects like a pro. 📊', theme: 'meadow', tutor: pr, tools: prTools,
+    style: 'Plan–design–deliver cycles with peer feedback.',
+    outcomes: ['Plans a presentation with a clear message', 'Designs readable slides', 'Presents with confidence', 'Answers questions'],
+    modules: [
+      {
+        title: 'Module 1: Plan and design',
+        lessons: [
+          {
+            t: 'Planning your presentation', o: 'Plan a presentation with a clear goal, audience and storyline.', min: 30,
+            hook: ['word', 'Goal · Audience · Key message · Storyline', 'plan before slides'],
+            cards: [
+              ['🎯', 'Goal', 'What should the audience know or do afterwards?'],
+              ['🧭', 'Storyline', 'Arrange ideas in a logical flow before opening software.'],
+              ['🗒️', 'Sticky notes', 'One idea per note; rearrange until the story flows.'],
+            ],
+            acts: [
+              { order: 'Order presentation planning', steps: ['Define your goal', 'Think about your audience', 'Write your key message', 'Plan the storyline on sticky notes', 'Then create slides'], why: 'Plan first.' },
+              { mcq: 'Best key message for a science project on composting?', options: ['Composting turns kitchen waste into free fertiliser — and anyone can start at home.', 'Composting.', 'This is my project.'], answer: 0, why: 'Clear message.' },
+              { phase: 'probe', mcq: 'Why plan before opening slides?', options: ['To focus on content and flow, not decoration', 'Software is slow', 'No reason'], answer: 0, why: 'Content first.' },
+              { phase: 'probe', write: 'Plan a 3-minute presentation: goal, audience, key message and 4-step storyline.', keywords: ['goal', 'audience', 'message', 'first'], exemplar: 'Goal: convince classmates to reduce food waste. Audience: Class 7. Message: small changes save food and money. Storyline: shocking fact → why waste happens → three easy fixes → challenge.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Presentation planning.', analogy: 'Draw the map before the journey.',
+              vocab: [['key message', 'Main takeaway.'], ['storyline', 'Flow of ideas.']],
+              demo: 'Sticky-note planning.',
+              prompts: [['Goal?', 'Know/do.'], ['Flow?', 'Logical.']],
+              support: 'Planning template.', stretch: 'Plan for two audiences.',
+              mis: [['Start by choosing a slide theme', 'Start with the message.']],
+              sheet: 'Presentation planner.',
+            },
+          },
+          {
+            t: 'Slide design basics', o: 'Design clear slides with few words, big visuals and contrast.', min: 30,
+            hook: ['upgrade', 'A slide with 12 bullet points in size-12 font', 'One big photo + 5 words'],
+            cards: [
+              ['🔤', 'Few words', 'One idea per slide; short phrases, not paragraphs.'],
+              ['🖼️', 'Visuals', 'Clear images, simple charts, icons.'],
+              ['🌗', 'Contrast and size', 'Dark text on light (or vice versa); 24pt+ text.'],
+            ],
+            acts: [
+              { sort: 'Good slide design or not?', buckets: ['Good', 'Not good'], items: [['One idea per slide', 0], ['Paragraphs of text', 1], ['High-contrast colours', 0], ['Five different fonts', 1], ['A clear labelled chart', 0]], why: 'Design.' },
+              { mcq: 'Minimum readable text size for slides?', options: ['About 24pt', '10pt', '6pt'], answer: 0, why: 'Readability.' },
+              { phase: 'probe', mcq: 'Where should detailed information go?', options: ['In your speech or a handout, not the slide', 'All on one slide', 'Nowhere'], answer: 0, why: 'Slides support speech.' },
+              { phase: 'probe', write: 'Redesign this slide: “Composting is a process in which organic waste like vegetable peels and leaves is broken down by microbes into nutrient-rich soil called compost which can be used in gardens.”', keywords: ['image', 'title', 'words', 'peels'], exemplar: 'Title: “Waste → Soil”. Image: vegetable peels turning into dark compost. Caption: “Microbes do the work.”', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Slide design principles.', analogy: 'Slides are billboards, not documents.',
+              vocab: [['contrast', 'Difference between text and background.'], ['visual', 'Image or chart.']],
+              demo: 'Slide makeover.',
+              prompts: [['One idea?', 'Per slide.'], ['Readable?', 'Size, contrast.']],
+              support: 'Slide template.', stretch: 'Icon-only slides.',
+              mis: [['More text helps the audience', 'They read instead of listening.']],
+              sheet: 'Slide design checklist.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Deliver',
+        lessons: [
+          {
+            t: 'Presenting with slides', o: 'Present alongside slides without reading them.', min: 30,
+            hook: ['word', 'Face the audience · Talk, don’t read', 'slide delivery'],
+            cards: [
+              ['👀', 'Face forward', 'Glance at slides; talk to people.'],
+              ['🔀', 'Transitions', '“Now that we know why, let’s look at how.”'],
+              ['🖱️', 'Practise clicking', 'Know which slide comes next.'],
+            ],
+            acts: [
+              { mcq: 'Best way to use slides?', options: ['Glance at them and explain to the audience', 'Read every word aloud with your back to the room', 'Ignore them'], answer: 0, why: 'Delivery.' },
+              { mcq: 'A good transition sentence…', options: ['Links one slide’s idea to the next', 'Says “next slide” only', 'Is silent'], answer: 0, why: 'Flow.' },
+              { phase: 'probe', mcq: 'Your slide fails to load. Best response?', options: ['Keep going — you know your content', 'Stop the presentation', 'Panic'], answer: 0, why: 'Preparation.' },
+              { phase: 'probe', speak: 'Present a 3-minute project with slides (or a poster).', checklist: ['Faced the audience', 'Didn’t read slides', 'Used transitions', 'Clear key message', 'Within time'], tips: 'Practise without slides once to know your content.' },
+            ],
+            teach: {
+              explain: 'Presenting with visual support.', analogy: 'You’re the presenter; slides are your assistant.',
+              vocab: [['transition', 'Link between parts.'], ['backup', 'Plan B.']],
+              demo: 'Good vs bad slide delivery.',
+              prompts: [['Who do you talk to?', 'Audience.'], ['Tech fails?', 'Continue.']],
+              support: 'Speaker notes.', stretch: 'Present without notes.',
+              mis: [['Slides are the presentation', 'You are the presentation.']],
+              sheet: 'Delivery checklist.',
+            },
+          },
+          {
+            t: 'Handling questions', o: 'Answer audience questions clearly and honestly.', min: 30,
+            hook: ['word', 'Listen · Repeat · Answer · Check', 'Q&A routine'],
+            cards: [
+              ['👂', 'Listen', 'Let them finish the question.'],
+              ['🔁', 'Repeat', 'Repeat it so everyone hears.'],
+              ['✅', 'Answer and check', 'Answer briefly; ask “Does that answer your question?”'],
+            ],
+            acts: [
+              { order: 'Order the Q&A routine', steps: ['Listen to the whole question', 'Repeat it for the audience', 'Answer briefly', 'Check it answered the question'], why: 'Routine.' },
+              { mcq: 'You don’t know the answer. Best response?', options: ['That’s a great question — I don’t know, but I’ll find out.', 'Make something up', 'Ignore it'], answer: 0, why: 'Honesty.' },
+              { phase: 'probe', mcq: 'Why prepare likely questions in advance?', options: ['To answer confidently', 'To avoid questions', 'To make the talk longer'], answer: 0, why: 'Preparation.' },
+              { phase: 'probe', write: 'List three questions your audience might ask about your project and your answers.', keywords: ['question', 'answer', 'because'], exemplar: 'Q: How long does composting take? A: About 6–8 weeks if you mix and keep it moist. Q: Does it smell? A: Not if you balance greens and browns. Q: Can you compost in a flat? A: Yes, with a small bin.', minWords: 35 },
+            ],
+            teach: {
+              explain: 'Q&A handling.', analogy: 'Q&A is the encore — be ready.',
+              vocab: [['Q&A', 'Questions and answers.'], ['anticipate', 'Predict.']],
+              demo: 'Model Q&A.',
+              prompts: [['Repeat?', 'Yes.'], ['Don’t know?', 'Be honest.']],
+              support: 'Q&A card.', stretch: 'Handle a tricky question.',
+              mis: [['Questions mean you did badly', 'They mean interest.']],
+              sheet: 'Q&A preparation sheet.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Presentation Skills', band: '6-8', level: 'Intermediate', title: 'Data, Visuals and Storytelling',
+    description: 'Present data with clear charts, tell a story with visuals, and design engaging group presentations.',
+    intro: 'Make data and visuals tell a story. 📈', theme: 'meadow', tutor: pr, tools: prTools,
+    style: 'Chart labs and group project presentations.',
+    outcomes: ['Chooses the right chart for data', 'Highlights the key insight', 'Uses story structure in presentations', 'Plans and delivers group presentations'],
+    prereq: ['Great Presentations Start Here'],
+    modules: [
+      {
+        title: 'Module 1: Data visuals',
+        lessons: [
+          {
+            t: 'Choosing the right chart', o: 'Match chart types to data and messages.', min: 30,
+            hook: ['word', 'Compare · Trend · Part of whole', 'chart choices'],
+            cards: [
+              ['📊', 'Bar chart', 'Compare categories.'],
+              ['📈', 'Line chart', 'Show change over time.'],
+              ['🧩', 'Part-to-whole', 'Use a stacked bar or simple pie with few slices.'],
+            ],
+            acts: [
+              { match: 'Match the data to the best chart', pairs: [['Monthly rainfall for a year', 'Line chart'], ['Favourite sports of Class 7', 'Bar chart'], ['How our class budget is split (3 parts)', 'Simple pie or stacked bar'], ['Height vs weight of students', 'Scatter plot']], why: 'Chart choice.' },
+              { mcq: 'Why avoid pie charts with 12 slices?', options: ['Small slices are hard to compare', 'Pies are illegal', 'They’re too colourful'], answer: 0, why: 'Readability.' },
+              { phase: 'probe', mcq: 'Temperature over a week is best shown with…', options: ['A line chart', 'A pie chart', 'A table only'], answer: 0, why: 'Trend.' },
+              { phase: 'probe', write: 'Choose a chart for your survey data and explain why.', keywords: ['bar', 'line', 'because', 'compare', 'trend'], exemplar: 'I surveyed lunch choices, so a bar chart is best because it compares categories clearly.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Chart selection.', analogy: 'Choose the right tool for the job.',
+              vocab: [['bar chart', 'Compares categories.'], ['line chart', 'Shows trends.']],
+              demo: 'Same data, different charts.',
+              prompts: [['Compare or trend?', 'Decide.'], ['Pie?', 'Few slices.']],
+              support: 'Chart chooser card.', stretch: 'Scatter plots.',
+              mis: [['Fancy 3D charts look professional', 'They distort data.']],
+              sheet: 'Chart chooser.',
+            },
+          },
+          {
+            t: 'Highlight the insight', o: 'Design charts that make the key insight obvious.', min: 30,
+            hook: ['upgrade', 'Chart title: “Survey results”', 'Chart title: “Most students want a longer lunch break”'],
+            cards: [
+              ['🏷️', 'Insight titles', 'Make the title say the takeaway.'],
+              ['🎨', 'Highlight', 'Use one bright colour for the key bar; grey for the rest.'],
+              ['🧹', 'Declutter', 'Remove gridlines, legends and labels you don’t need.'],
+            ],
+            acts: [
+              { mcq: 'Best chart title?', options: ['Cycling to school doubled after the new lane opened', 'Data', 'Chart 1'], answer: 0, why: 'Insight.' },
+              { sort: 'Helps or clutters?', buckets: ['Helps', 'Clutters'], items: [['Highlighting the key bar', 0], ['3D effects', 1], ['Clear axis labels with units', 0], ['Heavy gridlines', 1], ['Direct labels on bars', 0]], why: 'Design.' },
+              { phase: 'probe', mcq: 'Why grey out other bars?', options: ['To draw attention to the key one', 'To save ink', 'Grey is pretty'], answer: 0, why: 'Focus.' },
+              { phase: 'probe', write: 'Rewrite these titles as insight titles: “Rainfall data”, “Test scores”.', keywords: ['increased', 'highest', 'fell', 'rose'], exemplar: '“July had the highest rainfall of the year”; “Average scores rose 12% after revision clubs”.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Explanatory data design.', analogy: 'A spotlight on the important actor.',
+              vocab: [['insight', 'Key finding.'], ['clutter', 'Unnecessary elements.']],
+              demo: 'Chart makeover.',
+              prompts: [['Takeaway?', 'Title it.'], ['Clutter?', 'Remove.']],
+              support: 'Before/after examples.', stretch: 'Annotations on charts.',
+              mis: [['Charts should show all the data equally', 'Highlight what matters.']],
+              sheet: 'Chart makeover task.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Story and teamwork',
+        lessons: [
+          {
+            t: 'Storytelling in presentations', o: 'Structure presentations as a story: situation, complication, resolution.', min: 30,
+            hook: ['word', 'Situation · Complication · Resolution', 'SCR'],
+            cards: [
+              ['🏞️', 'Situation', 'Where we are now.'],
+              ['⚡', 'Complication', 'The problem or change that creates tension.'],
+              ['✅', 'Resolution', 'Your solution or recommendation.'],
+            ],
+            acts: [
+              { order: 'Order an SCR presentation on canteen waste', steps: ['Situation: our canteen serves 500 meals a day', 'Complication: 30% of food is thrown away', 'Evidence: our two-week waste audit', 'Resolution: smaller default portions and a share table', 'Call to action: pilot it next month'], why: 'SCR.' },
+              { mcq: 'Why does the complication matter?', options: ['It creates tension and makes the solution meaningful', 'It’s optional', 'It confuses people'], answer: 0, why: 'Narrative engine.' },
+              { phase: 'probe', mcq: 'Where should data go in SCR?', options: ['To prove the complication and support the resolution', 'Only at the very start', 'Nowhere'], answer: 0, why: 'Evidence placement.' },
+              { phase: 'probe', write: 'Outline an SCR presentation on a school issue.', keywords: ['situation', 'complication', 'resolution'], exemplar: 'Situation: most students walk to school. Complication: no safe crossing on the main road. Resolution: request a zebra crossing and student safety patrol.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Narrative structure for presentations.', analogy: 'Every good presentation is a mini story.',
+              vocab: [['complication', 'Problem creating tension.'], ['resolution', 'Solution.']],
+              demo: 'Rewrite a list-presentation as SCR.',
+              prompts: [['Tension?', 'Complication.'], ['Ask?', 'Call to action.']],
+              support: 'SCR template.', stretch: 'Hero’s journey structure.',
+              mis: [['Presentations are lists of facts', 'Stories engage.']],
+              sheet: 'SCR planner.',
+            },
+          },
+          {
+            t: 'Group presentations', o: 'Plan and deliver a seamless group presentation.', min: 35,
+            hook: ['word', 'One story · Clear roles · Smooth handovers', 'team presenting'],
+            cards: [
+              ['🧩', 'One storyline', 'Agree the message and flow together.'],
+              ['👥', 'Roles', 'Each member owns a section; someone manages timing.'],
+              ['🤝', 'Handovers', '“Now Priya will show you how we tested it.”'],
+            ],
+            acts: [
+              { order: 'Order group presentation prep', steps: ['Agree goal and key message', 'Plan storyline together', 'Assign sections and roles', 'Design consistent slides', 'Rehearse with handovers', 'Prepare Q&A together'], why: 'Teamwork.' },
+              { mcq: 'Best handover?', options: ['“Now that you know the problem, Arjun will explain our solution.”', '“Okay, your turn.”', 'Silence'], answer: 0, why: 'Smooth link.' },
+              { phase: 'probe', mcq: 'Slides look different for each member. Fix?', options: ['Use one template and style', 'Keep them different', 'Remove slides'], answer: 0, why: 'Consistency.' },
+              { phase: 'probe', speak: 'With your group, deliver a 5-minute presentation with smooth handovers.', checklist: ['One clear storyline', 'Smooth handovers', 'Consistent slides', 'Within time', 'Shared Q&A'], tips: 'Rehearse the handovers specifically.' },
+            ],
+            teach: {
+              explain: 'Collaborative presenting.', analogy: 'A relay team passing the baton cleanly.',
+              vocab: [['handover', 'Passing to the next speaker.'], ['template', 'Shared design.']],
+              demo: 'Model handovers.',
+              prompts: [['One message?', 'Yes.'], ['Handovers?', 'Linked.']],
+              support: 'Role cards.', stretch: 'Live Q&A rotation.',
+              mis: [['Split slides and never rehearse together', 'Rehearse as a team.']],
+              sheet: 'Group presentation planner.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Presentation Skills', band: '6-8', level: 'Advanced', title: 'Pitch, Persuade and Present Online',
+    description: 'Deliver product pitches, science-fair presentations and online presentations with polish and confidence.',
+    intro: 'Pitch ideas that win. 🚀', theme: 'meadow', tutor: pr, tools: prTools,
+    style: 'Pitch competitions, science-fair simulations and virtual presenting.',
+    outcomes: ['Delivers a persuasive pitch', 'Presents projects at exhibitions/science fairs', 'Presents effectively online', 'Uses feedback to iterate'],
+    prereq: ['Data, Visuals and Storytelling'],
+    modules: [
+      {
+        title: 'Module 1: Pitches and fairs',
+        lessons: [
+          {
+            t: 'The perfect pitch', o: 'Deliver a 2-minute pitch: problem, solution, proof, ask.', min: 35,
+            hook: ['word', 'Problem · Solution · Proof · Ask', 'pitch formula'],
+            cards: [
+              ['😣', 'Problem', 'A real problem for real people.'],
+              ['💡', 'Solution', 'Your idea and how it works.'],
+              ['📊', 'Proof and ask', 'Evidence it works; what you need (support, funding, volunteers).'],
+            ],
+            acts: [
+              { order: 'Order a pitch', steps: ['Hook with the problem', 'Present your solution', 'Show proof (test, survey, prototype)', 'Explain who benefits', 'Make your ask'], why: 'Pitch structure.' },
+              { mcq: 'Strongest proof?', options: ['We tested the app with 30 students; 25 used it daily', 'We think people will like it', 'It looks cool'], answer: 0, why: 'Evidence.' },
+              { phase: 'probe', mcq: 'A clear “ask” is…', options: ['We need ₹5,000 and two volunteers to run a pilot in March', 'Please support us somehow', 'Nothing'], answer: 0, why: 'Specific.' },
+              { phase: 'probe', speak: 'Pitch an idea to improve your school in 2 minutes.', checklist: ['Clear problem', 'Solution', 'Proof', 'Specific ask', 'Energetic delivery'], tips: 'Practise until you can do it without notes.' },
+            ],
+            teach: {
+              explain: 'Pitching frameworks.', analogy: 'A pitch is a trailer for your idea.',
+              vocab: [['pitch', 'Short persuasive presentation.'], ['ask', 'Specific request.']],
+              demo: 'Model pitch.',
+              prompts: [['Proof?', 'Evidence.'], ['Ask?', 'Specific.']],
+              support: 'Pitch template.', stretch: 'Pitch to the principal.',
+              mis: [['Pitches are about the product only', 'Start with the problem.']],
+              sheet: 'Pitch planner.',
+            },
+          },
+          {
+            t: 'Science fair and exhibition presenting', o: 'Present a project at a stall to visitors and judges.', min: 35,
+            hook: ['word', '30-second version · 3-minute version · Q&A', 'exhibition readiness'],
+            cards: [
+              ['⏱️', 'Two versions', 'A 30-second overview for passers-by and a 3-minute deep dive for judges.'],
+              ['🧪', 'Show, don’t tell', 'Demonstrations and prototypes draw people in.'],
+              ['🧠', 'Know your method', 'Judges ask about variables, controls and limitations.'],
+            ],
+            acts: [
+              { mcq: 'A visitor has 30 seconds. You should…', options: ['Give the problem, what you did and the key result', 'Explain every step', 'Hand them a report'], answer: 0, why: 'Elevator version.' },
+              { sort: 'Likely judge question topic?', buckets: ['Method', 'Results', 'Next steps'], items: [['How did you control variables?', 0], ['What did your data show?', 1], ['What would you do differently?', 2], ['How many trials did you run?', 0], ['Was the result significant?', 1]], why: 'Prepare answers.' },
+              { phase: 'probe', mcq: 'A judge points out a flaw. Best response?', options: ['Acknowledge it and explain how you’d improve', 'Argue', 'Pretend you didn’t hear'], answer: 0, why: 'Scientific honesty.' },
+              { phase: 'probe', speak: 'Give your 30-second and then 3-minute project explanation.', checklist: ['Clear 30-second version', 'Method explained', 'Key results', 'Limitations and next steps'], tips: 'Point to your display as you talk.' },
+            ],
+            teach: {
+              explain: 'Exhibition communication.', analogy: 'Be a museum guide for your project.',
+              vocab: [['limitation', 'Weakness in a study.'], ['prototype', 'Model of an idea.']],
+              demo: 'Mock science fair.',
+              prompts: [['Two versions?', 'Short and long.'], ['Flaws?', 'Acknowledge.']],
+              support: 'Script cards.', stretch: 'Judge others’ projects.',
+              mis: [['Admitting limits loses points', 'It shows understanding.']],
+              sheet: 'Exhibition prep sheet.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Online and iteration',
+        lessons: [
+          {
+            t: 'Presenting online', o: 'Present effectively on video calls.', min: 30,
+            hook: ['word', 'Camera · Light · Sound · Engagement', 'online presenting'],
+            cards: [
+              ['🎥', 'Camera at eye level', 'Look into the lens, not your own face.'],
+              ['💡', 'Light and sound', 'Face a window or lamp; use earphones with a mic.'],
+              ['💬', 'Engage', 'Use names, polls and chat questions every few minutes.'],
+            ],
+            acts: [
+              { sort: 'Good or poor online presenting?', buckets: ['Good', 'Poor'], items: [['Camera at eye level', 0], ['Window behind you (dark face)', 1], ['Asking the chat a question', 0], ['Reading slides in a monotone', 1], ['Testing screen-share beforehand', 0]], why: 'Online norms.' },
+              { mcq: 'Online audiences lose focus faster. A fix?', options: ['Interact every few minutes', 'Talk longer without breaks', 'Turn off your camera'], answer: 0, why: 'Engagement.' },
+              { phase: 'probe', mcq: 'Where should you look to make “eye contact” online?', options: ['Into the camera lens', 'At your own video', 'At the keyboard'], answer: 0, why: 'Connection.' },
+              { phase: 'probe', speak: 'Deliver a 2-minute online-style presentation (record yourself on camera).', checklist: ['Eye-level camera', 'Good lighting', 'Clear audio', 'One interaction moment'], tips: 'Put a small sticker next to the lens to remind you where to look.' },
+            ],
+            teach: {
+              explain: 'Virtual presentation skills.', analogy: 'Online presenting is TV, not a lecture hall.',
+              vocab: [['screen-share', 'Showing your screen.'], ['engagement', 'Audience involvement.']],
+              demo: 'Good vs poor video setup.',
+              prompts: [['Light?', 'In front.'], ['Interaction?', 'Regular.']],
+              support: 'Setup checklist.', stretch: 'Host a class webinar.',
+              mis: [['Online is easier than in person', 'Different skills are needed.']],
+              sheet: 'Online presenting checklist.',
+            },
+          },
+          {
+            t: 'Feedback and iteration', o: 'Use feedback and recordings to improve presentations.', min: 30,
+            hook: ['pattern', ['v1: 62/100', 'v2: 74/100', 'v3: 85/100'], 'v4?'],
+            cards: [
+              ['🎥', 'Record', 'Watch yourself: content, slides, delivery.'],
+              ['📝', 'Rubric', 'Score against clear criteria.'],
+              ['🔁', 'Iterate', 'Fix the top two issues, then present again.'],
+            ],
+            acts: [
+              { order: 'Order the improvement cycle', steps: ['Present and record', 'Self-score with the rubric', 'Collect peer feedback', 'Choose top two fixes', 'Revise and present again'], why: 'Iteration.' },
+              { mcq: 'Peer feedback says “too many words on slides” and “talked too fast”. Next step?', options: ['Cut slide text and practise with pauses', 'Ignore it', 'Add more slides'], answer: 0, why: 'Act on feedback.' },
+              { phase: 'probe', mcq: 'Why fix only the top two issues each round?', options: ['Focused changes are achievable and measurable', 'Two is a lucky number', 'Other feedback is wrong'], answer: 0, why: 'Focus.' },
+              { phase: 'probe', write: 'Write a feedback-based improvement plan for your last presentation.', keywords: ['feedback', 'fix', 'next', 'rubric'], exemplar: 'Feedback: slides cluttered, rushed ending. Fixes: max 6 words per slide; rehearse the ending twice with a timer. Next: re-present to my family and rescore.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Deliberate practice for presenting.', analogy: 'Athletes watch replays to improve.',
+              vocab: [['iterate', 'Improve in cycles.'], ['rubric', 'Scoring guide.']],
+              demo: 'Model self-review.',
+              prompts: [['Top issues?', 'Two.'], ['Measure?', 'Rubric.']],
+              support: 'Rubric.', stretch: 'Coach a peer.',
+              mis: [['One presentation is enough', 'Improvement comes from iteration.']],
+              sheet: 'Presentation rubric and plan.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ───────── Presentation Skills 9-12 ─────────
+  {
+    subject: 'Presentation Skills', band: '9-12', level: 'Beginner', title: 'Professional Presentations',
+    description: 'Design and deliver professional presentations: message-first structure, clean design, speaker notes and confident delivery.',
+    intro: 'Present like a professional. 💼', theme: 'meadow', tutor: pr, tools: prTools,
+    style: 'Workplace-style briefs and peer review.',
+    outcomes: ['Structures with the pyramid principle', 'Designs clean, consistent decks', 'Uses speaker notes effectively', 'Delivers within time'],
+    modules: [
+      {
+        title: 'Module 1: Structure and design',
+        lessons: [
+          {
+            t: 'Message-first structure', o: 'Lead with the answer and support it logically (pyramid principle).', min: 35,
+            hook: ['word', 'Answer first · Then reasons · Then evidence', 'pyramid principle'],
+            cards: [
+              ['🔺', 'Top', 'Your main recommendation or conclusion.'],
+              ['🧱', 'Middle', '2–4 supporting reasons.'],
+              ['📊', 'Base', 'Data and examples for each reason.'],
+            ],
+            acts: [
+              { order: 'Order a pyramid presentation', steps: ['Recommendation: start a school recycling programme', 'Reason 1: reduces waste costs', 'Evidence for reason 1', 'Reason 2: builds environmental habits', 'Evidence for reason 2', 'Next steps'], why: 'Answer first.' },
+              { mcq: 'Why lead with the answer?', options: ['Busy audiences get the key point immediately', 'To end early', 'To skip evidence'], answer: 0, why: 'Clarity.' },
+              { phase: 'probe', mcq: 'Each slide headline should…', options: ['State the slide’s key point as a sentence', 'Be a single vague word', 'Be blank'], answer: 0, why: 'Action titles.' },
+              { phase: 'probe', write: 'Write a pyramid outline for a 5-minute presentation recommending a change at school.', keywords: ['recommend', 'reason', 'evidence', 'next steps'], exemplar: 'Recommend: a 20-minute reading period daily. Reasons: improves literacy; reduces screen time; calm start. Evidence: pilot class scores, survey data. Next steps: trial in Term 2.', minWords: 35 },
+            ],
+            teach: {
+              explain: 'Pyramid principle and action titles.', analogy: 'Give the headline before the article.',
+              vocab: [['pyramid principle', 'Answer-first structure.'], ['action title', 'Slide headline stating the point.']],
+              demo: 'Convert a chronological deck to pyramid.',
+              prompts: [['Answer?', 'First.'], ['Headline?', 'Full sentence.']],
+              support: 'Pyramid template.', stretch: 'Storyboard a 10-slide deck.',
+              mis: [['Build up to the conclusion slowly', 'Lead with it.']],
+              sheet: 'Pyramid outline template.',
+            },
+          },
+          {
+            t: 'Clean, consistent design', o: 'Apply design principles: alignment, hierarchy, consistency, accessibility.', min: 35,
+            hook: ['word', 'Align · Contrast · Repeat · Space', 'design rules'],
+            cards: [
+              ['📐', 'Alignment', 'Line elements up on a grid.'],
+              ['🔠', 'Hierarchy', 'Size and weight show what matters most.'],
+              ['♿', 'Accessibility', 'High contrast, colour-blind-safe palettes, readable fonts, alt text for shared decks.'],
+            ],
+            acts: [
+              { sort: 'Good practice or problem?', buckets: ['Good practice', 'Problem'], items: [['Consistent title position on every slide', 0], ['Red-green only colour coding', 1], ['Generous white space', 0], ['Text over a busy photo', 1], ['Two fonts maximum', 0]], why: 'Design.' },
+              { mcq: 'Why avoid red–green only colour coding?', options: ['Many people have red–green colour blindness', 'Red is unlucky', 'Green is boring'], answer: 0, why: 'Accessibility.' },
+              { phase: 'probe', mcq: 'Visual hierarchy means…', options: ['Making the most important element most prominent', 'Random sizes', 'All text the same'], answer: 0, why: 'Definition.' },
+              { phase: 'probe', write: 'Audit a slide deck you made: list three design issues and fixes.', keywords: ['alignment', 'contrast', 'font', 'fix'], exemplar: 'Titles move around → fix positions; light grey text → darken; three fonts → use one heading and one body font.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'CRAP design principles and accessibility.', analogy: 'Design is invisible when it’s good.',
+              vocab: [['hierarchy', 'Order of importance.'], ['white space', 'Empty space.']],
+              demo: 'Deck makeover.',
+              prompts: [['Aligned?', 'Check.'], ['Accessible?', 'Contrast, colour.']],
+              support: 'Design checklist.', stretch: 'Create a slide master/template.',
+              mis: [['Decoration makes slides professional', 'Clarity does.']],
+              sheet: 'Design audit checklist.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Delivery',
+        lessons: [
+          {
+            t: 'Speaker notes and rehearsal', o: 'Use speaker notes and rehearsal to deliver smoothly and on time.', min: 35,
+            hook: ['word', 'Notes = prompts, not scripts', 'speaker notes'],
+            cards: [
+              ['📝', 'Prompts', 'Key phrases, numbers, transitions — not paragraphs.'],
+              ['⏱️', 'Timing', 'Rehearse with a timer; mark time checkpoints.'],
+              ['🎯', 'Rehearse transitions', 'Smooth links between slides make you sound expert.'],
+            ],
+            acts: [
+              { mcq: 'Good speaker note?', options: ['“Key stat: 30% waste → link to cost slide”', 'A full paragraph to read aloud', 'Nothing'], answer: 0, why: 'Prompt.' },
+              { mcq: '10-minute slot with 12 slides — about how long per slide?', options: ['~50 seconds', '5 minutes', '5 seconds'], answer: 0, why: '600 s ÷ 12.' },
+              { phase: 'probe', mcq: 'At the halfway checkpoint you’re 2 minutes behind. Best move?', options: ['Shorten the next section’s examples', 'Speak twice as fast', 'Skip the conclusion'], answer: 0, why: 'Time management.' },
+              { phase: 'probe', speak: 'Deliver a 5-minute presentation using notes only as prompts, finishing within 15 seconds of time.', checklist: ['Used notes as prompts', 'Smooth transitions', 'Hit time checkpoints', 'Strong close'], tips: 'Mark “2:30 — should be on slide 4” in notes.' },
+            ],
+            teach: {
+              explain: 'Rehearsal and time management.', analogy: 'Notes are road signs, not the road.',
+              vocab: [['checkpoint', 'Planned time marker.'], ['transition', 'Link between slides.']],
+              demo: 'Timed rehearsal.',
+              prompts: [['Behind time?', 'Cut examples.'], ['Notes?', 'Prompts.']],
+              support: 'Notes template.', stretch: 'Present without notes.',
+              mis: [['Reading notes is fine if they’re good', 'Prompts sound natural.']],
+              sheet: 'Speaker notes and timing plan.',
+            },
+          },
+          {
+            t: 'Confident professional delivery', o: 'Open strongly, manage the room and close with clear next steps.', min: 35,
+            hook: ['word', 'Strong open · Steady middle · Clear close', 'delivery arc'],
+            cards: [
+              ['🚪', 'Open', 'Thank briefly, state purpose and the key message in the first 30 seconds.'],
+              ['🎛️', 'Manage the room', 'Read energy; pause for questions at planned points.'],
+              ['🏁', 'Close', 'Recap, recommendation, next steps, thank you.'],
+            ],
+            acts: [
+              { mcq: 'Strongest professional opening?', options: ['Thank you for the time. In the next 10 minutes I’ll recommend a recycling programme that saves ₹40,000 a year.', 'So, um, hi everyone, I guess I’ll start.', 'Can everyone see my screen? Hello? Hello?'], answer: 0, why: 'Purpose + message.' },
+              { order: 'Order a professional close', steps: ['Recap the key reasons', 'Restate the recommendation', 'Propose next steps with owners and dates', 'Invite questions', 'Thank the audience'], why: 'Close.' },
+              { phase: 'probe', mcq: 'The audience looks lost mid-presentation. Best move?', options: ['Pause and ask a quick check question', 'Keep going faster', 'Skip to the end'], answer: 0, why: 'Reading the room.' },
+              { phase: 'probe', speak: 'Deliver the opening and closing of a 10-minute professional presentation.', checklist: ['Purpose and key message in 30 seconds', 'Clear recap', 'Specific next steps', 'Confident tone'], tips: 'Memorise your first and last sentences.' },
+            ],
+            teach: {
+              explain: 'Professional presence.', analogy: 'Openings and closings are the bookends that hold everything together.',
+              vocab: [['next steps', 'Agreed actions.'], ['read the room', 'Notice audience reactions.']],
+              demo: 'Model open/close.',
+              prompts: [['First 30 seconds?', 'Purpose + message.'], ['Close?', 'Next steps.']],
+              support: 'Open/close scripts.', stretch: 'Handle an interruption.',
+              mis: [['Start with apologies for nerves', 'Start with purpose.']],
+              sheet: 'Opening and closing scripts.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Presentation Skills', band: '9-12', level: 'Intermediate', title: 'Data Storytelling and Research Presentations',
+    description: 'Present research and data compellingly: analytical storylines, honest charts, academic conference-style talks and posters.',
+    intro: 'Turn research into a compelling story. 🔬📈', theme: 'meadow', tutor: pr, tools: prTools,
+    style: 'Research presentation labs and poster sessions.',
+    outcomes: ['Builds analytical storylines from data', 'Designs honest, clear charts', 'Delivers conference-style research talks', 'Designs academic posters'],
+    prereq: ['Professional Presentations'],
+    modules: [
+      {
+        title: 'Module 1: Data storytelling',
+        lessons: [
+          {
+            t: 'From data to story', o: 'Turn analysis into a storyline with a clear “so what”.', min: 40,
+            hook: ['word', 'What? So what? Now what?', 'data story frame'],
+            cards: [
+              ['📊', 'What', 'What does the data show?'],
+              ['❓', 'So what', 'Why does it matter to this audience?'],
+              ['➡️', 'Now what', 'What should happen next?'],
+            ],
+            acts: [
+              { order: 'Order a data story', steps: ['Context: what we asked and why', 'What: key finding with one chart', 'So what: implications for students', 'Now what: recommendation', 'Limitations and next research'], why: 'Narrative flow.' },
+              { mcq: 'Finding: students who sleep 8+ hours score 10% higher on average. “So what” for a school audience?', options: ['Later start times or sleep education could improve learning', 'Sleep exists', 'Charts are nice'], answer: 0, why: 'Implication.' },
+              { phase: 'probe', mcq: 'Why mention limitations?', options: ['Builds credibility and prevents over-claiming', 'Wastes time', 'Weakens everything'], answer: 0, why: 'Honesty.' },
+              { phase: 'probe', write: 'Write a What–So what–Now what summary for a dataset you’ve analysed (or a class survey).', keywords: ['shows', 'matters', 'recommend'], exemplar: 'What: 68% of students skip breakfast on exam days. So what: hunger reduces concentration during morning exams. Now what: offer a free breakfast table during exam week.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Data narrative frameworks.', analogy: 'Data is the ingredients; the story is the meal.',
+              vocab: [['implication', 'What a finding means.'], ['limitation', 'Weakness or boundary of findings.']],
+              demo: 'Build a data story from a dataset.',
+              prompts: [['So what?', 'Audience relevance.'], ['Now what?', 'Action.']],
+              support: 'Frame template.', stretch: 'Multiple-finding narrative.',
+              mis: [['Show all the data', 'Show what matters.']],
+              sheet: 'Data story frame.',
+            },
+          },
+          {
+            t: 'Honest charts', o: 'Design charts that are accurate and avoid misleading techniques.', min: 40,
+            hook: ['word', 'Zero baseline · Fair scales · Full context', 'honest charts'],
+            cards: [
+              ['📏', 'Baselines', 'Bar charts should start at zero.'],
+              ['🎚️', 'Consistent scales', 'Don’t stretch axes to exaggerate.'],
+              ['🧾', 'Context', 'Show sample size, source and time period.'],
+            ],
+            acts: [
+              { sort: 'Honest or misleading?', buckets: ['Honest', 'Misleading'], items: [['Bar chart starting at zero', 0], ['Bar chart y-axis starting at 95%', 1], ['Source and sample size shown', 0], ['Cherry-picking only the best months', 1], ['Consistent intervals on axes', 0]], why: 'Integrity.' },
+              { mcq: 'A line chart shows only 3 good months of a 12-month trend. This is…', options: ['Cherry-picking', 'Fair summary', 'Required'], answer: 0, why: 'Selection bias.' },
+              { phase: 'probe', mcq: 'Why include sample size (n = 40)?', options: ['Audiences can judge how reliable the result is', 'Decoration', 'Nobody cares'], answer: 0, why: 'Transparency.' },
+              { phase: 'probe', write: 'Critique a chart from the news or a textbook for honesty and clarity.', keywords: ['axis', 'baseline', 'source', 'misleading', 'clear'], exemplar: 'The bar chart starts at 40%, so a 2-point difference looks huge; it also lacks a source. I’d restart at zero and add the source and sample size.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Data visualisation ethics.', analogy: 'Charts can be honest mirrors or funhouse mirrors.',
+              vocab: [['baseline', 'Starting value of an axis.'], ['cherry-picking', 'Selecting only favourable data.']],
+              demo: 'Misleading chart gallery.',
+              prompts: [['Zero baseline?', 'Bars.'], ['Context?', 'Source, n.']],
+              support: 'Chart checklist.', stretch: 'Redesign misleading charts.',
+              mis: [['Dramatic charts are more persuasive', 'Honest charts build trust.']],
+              sheet: 'Honest chart checklist.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Research communication',
+        lessons: [
+          {
+            t: 'Conference-style research talks', o: 'Deliver a 10-minute research talk with Q&A.', min: 45,
+            hook: ['word', 'Question · Method · Findings · Meaning', 'research talk arc'],
+            cards: [
+              ['❓', 'Research question', 'Start with why the question matters.'],
+              ['🔬', 'Method briefly', 'Enough for credibility, not every detail.'],
+              ['💡', 'Findings and meaning', '2–3 key findings and what they mean.'],
+            ],
+            acts: [
+              { order: 'Order a research talk', steps: ['Hook: why the question matters', 'Research question', 'Method in brief', 'Key findings with visuals', 'Interpretation and limitations', 'Conclusion and future work', 'Q&A'], why: 'Arc.' },
+              { mcq: 'How much method detail in a 10-minute talk?', options: ['Enough to judge credibility; details in backup slides', 'Every step for 6 minutes', 'None'], answer: 0, why: 'Balance.' },
+              { phase: 'probe', mcq: 'Backup (appendix) slides are useful for…', options: ['Answering detailed questions', 'Showing during the talk', 'Decoration'], answer: 0, why: 'Q&A prep.' },
+              { phase: 'probe', speak: 'Deliver the first 3 minutes of a research talk on a project you’ve done.', checklist: ['Why the question matters', 'Clear question', 'Brief method', 'Signposted structure'], tips: 'Keep jargon to a minimum or define it.' },
+            ],
+            teach: {
+              explain: 'Academic presentation conventions.', analogy: 'A research talk is a guided tour of your discovery.',
+              vocab: [['backup slides', 'Extra slides for Q&A.'], ['future work', 'Next research steps.']],
+              demo: 'Model research talk.',
+              prompts: [['Why care?', 'Hook.'], ['Method depth?', 'Brief.']],
+              support: 'Talk template.', stretch: 'Present at a student conference.',
+              mis: [['Show every result', 'Show key findings.']],
+              sheet: 'Research talk template.',
+            },
+          },
+          {
+            t: 'Academic posters', o: 'Design and present an academic poster.', min: 40,
+            hook: ['word', 'Readable from 2 metres · 3 key findings · 300–800 words', 'poster rules'],
+            cards: [
+              ['📐', 'Layout', 'Columns flowing left-to-right: intro, method, results, conclusion.'],
+              ['🖼️', 'Visual-first', 'Large figures carry the story; text supports.'],
+              ['🗣️', 'Poster pitch', 'A 1-minute spoken walkthrough for visitors.'],
+            ],
+            acts: [
+              { sort: 'Good poster practice or not?', buckets: ['Good', 'Not good'], items: [['Title readable from 3 metres', 0], ['Dense paragraphs of 2,000 words', 1], ['Large, labelled figures', 0], ['Random layout with no reading order', 1], ['Key takeaway box', 0]], why: 'Poster design.' },
+              { mcq: 'A visitor stops at your poster. You…', options: ['Offer a 1-minute walkthrough and ask what interests them', 'Read the poster aloud entirely', 'Ignore them'], answer: 0, why: 'Engagement.' },
+              { phase: 'probe', mcq: 'Ideal reading flow on a poster?', options: ['Columns from top-left to bottom-right', 'Random', 'Bottom to top'], answer: 0, why: 'Convention.' },
+              { phase: 'probe', write: 'Write your poster’s 1-minute pitch and its three key findings.', keywords: ['found', 'question', 'finding'], exemplar: 'We asked whether classroom plants improve air quality. Using CO2 monitors over 4 weeks, we found: 1) CO2 fell 8% with plants; 2) effect strongest in afternoons; 3) ventilation mattered more than plants. So: open windows first, add plants second.', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Poster design and presentation.', analogy: 'A poster is a billboard for your research.',
+              vocab: [['poster session', 'Event with research posters.'], ['figure', 'Chart or image.']],
+              demo: 'Poster critique.',
+              prompts: [['Readable?', 'Distance.'], ['Pitch?', '1 minute.']],
+              support: 'Poster template.', stretch: 'Print and present.',
+              mis: [['Posters should include everything', 'Focus on key findings.']],
+              sheet: 'Poster template and pitch planner.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Presentation Skills', band: '9-12', level: 'Advanced', title: 'Executive Presence and High-Stakes Presenting',
+    description: 'Present in high-stakes settings — interviews, competitions, boardroom-style briefings — with executive presence, adaptability and impact.',
+    intro: 'Own the room when it matters most. 🎯', theme: 'meadow', tutor: pr, tools: prTools,
+    style: 'High-stakes simulations with panel feedback.',
+    outcomes: ['Demonstrates executive presence', 'Delivers concise briefings to decision-makers', 'Adapts live to audience and disruptions', 'Delivers a capstone presentation to a panel'],
+    prereq: ['Data Storytelling and Research Presentations'],
+    modules: [
+      {
+        title: 'Module 1: Presence and briefings',
+        lessons: [
+          {
+            t: 'Executive presence', o: 'Project confidence, clarity and composure under pressure.', min: 40,
+            hook: ['word', 'Gravitas · Communication · Appearance', 'presence pillars'],
+            cards: [
+              ['⚓', 'Composure', 'Calm under pressure; slow down when stakes rise.'],
+              ['🎯', 'Concision', 'Say less, mean more; avoid filler and over-explaining.'],
+              ['🤝', 'Connection', 'Listen actively; respond to people, not just slides.'],
+            ],
+            acts: [
+              { sort: 'Strengthens or weakens presence?', buckets: ['Strengthens', 'Weakens'], items: [['Pausing before answering a tough question', 0], ['Apologising repeatedly', 1], ['Concise, structured answers', 0], ['Over-explaining every detail', 1], ['Steady eye contact', 0]], why: 'Presence.' },
+              { mcq: 'A panel interrupts with a hard question mid-slide. Best response?', options: ['Pause, answer concisely, and offer to return to the slide', 'Panic and skip slides', 'Ask them to wait until the end, annoyed'], answer: 0, why: 'Adaptability.' },
+              { phase: 'probe', mcq: 'Concision means…', options: ['Delivering the key point in as few words as needed', 'Speaking as fast as possible', 'Leaving out evidence'], answer: 0, why: 'Definition.' },
+              { phase: 'probe', speak: 'Answer in 45 seconds: “Why should we choose your proposal over the others?”', checklist: ['Paused before answering', 'Clear headline answer', 'Two supporting reasons', 'Confident close'], tips: 'Answer first, then justify.' },
+            ],
+            teach: {
+              explain: 'Executive presence components.', analogy: 'Presence is the calm captain in a storm.',
+              vocab: [['gravitas', 'Seriousness and weight.'], ['concision', 'Brevity with meaning.']],
+              demo: 'Model composed responses.',
+              prompts: [['Hard question?', 'Pause, answer.'], ['Apologise?', 'Sparingly.']],
+              support: 'Response frames.', stretch: 'Panel pressure drill.',
+              mis: [['Presence means being loud', 'It means calm clarity.']],
+              sheet: 'Presence self-assessment.',
+            },
+          },
+          {
+            t: 'Briefing decision-makers', o: 'Deliver a 3-minute briefing with options and a recommendation.', min: 40,
+            hook: ['word', 'Situation · Options · Recommendation · Risks', 'decision briefing'],
+            cards: [
+              ['📋', 'One page in your head', 'Decision-makers want the issue, options and your recommendation fast.'],
+              ['⚖️', 'Options', 'Present 2–3 genuine options with pros and cons.'],
+              ['⚠️', 'Risks', 'Name the risks of your recommendation and how to manage them.'],
+            ],
+            acts: [
+              { order: 'Order a decision briefing', steps: ['The decision needed and deadline', 'Situation in brief', 'Option A, B, C with trade-offs', 'Recommendation and why', 'Key risks and mitigations', 'Ask for decision'], why: 'Briefing structure.' },
+              { mcq: 'Why present multiple options?', options: ['Decision-makers need to see trade-offs to trust the recommendation', 'To confuse them', 'To avoid recommending'], answer: 0, why: 'Credibility.' },
+              { phase: 'probe', mcq: 'Hiding a major risk is…', options: ['Unethical and damages trust when discovered', 'Smart strategy', 'Required'], answer: 0, why: 'Integrity.' },
+              { phase: 'probe', speak: 'Brief your principal in 3 minutes on whether to hold annual day indoors or outdoors, with a recommendation.', checklist: ['Decision and deadline stated', 'Two or three options', 'Clear recommendation', 'Risks and mitigations', 'Direct ask'], tips: 'Practise fitting it in exactly 3 minutes.' },
+            ],
+            teach: {
+              explain: 'Executive briefing format.', analogy: 'You’re the navigator giving the captain clear choices.',
+              vocab: [['trade-off', 'Gaining one thing by giving up another.'], ['mitigation', 'Reducing risk.']],
+              demo: 'Mock briefing.',
+              prompts: [['Options?', 'Real ones.'], ['Risks?', 'Name them.']],
+              support: 'Briefing template.', stretch: 'Brief with interruptions.',
+              mis: [['Give only your preferred option', 'Show trade-offs.']],
+              sheet: 'Decision briefing template.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Adaptability and capstone',
+        lessons: [
+          {
+            t: 'Adapting live', o: 'Adapt to time cuts, tech failures and audience shifts during presentations.', min: 40,
+            hook: ['word', '20 minutes → “You have 5”', 'adaptability'],
+            cards: [
+              ['✂️', 'Time cuts', 'Know your 1-minute, 5-minute and full versions.'],
+              ['🔌', 'Tech failure', 'Be able to present without slides.'],
+              ['👀', 'Audience shifts', 'Skip what they know; expand what interests them.'],
+            ],
+            acts: [
+              { mcq: 'Your 20-minute slot is cut to 5. Best move?', options: ['Deliver your prepared 5-minute version: message, top reason, ask', 'Speak four times faster', 'Cancel'], answer: 0, why: 'Preparedness.' },
+              { sort: 'Good adaptation or poor?', buckets: ['Good', 'Poor'], items: [['Using a whiteboard when the projector fails', 0], ['Stopping until IT fixes it', 1], ['Skipping basics the panel clearly knows', 0], ['Reading every slide regardless of audience', 1]], why: 'Flexibility.' },
+              { phase: 'probe', mcq: 'Best preparation for disruptions?', options: ['Rehearse short versions and a no-slides version', 'Hope nothing goes wrong', 'Memorise slides only'], answer: 0, why: 'Contingency.' },
+              { phase: 'probe', speak: 'Deliver your presentation’s 1-minute version without slides.', checklist: ['Key message', 'Top reason', 'Clear ask', 'Composed delivery'], tips: 'This is your “elevator” version.' },
+            ],
+            teach: {
+              explain: 'Contingency planning for presentations.', analogy: 'Pilots train for engine failure.',
+              vocab: [['contingency', 'Backup plan.'], ['elevator pitch', 'Very short version.']],
+              demo: 'Surprise time-cut drill.',
+              prompts: [['Versions?', '1, 5, full.'], ['Tech fails?', 'Continue.']],
+              support: 'Version planner.', stretch: 'Random disruption drills.',
+              mis: [['Disruptions ruin presentations', 'Recovery impresses audiences.']],
+              sheet: 'Multi-length version planner.',
+            },
+          },
+          {
+            t: 'Capstone panel presentation', o: 'Deliver a capstone presentation to a panel and handle rigorous Q&A.', min: 50,
+            hook: ['word', 'Prepare · Present · Defend · Reflect', 'capstone'],
+            cards: [
+              ['📋', 'Brief', 'Choose a real proposal or research project.'],
+              ['🎤', 'Present', '10 minutes with visuals and a clear recommendation.'],
+              ['🛡️', 'Defend', '5–10 minutes of panel questions; stay composed and evidence-based.'],
+            ],
+            acts: [
+              { order: 'Order capstone preparation', steps: ['Choose a topic and audience', 'Build the pyramid outline', 'Design the deck', 'Rehearse full and short versions', 'Prepare for 10 likely questions', 'Present and defend', 'Reflect with feedback'], why: 'Capstone process.' },
+              { mcq: 'Panel asks a question outside your scope. Best response?', options: ['Acknowledge, share what you can, and note it as future work', 'Bluff', 'Refuse'], answer: 0, why: 'Honesty and composure.' },
+              { phase: 'probe', speak: 'Deliver your 10-minute capstone presentation and take questions.', checklist: ['Answer-first structure', 'Clean, honest visuals', 'Executive presence', 'Composed, evidence-based Q&A', 'Within time'], tips: 'Have backup slides ready for detailed questions.' },
+              { phase: 'probe', write: 'Write your capstone reflection: strengths, one moment you’d redo, and what you learned.', keywords: ['strength', 'redo', 'learned', 'panel'], exemplar: 'Strengths: concise opening and strong data slide. Redo: I rushed the risks section when time ran short. Learned: preparing a 5-minute version saved me when the panel interrupted.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Integrated high-stakes presentation.', analogy: 'The final exam that shows everything you’ve learned.',
+              vocab: [['panel', 'Group of evaluators.'], ['defend', 'Justify under questioning.']],
+              demo: 'Model panel Q&A.',
+              prompts: [['Likely questions?', 'Prepare 10.'], ['Composure?', 'Pause.']],
+              support: 'Capstone checklist.', stretch: 'Present to external guests.',
+              mis: [['The presentation is the hard part', 'Q&A often decides.']],
+              sheet: 'Capstone rubric and reflection.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+];

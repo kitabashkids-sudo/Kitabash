@@ -1,0 +1,1046 @@
+// Life & Financial Skills — Study Skills (3-5, 6-8, 9-12).
+import type { CourseSpec } from '../types.ts';
+
+const owl: [string, string] = ['Ollie', 'A study coach who teaches evidence-based learning strategies and encourages healthy habits.'];
+
+export const LIFE_8: CourseSpec[] = [
+  // ── 3-5 ──
+  {
+    subject: 'Study Skills', band: '3-5', level: 'Beginner', title: 'Learning How to Learn',
+    description: 'Build a growth mindset, get organised and become an active listener in class.',
+    intro: 'Your brain can grow — let’s train it! 🧠', theme: 'grape', tutor: owl,
+    style: 'Encouraging, practical routines, short reflections.',
+    outcomes: ['Explains growth mindset', 'Organises bag and desk', 'Uses active listening'],
+    modules: [
+      {
+        title: 'Module 1: Mindset',
+        lessons: [
+          {
+            t: 'Growth mindset', o: 'Explain that abilities grow with effort, strategies and help.', min: 25,
+            hook: ['upgrade', 'I can’t do it.', 'I can’t do it YET.'],
+            cards: [
+              ['🌱', 'Brains grow', 'When you practise and try new strategies, your brain builds stronger connections.'],
+              ['💪', 'Effort + strategy', 'It’s not just trying harder — try different ways and ask for help.'],
+              ['⭐', 'The power of yet', 'Add “yet”: “I can’t do long division… yet.”'],
+            ],
+            acts: [
+              { sort: 'Growth or fixed mindset?', buckets: ['Growth', 'Fixed'], items: [['“I’ll try a different way.”', 0], ['“I’m just bad at maths.”', 1], ['“Mistakes help me learn.”', 0], ['“If it’s hard, I give up.”', 1], ['“I can’t do it yet.”', 0]], why: 'Growth mindset believes abilities can improve.' },
+              { mcq: 'You keep getting a sum wrong. A growth-mindset step is…', options: ['Try a new strategy or ask for help', 'Say you’re not a maths person', 'Stop trying'], answer: 0, why: 'Strategy + help.' },
+              { phase: 'probe', mcq: 'Which is the best praise for learning?', options: ['“You worked hard and tried new ways!”', '“You’re a genius.”', '“That was easy for you.”'], answer: 0, why: 'Praise effort and strategy.' },
+              { phase: 'probe', write: 'Write about something you couldn’t do before but can now. How did you learn it?', keywords: ['practise', 'learned', 'help', 'now'], exemplar: 'I couldn’t ride a bicycle, but I practised every evening and my brother helped me balance. Now I ride to the park.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Growth mindset (Dweck) framed with strategy and help-seeking.', analogy: 'Your brain is like a muscle that gets stronger with exercise.',
+              vocab: [['growth mindset', 'Belief that you can improve.'], ['strategy', 'A way of doing something.'], ['yet', 'Not now, but later.']],
+              demo: 'Share a personal story of learning something hard.',
+              prompts: [['What’s the power of yet?', 'Shows learning is ongoing.'], ['Is effort alone enough?', 'Need strategies and help.']],
+              support: 'Sentence switch cards.', stretch: 'Make a “yet” poster.',
+              mis: [['Growth mindset means just try harder', 'Also change strategies and ask for help.']],
+              sheet: 'Fixed-to-growth sentence switches.',
+            },
+          },
+          {
+            t: 'Mistakes help us learn', o: 'Use mistakes to improve.', min: 25,
+            hook: ['word', 'Oops → Aha!', 'mistakes are clues'],
+            cards: [
+              ['🔍', 'Find the mistake', 'Look carefully at where it went wrong.'],
+              ['🧩', 'Understand why', 'Ask why it happened — careless slip or misunderstanding?'],
+              ['🔁', 'Try again', 'Fix it and try a similar problem.'],
+            ],
+            acts: [
+              { order: 'Order the steps to learn from a mistake', steps: ['Notice the mistake', 'Find where it went wrong', 'Understand why', 'Fix it', 'Try a similar question'], why: 'Mistake → learning.' },
+              { mcq: 'You wrote 7 × 8 = 54. What’s the best next step?', options: ['Check with a times table strategy and correct it to 56', 'Erase and hide it', 'Say you’re bad at maths'], answer: 0, why: 'Find and fix.' },
+              { phase: 'probe', mcq: 'Why are mistakes useful?', options: ['They show what to practise', 'They mean you failed forever', 'They’re never useful'], answer: 0, why: 'Feedback for learning.' },
+              { phase: 'probe', write: 'Describe a mistake you made and what you learned.', keywords: ['mistake', 'learned', 'next time'], exemplar: 'I forgot to carry the 1 when adding. Now I circle carried numbers so I remember.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Error analysis as learning.', analogy: 'Mistakes are signposts showing which way to go.',
+              vocab: [['mistake', 'Something done wrong.'], ['correct', 'Make right.']],
+              demo: 'Model error analysis on the board.',
+              prompts: [['Slip or misunderstanding?', 'Diagnose.'], ['What next?', 'Practise similar.']],
+              support: 'Error checklist.', stretch: 'Mistake journal for a week.',
+              mis: [['Good learners don’t make mistakes', 'Everyone makes mistakes.']],
+              sheet: 'Mistake detective sheet.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Organise and listen',
+        lessons: [
+          {
+            t: 'Getting organised', o: 'Organise school bag, desk and materials.', min: 25,
+            hook: ['word', 'A place for everything', 'get organised'],
+            cards: [
+              ['🎒', 'Pack the night before', 'Check the timetable and pack your bag the evening before.'],
+              ['🗂️', 'Folders', 'Use a folder for each subject or a colour code.'],
+              ['🧹', 'Clear desk', 'A tidy desk helps you focus.'],
+            ],
+            acts: [
+              { order: 'Order an evening bag routine', steps: ['Check tomorrow’s timetable', 'Take out old papers', 'Pack books and notebooks', 'Pack pencil case and water bottle', 'Put the bag by the door'], why: 'A routine prevents forgetting.' },
+              { mcq: 'Why pack your bag the night before?', options: ['Less rushing and forgetting in the morning', 'Bags like it', 'No reason'], answer: 0, why: 'Calm mornings.' },
+              { phase: 'probe', mcq: 'You keep losing worksheets. Best fix?', options: ['A labelled folder for each subject', 'Stuff them anywhere', 'Throw them away'], answer: 0, why: 'A system.' },
+              { phase: 'probe', write: 'Describe your plan to keep your study space organised.', keywords: ['folder', 'desk', 'pack', 'tidy'], exemplar: 'I’ll keep one folder per subject, clear my desk after homework and pack my bag every night.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Organisation systems reduce cognitive load.', analogy: 'Organising is like having a home for every toy.',
+              vocab: [['organise', 'Put things in order.'], ['routine', 'Regular steps.']],
+              demo: 'Bag-packing race with checklist.',
+              prompts: [['What’s in your bag?', 'Check.'], ['How do folders help?', 'Find papers fast.']],
+              support: 'Checklist.', stretch: 'Colour-code system.',
+              mis: [['Messy is fine if you remember', 'Systems help everyone.']],
+              sheet: 'Bag-packing checklist.',
+            },
+          },
+          {
+            t: 'Active listening in class', o: 'Use active listening to understand and remember.', min: 25,
+            hook: ['word', 'Look · Listen · Think · Ask', 'active listening'],
+            cards: [
+              ['👀', 'Look', 'Look at the speaker.'],
+              ['👂', 'Listen for key words', 'Listen for words like “first”, “important”, “remember”.'],
+              ['❓', 'Ask', 'Ask a question if you’re unsure.'],
+            ],
+            acts: [
+              { sort: 'Active listening or not?', buckets: ['Active listening', 'Not listening'], items: [['Looking at the teacher', 0], ['Doodling and chatting', 1], ['Noting key words', 0], ['Asking a question', 0], ['Playing with a pencil case', 1]], why: 'Active listening is focused.' },
+              { mcq: 'The teacher says “This is important for the test.” What should you do?', options: ['Note it down', 'Ignore it', 'Talk to a friend'], answer: 0, why: 'Signal words.' },
+              { phase: 'probe', mcq: 'You didn’t understand an instruction. Best action?', options: ['Ask politely for it again', 'Guess', 'Copy a friend'], answer: 0, why: 'Clarify.' },
+              { phase: 'probe', write: 'Write two signal words teachers use to show something is important.', keywords: ['important', 'remember', 'key', 'first'], exemplar: '“Remember” and “The key point is”.', minWords: 6 },
+            ],
+            teach: {
+              explain: 'Attention and signal words.', analogy: 'Listening is like catching a ball — eyes and hands ready.',
+              vocab: [['active listening', 'Focused listening with thinking.'], ['signal word', 'A word that shows importance.']],
+              demo: 'Listening game with signal words.',
+              prompts: [['How do you show you’re listening?', 'Eyes, nodding.'], ['What if lost?', 'Ask.']],
+              support: 'Signal word list.', stretch: 'Summarise a 2-minute talk.',
+              mis: [['Being quiet means listening', 'Active listening involves thinking.']],
+              sheet: 'Listening checklist.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Study Skills', band: '3-5', level: 'Intermediate', title: 'Homework Habits and Memory Tricks',
+    description: 'Build a homework routine, use memory tricks, and review learning so it sticks.',
+    intro: 'Make learning stick! 🧲', theme: 'grape', tutor: owl,
+    style: 'Practical routines, memory games, self-testing.',
+    outcomes: ['Follows a homework routine', 'Uses mnemonics and chunking', 'Reviews with self-quizzing'],
+    modules: [
+      {
+        title: 'Module 1: Homework',
+        lessons: [
+          {
+            t: 'A homework routine', o: 'Create a regular homework routine.', min: 25,
+            hook: ['word', 'Same time · Same place', 'homework routine'],
+            cards: [
+              ['🕓', 'Same time', 'Do homework at the same time each day.'],
+              ['🪑', 'Same place', 'A quiet place with good light and your supplies.'],
+              ['✅', 'Check off', 'List tasks and tick them off.'],
+            ],
+            acts: [
+              { mcq: 'Which is the best homework place?', options: ['A quiet table with light and supplies', 'In front of the TV', 'In bed'], answer: 0, why: 'Few distractions.' },
+              { order: 'Order a homework session', steps: ['Snack and water', 'List tasks', 'Start with the hardest task', 'Short break', 'Finish and pack bag'], why: 'Plan, focus, break, finish.' },
+              { phase: 'probe', mcq: 'Why do the hardest task first?', options: ['You have the most energy at the start', 'It’s a rule', 'It’s the shortest'], answer: 0, why: 'Energy management.' },
+              { phase: 'probe', write: 'Write your homework routine: time, place, steps.', keywords: ['time', 'place', 'first', 'break'], exemplar: '5 pm at the dining table. List tasks, do maths first, 5-minute break, then English, then pack my bag.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Habit formation and environment design.', analogy: 'A routine is a path you walk so often it’s easy.',
+              vocab: [['routine', 'Regular steps.'], ['distraction', 'Something that takes your attention.']],
+              demo: 'Design a homework corner.',
+              prompts: [['What distracts you?', 'TV, phone.'], ['How long breaks?', 'Short.']],
+              support: 'Routine template.', stretch: 'Track for 2 weeks.',
+              mis: [['Homework is best with TV on', 'Distractions slow you down.']],
+              sheet: 'Homework routine planner.',
+            },
+          },
+          {
+            t: 'Chunking big tasks', o: 'Break big tasks into smaller steps.', min: 25,
+            hook: ['word', 'Chunk it', 'big tasks in small bites'],
+            cards: [
+              ['🧱', 'Big tasks', 'A project can feel huge.'],
+              ['✂️', 'Chunk', 'Break it into small steps.'],
+              ['📅', 'Schedule', 'Do one or two steps each day.'],
+            ],
+            acts: [
+              { order: 'Chunk a poster project', steps: ['Choose the topic', 'Find 5 facts', 'Sketch the layout', 'Draw and colour', 'Write captions and check'], why: 'Small doable steps.' },
+              { mcq: 'A project is due in 5 days with 5 steps. A good plan?', options: ['One step each day', 'All on the last night', 'Skip steps'], answer: 0, why: 'Spread work.' },
+              { phase: 'probe', mcq: 'Why chunk tasks?', options: ['They feel less scary and get done', 'They become longer', 'Teachers like small papers'], answer: 0, why: 'Manageable.' },
+              { phase: 'probe', write: 'Chunk this task into steps: “Learn 20 spellings for Friday.”', keywords: ['day', 'words', 'test'], exemplar: 'Mon: 5 words. Tue: 5 more. Wed: 5 more. Thu: last 5. Fri morning: test myself on all 20.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Task decomposition and distributed work.', analogy: 'Eating a big roti one bite at a time.',
+              vocab: [['chunk', 'A small part.'], ['deadline', 'When it’s due.']],
+              demo: 'Chunk a project on the board.',
+              prompts: [['How many steps?', 'Depends.'], ['What if behind?', 'Adjust plan.']],
+              support: 'Step template.', stretch: 'Chunk two projects together.',
+              mis: [['Last-minute work is just as good', 'Spreading work improves quality.']],
+              sheet: 'Task chunking planner.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Memory',
+        lessons: [
+          {
+            t: 'Memory tricks', o: 'Use mnemonics and pictures to remember.', min: 25,
+            hook: ['word', 'VIBGYOR', 'a memory trick for rainbow colours'],
+            cards: [
+              ['🌈', 'Acronyms', 'VIBGYOR helps remember Violet, Indigo, Blue, Green, Yellow, Orange, Red.'],
+              ['🖼️', 'Pictures', 'Draw a silly picture to link ideas.'],
+              ['🎵', 'Rhymes and songs', 'Put facts into a rhyme or tune.'],
+            ],
+            acts: [
+              { mcq: 'What does VIBGYOR help you remember?', options: ['Colours of the rainbow', 'Planets', 'Months'], answer: 0, why: 'Rainbow colours.' },
+              { match: 'Match the memory trick', pairs: [['VIBGYOR', 'Acronym'], ['“Thirty days has September…”', 'Rhyme'], ['Drawing a funny picture for a word', 'Visual image'], ['Singing the times tables', 'Song']], why: 'Different mnemonic types.' },
+              { phase: 'probe', mcq: 'Which helps memory most for a test next week?', options: ['A memory trick plus testing yourself a few times', 'Reading once', 'Copying notes neatly only'], answer: 0, why: 'Mnemonic + retrieval.' },
+              { phase: 'probe', write: 'Invent a memory trick for something you need to learn.', keywords: ['remember', 'trick', 'stands for'], exemplar: 'For the order of operations I use “BODMAS” — Brackets, Orders, Division, Multiplication, Addition, Subtraction.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Mnemonics and dual coding.', analogy: 'Memory tricks are hooks to hang facts on.',
+              vocab: [['mnemonic', 'A memory trick.'], ['acronym', 'Word from first letters.']],
+              demo: 'Create a class acronym.',
+              prompts: [['Which trick suits you?', 'Varied.'], ['Why pictures?', 'Easier to recall.']],
+              support: 'Trick menu.', stretch: 'Teach your trick to a friend.',
+              mis: [['Tricks replace understanding', 'They help recall alongside understanding.']],
+              sheet: 'Make-a-mnemonic sheet.',
+            },
+          },
+          {
+            t: 'Quiz yourself', o: 'Use self-quizzing and spaced review to remember longer.', min: 25,
+            hook: ['pattern', ['Day 1', 'Day 2', 'Day 4', 'Day 7'], 'Day 14'],
+            cards: [
+              ['❓', 'Test yourself', 'Cover your notes and try to remember — this strengthens memory.'],
+              ['📅', 'Space it out', 'Review after 1 day, then 3 days, then a week.'],
+              ['🃏', 'Flashcards', 'Question on one side, answer on the other.'],
+            ],
+            acts: [
+              { mcq: 'Which helps you remember more?', options: ['Testing yourself several times over days', 'Reading notes many times in one night', 'Highlighting everything'], answer: 0, why: 'Retrieval + spacing.' },
+              { order: 'Order a spaced review plan', steps: ['Learn it today', 'Quiz yourself tomorrow', 'Quiz again in 3 days', 'Quiz again in a week'], why: 'Increasing gaps.' },
+              { phase: 'probe', mcq: 'When you can’t remember an answer on a flashcard, what should you do?', options: ['Check, then try it again later', 'Throw the card away', 'Never look'], answer: 0, why: 'Retry later.' },
+              { phase: 'probe', write: 'Make three flashcards (question → answer) for something you’re learning.', keywords: ['?', 'answer'], exemplar: 'What is the capital of Kerala? → Thiruvananthapuram. 6 × 7? → 42. What do plants need? → Water, light, air.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Retrieval practice and spacing effect.', analogy: 'Memory is a path in a forest — walk it often and it stays clear.',
+              vocab: [['retrieval', 'Bringing information back to mind.'], ['spaced review', 'Reviewing with gaps.']],
+              demo: 'Flashcard game.',
+              prompts: [['Why test yourself?', 'Strengthens memory.'], ['Why gaps?', 'Longer memory.']],
+              support: 'Flashcard templates.', stretch: 'Leitner box system.',
+              mis: [['Re-reading is the best way', 'Self-testing works better.']],
+              sheet: 'Flashcard and review calendar.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Study Skills', band: '3-5', level: 'Advanced', title: 'Planning Projects and Preparing for Tests',
+    description: 'Use a planner, prepare for tests step by step and handle test worries calmly.',
+    intro: 'Plan it, prepare it, ace it! 📅', theme: 'grape', tutor: owl,
+    style: 'Planners, practice tests, calming strategies.',
+    outcomes: ['Uses a weekly planner', 'Prepares for tests with a plan', 'Uses calming strategies for test worries'],
+    modules: [
+      {
+        title: 'Module 1: Planning',
+        lessons: [
+          {
+            t: 'Using a planner', o: 'Use a weekly planner for homework, tests and activities.', min: 25,
+            hook: ['word', 'Plan the week', 'see it all at once'],
+            cards: [
+              ['🗓️', 'Write it down', 'Write homework, tests and activities in your planner.'],
+              ['🎨', 'Colour code', 'Use colours for subjects or types of tasks.'],
+              ['👀', 'Check daily', 'Look at your planner every evening.'],
+            ],
+            acts: [
+              { mcq: 'Where should you write a test date when the teacher announces it?', options: ['In your planner straight away', 'Nowhere', 'On your hand'], answer: 0, why: 'Capture immediately.' },
+              { sort: 'Planner entry or not needed?', buckets: ['Write in planner', 'Not needed'], items: [['Science test on Friday', 0], ['Football practice Tuesday', 0], ['What you ate for lunch', 1], ['Project due next Monday', 0]], why: 'Tasks and events with dates.' },
+              { phase: 'probe', mcq: 'You have football and a test on the same day. What does a planner help you do?', options: ['Revise earlier in the week', 'Skip both', 'Forget one'], answer: 0, why: 'See clashes early.' },
+              { phase: 'probe', write: 'Fill a pretend weekly plan with 3 homework tasks and 1 activity.', keywords: ['Monday', 'Tuesday', 'homework', 'test'], exemplar: 'Mon: maths worksheet. Tue: football. Wed: spelling practice. Thu: science reading. Fri: spelling test.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'External memory and planning.', analogy: 'A planner is a map for your week.',
+              vocab: [['planner', 'Calendar for tasks.'], ['colour code', 'Using colours to group things.']],
+              demo: 'Fill a class planner.',
+              prompts: [['When to check?', 'Daily.'], ['What goes in?', 'Tasks with dates.']],
+              support: 'Simple planner.', stretch: 'Monthly view.',
+              mis: [['I’ll remember without writing', 'Planners prevent forgetting.']],
+              sheet: 'Weekly planner page.',
+            },
+          },
+          {
+            t: 'Planning a project backwards', o: 'Plan a project from the due date backwards.', min: 25,
+            hook: ['pattern', ['Due Fri', 'Thu: check', 'Wed: finish', 'Tue: draft'], 'Mon: research'],
+            cards: [
+              ['🎯', 'Start at the end', 'Write the due date first.'],
+              ['⬅️', 'Work backwards', 'Decide what must be done the day before, and before that.'],
+              ['🛟', 'Buffer day', 'Leave a spare day for surprises.'],
+            ],
+            acts: [
+              { order: 'Order a backward plan for a Friday project (Mon → Fri)', steps: ['Monday: research', 'Tuesday: plan and draft', 'Wednesday: finish', 'Thursday: buffer and check', 'Friday: hand in'], why: 'Backwards from the deadline.' },
+              { mcq: 'Why leave a buffer day?', options: ['For surprises like illness or a busy evening', 'To relax only', 'No reason'], answer: 0, why: 'Plan for the unexpected.' },
+              { phase: 'probe', mcq: 'Your project is due in 10 days with 4 steps. A smart plan?', options: ['Spread the steps with a buffer at the end', 'Do all on day 10', 'Do only step 1'], answer: 0, why: 'Spread + buffer.' },
+              { phase: 'probe', write: 'Make a backward plan for a project due in one week.', keywords: ['due', 'day', 'buffer', 'check'], exemplar: 'Due Monday. Sun: buffer. Sat: final check. Fri: finish. Wed–Thu: make it. Tue: plan. Mon: research.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Backward planning and buffers.', analogy: 'Like planning a journey from arrival time.',
+              vocab: [['backward planning', 'Starting from the deadline.'], ['buffer', 'Extra time.']],
+              demo: 'Plan a class project backwards.',
+              prompts: [['What first?', 'Due date.'], ['Why buffer?', 'Surprises.']],
+              support: 'Template.', stretch: 'Two overlapping projects.',
+              mis: [['Plans must be followed exactly', 'Adjust when needed.']],
+              sheet: 'Backward plan template.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Tests',
+        lessons: [
+          {
+            t: 'Getting ready for a test', o: 'Prepare for a test with a step-by-step plan.', min: 25,
+            hook: ['word', 'Know · Practise · Check', 'test prep'],
+            cards: [
+              ['📋', 'Know the topics', 'Ask what the test covers and list topics.'],
+              ['✏️', 'Practise', 'Do practice questions and quiz yourself.'],
+              ['🔍', 'Check weak spots', 'Spend more time on what you find hardest.'],
+            ],
+            acts: [
+              { order: 'Order test preparation', steps: ['List the test topics', 'Make a revision plan', 'Practise questions', 'Find weak spots', 'Review weak spots again'], why: 'Plan, practise, target.' },
+              { mcq: 'Which is the best use of revision time?', options: ['Practising questions on weak topics', 'Re-reading easy topics only', 'Colouring notes'], answer: 0, why: 'Target weaknesses.' },
+              { phase: 'probe', mcq: 'The night before a test, what’s best?', options: ['Light review and a good sleep', 'Stay up very late cramming', 'Play games until midnight'], answer: 0, why: 'Sleep helps memory.' },
+              { phase: 'probe', write: 'Make a 4-day plan for a science test on plants.', keywords: ['day', 'practise', 'quiz', 'sleep'], exemplar: 'Day 1: list topics, read notes. Day 2: flashcards on parts of a plant. Day 3: practice questions, check mistakes. Day 4: quick quiz and early sleep.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Test preparation strategy.', analogy: 'Test prep is like training before a race.',
+              vocab: [['revision', 'Studying again before a test.'], ['weak spot', 'Topic you find hard.']],
+              demo: 'Model a revision plan.',
+              prompts: [['How find weak spots?', 'Practice mistakes.'], ['Why sleep?', 'Memory.']],
+              support: 'Plan template.', stretch: 'Make your own practice test.',
+              mis: [['Cramming the night before works best', 'Spread practice and sleep.']],
+              sheet: 'Test prep planner.',
+            },
+          },
+          {
+            t: 'Calm in tests', o: 'Use strategies to manage test worries.', min: 25,
+            hook: ['word', 'Breathe 4-4-4', 'calm body, clear mind'],
+            cards: [
+              ['😮‍💨', 'Breathe', 'Breathe in for 4, hold for 4, out for 4.'],
+              ['📝', 'Read carefully', 'Read each question twice; start with ones you know.'],
+              ['💬', 'Kind self-talk', 'Say “I’ve prepared. One question at a time.”'],
+            ],
+            acts: [
+              { sort: 'Helps or hurts in a test?', buckets: ['Helps', 'Hurts'], items: [['Starting with questions you know', 0], ['Panicking about one hard question', 1], ['Slow breathing', 0], ['Comparing speed with friends', 1], ['Checking answers at the end', 0]], why: 'Calm strategies help.' },
+              { mcq: 'You get stuck on question 3. What should you do?', options: ['Move on and come back later', 'Stare at it until time ends', 'Give up'], answer: 0, why: 'Keep moving.' },
+              { phase: 'probe', mcq: 'Which self-talk helps most?', options: ['“I’ve practised; I’ll do my best.”', '“I’ll fail.”', '“Everyone’s smarter.”'], answer: 0, why: 'Supportive self-talk.' },
+              { phase: 'probe', write: 'Write your personal calm-down plan for tests.', keywords: ['breathe', 'start', 'move on', 'check'], exemplar: 'Breathe 4-4-4, read all questions, start with the easy ones, move on if stuck, and check my answers at the end.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Test anxiety strategies; when to seek support.', analogy: 'Breathing is a reset button for your body.',
+              vocab: [['anxiety', 'Feeling worried.'], ['self-talk', 'What you say to yourself.']],
+              demo: 'Practise box breathing together.',
+              prompts: [['What helps you calm down?', 'Varied.'], ['What if worry is big?', 'Talk to a trusted adult.']],
+              support: 'Calm card.', stretch: 'Teach breathing to family.',
+              mis: [['Feeling nervous means you’ll fail', 'Some nerves are normal and can help focus.']],
+              sheet: 'My calm plan card.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ── 6-8 ──
+  {
+    subject: 'Study Skills', band: '6-8', level: 'Beginner', title: 'Organise, Prioritise and Focus',
+    description: 'Use planners and priority matrices, beat procrastination and focus with timed work blocks.',
+    intro: 'Get more done with less stress. ⏱️', theme: 'grape', tutor: owl,
+    style: 'Practical tools, experiments, reflection.',
+    outcomes: ['Prioritises with an urgent/important matrix', 'Uses focused work blocks', 'Reduces distractions', 'Tackles procrastination'],
+    modules: [
+      {
+        title: 'Module 1: Priorities',
+        lessons: [
+          {
+            t: 'Urgent vs important', o: 'Prioritise tasks with an urgent/important matrix.', min: 30,
+            hook: ['word', 'Do · Plan · Delegate · Drop', 'the priority matrix'],
+            cards: [
+              ['🔥', 'Urgent + important', 'Do now (homework due tomorrow).'],
+              ['📅', 'Important, not urgent', 'Plan it (revising for next month’s exam).'],
+              ['📨', 'Urgent, not important', 'Keep short or get help (replying to a group chat).'],
+              ['🗑️', 'Neither', 'Drop or limit (endless scrolling).'],
+            ],
+            acts: [
+              { sort: 'Do now or plan for later?', buckets: ['Do now (urgent + important)', 'Plan (important, not urgent)'], items: [['Maths homework due tomorrow', 0], ['Revising for exams in 4 weeks', 1], ['Project due tonight', 0], ['Learning a new skill over the term', 1]], why: 'Urgency decides timing.' },
+              { mcq: 'Where does “watching random videos” usually fit?', options: ['Neither urgent nor important — limit it', 'Urgent and important', 'Plan it'], answer: 0, why: 'Low value.' },
+              { phase: 'probe', mcq: 'Why schedule important-but-not-urgent tasks?', options: ['They prevent future emergencies', 'They’re fun', 'They don’t matter'], answer: 0, why: 'Prevention.' },
+              { phase: 'probe', write: 'List 6 of your tasks and place each in the matrix.', keywords: ['urgent', 'important', 'plan', 'drop'], exemplar: 'Do: science homework due tomorrow. Plan: exam revision, reading book. Short: reply to class chat. Drop: random scrolling.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Eisenhower matrix adapted for students.', analogy: 'Like triage in a hospital — most important first.',
+              vocab: [['urgent', 'Needs doing soon.'], ['important', 'Matters for your goals.'], ['prioritise', 'Decide order.']],
+              demo: 'Sort class tasks on a big matrix.',
+              prompts: [['What’s urgent but not important?', 'Some messages.'], ['Why plan important things?', 'Avoid crisis.']],
+              support: 'Matrix template.', stretch: 'Weekly matrix review.',
+              mis: [['Urgent always means important', 'Not always.']],
+              sheet: 'Priority matrix.',
+            },
+          },
+          {
+            t: 'Weekly planning', o: 'Plan a week with fixed commitments, study blocks and rest.', min: 30,
+            hook: ['word', 'Big rocks first', 'plan the week'],
+            cards: [
+              ['🪨', 'Big rocks', 'Put fixed commitments and important study blocks in first.'],
+              ['🧩', 'Fill the gaps', 'Add smaller tasks around them.'],
+              ['😴', 'Rest counts', 'Schedule sleep, play and family time too.'],
+            ],
+            acts: [
+              { order: 'Order weekly planning steps', steps: ['List fixed commitments (school, classes)', 'Add deadlines and tests', 'Block study time for important tasks', 'Add smaller tasks', 'Add rest and fun'], why: 'Big rocks first.' },
+              { mcq: 'Why schedule rest?', options: ['Rest improves focus and memory', 'It wastes time', 'Planners require it'], answer: 0, why: 'Wellbeing and performance.' },
+              { phase: 'probe', mcq: 'Your plan fails by Wednesday. What should you do?', options: ['Adjust the plan for the rest of the week', 'Abandon planning', 'Blame others'], answer: 0, why: 'Plans adapt.' },
+              { phase: 'probe', write: 'Write a weekday evening schedule with study, rest and fun.', keywords: ['study', 'break', 'dinner', 'sleep'], exemplar: '4:30 snack; 5–5:45 homework; 5:45–6 break; 6–6:30 revision; 6:30–7:30 play; 8 dinner; 9:30 sleep.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Time-blocking.', analogy: 'Fill a jar with big rocks first, then pebbles, then sand.',
+              vocab: [['time block', 'Set time for a task.'], ['commitment', 'Something you must attend.']],
+              demo: 'Big rocks jar demo.',
+              prompts: [['What are your big rocks?', 'Varied.'], ['What if plans change?', 'Adjust.']],
+              support: 'Weekly grid.', stretch: 'Review plan vs reality.',
+              mis: [['Planning wastes time', 'It saves time.']],
+              sheet: 'Weekly time-block planner.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Focus',
+        lessons: [
+          {
+            t: 'Focused work blocks', o: 'Use timed focus blocks with short breaks.', min: 30,
+            hook: ['word', '25 + 5', 'focus, then break'],
+            cards: [
+              ['⏲️', 'Focus block', 'Work on one task for 20–25 minutes with no distractions.'],
+              ['☕', 'Short break', 'Rest 5 minutes: stretch, water, look away from screens.'],
+              ['🔁', 'Repeat', 'After 3–4 blocks, take a longer break.'],
+            ],
+            acts: [
+              { mcq: 'During a focus block you should…', options: ['Work on one task with the phone away', 'Text friends', 'Switch tasks often'], answer: 0, why: 'Single-tasking.' },
+              { mcq: 'Three 25-minute blocks with 5-minute breaks between them take…', options: ['85 minutes', '75 minutes', '90 minutes'], answer: 0, why: '75 + 10.' },
+              { phase: 'probe', mcq: 'Why do short breaks help?', options: ['They restore attention', 'They waste time', 'They are required by law'], answer: 0, why: 'Attention recovers.' },
+              { phase: 'probe', write: 'Plan a 1-hour study session using focus blocks.', keywords: ['minutes', 'break', 'task'], exemplar: '25 min maths practice, 5 min break, 25 min science notes, 5 min break.', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Pomodoro-style focus; single-tasking.', analogy: 'Like sprints in training — focus, rest, repeat.',
+              vocab: [['focus', 'Full attention.'], ['multitasking', 'Switching between tasks (slows you down).']],
+              demo: 'Run a 10-minute focus block in class.',
+              prompts: [['How did it feel?', 'Reflect.'], ['What distracted you?', 'Note it.']],
+              support: 'Timer.', stretch: 'Track blocks for a week.',
+              mis: [['Multitasking saves time', 'Switching costs time.']],
+              sheet: 'Focus block tracker.',
+            },
+          },
+          {
+            t: 'Beating procrastination', o: 'Use strategies to start tasks you’re avoiding.', min: 30,
+            hook: ['word', 'Just 5 minutes', 'start small'],
+            cards: [
+              ['😬', 'Why we delay', 'Tasks feel boring, hard or scary — so we avoid them.'],
+              ['5️⃣', '5-minute start', 'Commit to just 5 minutes — starting is the hardest part.'],
+              ['🏆', 'Reward', 'Plan a small reward after finishing.'],
+            ],
+            acts: [
+              { sort: 'Anti-procrastination strategy or procrastination?', buckets: ['Strategy', 'Procrastination'], items: [['Starting with just 5 minutes', 0], ['“I’ll do it after one more video”', 1], ['Breaking the task into steps', 0], ['Reorganising your desk for an hour instead', 1], ['Telling a friend your plan', 0]], why: 'Start small, plan, commit.' },
+              { mcq: 'Why does the 5-minute rule work?', options: ['Once started, it’s easier to continue', 'It finishes the task', 'It’s magic'], answer: 0, why: 'Momentum.' },
+              { phase: 'probe', mcq: 'You avoid an essay because it feels huge. Best first step?', options: ['Write a 3-bullet outline', 'Wait for inspiration', 'Start tomorrow'], answer: 0, why: 'Shrink the first step.' },
+              { phase: 'probe', write: 'Choose a task you’re avoiding. Write the first 5-minute step and a reward.', keywords: ['5 minutes', 'first', 'reward'], exemplar: 'Task: science project. First 5 minutes: list 3 possible topics. Reward: a short walk after one hour.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Procrastination as emotion regulation; implementation intentions.', analogy: 'Pushing a stuck cart — the first push is hardest.',
+              vocab: [['procrastination', 'Putting off tasks.'], ['implementation intention', '“When X, I will Y” plan.']],
+              demo: 'Everyone does a 5-minute start on a task.',
+              prompts: [['Why do we procrastinate?', 'Feelings.'], ['What helps?', 'Small start, plans.']],
+              support: 'Strategy cards.', stretch: 'Procrastination diary.',
+              mis: [['Procrastinators are lazy', 'It’s often about feelings.']],
+              sheet: '“When… I will…” planner.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Study Skills', band: '6-8', level: 'Intermediate', title: 'Note-Taking, Active Recall and Spaced Practice',
+    description: 'Take effective notes, turn them into questions, and use spaced retrieval practice to remember long term.',
+    intro: 'Study smarter with science-backed methods. 🔬', theme: 'grape', tutor: owl,
+    style: 'Technique practice with real subject content.',
+    outcomes: ['Takes Cornell-style notes', 'Creates mind maps', 'Uses active recall', 'Builds a spaced practice schedule'],
+    modules: [
+      {
+        title: 'Module 1: Notes',
+        lessons: [
+          {
+            t: 'Cornell notes', o: 'Take Cornell-style notes with cues and summary.', min: 30,
+            hook: ['word', 'Notes · Cues · Summary', 'Cornell method'],
+            cards: [
+              ['📝', 'Notes column', 'Write key ideas in short phrases during class.'],
+              ['❓', 'Cue column', 'After class, write questions or keywords beside the notes.'],
+              ['🧾', 'Summary', 'At the bottom, summarise the page in 2–3 sentences.'],
+            ],
+            acts: [
+              { order: 'Order the Cornell steps', steps: ['Take notes in the main column', 'Write cue questions after class', 'Write a short summary', 'Cover notes and answer the cues'], why: 'Record, question, summarise, recall.' },
+              { mcq: 'What goes in the cue column?', options: ['Questions or keywords about the notes', 'Doodles', 'The date only'], answer: 0, why: 'Cues prompt recall.' },
+              { phase: 'probe', mcq: 'Why write notes in your own words?', options: ['It makes you think and understand', 'It’s quicker to copy', 'Teachers require it'], answer: 0, why: 'Processing deepens learning.' },
+              { phase: 'probe', write: 'Write 3 cue questions for notes on the water cycle.', keywords: ['?', 'evaporation', 'condensation', 'precipitation'], exemplar: 'What causes evaporation? How do clouds form? What are forms of precipitation?', minWords: 12 },
+            ],
+            teach: {
+              explain: 'Cornell note-taking.', analogy: 'Notes are the ingredients; cues are the recipe questions.',
+              vocab: [['cue', 'Prompt to remember.'], ['summary', 'Short version of main ideas.']],
+              demo: 'Take Cornell notes on a 5-minute talk.',
+              prompts: [['When to write cues?', 'After class.'], ['How long is the summary?', '2–3 sentences.']],
+              support: 'Template.', stretch: 'Compare with linear notes.',
+              mis: [['More notes = better', 'Quality and processing matter.']],
+              sheet: 'Cornell notes template.',
+            },
+          },
+          {
+            t: 'Mind maps', o: 'Create mind maps to connect ideas.', min: 30,
+            hook: ['word', 'Centre → branches', 'see connections'],
+            cards: [
+              ['🌟', 'Centre', 'Put the main topic in the middle.'],
+              ['🌿', 'Branches', 'Add main ideas as branches, details as smaller twigs.'],
+              ['🎨', 'Colours and icons', 'Use colours and small drawings to remember.'],
+            ],
+            acts: [
+              { mcq: 'What goes in the centre of a mind map on “Plants”?', options: ['Plants', 'Roots', 'Photosynthesis only'], answer: 0, why: 'Main topic in the centre.' },
+              { sort: 'Main branch or detail (for “Plants”)?', buckets: ['Main branch', 'Detail'], items: [['Parts of a plant', 0], ['Root hairs absorb water', 1], ['Photosynthesis', 0], ['Chlorophyll is green', 1], ['Reproduction', 0]], why: 'Hierarchy of ideas.' },
+              { phase: 'probe', mcq: 'When are mind maps most useful?', options: ['Seeing how ideas connect and revising topics', 'Copying exact quotes', 'Writing long paragraphs'], answer: 0, why: 'Connections.' },
+              { phase: 'probe', write: 'Describe a mind map for a topic you’re studying: centre, 3 branches, 2 details each.', keywords: ['centre', 'branch', 'detail'], exemplar: 'Centre: Mughal Empire. Branches: rulers (Akbar, Shah Jahan), architecture (Taj Mahal, Red Fort), administration (mansabdari, revenue system).', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Visual organisation and connections.', analogy: 'A mind map is a tree of ideas.',
+              vocab: [['mind map', 'Diagram of connected ideas.'], ['branch', 'Main idea line.']],
+              demo: 'Build a class mind map.',
+              prompts: [['What’s a branch?', 'Main idea.'], ['Why colours?', 'Memory cues.']],
+              support: 'Partially drawn map.', stretch: 'Digital mind map.',
+              mis: [['Mind maps are just art', 'They organise thinking.']],
+              sheet: 'Blank mind map.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Remembering',
+        lessons: [
+          {
+            t: 'Active recall', o: 'Use active recall instead of re-reading.', min: 30,
+            hook: ['upgrade', 'Read it again', 'Close the book — what can you remember?'],
+            cards: [
+              ['🧠', 'Active recall', 'Pull information from memory without looking — it strengthens memory.'],
+              ['📄', 'Blank page', 'Write everything you remember on a blank page, then check.'],
+              ['❓', 'Questions', 'Turn notes into questions and answer them.'],
+            ],
+            acts: [
+              { sort: 'Active recall or passive review?', buckets: ['Active recall', 'Passive'], items: [['Blank-page brain dump', 0], ['Re-reading the chapter', 1], ['Answering flashcards', 0], ['Highlighting text', 1], ['Explaining to a friend without notes', 0]], why: 'Recall = retrieving from memory.' },
+              { mcq: 'Why does active recall feel harder?', options: ['Effortful retrieval builds stronger memory', 'It doesn’t work', 'It’s slower so worse'], answer: 0, why: 'Desirable difficulty.' },
+              { phase: 'probe', mcq: 'After a brain dump, what should you do?', options: ['Check notes and fill gaps', 'Throw it away', 'Read more without checking'], answer: 0, why: 'Feedback.' },
+              { phase: 'probe', write: 'Do a brain dump on a topic from this week. What did you forget?', keywords: ['remember', 'forgot', 'check'], exemplar: 'Topic: fractions. I remembered adding fractions and equivalent fractions but forgot how to simplify. I’ll practise simplifying.', minWords: 15 },
+            ],
+            teach: {
+              explain: 'Testing effect.', analogy: 'Memory is strengthened when you pull, not when you look.',
+              vocab: [['active recall', 'Retrieving from memory.'], ['brain dump', 'Writing all you remember.']],
+              demo: 'Class brain dump challenge.',
+              prompts: [['Why not re-read?', 'Less effective.'], ['How check?', 'Compare with notes.']],
+              support: 'Question prompts.', stretch: 'Teach-back sessions.',
+              mis: [['Feeling familiar = knowing', 'Test yourself to check.']],
+              sheet: 'Brain dump sheet.',
+            },
+          },
+          {
+            t: 'Spaced practice', o: 'Build a spaced practice schedule for a subject.', min: 30,
+            hook: ['pattern', ['1 day', '3 days', '7 days', '14 days'], '30 days'],
+            cards: [
+              ['📆', 'Spacing', 'Review after increasing gaps to beat the forgetting curve.'],
+              ['🔀', 'Interleave', 'Mix topics in practice instead of doing one topic all at once.'],
+              ['📋', 'Schedule', 'Plan reviews in your planner.'],
+            ],
+            acts: [
+              { mcq: 'Which schedule uses spacing?', options: ['Review on days 1, 3, 7 and 14', 'Study 5 hours the night before', 'Review only once'], answer: 0, why: 'Increasing gaps.' },
+              { mcq: 'What is interleaving?', options: ['Mixing different topics or problem types in practice', 'Only practising one type', 'Reading in bed'], answer: 0, why: 'Mixed practice.' },
+              { phase: 'probe', mcq: 'Why does interleaving help in maths?', options: ['You learn to choose the right method', 'It’s easier', 'It avoids practice'], answer: 0, why: 'Discrimination between problem types.' },
+              { phase: 'probe', write: 'Make a 2-week spaced practice plan for one subject.', keywords: ['day', 'review', 'quiz', 'mix'], exemplar: 'Day 1 learn topic A; Day 2 quiz A; Day 4 learn B, quiz A; Day 7 mixed quiz A+B; Day 14 mixed quiz with past questions.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Spacing and interleaving effects.', analogy: 'Watering a plant a little regularly beats flooding it once.',
+              vocab: [['spacing', 'Gaps between reviews.'], ['interleaving', 'Mixing practice.'], ['forgetting curve', 'How memory fades over time.']],
+              demo: 'Plot a forgetting curve.',
+              prompts: [['Why gaps?', 'Stronger memory.'], ['Why mix?', 'Choose methods.']],
+              support: 'Calendar template.', stretch: 'Use a flashcard app with spaced repetition.',
+              mis: [['Blocked practice is best', 'Feels easier but interleaving lasts longer.']],
+              sheet: 'Spaced practice calendar.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Study Skills', band: '6-8', level: 'Advanced', title: 'Exam Strategy and Self-Regulated Learning',
+    description: 'Build a revision timetable, use exam techniques, reflect on learning (metacognition) and manage stress.',
+    intro: 'Own your learning and your exams. 🎯', theme: 'grape', tutor: owl,
+    style: 'Planning tools, past-paper practice, reflection.',
+    outcomes: ['Creates a revision timetable', 'Applies exam techniques', 'Uses metacognitive reflection', 'Manages exam stress'],
+    modules: [
+      {
+        title: 'Module 1: Revision and exams',
+        lessons: [
+          {
+            t: 'Building a revision timetable', o: 'Create a realistic revision timetable.', min: 30,
+            hook: ['word', 'Topics × Days', 'map your revision'],
+            cards: [
+              ['📋', 'List topics', 'List all topics for each subject and rate confidence (red/amber/green).'],
+              ['📅', 'Map to days', 'Spread topics over available days; red topics get more sessions.'],
+              ['🔁', 'Build in review', 'Include spaced reviews and practice papers.'],
+            ],
+            acts: [
+              { order: 'Order timetable building', steps: ['List exam dates', 'List topics and rate confidence', 'Count available study sessions', 'Assign topics (more for weak areas)', 'Add reviews and practice papers'], why: 'Systematic planning.' },
+              { mcq: '20 sessions, 5 subjects, maths weakest. A fair split?', options: ['Maths 6, others 3–4 each', 'Equal 4 each regardless', 'Maths 1'], answer: 0, why: 'Weight weak areas.' },
+              { phase: 'probe', mcq: 'Why rate topics red/amber/green?', options: ['To spend time where it matters most', 'For decoration', 'It’s required'], answer: 0, why: 'Targeting.' },
+              { phase: 'probe', write: 'Draft a one-week revision timetable for two subjects.', keywords: ['day', 'topic', 'review', 'practice'], exemplar: 'Mon: maths fractions (red) + science review. Tue: science cells (amber). Wed: maths algebra + quiz fractions. Thu: science practice paper. Fri: maths mixed practice. Sat: review mistakes. Sun: rest.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'RAG rating and allocation.', analogy: 'A timetable is a GPS route to exam day.',
+              vocab: [['RAG rating', 'Red/amber/green confidence.'], ['session', 'A block of study time.']],
+              demo: 'Build a timetable live.',
+              prompts: [['Weak topics get?', 'More time.'], ['Rest days?', 'Yes.']],
+              support: 'Template.', stretch: 'Digital timetable.',
+              mis: [['Equal time for all topics is fair', 'Allocate by need.']],
+              sheet: 'Revision timetable template.',
+            },
+          },
+          {
+            t: 'Exam techniques', o: 'Apply exam techniques: reading questions, timing and checking.', min: 30,
+            hook: ['word', 'Read · Plan · Answer · Check', 'exam technique'],
+            cards: [
+              ['🔎', 'Command words', '“Describe”, “Explain”, “Compare” ask for different answers.'],
+              ['⏱️', 'Timing', 'Marks guide time: roughly 1 minute per mark (adjust for your paper).'],
+              ['✅', 'Check', 'Leave time to check units, calculations and that you answered the question.'],
+            ],
+            acts: [
+              { match: 'Match the command word to what it asks', pairs: [['Describe', 'Say what something is like or what happens'], ['Explain', 'Give reasons why'], ['Compare', 'Say similarities and differences'], ['Evaluate', 'Judge strengths and weaknesses']], why: 'Command words matter.' },
+              { mcq: 'An 80-mark paper lasts 90 minutes. About how long for a 10-mark question?', options: ['About 11 minutes', '30 minutes', '2 minutes'], answer: 0, why: '90/80 ≈ 1.1 min per mark.' },
+              { phase: 'probe', mcq: 'You don’t know an answer. Best tactic?', options: ['Move on, come back later, attempt something rather than leave blank', 'Spend 20 minutes stuck', 'Leave the exam'], answer: 0, why: 'Time management.' },
+              { phase: 'probe', write: 'Rewrite a weak answer to “Explain why plants need sunlight.”', keywords: ['because', 'photosynthesis', 'energy', 'food'], exemplar: 'Weak: “Plants like sun.” Better: “Plants need sunlight because they use light energy in photosynthesis to make glucose, their food, from carbon dioxide and water.”', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Command words, mark allocation, checking.', analogy: 'Exam technique is like reading the rules before playing.',
+              vocab: [['command word', 'Instruction word in a question.'], ['mark allocation', 'Marks per question.']],
+              demo: 'Annotate a past question.',
+              prompts: [['Describe vs explain?', 'What vs why.'], ['How plan time?', 'Marks guide.']],
+              support: 'Command word card.', stretch: 'Mark a peer answer with a scheme.',
+              mis: [['Long answers always score more', 'Answer what is asked.']],
+              sheet: 'Command word practice.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Self-regulation',
+        lessons: [
+          {
+            t: 'Metacognition: thinking about your learning', o: 'Plan, monitor and evaluate your learning.', min: 30,
+            hook: ['word', 'Plan · Monitor · Evaluate', 'metacognition'],
+            cards: [
+              ['🧭', 'Plan', 'Before: What’s my goal? Which strategy will I use?'],
+              ['📡', 'Monitor', 'During: Is this working? Do I understand?'],
+              ['🪞', 'Evaluate', 'After: What worked? What will I change?'],
+            ],
+            acts: [
+              { sort: 'Plan, monitor or evaluate question?', buckets: ['Plan', 'Monitor', 'Evaluate'], items: [['What do I already know about this?', 0], ['Am I understanding this paragraph?', 1], ['Which strategy worked best?', 2], ['How will I check my answer?', 0], ['Should I change my approach now?', 1], ['What will I do differently next time?', 2]], why: 'Metacognitive cycle.' },
+              { mcq: 'You realise you’ve read a page without understanding. Monitoring tells you to…', options: ['Stop and use a strategy (summarise, ask, reread a section)', 'Keep reading', 'Close the book'], answer: 0, why: 'Adjust strategy.' },
+              { phase: 'probe', mcq: 'Which is a strong evaluation?', options: ['“Flashcards worked for vocab, but I need practice questions for maths.”', '“It was fine.”', '“I studied.”'], answer: 0, why: 'Specific reflection.' },
+              { phase: 'probe', write: 'Reflect on a recent test using plan–monitor–evaluate.', keywords: ['plan', 'during', 'next time', 'strategy'], exemplar: 'Plan: I revised with notes only. Monitor: I felt unsure on graphs. Evaluate: I lost marks on graphs; next time I’ll do practice questions and check answers.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Metacognition (EEF guidance).', analogy: 'Being your own coach.',
+              vocab: [['metacognition', 'Thinking about your thinking.'], ['monitor', 'Check progress.'], ['evaluate', 'Judge how it went.']],
+              demo: 'Think-aloud while solving a problem.',
+              prompts: [['What did you plan?', 'Strategy.'], ['What will you change?', 'Specific.']],
+              support: 'Question prompts.', stretch: 'Learning journal.',
+              mis: [['Smart people don’t need strategies', 'Everyone benefits.']],
+              sheet: 'Plan–monitor–evaluate log.',
+            },
+          },
+          {
+            t: 'Managing exam stress', o: 'Use healthy strategies to manage exam stress.', min: 30,
+            hook: ['word', 'Sleep · Move · Talk', 'stress tools'],
+            cards: [
+              ['😴', 'Sleep', 'Teens need about 8–10 hours; sleep consolidates memory.'],
+              ['🏃', 'Move', 'Exercise reduces stress and improves mood.'],
+              ['🗣️', 'Talk', 'Share worries with family, friends or a counsellor.'],
+            ],
+            acts: [
+              { sort: 'Helpful or unhelpful during exams?', buckets: ['Helpful', 'Unhelpful'], items: [['Regular sleep schedule', 0], ['All-nighters', 1], ['Short walks', 0], ['Lots of energy drinks', 1], ['Talking to someone you trust', 0]], why: 'Healthy habits support performance.' },
+              { mcq: 'Why is sleep important before exams?', options: ['It helps memory and focus', 'It wastes study time', 'It doesn’t matter'], answer: 0, why: 'Consolidation.' },
+              { phase: 'probe', mcq: 'Stress becomes overwhelming for weeks. Best step?', options: ['Talk to a trusted adult or school counsellor', 'Hide it', 'Study more at night'], answer: 0, why: 'Seek support.' },
+              { phase: 'probe', write: 'Write a personal exam-week wellbeing plan.', keywords: ['sleep', 'exercise', 'break', 'talk'], exemplar: 'Sleep by 10:30 pm, 20-minute walk daily, study blocks with breaks, healthy meals, and talk to my sister when stressed.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Stress physiology basics; healthy coping; signposting.', analogy: 'Stress is like a guitar string — some tension makes music, too much snaps.',
+              vocab: [['stress', 'Body’s response to pressure.'], ['coping strategy', 'Way to manage stress.']],
+              demo: 'Guided breathing exercise.',
+              prompts: [['What helps you?', 'Varied.'], ['When get help?', 'If overwhelming.']],
+              support: 'Strategy menu.', stretch: 'Wellbeing tracker.',
+              mis: [['More hours always means better results', 'Rest improves performance.']],
+              sheet: 'Exam-week wellbeing plan.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // ── 9-12 ──
+  {
+    subject: 'Study Skills', band: '9-12', level: 'Beginner', title: 'Effective Study for Board Exams',
+    description: 'Map the syllabus, use retrieval and interleaving, practise past papers and learn from marking schemes.',
+    intro: 'Study for boards the evidence-based way. 📚', theme: 'grape', tutor: owl,
+    style: 'Practical, exam-focused, evidence-based.',
+    outcomes: ['Maps the syllabus to a plan', 'Uses retrieval and interleaving', 'Uses past papers and marking schemes', 'Analyses errors'],
+    modules: [
+      {
+        title: 'Module 1: Plan',
+        lessons: [
+          {
+            t: 'Syllabus mapping', o: 'Turn the official syllabus into a checklist and plan.', min: 30,
+            hook: ['word', 'Syllabus → Checklist', 'know exactly what to study'],
+            cards: [
+              ['📜', 'Official syllabus', 'Download the current syllabus from your board’s official website.'],
+              ['☑️', 'Checklist', 'Turn every topic into a checklist with confidence ratings.'],
+              ['⚖️', 'Weightage', 'Note marks weightage per unit to prioritise.'],
+            ],
+            acts: [
+              { order: 'Order syllabus mapping', steps: ['Download the current official syllabus', 'List units and their marks weightage', 'Break units into topics', 'Rate confidence for each topic', 'Plan sessions by weightage and confidence'], why: 'Systematic coverage.' },
+              { mcq: 'Unit A: 20 marks, low confidence. Unit B: 5 marks, low confidence. Priority?', options: ['Unit A first', 'Unit B first', 'Equal'], answer: 0, why: 'Higher weightage + weakness.' },
+              { phase: 'probe', mcq: 'Why use the official syllabus, not just a guidebook?', options: ['It’s the authoritative, current list', 'Guidebooks are illegal', 'No reason'], answer: 0, why: 'Accuracy.' },
+              { phase: 'probe', write: 'Map one subject’s units with weightage and confidence.', keywords: ['unit', 'marks', 'confidence', 'priority'], exemplar: 'Physics: Electricity (15 marks, red), Optics (14, amber), Magnetism (10, green)… Priority: Electricity, then Optics.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Syllabus-driven planning; weightage.', analogy: 'A syllabus is the exam’s map — don’t travel without it.',
+              vocab: [['syllabus', 'Official list of topics.'], ['weightage', 'Marks share.']],
+              demo: 'Map a sample syllabus unit.',
+              prompts: [['Where get syllabus?', 'Official board site.'], ['How prioritise?', 'Weightage × weakness.']],
+              support: 'Checklist template.', stretch: 'Track coverage weekly.',
+              mis: [['All topics are equal', 'Weightage varies.']],
+              sheet: 'Syllabus checklist.',
+            },
+          },
+          {
+            t: 'Retrieval and interleaving for boards', o: 'Apply retrieval practice and interleaving to exam subjects.', min: 30,
+            hook: ['word', 'Test · Mix · Space', 'the study trio'],
+            cards: [
+              ['🧠', 'Retrieval', 'Practise recalling: flashcards, blank page, past questions.'],
+              ['🔀', 'Interleaving', 'Mix chapters and question types in practice sessions.'],
+              ['📆', 'Spacing', 'Revisit topics over weeks, not just once.'],
+            ],
+            acts: [
+              { sort: 'High-utility or low-utility strategy?', buckets: ['High-utility', 'Low-utility'], items: [['Practice testing', 0], ['Highlighting', 1], ['Distributed practice', 0], ['Re-reading', 1], ['Interleaved problems', 0]], why: 'Research ranks practice testing and distributed practice highly.' },
+              { mcq: 'A chemistry session mixing stoichiometry, equilibrium and acids questions is an example of…', options: ['Interleaving', 'Blocking', 'Cramming'], answer: 0, why: 'Mixed problem types.' },
+              { phase: 'probe', mcq: 'Why do interleaved sessions feel harder?', options: ['You must choose the method each time — which builds skill', 'They’re badly designed', 'They’re easier'], answer: 0, why: 'Desirable difficulty.' },
+              { phase: 'probe', write: 'Plan a 90-minute session using retrieval and interleaving.', keywords: ['minutes', 'quiz', 'mixed', 'review'], exemplar: '15 min blank-page recall (last week’s topics); 50 min mixed practice questions from 3 chapters; 15 min check with marking scheme; 10 min flashcards on errors.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Dunlosky et al. learning techniques.', analogy: 'Training for a match by playing varied drills, not one shot repeatedly.',
+              vocab: [['practice testing', 'Self-testing.'], ['distributed practice', 'Spacing.'], ['blocking', 'One type at a time.']],
+              demo: 'Design an interleaved worksheet.',
+              prompts: [['Most effective techniques?', 'Testing, spacing.'], ['Why mix?', 'Choose methods.']],
+              support: 'Technique chart.', stretch: 'Run a 2-week experiment.',
+              mis: [['Highlighting = studying', 'Low utility alone.']],
+              sheet: 'Session planner.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Practise',
+        lessons: [
+          {
+            t: 'Past papers and marking schemes', o: 'Use past papers and marking schemes to improve answers.', min: 30,
+            hook: ['word', 'Practise like it’s real', 'timed past papers'],
+            cards: [
+              ['📄', 'Past papers', 'Practise under timed conditions.'],
+              ['✔️', 'Marking schemes', 'See exactly what earns marks: keywords, steps, units.'],
+              ['🔍', 'Examiner insights', 'Official reports often show common mistakes.'],
+            ],
+            acts: [
+              { order: 'Order effective past-paper practice', steps: ['Attempt under timed conditions', 'Mark with the official scheme', 'Note where marks were lost', 'Redo weak questions', 'Add errors to a revision list'], why: 'Practice, feedback, correction.' },
+              { mcq: 'A marking scheme shows a mark for “correct unit”. What does that teach you?', options: ['Always include units', 'Units are optional', 'Nothing'], answer: 0, why: 'Marks for precision.' },
+              { phase: 'probe', mcq: 'Why time yourself?', options: ['To build speed and exam stamina', 'To stress more', 'No reason'], answer: 0, why: 'Exam conditions.' },
+              { phase: 'probe', write: 'Describe how you’d use one past paper this week.', keywords: ['timed', 'mark', 'scheme', 'errors', 'redo'], exemplar: 'Saturday: 3-hour timed attempt. Sunday: mark with the scheme, list lost marks, redo those questions, and make flashcards for missing keywords.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Using assessment materials effectively.', analogy: 'Past papers are practice matches with the real rules.',
+              vocab: [['marking scheme', 'Official guide to awarding marks.'], ['exam conditions', 'Timed, no notes.']],
+              demo: 'Mark a sample answer with a scheme.',
+              prompts: [['Where marks lost?', 'Keywords, steps.'], ['How often?', 'Regularly, later in revision.']],
+              support: 'Scheme guide.', stretch: 'Peer-mark and discuss.',
+              mis: [['Reading answers = practice', 'Attempt first, then check.']],
+              sheet: 'Past paper analysis sheet.',
+            },
+          },
+          {
+            t: 'Error analysis', o: 'Classify mistakes and fix the causes.', min: 30,
+            hook: ['word', 'Careless · Concept · Technique · Time', 'why marks are lost'],
+            cards: [
+              ['😬', 'Careless', 'Slips: misreading, arithmetic, units.'],
+              ['🧩', 'Concept', 'Didn’t understand the idea.'],
+              ['🛠️', 'Technique / time', 'Knew it but answered poorly or ran out of time.'],
+            ],
+            acts: [
+              { sort: 'Type of error?', buckets: ['Careless', 'Concept', 'Technique/time'], items: [['Wrote 9.8 instead of 98', 0], ['Didn’t know what refraction is', 1], ['Answered “describe” when asked to “explain”', 2], ['Forgot units', 0], ['Ran out of time on the last question', 2], ['Confused mitosis and meiosis', 1]], why: 'Diagnosis guides the fix.' },
+              { mcq: 'Best fix for concept errors?', options: ['Relearn the concept and do targeted practice', 'Just be more careful', 'Write faster'], answer: 0, why: 'Address understanding.' },
+              { phase: 'probe', mcq: 'Best fix for careless errors?', options: ['A checking routine (units, signs, re-read question)', 'Relearn whole chapter', 'Ignore'], answer: 0, why: 'Process fix.' },
+              { phase: 'probe', write: 'Analyse three mistakes from a recent test and write a fix for each.', keywords: ['careless', 'concept', 'technique', 'fix'], exemplar: '1) Forgot unit (careless) → add unit check. 2) Didn’t know oxidation numbers (concept) → relearn + 10 questions. 3) Too short explanation (technique) → use “because…” structure.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Error taxonomy and targeted remediation.', analogy: 'A doctor diagnoses before prescribing.',
+              vocab: [['error analysis', 'Studying mistakes to improve.'], ['remediation', 'Fixing a gap.']],
+              demo: 'Classify errors in a sample paper.',
+              prompts: [['Which errors are most common for you?', 'Reflect.'], ['Different fixes?', 'Yes, per type.']],
+              support: 'Error log template.', stretch: 'Track trends over 3 papers.',
+              mis: [['All mistakes need more study', 'Some need checking routines.']],
+              sheet: 'Error log.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Study Skills', band: '9-12', level: 'Intermediate', title: 'Reading, Research and Academic Writing',
+    description: 'Read textbooks efficiently, research with credible sources, cite properly and plan strong essays.',
+    intro: 'Read deeper, research better, write clearer. ✍️', theme: 'grape', tutor: owl,
+    style: 'Reading strategies, source evaluation, writing workshops.',
+    outcomes: ['Uses SQ3R reading', 'Evaluates and cites sources', 'Plans structured essays', 'Writes clear paragraphs (PEEL)'],
+    modules: [
+      {
+        title: 'Module 1: Reading and research',
+        lessons: [
+          {
+            t: 'SQ3R reading', o: 'Read textbooks using SQ3R.', min: 30,
+            hook: ['word', 'Survey · Question · Read · Recite · Review', 'SQ3R'],
+            cards: [
+              ['👀', 'Survey', 'Skim headings, diagrams and summaries first.'],
+              ['❓', 'Question', 'Turn headings into questions.'],
+              ['📖', 'Read, Recite, Review', 'Read to answer, say answers without looking, review later.'],
+            ],
+            acts: [
+              { order: 'Order SQ3R', steps: ['Survey', 'Question', 'Read', 'Recite', 'Review'], why: 'The SQ3R sequence.' },
+              { mcq: 'Heading: “Causes of the First World War”. A good question?', options: ['What were the main causes of WWI?', 'Who likes history?', 'How many pages?'], answer: 0, why: 'Heading → question.' },
+              { phase: 'probe', mcq: 'Why survey before reading?', options: ['It gives a mental map so details fit', 'It wastes time', 'It replaces reading'], answer: 0, why: 'Advance organiser.' },
+              { phase: 'probe', write: 'Apply SQ3R to a textbook section: write 3 questions and short answers.', keywords: ['?', 'answer'], exemplar: 'Q: What is diffusion? A: Movement of particles from high to low concentration. Q: Why is it important in cells? A: Moves oxygen in and CO₂ out.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'SQ3R active reading.', analogy: 'Survey is looking at the map before the hike.',
+              vocab: [['skim', 'Read quickly for main ideas.'], ['recite', 'Say from memory.']],
+              demo: 'Model SQ3R on a page.',
+              prompts: [['Why questions?', 'Purposeful reading.'], ['Recite how?', 'Aloud or written.']],
+              support: 'SQ3R card.', stretch: 'Compare with annotation.',
+              mis: [['Reading start to end once is enough', 'Active strategies improve comprehension.']],
+              sheet: 'SQ3R worksheet.',
+            },
+          },
+          {
+            t: 'Credible sources and citation', o: 'Evaluate sources and cite them correctly.', min: 30,
+            hook: ['word', 'CRAAP', 'Currency · Relevance · Authority · Accuracy · Purpose'],
+            cards: [
+              ['🧪', 'CRAAP test', 'Check Currency, Relevance, Authority, Accuracy and Purpose.'],
+              ['📚', 'Better sources', 'Textbooks, official bodies, peer-reviewed research, reputable news.'],
+              ['🔖', 'Cite', 'Use a consistent style (e.g. APA/MLA): author, year, title, source.'],
+            ],
+            acts: [
+              { match: 'Match CRAAP letter to its question', pairs: [['Currency', 'Is it up to date?'], ['Authority', 'Who wrote it and are they qualified?'], ['Accuracy', 'Is it supported by evidence?'], ['Purpose', 'Why does it exist — inform, sell, persuade?']], why: 'Source evaluation criteria.' },
+              { mcq: 'For a climate project, which is most authoritative?', options: ['A report from a recognised scientific body', 'An anonymous blog', 'A meme'], answer: 0, why: 'Authority and evidence.' },
+              { phase: 'probe', mcq: 'Why cite sources?', options: ['Give credit, let readers check, avoid plagiarism', 'Make essays longer', 'No reason'], answer: 0, why: 'Integrity.' },
+              { phase: 'probe', write: 'Evaluate one source with the CRAAP test.', keywords: ['current', 'relevant', 'author', 'evidence', 'purpose'], exemplar: 'Source: a 2024 government report on air quality. Current: yes. Relevant: yes. Authority: government environment agency. Accuracy: cites monitoring data. Purpose: inform. Credible.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'Source evaluation and referencing.', analogy: 'Citations are breadcrumbs that let readers retrace your path.',
+              vocab: [['peer-reviewed', 'Checked by experts before publishing.'], ['citation', 'Reference to a source.'], ['plagiarism', 'Using others’ work without credit.']],
+              demo: 'Write citations in one style.',
+              prompts: [['What is authority?', 'Expertise.'], ['Why consistent style?', 'Clarity.']],
+              support: 'Citation template.', stretch: 'Annotated bibliography of 3 sources.',
+              mis: [['Wikipedia is useless', 'Use it as a starting point; cite primary sources.']],
+              sheet: 'CRAAP evaluation sheet.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Writing',
+        lessons: [
+          {
+            t: 'Planning an essay', o: 'Plan an essay with a thesis and structured outline.', min: 30,
+            hook: ['upgrade', 'Write everything you know', 'Thesis → 3 points → evidence → conclusion'],
+            cards: [
+              ['🎯', 'Thesis', 'A clear one-sentence answer to the question.'],
+              ['🗂️', 'Outline', 'Introduction, 3–4 body paragraphs with evidence, conclusion.'],
+              ['⚖️', 'Counterargument', 'Strong essays address the other side.'],
+            ],
+            acts: [
+              { mcq: 'Which is a strong thesis for “Should homework be banned?”', options: ['Homework should be limited, not banned, because well-designed practice supports learning while excessive loads harm wellbeing.', 'Homework is a thing.', 'Some people like homework.'], answer: 0, why: 'Clear, arguable, reasons.' },
+              { order: 'Order an essay outline', steps: ['Introduction with thesis', 'Body point 1 with evidence', 'Body point 2 with evidence', 'Counterargument and rebuttal', 'Conclusion'], why: 'Logical structure.' },
+              { phase: 'probe', mcq: 'Why include a counterargument?', options: ['Shows balanced thinking and strengthens your case', 'Weakens the essay', 'Fills space'], answer: 0, why: 'Critical thinking.' },
+              { phase: 'probe', write: 'Write a thesis and 3-point outline for “Should schools teach financial literacy?”', keywords: ['thesis', 'because', 'point', 'evidence'], exemplar: 'Thesis: Schools should teach financial literacy because it builds life skills, reduces debt risks and supports informed citizenship. Points: 1) daily money decisions; 2) protection from scams and debt; 3) evidence from programmes. Counter: crowded curriculum — integrate into maths.', minWords: 35 },
+            ],
+            teach: {
+              explain: 'Thesis-driven structure.', analogy: 'An outline is the skeleton; writing adds muscle.',
+              vocab: [['thesis', 'Main argument.'], ['outline', 'Plan of sections.'], ['counterargument', 'Opposing view.']],
+              demo: 'Build an outline together.',
+              prompts: [['What makes a thesis strong?', 'Clear, arguable.'], ['Why outline?', 'Coherence.']],
+              support: 'Outline template.', stretch: 'Timed essay plan (10 min).',
+              mis: [['Planning wastes exam time', 'A quick plan improves answers.']],
+              sheet: 'Essay planner.',
+            },
+          },
+          {
+            t: 'PEEL paragraphs', o: 'Write clear paragraphs using Point, Evidence, Explain, Link.', min: 30,
+            hook: ['word', 'Point · Evidence · Explain · Link', 'PEEL'],
+            cards: [
+              ['📍', 'Point', 'State the paragraph’s main idea.'],
+              ['📊', 'Evidence', 'Give a fact, quote, example or data.'],
+              ['🔗', 'Explain and Link', 'Explain how evidence supports the point; link back to the question.'],
+            ],
+            acts: [
+              { order: 'Order a PEEL paragraph', steps: ['Point: Regular exercise improves concentration.', 'Evidence: Studies link physical activity with better attention in students.', 'Explain: Exercise increases blood flow to the brain, helping focus.', 'Link: So schools should protect PE time to support learning.'], why: 'PEEL structure.' },
+              { mcq: 'Which sentence is “Explain”?', options: ['This shows that… because…', 'Firstly, …', 'According to a survey, …'], answer: 0, why: 'Explains significance.' },
+              { phase: 'probe', mcq: 'What’s missing: “Plastic harms oceans. So we should ban it.”', options: ['Evidence and explanation', 'A point', 'A link'], answer: 0, why: 'Needs support.' },
+              { phase: 'probe', write: 'Write a PEEL paragraph on why reading for pleasure helps students.', keywords: ['point', 'evidence', 'because', 'therefore'], exemplar: 'Reading for pleasure improves vocabulary. Research on students finds frequent readers know more words. This happens because books expose readers to varied language in context. Therefore, schools should make time for free reading.', minWords: 40 },
+            ],
+            teach: {
+              explain: 'Paragraph structure for analytical writing.', analogy: 'PEEL is a sandwich: point and link are bread; evidence and explanation are filling.',
+              vocab: [['evidence', 'Support for a claim.'], ['analysis', 'Explaining significance.']],
+              demo: 'Colour-code PEEL in a sample paragraph.',
+              prompts: [['Which part is often weak?', 'Explain.'], ['How link?', 'Back to the question.']],
+              support: 'Sentence starters.', stretch: 'Peer review with PEEL checklist.',
+              mis: [['Evidence speaks for itself', 'You must explain it.']],
+              sheet: 'PEEL paragraph frame.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    subject: 'Study Skills', band: '9-12', level: 'Advanced', title: 'Self-Directed Learning and Sustainable Performance',
+    description: 'Set ambitious learning goals, practise deep work, learn independently online, and protect wellbeing to avoid burnout.',
+    intro: 'Become a lifelong, independent learner. 🚀', theme: 'grape', tutor: owl,
+    style: 'Coaching style, personal projects, reflection.',
+    outcomes: ['Sets learning goals with OKRs', 'Practises deep work', 'Designs a self-study plan using online resources', 'Prevents burnout with sustainable habits'],
+    modules: [
+      {
+        title: 'Module 1: Direction and depth',
+        lessons: [
+          {
+            t: 'Learning goals that drive you', o: 'Set learning goals using objectives and key results.', min: 30,
+            hook: ['word', 'Objective + Key Results', 'goals you can measure'],
+            cards: [
+              ['🎯', 'Objective', 'An inspiring direction: “Become confident in calculus.”'],
+              ['📏', 'Key results', 'Measurable outcomes: “Score 80%+ on 3 mock tests”, “Solve 150 practice problems”.'],
+              ['🔁', 'Review', 'Check progress weekly and adjust.'],
+            ],
+            acts: [
+              { sort: 'Objective or key result?', buckets: ['Objective', 'Key result'], items: [['Master organic chemistry reactions', 0], ['Score 75%+ on two past papers', 1], ['Become a stronger writer', 0], ['Write and get feedback on 6 essays', 1]], why: 'Direction vs measurable result.' },
+              { mcq: 'Which key result is measurable?', options: ['Complete 20 timed problems weekly for 6 weeks', 'Get better at physics', 'Try hard'], answer: 0, why: 'Countable.' },
+              { phase: 'probe', mcq: 'You’re at 40% of your key results mid-way. Best response?', options: ['Analyse obstacles and adjust strategy or targets', 'Give up', 'Ignore'], answer: 0, why: 'Adaptive goals.' },
+              { phase: 'probe', write: 'Write one learning objective with three key results for this term.', keywords: ['objective', 'key result', '%', 'weekly'], exemplar: 'Objective: Become confident in English essay writing. KRs: write 8 timed essays; average 70%+ on rubric; read 2 opinion articles weekly and summarise them.', minWords: 25 },
+            ],
+            teach: {
+              explain: 'OKRs for learning; review cycles.', analogy: 'Objectives are destinations; key results are milestones.',
+              vocab: [['OKR', 'Objectives and key results.'], ['milestone', 'Checkpoint on the way.']],
+              demo: 'Draft OKRs for a sample student.',
+              prompts: [['Is it measurable?', 'Check.'], ['How often review?', 'Weekly.']],
+              support: 'Template.', stretch: 'Share and peer-review OKRs.',
+              mis: [['Goals must be easy to hit', 'Stretch goals with honest review work well.']],
+              sheet: 'Learning OKR template.',
+            },
+          },
+          {
+            t: 'Deep work', o: 'Plan and protect deep-work sessions.', min: 30,
+            hook: ['word', '90 minutes · one task · no phone', 'deep work'],
+            cards: [
+              ['🧘', 'Deep work', 'Long, distraction-free focus on demanding tasks.'],
+              ['🧱', 'Protect it', 'Schedule it, silence notifications, phone in another room.'],
+              ['📉', 'Shallow work', 'Emails, chats and admin — batch them.'],
+            ],
+            acts: [
+              { sort: 'Deep or shallow work?', buckets: ['Deep', 'Shallow'], items: [['Solving complex problems', 0], ['Replying to group chats', 1], ['Writing an essay draft', 0], ['Organising files', 1], ['Learning a new proof', 0]], why: 'Cognitive demand.' },
+              { mcq: 'Best environment for deep work?', options: ['Quiet place, phone out of reach, clear goal', 'Busy café with notifications on', 'TV on'], answer: 0, why: 'Remove distractions.' },
+              { phase: 'probe', mcq: 'Why can a single phone check hurt deep work?', options: ['Attention residue makes refocusing slow', 'It doesn’t', 'Phones are heavy'], answer: 0, why: 'Switching costs.' },
+              { phase: 'probe', write: 'Design your weekly deep-work schedule and rules.', keywords: ['session', 'phone', 'goal', 'time'], exemplar: 'Mon/Wed/Fri 6–7:30 am: deep maths sessions; phone in another room; one clear goal per session; chats batched at 8 pm.', minWords: 20 },
+            ],
+            teach: {
+              explain: 'Deep work (Newport); attention residue.', analogy: 'Deep work is diving; shallow work is paddling.',
+              vocab: [['deep work', 'Focused, demanding work.'], ['attention residue', 'Leftover attention on a previous task.']],
+              demo: 'Run a 45-minute deep work block.',
+              prompts: [['What breaks focus?', 'Notifications.'], ['How batch shallow work?', 'Set times.']],
+              support: 'Session planner.', stretch: 'Track deep hours for 2 weeks.',
+              mis: [['I work best with notifications on', 'Most people focus better without.']],
+              sheet: 'Deep work log.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Module 2: Independence and wellbeing',
+        lessons: [
+          {
+            t: 'Learning independently online', o: 'Design a self-study plan using quality online resources.', min: 30,
+            hook: ['word', 'Find · Filter · Follow through', 'self-directed learning'],
+            cards: [
+              ['🔎', 'Find', 'Use reputable platforms, official educational portals and recognised universities’ open courses.'],
+              ['🧹', 'Filter', 'Check credibility, level and structure before committing.'],
+              ['📆', 'Follow through', 'Schedule sessions, take notes, test yourself and build a project.'],
+            ],
+            acts: [
+              { order: 'Order a self-study plan', steps: ['Define the skill and goal', 'Find and filter resources', 'Schedule sessions', 'Practise with active recall', 'Build a project to apply it'], why: 'Structured independence.' },
+              { mcq: 'Which is the best sign a course is worth your time?', options: ['Clear syllabus, credible instructor, exercises and good reviews', 'Flashy thumbnail', 'Longest video'], answer: 0, why: 'Quality indicators.' },
+              { phase: 'probe', mcq: 'Why build a project?', options: ['Applying knowledge deepens learning and shows skill', 'It’s optional fun only', 'It replaces learning'], answer: 0, why: 'Transfer.' },
+              { phase: 'probe', write: 'Create a 4-week self-study plan for a skill you want to learn.', keywords: ['week', 'resource', 'practice', 'project'], exemplar: 'Skill: basic data analysis. Week 1: spreadsheet basics course. Week 2: charts and formulas practice. Week 3: analyse school sports data. Week 4: present findings in a short report.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Self-regulated learning online; resource evaluation.', analogy: 'You’re the teacher, student and principal of your own course.',
+              vocab: [['self-directed learning', 'Learning you plan and manage.'], ['MOOC', 'Massive open online course.']],
+              demo: 'Evaluate two online courses.',
+              prompts: [['What makes resources credible?', 'Authority, structure.'], ['How stay consistent?', 'Schedule, accountability.']],
+              support: 'Plan template.', stretch: 'Public learning log/portfolio.',
+              mis: [['Watching videos = learning', 'Practice and application are essential.']],
+              sheet: 'Self-study plan.',
+            },
+          },
+          {
+            t: 'Avoiding burnout', o: 'Recognise burnout signs and build sustainable habits.', min: 30,
+            hook: ['word', 'Sustainable > Sprint', 'performance over the long run'],
+            cards: [
+              ['🔥', 'Burnout signs', 'Exhaustion, cynicism, falling performance, poor sleep, losing interest.'],
+              ['🔋', 'Recovery', 'Sleep, exercise, hobbies, time with people, and real breaks.'],
+              ['🆘', 'Ask for help', 'Talk to family, teachers or a counsellor; in India, Tele-MANAS (14416) offers mental health support.'],
+            ],
+            acts: [
+              { sort: 'Burnout warning sign or healthy sign?', buckets: ['Warning sign', 'Healthy sign'], items: [['Constant exhaustion despite rest', 0], ['Regular sleep and exercise', 1], ['Stopped enjoying anything', 0], ['Taking weekly breaks', 1], ['Irritable and withdrawn for weeks', 0]], why: 'Recognise early.' },
+              { mcq: 'You’ve studied 12 hours daily for weeks and feel empty. Best step?', options: ['Rest, rebalance the schedule and talk to someone', 'Study more', 'Hide it'], answer: 0, why: 'Recovery and support.' },
+              { phase: 'probe', mcq: 'Why can rest improve results?', options: ['It restores energy, memory and focus', 'It doesn’t', 'Only for athletes'], answer: 0, why: 'Recovery supports performance.' },
+              { phase: 'probe', write: 'Write your sustainable study charter: limits, recovery habits and who you’ll talk to.', keywords: ['sleep', 'break', 'exercise', 'talk', 'limit'], exemplar: 'Max 6 focused hours a day, 1 full rest day weekly, 8 hours’ sleep, 30 minutes of exercise, weekly call with my cousin, and I’ll see the school counsellor if stress lasts more than two weeks.', minWords: 30 },
+            ],
+            teach: {
+              explain: 'Burnout, recovery and help-seeking; signpost support.', analogy: 'You’re a marathon runner, not a sprinter.',
+              vocab: [['burnout', 'State of physical/emotional exhaustion from prolonged stress.'], ['recovery', 'Restoring energy.']],
+              demo: 'Energy audit: what drains and restores you.',
+              prompts: [['Warning signs?', 'Exhaustion, cynicism.'], ['Who to talk to?', 'Trusted adults, counsellors.']],
+              support: 'Signs checklist.', stretch: 'Plan a sustainable exam season.',
+              mis: [['Burnout means weakness', 'It’s a response to overload.']],
+              sheet: 'Sustainable study charter.',
+            },
+          },
+        ],
+      },
+    ],
+  },
+];

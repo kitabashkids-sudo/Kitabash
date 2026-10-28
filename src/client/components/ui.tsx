@@ -19,6 +19,7 @@ const PATHS: Record<string, string> = {
   trash: 'M4 7h16M9 7V4h6v3m-8 0l1 13h8l1-13',
   edit: 'M4 20h4L20 8l-4-4L4 16v4z',
   upload: 'M12 16V4m-5 5l5-5 5 5M4 20h16',
+  download: 'M12 4v12m-5-5l5 5 5-5M4 20h16',
   eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zm10-3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
   bulb: 'M9 18h6m-5 3h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z',
   mic: 'M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zm-7 9a7 7 0 0 0 14 0m-7 7v3',

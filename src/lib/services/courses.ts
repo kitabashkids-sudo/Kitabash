@@ -56,6 +56,7 @@ export interface CourseInput {
   age_min?: number | null;
   age_max?: number | null;
   grade_level?: string;
+  grade_band?: string;
   proficiency?: string;
   prerequisites?: string[];
   objectives?: string[];
@@ -85,6 +86,7 @@ export async function createCourse(input: CourseInput, userId: string): Promise<
       input.required_tools || [], input.teaching_style || '', input.assessment_approach || '', input.safety_requirements || '', input.instructor_notes || '',
       input.student_intro || '', input.theme || 'sunrise', !!input.is_template, userId,
     );
+    await syncPathway(cid, input.grade_band);
     await ensureAgent(cid, userId);
     await audit(userId, 'create', 'course', cid, input.title);
     return cid;
@@ -98,9 +100,21 @@ export async function updateCourse(courseId: string, input: Partial<CourseInput>
   const vals: any[] = [];
   const allowed: (keyof CourseInput)[] = ['subject_id', 'title', 'description', 'age_min', 'age_max', 'grade_level', 'proficiency', 'prerequisites', 'objectives', 'outcomes', 'duration_minutes', 'required_tools', 'teaching_style', 'assessment_approach', 'safety_requirements', 'completion_criteria', 'instructor_notes', 'student_intro', 'theme', 'is_template'];
   for (const k of allowed) if (input[k] !== undefined) (fields.push(`${k}=?`), vals.push(input[k]));
-  if (!fields.length) return;
-  await run(`UPDATE courses SET ${fields.join(',')}, updated_at=datetime('now') WHERE id=?`, ...vals, c.id);
+  if (!fields.length && input.grade_band === undefined) return;
+  if (fields.length) await run(`UPDATE courses SET ${fields.join(',')}, updated_at=datetime('now') WHERE id=?`, ...vals, c.id);
+  await syncPathway(c.id, input.grade_band);
   await audit(userId, 'update', 'course', c.id, fields.join(','));
+}
+
+const BAND_IDS = ['K-2', '3-5', '6-8', '9-12'];
+/** Keep level (= proficiency) and pathway (= subject + grade band) in step for the level ladder. */
+async function syncPathway(courseId: string, gradeBand?: string) {
+  if (gradeBand !== undefined) {
+    if (gradeBand && !BAND_IDS.includes(gradeBand)) throw new HttpError(400, 'Grade band must be K-2, 3-5, 6-8 or 9-12.');
+    await run('UPDATE courses SET grade_band=? WHERE id=?', gradeBand, courseId);
+  }
+  const c = (await get('SELECT subject_id, grade_band, proficiency FROM courses WHERE id=?', courseId))!;
+  await run('UPDATE courses SET level=?, pathway=? WHERE id=?', c.proficiency || '', c.grade_band ? `${c.subject_id}--${c.grade_band}` : '', courseId);
 }
 
 export async function ensureAgent(courseId: string, userId: string | null) {

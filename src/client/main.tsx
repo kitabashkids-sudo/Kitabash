@@ -13,6 +13,8 @@ import { GuardianHome } from './pages/Guardian.tsx';
 import { AdminHome } from './pages/admin/AdminHome.tsx';
 import { Studio } from './pages/admin/Studio.tsx';
 import { Library, Platform } from './pages/admin/Platform.tsx';
+import { ClassesPage, ClassDetail } from './pages/Classes.tsx';
+import { LivePage, LiveReport } from './pages/Live.tsx';
 
 function Redirect({ to }: { to: string }) {
   useEffect(() => {
@@ -43,6 +45,10 @@ function Routes() {
   if (path === '/catalog') return <Shell><Catalog /></Shell>;
   if ((m = match('/courses/:id', path))) return <Shell><CoursePage id={m.id} /></Shell>;
   if ((m = match('/lessons/:id', path))) return <Shell><LessonPlayer id={m.id} /></Shell>;
+  if (path === '/classes') return <Shell><ClassesPage /></Shell>;
+  if ((m = match('/classes/:id', path))) return <Shell><ClassDetail id={m.id} /></Shell>;
+  if (role !== 'guardian' && (m = match('/live/:id/report', path))) return <Shell><LiveReport id={m.id} /></Shell>;
+  if (role !== 'guardian' && (m = match('/live/:id', path))) return <Shell wide><LivePage id={m.id} /></Shell>;
   if (staff && path === '/teach') return <Shell><TeachHome /></Shell>;
   if (staff && (m = match('/teach/lessons/:id', path))) return <Shell wide><TeachLesson id={m.id} /></Shell>;
   if (staff && (m = match('/teach/courses/:id/report', path))) return <Shell><CourseReport id={m.id} /></Shell>;

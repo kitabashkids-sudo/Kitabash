@@ -116,7 +116,7 @@ function ProfileStep({ course, locked, onSaved, next }: { course: any; locked: b
     setErr('');
     try {
       const body: any = {};
-      for (const k of ['subject_id', 'title', 'description', 'age_min', 'age_max', 'grade_level', 'proficiency', 'prerequisites', 'objectives', 'outcomes', 'duration_minutes', 'required_tools', 'teaching_style', 'assessment_approach', 'safety_requirements', 'instructor_notes', 'student_intro', 'theme', 'is_template', 'completion_criteria']) body[k] = f[k];
+      for (const k of ['subject_id', 'title', 'description', 'age_min', 'age_max', 'grade_level', 'grade_band', 'proficiency', 'prerequisites', 'objectives', 'outcomes', 'duration_minutes', 'required_tools', 'teaching_style', 'assessment_approach', 'safety_requirements', 'instructor_notes', 'student_intro', 'theme', 'is_template', 'completion_criteria']) body[k] = f[k];
       for (const k of ['objectives', 'outcomes', 'prerequisites', 'required_tools']) body[k] = (body[k] || []).map((s: string) => s.trim()).filter(Boolean);
       for (const k of ['age_min', 'age_max', 'duration_minutes']) body[k] = body[k] === '' || body[k] === null ? null : Number(body[k]);
       await api(`/api/admin/courses/${course.id}`, { method: 'PATCH', body });
@@ -152,9 +152,16 @@ function ProfileStep({ course, locked, onSaved, next }: { course: any; locked: b
             ))}
           </Select>
         </Field>
-        <Field label="Grade or proficiency level">
+        <Field label="K-12 grade band and level" hint="Courses with the same subject and grade band form a Beginner → Intermediate → Advanced path for learners.">
           <div className="flex gap-2">
-            <Input value={f.grade_level} onChange={(e) => set('grade_level', e.target.value)} placeholder="Grades 3–5" />
+            <Select value={f.grade_band || ''} onChange={(e) => set('grade_band', e.target.value)} aria-label="Grade band">
+              <option value="">No band</option>
+              <option value="K-2">K–2</option>
+              <option value="3-5">Grades 3–5</option>
+              <option value="6-8">Grades 6–8</option>
+              <option value="9-12">Grades 9–12</option>
+            </Select>
+            <Input value={f.grade_level} onChange={(e) => set('grade_level', e.target.value)} placeholder="Grade label, e.g. Grades 3–5" aria-label="Grade label" />
             <Select value={f.proficiency} onChange={(e) => set('proficiency', e.target.value)} aria-label="Proficiency">
               {['beginner', 'intermediate', 'advanced'].map((p) => (
                 <option key={p}>{p}</option>

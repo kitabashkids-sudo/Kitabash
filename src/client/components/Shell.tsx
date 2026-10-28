@@ -8,15 +8,18 @@ const NAV: Record<string, { to: string; label: string; icon: string }[]> = {
   student: [
     { to: '/', label: 'My learning', icon: 'home' },
     { to: '/catalog', label: 'Explore', icon: 'search' },
+    { to: '/classes', label: 'Live classes', icon: 'users' },
   ],
   instructor: [
     { to: '/', label: 'Home', icon: 'home' },
     { to: '/teach', label: 'Teach', icon: 'screen' },
+    { to: '/classes', label: 'Classes', icon: 'users' },
     { to: '/catalog', label: 'Catalogue', icon: 'search' },
   ],
   admin: [
     { to: '/admin', label: 'Studio', icon: 'layers' },
     { to: '/teach', label: 'Teach', icon: 'screen' },
+    { to: '/classes', label: 'Classes', icon: 'users' },
     { to: '/catalog', label: 'Catalogue', icon: 'search' },
     { to: '/admin/library', label: 'Library', icon: 'image' },
     { to: '/admin/platform', label: 'Platform', icon: 'plug' },
