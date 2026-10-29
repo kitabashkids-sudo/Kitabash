@@ -4,7 +4,12 @@
 
 Kitabash is a configurable learning engine. Administrators create any course — handwriting, spoken English, maths, financial literacy, coding, a board syllabus, an Olympiad pathway, or a subject that doesn't exist yet — **without changing code**. They then ground a course-specific AI learning agent in their own materials, generate and review Learn → Perform → Probe lessons, test the agent in a sandbox, and publish. Students learn through interactive activities; teachers run lessons with a right-hand resource panel that assembles itself from the course data, and can teach small **live video classes** (up to about 10 students).
 
-It ships with a ready-to-use **K-12 course library**: **348 courses** (1,392 lessons) across 41 subjects in five categories. The courses sit in four grade bands (K–2, 3–5, 6–8, 9–12), and each band has a **Beginner → Intermediate → Advanced** level ladder, which gives learners a clear next step to sign up for.
+It ships with a ready-to-use **course library of 408 courses** (1,704 lessons):
+
+- **K-12:** 348 courses across 41 subjects in five categories, in four grade bands (K–2, 3–5, 6–8, 9–12).
+- **AI for Professionals:** 60 courses for working adults, one track for each of 20 industries (HR, Sales, Marketing, Education, Healthcare, Banking, Government and more).
+
+Every band and track has a **Beginner → Intermediate → Advanced** level ladder, which gives learners a clear next step to sign up for.
 
 ---
 
@@ -281,7 +286,7 @@ E2E_DATABASE_URL=postgresql://… npm run test:e2e
 | Teacher workspace with 6-tab right panel (Teach/Show/Facilitate/Resources/Assess/AI), projection mode, student preview, lesson nav, panel collapse, answer-key reveal | `/teach/lessons/:id` | ✅ Working |
 | Progress report + written-answer review queue with feedback/score override | `/teach/courses/:id/report` | ✅ Working |
 | CBSE / CISCE / IGCSE / Olympiad tracks, manual + CSV mapping, review workflow | Studio → Board mapping | ✅ Working. **No official alignment data is included.** Library board courses are *designed to support* their board, and every mapping starts **unverified** |
-| **K-12 course library**: 348 published courses, 4 grade bands × 3 levels, level ladder and “next level” recommendations | Platform → Course library · `src/lib/library` | ✅ Working. Every course passes the content checks and its tutor tests. A subject teacher has not yet reviewed them (see below) |
+| **Course library**: 408 published courses — 348 K-12 (4 grade bands × 3 levels) and 60 AI for Professionals (20 industries × 3 levels) — with a level ladder and “next level” recommendations | Platform → Course library · `src/lib/library` | ✅ Working. Every course passes the content checks and its tutor tests. A subject teacher has not yet reviewed them (see below) |
 | **Live classes**: class groups, weekly schedules, WebRTC video, chat, raised hands, mute-all, lesson-card sharing, attendance, parent view | Live classes · `src/lib/live` | ✅ Working (tested browser-to-browser). ⚠️ Run one server instance, and add a TURN relay for strict networks |
 | Roles: admin, instructor, student, guardian · guardian consent for AI & audio | `src/lib/auth.ts` | ✅ Working |
 | Data export, right-to-erasure, AI log retention purge, audit log | Platform → People / Audit | ✅ Working |
@@ -304,11 +309,49 @@ E2E_DATABASE_URL=postgresql://… npm run test:e2e
 | Writing / reflection / explanation (teacher review) | Built-in | all probes, creative writing |
 | Code: predict the output | Configurable preset | Scratch, Python, web |
 | Timed optional challenge | Configurable preset | Olympiad, maths facts |
-| Coding sandbox, visual simulations, interactive diagrams, audio comprehension, project submissions | **Need developer extension** | — |
+| **Code Lab**: Scratch-style block editor with a live stage (events, motion, looks, sound, loops, if/else, sensing, operators, variables, messages, pen). Challenges are checked on the server by running the learner’s program; project mode goes to the teacher with the actual program | Built-in | Scratch, coding, animation, game design |
+| Block-coding robot puzzles (sequence, loops, conditions, coordinates, variables; block limits) | Built-in | coding, computational thinking |
+| Project submission (checklist + link + reflection, teacher rubric) | Built-in | any project-based subject |
+| Text-code sandbox (Python/JavaScript), visual simulations, interactive diagrams, audio comprehension, file uploads | **Need developer extension** | — |
 
 Unlimited *activities* of any registered type are created by configuration. A genuinely new *type* needs code — see `docs/ACTIVITY_EXTENSIONS.md`.
 
 ---
+
+## Flagship courses (the new standard)
+
+Courses are being rebuilt one by one to a flagship standard. Each flagship course **replaces** the old 4-lesson course with the same subject, band and level (the old one is archived on install; learners' progress on it is kept). Finished so far:
+
+| Course | Level | Modules → projects |
+|---|---|---|
+| **Scratch Game Makers** (Grades 3–5) | Beginner | sequences & events → loops & animation → decisions & random → variables & messages. Projects: *My Animated Name*, *Dance Party*, *Catch the Apple*, capstone *My Arcade Game* |
+| **Story, Quiz & Music Studio** (Grades 3–5) | Intermediate | pattern art (nested loops) → interactive stories (broadcasts, ask/answer) → quiz games (operators, random, timer) → music machines. Projects: *Pattern Art Gallery*, *Choose-Your-Path Story*, *Quiz Show*, capstone *My Interactive Show* |
+| **Arcade Engineers** (Grades 3–5) | Advanced | clones → game physics (velocity, gravity, jumping) → lists → My Blocks & game states. Projects: *Starfall Catcher*, *Jumpy Platformer*, *Guess the Animal*, capstone *Arcade Engineer* |
+| **Code Foundations** (Grades 6–8) | Beginner | algorithms & events → iteration (polygons, nested loops) → variables & Boolean logic → the game loop. Projects: *Interactive Poster*, *Generative Art*, *Smart Assistant App*, capstone *Arcade Game*. Every lesson shows the Python equivalent |
+| **Data & Simulations** (Grades 6–8) | Intermediate | lists & data analysis → procedures & decomposition → random simulations & agent models → data-driven apps. Projects: *Survey Analyser*, *Procedural City*, *My Simulation*, capstone *Data App* |
+| **Algorithms Lab** (Grades 6–8) | Advanced | searching → sorting → strings & the Caesar cipher → recursion & bridging to Python. Projects: *Search Showdown*, *Live Leaderboard*, *Secret Messenger*, capstone *Algorithm App* |
+| **Little Coders** (ScratchJr, K–2) | Beginner | picture-block arrows & numbers → green flag & repeat → talking & collecting → debugging. Projects: *Trip to the Park*, *Dance Party*, *Treasure Hunt*, capstone *My Story Show* |
+| **Story Makers** (ScratchJr, K–2) | Intermediate | conversations & looks → hops & loop chunks → story structure & scenes → storyboards & debugging. Projects: *Talking Pets*, *Animal Parade*, *Fairy Tale Retell*, capstone *My Animated Story* |
+| **Game Builders** (ScratchJr, K–2) | Advanced | tap-to-start & forever → score & mazes → messages & bumps → level design & testing. Projects: *Tap Game*, *Gem Collector*, *Relay Race*, capstone *My First Game* |
+
+- **12 lessons in 4 modules** per course; each module ends with a project.
+- **Every lesson has:**
+  - an animated explainer video (MP4, 1–2 minutes, with captions; a “Read the captions aloud” option uses the device's voice);
+  - Learn cards showing the real Scratch-style blocks;
+  - a step-by-step build-along;
+  - **Code Lab** challenges (and robot puzzles in the Beginner course), checked automatically with a hint ladder;
+  - Probe tasks (debugging, predict, explain);
+  - a printable worksheet;
+  - a teacher lesson plan PDF with timings, an unplugged warm-up, questions, differentiation, misconceptions and the full answer key.
+- **Projects are built in the Code Lab.** The teacher's review queue shows the learner's checklist and reflection with the rubric, and the program is kept with the submission. Real Scratch is optional.
+- **Course guide & syllabus PDF** for parents and schools, and a **project brief + rubric PDF** for each project.
+- **The media** (videos, captions, PDFs) lives in `library-media/<course>/` and is installed with the course. To regenerate it after editing a course: `npm run media:flagship -- docs <course-key>` and `npm run media:flagship -- videos <course-key> [lesson]` (needs Chromium and ffmpeg).
+- **About the videos:** they are animated slides with on-screen captions; there is no recorded voice (this build has no text-to-speech engine). For a human voice-over, record over the captions, or replace a lesson's video file in **Library** (the media library: “Edit / replace”). The lesson keeps pointing to the same video.
+- **Code Lab blocks** cover Events, Motion, Looks, Sound, Control (including clones), Sensing, Operators (including text: letter of, length of, round), Variables and lists (add, insert, replace, delete), Pen and My Blocks (custom blocks with an input, including recursion).
+- **ScratchJr courses (K–2)** use picture-block puzzles made for early readers: arrow blocks with numbers (➡️ 3), 🔁 repeat, 💬 talk, 🔼🔽 grow/shrink, 🙈👀 hide/show, 🦘 hop, ⭐ score and 👆 start-on-tap, with an emoji character on the stage. Each lesson video shows the character solving a puzzle; projects are built in the free ScratchJr app with a picture checklist.
+- **Python Lab** (for the Python courses, coming next): a Python editor with line numbers, highlighting and auto-indent, a console with `input()`, turtle drawing, and plain-English error hints. It runs a safe teaching-subset Python interpreter written for Kitabash (no `eval`, no files, no network) in the browser, and the server re-runs the code for grading — output tests, function tests, construct checks (for example “uses a for loop”) and turtle-shape checks.
+
+Next in the rebuild: Python (Grades 6–8 and 9–12) in the Python Lab, then Web Development (with a Web Lab), then the other technology subjects.
 
 ## The K-12 course library
 
@@ -326,6 +369,23 @@ Unlimited *activities* of any registered type are created by configuration. A ge
 - **Board courses** (CBSE, ICSE/CISCE, Cambridge IGCSE) say *designed to support*, never “aligned”. Their topic mappings install as **unverified**. Before claiming alignment, have a curriculum reviewer check each mapping against the board's current official syllabus and approve it in **Studio → Board mapping**.
 - **Before you sell it:** the content was written and machine-checked (consistent answers, numerical answers worked through, tutor tests passing), but a subject teacher has not reviewed it. Plan a teacher review of each course; you can edit anything in the Studio. Published courses are read-only, so move a course to Draft or duplicate it to make a new edition.
 - **Install or top up** at any time: **Platform → Course library**, or `npm run library:install`. Re-running only adds missing courses.
+
+## AI for Professionals (adult courses)
+
+A sixth category, **AI for Professionals**, has 60 courses for working adults (the **Adults** filter in Explore, ages 18+). Each of 20 industries has three levels:
+
+| Level | What it covers |
+|---|---|
+| **Beginner** — AI foundations for the role | Where AI helps in that industry and where a person must decide; a 4-part prompt (role, context, ask, format) on a real task; two role-specific lessons (for example, job descriptions for HR or plain-language customer letters for Banking) |
+| **Intermediate** — AI workflows | Three repeatable workflows for the industry (for example, fraud and KYC, claims triage, grievance routing, pest detection), plus a lesson on data privacy under India’s DPDP Act and the industry’s own rules |
+| **Advanced** — strategy and leadership | Two advanced topics (agents, fairness, model risk, procurement and others), an AI-use policy and risk register for the team, and a measured pilot with a baseline, a metric and a decision rule |
+
+Industries: HR · Sales · Marketing · Education · Customer Support · Finance & Accounting · Healthcare · Legal · Operations & Supply Chain · Real Estate · Small Business · Software & IT · Banking · Insurance · Retail & E-commerce · Manufacturing · Hospitality · Government & Public Sector · Media & Content · Agriculture.
+
+- The use cases come from current industry research, listed with sources in `docs/AI_USE_CASES.md`.
+- The courses mention Indian rules (DPDP Act and Rules 2025, RBI FREE-AI, IRDAI, the CCPA dark-patterns guidelines, the IT Rules on synthetic media, MeitY’s AI governance guidelines and others) as **context, not legal advice**. Regulations change, so check them before you sell the courses.
+- Each adult course has its own AI tutor with a professional tone. The tutor declines personal legal, medical and investment advice, and points to a trusted person and Tele-MANAS (14416) if a learner mentions harassment or feeling unsafe at work.
+- As with the K-12 library, the courses are machine-checked but **have not yet been reviewed by a subject expert**. Have someone from each industry review its track before launch.
 
 ## Live classes
 
@@ -384,7 +444,9 @@ docs/              Architecture, agent, extensions, Supabase, deployment, testin
 | `npm run test:e2e` | Browser walkthrough of the 12-point Definition of Done (`npx playwright install chromium` first) |
 | `npm run test:first-run` | Browser test of the first-run setup page |
 | `npm run test:live` | Browser-to-browser live-class test (video, chat, controls, attendance) |
-| `npm run library:install` | Install (or top up) the K-12 course library |
+| `npm run library:install` | Install (or top up) the course library (including flagship courses) |
+| `npm run test:flagship` | Browser test of a flagship course: video, Code Lab, server checks, teacher printables |
+| `npm run media:flagship -- docs\|videos` | Regenerate the flagship PDFs or lesson videos into `library-media/` |
 | `npm run typecheck` | TypeScript check (server + domain) · `typecheck:client` for the React code |
 
 ## Why not Next.js (yet)?

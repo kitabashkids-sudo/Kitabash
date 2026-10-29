@@ -59,11 +59,13 @@ test('the whole library installs, publishes and is idempotent', { timeout: 600_0
   const first: any = await I.installLibrary(admin);
   const job = await first.done;
   assert.deepEqual(job.errors, []);
-  assert.equal(job.done, LIBRARY.length);
+  const expected = I.ACTIVE.length + (await import('../../src/lib/library/flagship/all.ts')).FLAGSHIPS.length;
+  assert.equal(job.done, expected);
   const st = await I.libraryStatus();
-  assert.equal(st.installed, LIBRARY.length);
+  assert.equal(st.installed, expected);
+  assert.equal(st.total, expected);
   const published = await db.get("SELECT COUNT(*) n FROM courses WHERE status='published'");
-  assert.ok(Number(published.n) >= LIBRARY.length);
+  assert.ok(Number(published.n) >= expected);
   // Second run installs nothing new.
   const again: any = await I.installLibrary(admin);
   assert.equal((await again.done).total, 0);
