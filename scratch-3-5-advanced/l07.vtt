@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:11.400
+A variable holds one thing. But what if your game needs to remember ten names, or fifty high scores? You need a list!
+
+2
+00:00:12.000 --> 00:00:16.713
+A list is like a variable with numbered boxes.
+
+3
+00:00:16.713 --> 00:00:23.600
+Item 1, item 2, item 3… One list can hold many words or numbers.
+
+4
+00:00:24.200 --> 00:00:29.348
+Use “item (2) of fruits” to read the second thing.
+
+5
+00:00:29.348 --> 00:00:35.365
+The length of the list tells you how many items it holds.
+
+6
+00:00:35.965 --> 00:00:40.243
+Lists remember items even after the program stops.
+
+7
+00:00:40.243 --> 00:00:47.565
+Use “delete all of” when the flag is clicked so the list doesn’t keep growing.
+
+8
+00:00:48.165 --> 00:00:54.183
+Pick a random position from 1 to the length of the list.
+
+9
+00:00:54.183 --> 00:00:59.765
+This is how games choose a random word, question or prize.
+
+10
+00:01:00.365 --> 00:01:04.209
+Great work! Let’s remember what we learned.
+
+11
+00:01:04.209 --> 00:01:09.357
+Now build along, then try the challenges. You’ve got this!

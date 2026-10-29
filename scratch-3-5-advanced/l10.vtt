@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:07.922
+Real programmers hate writing the same code twice. Today you’ll invent your own Scratch blocks!
+
+2
+00:00:08.522 --> 00:00:14.974
+Make a Block lets you give a name to a group of blocks.
+
+3
+00:00:14.974 --> 00:00:22.730
+Then one block does the whole job — your code gets shorter and easier to read.
+
+4
+00:00:23.330 --> 00:00:30.652
+An input (like size) is a value you give the block when you use it.
+
+5
+00:00:30.652 --> 00:00:36.670
+The same block can draw a small square or a big one.
+
+6
+00:00:37.270 --> 00:00:41.548
+The define hat says what the block does.
+
+7
+00:00:41.548 --> 00:00:48.000
+Using the block anywhere runs that code with the input you gave it.
+
+8
+00:00:48.600 --> 00:00:56.791
+If there’s a bug in your block, fix the define script once and every use is fixed.
+
+9
+00:00:56.791 --> 00:00:59.765
+That’s why programmers love procedures.
+
+10
+00:01:00.365 --> 00:01:04.209
+Great work! Let’s remember what we learned.
+
+11
+00:01:04.209 --> 00:01:09.357
+Now build along, then try the challenges. You’ve got this!
