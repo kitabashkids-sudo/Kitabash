@@ -1,0 +1,41 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:16.183
+It’s project time! Build a catching game: things fall as clones from random places, the player moves smoothly, catching scores points, and the game ends after a time limit or when lives run out.
+
+2
+00:00:16.783 --> 00:00:29.757
+Build a catching game: things fall as clones, the player moves smoothly, catching scores points, and the game ends after a time limit or when lives run out.
+
+3
+00:00:30.357 --> 00:00:35.070
+Make some clones good (stars) and some bad (bombs).
+
+4
+00:00:35.070 --> 00:00:41.957
+Use pick random to choose each clone’s costume, and a different rule for each.
+
+5
+00:00:42.557 --> 00:00:45.530
+Add a timer or lives.
+
+6
+00:00:45.530 --> 00:00:52.417
+When time is up or lives reach 0, say the score and stop all.
+
+7
+00:00:53.017 --> 00:01:00.339
+Playtest and tune the numbers: fall speed, how often clones appear, and the player’s speed.
+
+8
+00:01:00.339 --> 00:01:03.748
+Fun games are hard but fair.
+
+9
+00:01:04.348 --> 00:01:08.191
+Great work! Let’s remember what we learned.
+
+10
+00:01:08.191 --> 00:01:13.339
+Now plan it, build it, test it, and share it!
