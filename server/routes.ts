@@ -26,9 +26,27 @@ async function sendFile(c: Ctx, file: { key: string; mime: string; name?: string
   const data = await storage().read(file.key);
   if (!data) throw new HttpError(404, 'File missing from storage');
   const isSvg = file.mime === 'image/svg+xml';
+  // Byte ranges let browsers (Safari especially) seek and stream videos.
+  const range = /^bytes=(\d*)-(\d*)$/.exec(String(c.req.headers.range || ''));
+  if (range && (range[1] || range[2])) {
+    const size = data.length;
+    let start = range[1] ? Number(range[1]) : size - Number(range[2]);
+    let end = range[1] && range[2] ? Number(range[2]) : size - 1;
+    start = Math.max(0, start);
+    end = Math.min(size - 1, end);
+    if (start > end || start >= size) {
+      c.res.writeHead(416, { 'content-range': `bytes */${size}` });
+      c.res.end();
+      return;
+    }
+    c.res.writeHead(206, { 'content-type': file.mime, 'content-length': end - start + 1, 'content-range': `bytes ${start}-${end}/${size}`, 'accept-ranges': 'bytes', 'cache-control': 'private, max-age=300' });
+    c.res.end(data.subarray(start, end + 1));
+    return;
+  }
   c.res.writeHead(200, {
     'content-type': file.mime,
     'content-length': data.length,
+    'accept-ranges': 'bytes',
     'cache-control': 'private, max-age=300',
     // Uploaded documents download rather than render; SVG gets a locked-down CSP.
     ...(isSvg ? { 'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'" } : {}),
@@ -125,6 +143,13 @@ route('GET', '/api/assets/:id/file', async (c) => {
   requireUser(c.user);
   await sendFile(c, await ADM.assetFile(c.params.id));
 });
+route('GET', '/api/assets/:id/captions.vtt', async (c) => {
+  requireUser(c.user);
+  const a = await ADM.assetFile(c.params.id);
+  const body = Buffer.from(String(a.captions || '').startsWith('WEBVTT') ? String(a.captions) : 'WEBVTT\n\n');
+  c.res.writeHead(200, { 'content-type': 'text/vtt; charset=utf-8', 'content-length': body.length, 'cache-control': 'private, max-age=300' });
+  c.res.end(body);
+});
 route('GET', '/api/resources/:id/file', async (c) => {
   const u = requireUser(c.user);
   const f = await K.resourceFile(c.params.id);
@@ -201,7 +226,7 @@ const courseShape = {
   age_min: v.int({ optional: true, min: 3, max: 99 }),
   age_max: v.int({ optional: true, min: 3, max: 99 }),
   grade_level: opt(80),
-  grade_band: v.oneOf(['', 'K-2', '3-5', '6-8', '9-12'] as const, { optional: true }),
+  grade_band: v.oneOf(['', 'K-2', '3-5', '6-8', '9-12', 'Adult'] as const, { optional: true }),
   proficiency: opt(40),
   prerequisites: strList(),
   objectives: strList(),
