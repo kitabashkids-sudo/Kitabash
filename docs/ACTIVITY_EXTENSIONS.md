@@ -50,6 +50,24 @@ Rules:
 
 Add grading cases to `tests/unit/activities.test.ts`. The "examples validate" test checks your `example` automatically.
 
+## Coding activity types (built in)
+
+- **`code_lab`**: a Scratch-style block editor with a live stage.
+  - The engine is `src/lib/scratch/vm.ts`, pure TypeScript shared by the browser and the server.
+  - `config.mode` is `challenge` or `project`.
+  - `answer_key.checks` lists goal checks, for example:
+    - `pen` (closed shape with N sides)
+    - `keyMoves`, `clickReacts`, `said`, `sayOrder`
+    - `var`, `varResets`, `broadcast`
+    - `uses` / `usesAny` / `usesRandom`
+    - `returnsOnFlag`, `sprites`, `eachHas`, `maxBlocks`
+  - `answer_key.test` says how to run the program (seconds, key presses, clicks), and `answer_key.solution` must pass every check (validated on save).
+  - Grading re-runs the learner's program on the server. `checkProject()` sanitises untrusted programs and enforces limits on blocks, depth, sprites and size.
+- **`block_code`**: robot puzzles on a grid (`src/lib/scratch/puzzle.ts`).
+  - Goals: reach the star, collect gems, paint cells, set variable values, stay within a block limit, use required blocks.
+  - `config.lock` can fix a block's number (e.g. move 1 step) so that loops are needed.
+- **`project`**: a checklist, a link (Scratch share links are validated) and a reflection. It is always teacher-reviewed with the lesson rubric.
+
 ## Reserved slots (status: extension-required)
 
-`coding_sandbox`, `visual_simulation`, `interactive_diagram`, `audio_listening`, `project_submission` are listed in the registry so admins can see what's planned. Check each third-party tool's terms (Scratch, MakeCode, App Inventor, PhET, etc.) before embedding it.
+`coding_sandbox` (text code: Python/JavaScript), `visual_simulation`, `interactive_diagram`, `audio_listening` and `file_upload` are listed in the registry so admins can see what's planned. Check each third-party tool's terms (Scratch, MakeCode, App Inventor, PhET, etc.) before embedding it.

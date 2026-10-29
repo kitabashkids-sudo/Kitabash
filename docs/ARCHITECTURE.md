@@ -71,7 +71,7 @@ learning.submitAttempt → assertCanView (published + approved, or staff)
 - Agent versions: edits land on the draft version; once it has left `draft`, a save creates a new version. `review`/`approved` require every sandbox test to have been run against that exact version. Rollback re-publishes any version that was ever approved.
 - Mappings: always created `unverified`; approval requires a reference source; students only see approved mappings.
 
-## K-12 course library
+## Course library (K-12 and AI for Professionals)
 
 `src/lib/library/` turns compact course specs into published courses. It uses the same services an admin uses in the Studio, so it adds no back door.
 
@@ -83,11 +83,26 @@ content/*.ts (CourseSpec[])  →  catalog.ts (LIBRARY)  →  expand.ts (lint + e
                                                                                         └─ review → approve → publish
 ```
 
-- **Grade bands** (`bands.ts`): K-2 (ages 5–7), 3-5 (8–10), 6-8 (11–13), 9-12 (14–17). `SUBJECT_BANDS` lists the bands where each subject is offered, by age suitability. Every listed band has Beginner, Intermediate and Advanced, and a test enforces this.
+- **Grade bands** (`bands.ts`): K-2 (ages 5–7), 3-5 (8–10), 6-8 (11–13), 9-12 (14–17), and `Adult` (18+) for the 20 `PRO_SUBJECTS`. `SUBJECT_BANDS` lists the bands where each subject is offered, by age suitability. Every listed band has Beginner, Intermediate and Advanced, and a test enforces this.
 - **Level ladder**: each course gets `grade_band`, `level` and `pathway = subject--band`. The course page shows the three levels as one path, and recommendations offer the next level when a course is finished. This is the retention and upsell route.
 - **Content checks** (`expand.ts`) run before anything is written. Each lesson needs at least 2 Learn cards, at least one Perform and one Probe activity, valid answer indexes, unique match targets, blanks that line up with answers, ordering activities of 3+ steps, vocabulary and misconceptions. Tracing glyphs must exist in `glyphs.ts`.
 - **Idempotent**: each spec writes the setting `library:<subject--band--level>` → course id. Re-running the install skips installed courses and fills in only what is missing (`npm run library:install`, the setup page, or Platform → Course library).
 - **Board courses** (CBSE, ICSE/CISCE, Cambridge) carry a `pathway` block. Install creates a track titled “designed to support — awaiting verification”, and every topic mapping starts `unverified`. Students see alignment only after an admin approves a mapping with a reference source.
+- **AI for Professionals** (`content/pro-kit.ts`, `content/pro-1..5.ts`): each industry is one compact `Industry` object (use cases, prompt example, privacy rules, risks, pilot numbers and seven custom lessons). `proTrack()` turns it into three `CourseSpec`s and adds the shared template lessons (AI landscape, prompting, privacy, governance and a measured pilot). For the `Adult` band, `expand.ts` gives the tutor a professional tone, workplace-safety escalation, and out-of-scope personal legal, medical and investment advice.
+- **Flagship courses** (`flagship/`):
+  - Each course is a full lesson spec (`types.ts`) with:
+    - a video script (scenes and narration lines)
+    - cards with Scratch blocks
+    - build-along steps
+    - coding activities (`lab` → `code_lab`, `puzzle` → `block_code`)
+    - teacher plan, worksheet and project brief
+  - `expand.ts` turns it into lessons; `lintFlagship()` validates every activity, including running every solution.
+  - `install.ts` installs through the same services. It uploads `library-media/<course>/` (MP4 + captions as assets, PDFs as resources with student/teacher audience) and archives the course it replaces.
+  - `scripts/flagship-media.ts` renders the PDFs (Chromium) and the videos (frame-by-frame in Chromium, then ffmpeg).
+- **Scratch blocks**:
+  - `src/lib/scratch/blocks.ts` renders scratchblocks-style text to SVG. It is used in lessons, PDFs and videos.
+  - `vm.ts` is the Code Lab runtime. It is Scratch-like: threads, hats, broadcasts, and loops that yield each frame at 30 fps. It is deterministic (seeded random) so server checks repeat exactly.
+  - `puzzle.ts` is the grid robot.
 - **Handwriting** uses `glyphs.ts`: stroke paths on a 100×100 canvas for patterns, a–z, A–Z and 0–9, graded by the tracing activity (coverage + precision).
 
 ## Live classes
