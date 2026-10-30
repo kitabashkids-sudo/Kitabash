@@ -1,0 +1,49 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:11.835
+In this lesson, you will learn to explain how one character can send a message that starts another character’s script, and plan a relay.
+
+2
+00:00:12.435 --> 00:00:18.452
+The orange envelope block sends a message — like passing a note.
+
+3
+00:00:19.052 --> 00:00:25.070
+The yellow “start on message” block waits for that message, then runs.
+
+4
+00:00:25.670 --> 00:00:28.070
+Messages have colours.
+
+5
+00:00:28.070 --> 00:00:32.783
+A red message only starts scripts waiting for red.
+
+6
+00:00:33.383 --> 00:00:36.791
+Rabbit runs, then sends a message.
+
+7
+00:00:36.791 --> 00:00:40.200
+Turtle gets it and runs next.
+
+8
+00:00:40.200 --> 00:00:42.600
+Teamwork!
+
+9
+00:00:43.200 --> 00:00:50.522
+The rabbit runs to the turtle (star) and says “Your turn!” — that’s the message.
+
+10
+00:00:50.522 --> 00:00:54.800
+Message passed — now the turtle can go!
+
+11
+00:00:55.400 --> 00:00:59.243
+Great work! Let’s remember what we learned.
+
+12
+00:00:59.243 --> 00:01:04.391
+Now build along, then try the challenges. You’ve got this!

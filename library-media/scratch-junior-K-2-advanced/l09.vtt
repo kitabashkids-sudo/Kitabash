@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:12.270
+It’s project time! Make a ScratchJr relay race: three runners, each started by a message from the one before, and a celebration at the end.
+
+2
+00:00:12.870 --> 00:00:15.409
+Three runners take turns.
+
+3
+00:00:15.409 --> 00:00:20.122
+Each one sends a message to start the next.
+
+4
+00:00:20.722 --> 00:00:27.609
+Use a red message for runner 2 and a blue message for runner 3.
+
+5
+00:00:28.209 --> 00:00:33.357
+The last runner says “We win!” and hops to celebrate.
+
+6
+00:00:33.957 --> 00:00:37.800
+Does each runner wait for its turn?
+
+7
+00:00:37.800 --> 00:00:40.339
+Fix any colour mix-ups.
+
+8
+00:00:40.939 --> 00:00:50.000
+Final runner (👆 start on tap = gets the message): run right 4, say “We win!”, hop 2 times.
+
+9
+00:00:50.000 --> 00:00:52.974
+The snail brings it home!
+
+10
+00:00:53.574 --> 00:00:57.417
+Great work! Let’s remember what we learned.
+
+11
+00:00:57.417 --> 00:01:02.565
+Now plan it, build it, test it, and share it!

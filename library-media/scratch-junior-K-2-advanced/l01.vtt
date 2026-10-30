@@ -1,0 +1,41 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:08.357
+Hello, game builder! Games need players to tap and play. Let’s learn the tap start block.
+
+2
+00:00:08.957 --> 00:00:15.843
+The yellow “start on tap” block runs a script when you tap the character.
+
+3
+00:00:16.443 --> 00:00:20.287
+The green flag starts the whole game.
+
+4
+00:00:20.287 --> 00:00:23.261
+Tapping starts one character’s script.
+
+5
+00:00:23.861 --> 00:00:30.313
+In games, players tap characters to make them do things — that’s interaction!
+
+6
+00:00:30.913 --> 00:00:36.496
+One character can have a flag script AND a tap script.
+
+7
+00:00:37.096 --> 00:00:43.983
+Use 👆 start on tap. When tapped, the cat hops and says “Hee hee!”.
+
+8
+00:00:43.983 --> 00:00:48.696
+Tap → hop → giggle. Your first game interaction!
+
+9
+00:00:49.296 --> 00:00:53.139
+Great work! Let’s remember what we learned.
+
+10
+00:00:53.139 --> 00:00:58.287
+Now build along, then try the challenges. You’ve got this!

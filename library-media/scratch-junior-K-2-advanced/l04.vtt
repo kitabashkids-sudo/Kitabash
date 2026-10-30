@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:12.270
+In this lesson, you will learn to add 1 to a score each time a gem is collected, and check the score at the end.
+
+2
+00:00:12.870 --> 00:00:17.148
+The score counts how well you are doing.
+
+3
+00:00:17.148 --> 00:00:19.687
+It starts at 0.
+
+4
+00:00:20.287 --> 00:00:25.870
+Each time you collect a gem, add 1 to the score.
+
+5
+00:00:26.470 --> 00:00:29.878
+Collect 3 gems → score 3.
+
+6
+00:00:29.878 --> 00:00:32.852
+The score matches the gems!
+
+7
+00:00:33.452 --> 00:00:38.600
+Games say “You win!” when the score is big enough.
+
+8
+00:00:39.200 --> 00:00:46.522
+Collect 3 gems. After each one, add 1 to ⭐ score. End with score 3.
+
+9
+00:00:46.522 --> 00:00:50.365
+Score 3! One point for every gem.
+
+10
+00:00:50.965 --> 00:00:54.809
+Great work! Let’s remember what we learned.
+
+11
+00:00:54.809 --> 00:00:59.957
+Now build along, then try the challenges. You’ve got this!

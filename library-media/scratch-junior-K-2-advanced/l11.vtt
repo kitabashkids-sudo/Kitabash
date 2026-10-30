@@ -1,0 +1,41 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:10.965
+In this lesson, you will learn to test a game like a player, find bugs in rules and scores, and fix them.
+
+2
+00:00:11.565 --> 00:00:16.278
+Game makers ask testers to play and find problems.
+
+3
+00:00:16.878 --> 00:00:20.722
+Does the score match what you collected?
+
+4
+00:00:20.722 --> 00:00:23.696
+If not, there’s a bug.
+
+5
+00:00:24.296 --> 00:00:29.878
+Maybe a treasure doesn’t disappear, or the win message never shows.
+
+6
+00:00:30.478 --> 00:00:33.887
+Fix one bug, then play again.
+
+7
+00:00:34.487 --> 00:00:40.939
+Bug! The score should be 2 after collecting 2 gems. Fix the code.
+
+8
+00:00:40.939 --> 00:00:44.783
+The second +1 was missing. Score fixed!
+
+9
+00:00:45.383 --> 00:00:49.226
+Great work! Let’s remember what we learned.
+
+10
+00:00:49.226 --> 00:00:54.374
+Now build along, then try the challenges. You’ve got this!
