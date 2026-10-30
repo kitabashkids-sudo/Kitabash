@@ -11,6 +11,10 @@
 // the metadata; grading always runs on the server.
 // ─────────────────────────────────────────────────────────────
 
+import { OPS, CONDS, checkProgram, run as runPuzzle, gradeRun } from '../scratch/puzzle.ts';
+import { checkProject, runChecks } from '../scratch/vm.ts';
+import { checkCode, runChecks as runPyChecks } from '../python/checks.ts';
+
 export type Phase = 'learn' | 'perform' | 'probe';
 
 export interface GradeResult {
@@ -337,6 +341,173 @@ const defs: ActivityDefinition[] = [
     },
   },
 
+
+  {
+    type: 'block_code',
+    label: 'Block-coding puzzle',
+    description: 'Snap Scratch-style blocks together to program a robot on a grid stage (sequence, events, loops, conditions, coordinates, variables). Graded by running the program on the server.',
+    availability: 'built-in',
+    inputs: 'Tap or drag blocks from the palette into the script, edit the numbers, press Run to watch the robot, then Check.',
+    feedback: 'The robot acts out the code step by step, with the running block highlighted. Friendly messages explain crashes, endless loops and missed goals.',
+    completion: 'A program submitted. Full marks when every goal is met; part marks when it works but misses a stretch goal such as the block limit.',
+    accessibility: 'Every block is a button; insertion points are buttons; numbers are labelled inputs; the run is also described in text. Drag is optional.',
+    subjects: ['Scratch', 'coding', 'computational thinking'],
+    validate(c, k) {
+      const w = c?.world;
+      need(w && Number.isInteger(w.cols) && Number.isInteger(w.rows) && w.cols >= 1 && w.rows >= 1 && w.cols <= 10 && w.rows <= 10, 'config.world needs cols and rows (1–10)');
+      need(w.start && w.start.x >= 0 && w.start.x < w.cols && w.start.y >= 0 && w.start.y < w.rows, 'config.world.start must be on the stage');
+      need(Array.isArray(c.palette) && c.palette.length >= 1 && c.palette.every((o: string) => o in OPS && !(OPS as any)[o].hat), 'config.palette must list block ops');
+      for (const cd of c.conds || []) need(cd in CONDS, `unknown condition "${cd}"`);
+      if (k?.goal) need(Array.isArray(w.goal), 'answer_key.goal needs world.goal');
+      need(k?.solution, 'answer_key.solution (a working program) is required so the puzzle is known to be solvable');
+      const res = runPuzzle(w, checkProgram(k.solution, c.palette, c.lock), k);
+      need(res.ok, `answer_key.solution does not solve the puzzle: ${res.reason}`);
+    },
+    grade(c, k, r) {
+      let prog;
+      try {
+        prog = checkProgram(r?.program, c.palette, c.lock);
+      } catch (e) {
+        return { ratio: 0, correct: false, needsReview: false, feedback: (e as Error).message };
+      }
+      const res = runPuzzle(c.world, prog, k);
+      const ratio = gradeRun(res, k);
+      return { ratio, correct: res.ok, needsReview: false, detail: { blocks: res.stats.blocks, steps: res.stats.steps }, feedback: res.ok ? k.explanation || res.reason : res.reason };
+    },
+  },
+  {
+    type: 'code_lab',
+    label: 'Code Lab (block coding editor)',
+    description: 'A Scratch-style coding editor with a live stage, inside the lesson. Challenge mode checks the program automatically on the server; project mode is a free build reviewed by the teacher.',
+    availability: 'built-in',
+    inputs: 'Drag or tap blocks into scripts, edit values, press the green flag to run, use the arrow keys or on-screen buttons, click sprites.',
+    feedback: 'Live stage while coding. On Check: which goals are met and a clear next step; hints unlock one at a time.',
+    completion: 'Challenge: correct when every goal check passes (part marks per goal). Project: submitted with a reflection and reviewed by the teacher.',
+    accessibility: 'Every block, slot and value is a labelled control; tap-to-add needs no dragging; on-screen buttons replace the keyboard; stage changes are summarised in text.',
+    subjects: ['Scratch', 'coding', 'computational thinking', 'animation', 'game design'],
+    validate(c, k) {
+      checkProject(c?.project);
+      need(c?.mode === 'challenge' || c?.mode === 'project', 'config.mode must be "challenge" or "project"');
+      need(typeof c?.challenge === 'string' && c.challenge, 'config.challenge (what to build) is required');
+      need(Array.isArray(k?.checks) && k.checks.length >= 1, 'answer_key.checks needs at least one check');
+      need(k?.test && typeof k.test.seconds === 'number', 'answer_key.test (how to run the program) is required');
+      need(k?.solution, 'answer_key.solution (a working project) is required');
+      const r = runChecks(checkProject(k.solution), k.test, k.checks);
+      need(r.ratio === 1, `answer_key.solution fails its own checks: ${r.messages.join('; ')}`);
+      if (c.mode === 'project') need(c.reflection, 'config.reflection is required in project mode');
+    },
+    grade(c, k, r) {
+      let proj;
+      try {
+        proj = checkProject(r?.project);
+      } catch (e) {
+        return { ratio: 0, correct: false, needsReview: false, feedback: (e as Error).message };
+      }
+      const res = runChecks(proj, k.test, k.checks);
+      const done = res.passed.filter(Boolean).length;
+      if (c.mode === 'project') {
+        const refl = String(r?.reflection || '');
+        const reflOk = words(refl) >= (c.minWords ?? 15);
+        const ratio = 0.7 * res.ratio + 0.3 * (reflOk ? 1 : 0);
+        const todo = [...res.messages, ...(reflOk ? [] : [`Write at least ${c.minWords ?? 15} words in your reflection.`])];
+        return {
+          ratio,
+          correct: !todo.length,
+          needsReview: true,
+          detail: { goalsMet: done, goals: res.passed.length },
+          feedback: todo.length ? `Saved! Before your teacher reviews it, try this: ${todo[0]}` : 'Project submitted! 🎉 Your teacher will run it and give you feedback.',
+        };
+      }
+      return {
+        ratio: res.ratio,
+        correct: res.ratio === 1,
+        needsReview: false,
+        detail: { goalsMet: done, goals: res.passed.length, passed: res.passed },
+        feedback: res.ratio === 1 ? k.explanation || 'Challenge complete! Your code does everything it should. 🎉' : `${done} of ${res.passed.length} goals done. Next: ${res.messages[0]}`,
+      };
+    },
+  },
+  {
+    type: 'python_lab',
+    label: 'Python Lab (text coding editor)',
+    description: 'Write and run real Python in the lesson: a code editor with line numbers, a console (print and input), turtle drawing and friendly error messages. Challenge mode re-runs the program on the server against tests; project mode is reviewed by the teacher.',
+    availability: 'built-in',
+    inputs: 'Type Python in the editor, press Run, answer input() prompts in the console, then press Check.',
+    feedback: 'Console output and turtle drawing as you run. Errors point to the line with a plain-English hint. On Check: which goals pass, with the test that failed and what was expected.',
+    completion: 'Challenge: correct when every check passes (part marks per goal). Project: submitted with a reflection and reviewed by the teacher.',
+    accessibility: 'Plain-text editor with a labelled textarea, keyboard-friendly (Tab indents), console output in a live region, high-contrast colours.',
+    subjects: ['Python', 'coding', 'computer science', 'data'],
+    validate(c, k) {
+      need(c?.mode === 'challenge' || c?.mode === 'project', 'config.mode must be "challenge" or "project"');
+      need(typeof c?.starter === 'string', 'config.starter (starting code) is required');
+      need(typeof c?.task === 'string' && c.task, 'config.task (what to write) is required');
+      need(Array.isArray(k?.checks) && k.checks.length >= 1, 'answer_key.checks needs at least one check');
+      need(typeof k?.solution === 'string' && k.solution, 'answer_key.solution (working code) is required');
+      const r = runPyChecks(checkCode(k.solution), k.checks, k.inputs || []);
+      need(r.passed, `answer_key.solution fails its own checks: ${r.results.filter((x) => !x.ok).map((x) => `${x.msg}${x.detail ? ` (${x.detail})` : ''}`).join('; ')}`);
+      if (c.mode === 'project') need(c.reflection, 'config.reflection is required in project mode');
+    },
+    grade(c, k, r) {
+      let code;
+      try {
+        code = checkCode(r?.code);
+      } catch (e) {
+        return { ratio: 0, correct: false, needsReview: false, feedback: (e as Error).message };
+      }
+      const res = runPyChecks(code, k.checks, k.inputs || []);
+      const passed = res.results.map((x) => x.ok);
+      const done = passed.filter(Boolean).length;
+      const ratio = done / passed.length;
+      const firstFail = res.results.find((x) => !x.ok);
+      const next = firstFail ? `${firstFail.msg}${firstFail.detail ? `\n${firstFail.detail}` : ''}` : '';
+      if (c.mode === 'project') {
+        const refl = String(r?.reflection || '');
+        const reflOk = words(refl) >= (c.minWords ?? 15);
+        const todo = [...(firstFail ? [next] : []), ...(reflOk ? [] : [`Write at least ${c.minWords ?? 15} words in your reflection.`])];
+        return { ratio: 0.7 * ratio + 0.3 * (reflOk ? 1 : 0), correct: !todo.length, needsReview: true, detail: { goalsMet: done, goals: passed.length, passed }, feedback: todo.length ? `Saved! Before your teacher reviews it, try this: ${todo[0]}` : 'Project submitted! 🎉 Your teacher will run it and give you feedback.' };
+      }
+      return { ratio, correct: ratio === 1, needsReview: false, detail: { goalsMet: done, goals: passed.length, passed }, feedback: ratio === 1 ? k.explanation || 'All tests pass! 🎉' : `${done} of ${passed.length} goals done. Next: ${next}` };
+    },
+  },
+  {
+    type: 'project',
+    label: 'Project submission',
+    description: 'A creative build (e.g. a Scratch game) with a brief, a requirements checklist, a project link and a reflection. Always reviewed by the teacher against the rubric.',
+    availability: 'built-in',
+    inputs: 'Tick each requirement when it is done, paste the shared project link (or tick “I showed my teacher”), and write a short reflection.',
+    feedback: 'Immediate: which parts are still missing. Final: teacher feedback and rubric score.',
+    completion: 'Submitted with a link or teacher check and a reflection. Always flagged for teacher review.',
+    accessibility: 'Checklist uses native checkboxes; labelled link and reflection fields; no drag.',
+    subjects: ['coding', 'design', 'all project-based subjects'],
+    validate(c) {
+      need(c?.brief, 'config.brief is required');
+      need(Array.isArray(c?.requirements) && c.requirements.length >= 2, 'config.requirements needs at least 2 items');
+      need(c?.reflection, 'config.reflection (a reflection prompt) is required');
+    },
+    grade(c, _k, r) {
+      const reqs: string[] = c.requirements;
+      const ticks = reqs.filter((_, i) => r?.done?.[i] === true).length;
+      const url = String(r?.url || '').trim();
+      const linkOk = /^https:\/\/scratch\.mit\.edu\/projects\/\d+\/?$/.test(url) || (c.anyLink && /^https:\/\/[^\s"<>]+$/.test(url));
+      const shown = r?.offline === true;
+      const refl = String(r?.reflection || '');
+      const reflOk = words(refl) >= (c.minWords ?? 15);
+      const ratio = 0.5 * (ticks / reqs.length) + 0.25 * (linkOk || shown ? 1 : 0) + 0.25 * (reflOk ? 1 : 0);
+      const missing = [
+        ticks < reqs.length ? `${reqs.length - ticks} requirement${reqs.length - ticks > 1 ? 's' : ''} not ticked yet` : '',
+        url && !linkOk ? 'the link should look like https://scratch.mit.edu/projects/123456789' : !linkOk && !shown ? 'add your project link (or tick “I showed my teacher”)' : '',
+        !reflOk ? `write at least ${c.minWords ?? 15} words in your reflection` : '',
+      ].filter(Boolean);
+      return {
+        ratio,
+        correct: !missing.length,
+        needsReview: true,
+        detail: { requirementsDone: ticks, linkOk, reflectionWords: words(refl) },
+        feedback: missing.length ? `Almost there: ${missing.join('; ')}.` : 'Project submitted! 🎉 Your teacher will play it and give you feedback using the rubric.',
+      };
+    },
+  },
+
   // ── Configurable presets: no new code, they render with a built-in type ──
   {
     type: 'code_output',
@@ -364,11 +535,11 @@ const defs: ActivityDefinition[] = [
 
   // ── Need developer-built components (honest status) ──
   ...[
-    ['coding_sandbox', 'Coding and debugging workspace', 'Run and modify real code. Needs a sandboxed runner (e.g. Pyodide/Skulpt in the browser, or an official Scratch/MakeCode embed where its terms allow).'],
+    ['coding_sandbox', 'Coding and debugging workspace', 'Run and modify real text-based code (e.g. Python). Needs a sandboxed runner such as Pyodide. Block coding is already built in as “Block-coding puzzle”.'],
     ['visual_simulation', 'Visual simulations', 'Physics/chemistry/maths simulations. Needs per-simulation components or an embeddable simulation provider whose licence allows embedding.'],
     ['interactive_diagram', 'Interactive diagrams', 'Label/hotspot diagrams over images. Needs a hotspot editor component.'],
     ['audio_listening', 'Audio listening comprehension', 'Play uploaded audio then answer. Partly possible now: attach audio as a lesson asset and follow with multiple choice.'],
-    ['project_submission', 'Projects and portfolio submissions', 'File upload + rubric review by a teacher. Needs student file storage with retention controls.'],
+    ['file_upload', 'File uploads (portfolios)', 'Student file upload with rubric review. Needs student file storage with retention controls. Projects can already be submitted as a link with the built-in “Project submission” type.'],
   ].map(
     ([type, label, description]) =>
       ({
