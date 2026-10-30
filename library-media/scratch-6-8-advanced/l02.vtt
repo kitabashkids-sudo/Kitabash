@@ -1,0 +1,49 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:12.704
+In this lesson, you will learn to implement binary search on a sorted list using low, high and mid, and compare its efficiency with linear search.
+
+2
+00:00:13.304 --> 00:00:19.322
+If a list is sorted, you can be clever: check the middle.
+
+3
+00:00:19.322 --> 00:00:26.643
+If the target is bigger, throw away the lower half; if smaller, the upper half.
+
+4
+00:00:27.243 --> 00:00:36.304
+Keep low and high at the ends of the part still possible. mid = round((low + high) / 2).
+
+5
+00:00:36.304 --> 00:00:39.278
+Each step halves the range.
+
+6
+00:00:39.878 --> 00:00:49.809
+Binary search finds any number in 1–100 in at most 7 steps, and in a million items in at most 20.
+
+7
+00:00:49.809 --> 00:00:53.217
+Linear search could take a million.
+
+8
+00:00:53.817 --> 00:00:58.096
+Binary search gives wrong answers on unsorted data.
+
+9
+00:00:58.096 --> 00:01:01.939
+That’s one reason sorting matters so much.
+
+10
+00:01:02.539 --> 00:01:11.165
+In Python, binary search is a while loop with low, high and mid — exactly the same idea.
+
+11
+00:01:11.765 --> 00:01:15.609
+Great work! Let’s remember what we learned.
+
+12
+00:01:15.609 --> 00:01:20.757
+Now build along, then try the challenges. You’ve got this!

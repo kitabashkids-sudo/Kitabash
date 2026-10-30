@@ -1,0 +1,37 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:16.183
+It’s project time! Build a leaderboard: collect any number of scores into a list, sort them highest-first with your sorting procedure, announce the top three, and handle edge cases like fewer than three players.
+
+2
+00:00:16.783 --> 00:00:26.713
+Ask how many players, collect each score into a list, sort it from highest to lowest, and announce the top three.
+
+3
+00:00:27.313 --> 00:00:35.504
+swap (i) and a sort procedure from Lesson 5 make the main script short: collect, sort, report.
+
+4
+00:00:36.104 --> 00:00:39.078
+What if only two players?
+
+5
+00:00:39.078 --> 00:00:41.617
+Or two players tie?
+
+6
+00:00:41.617 --> 00:00:45.896
+Handle these so the app never shows nonsense.
+
+7
+00:00:46.496 --> 00:00:54.687
+Use test sets you can check: already sorted, reverse sorted, with ties, and with just one player.
+
+8
+00:00:55.287 --> 00:00:59.130
+Great work! Let’s remember what we learned.
+
+9
+00:00:59.130 --> 00:01:04.278
+Now plan it, build it, test it, and share it!

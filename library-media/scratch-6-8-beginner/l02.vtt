@@ -1,0 +1,49 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:13.574
+In this lesson, you will learn to use event hats (flag, key, click, broadcast) to make programs respond to users, and run several scripts at the same time.
+
+2
+00:00:14.174 --> 00:00:21.930
+Most apps wait for events — a tap, a key, a message — and then react.
+
+3
+00:00:21.930 --> 00:00:27.078
+In Scratch, hat blocks start scripts when an event happens.
+
+4
+00:00:27.678 --> 00:00:31.087
+A sprite can have many scripts.
+
+5
+00:00:31.087 --> 00:00:37.539
+They run at the same time, like several workers each doing one job.
+
+6
+00:00:38.139 --> 00:00:41.983
+Broadcast sends a message to every sprite.
+
+7
+00:00:41.983 --> 00:00:46.696
+Any script with “when I receive” that message starts.
+
+8
+00:00:46.696 --> 00:00:50.974
+This is how sprites talk to each other.
+
+9
+00:00:51.574 --> 00:00:56.287
+Web pages do the same thing: button.onclick = startParty.
+
+10
+00:00:56.287 --> 00:00:58.826
+Same idea, different language.
+
+11
+00:00:59.426 --> 00:01:03.270
+Great work! Let’s remember what we learned.
+
+12
+00:01:03.270 --> 00:01:08.417
+Now build along, then try the challenges. You’ve got this!

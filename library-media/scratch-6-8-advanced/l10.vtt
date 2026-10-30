@@ -1,0 +1,49 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:12.704
+Some problems contain smaller copies of themselves. Recursion solves them with a procedure that calls itself — one of the most beautiful ideas in computer science.
+
+2
+00:00:13.304 --> 00:00:18.887
+A tree is a trunk with two smaller trees on top.
+
+3
+00:00:18.887 --> 00:00:24.904
+A countdown from 5 is “say 5, then count down from 4”.
+
+4
+00:00:24.904 --> 00:00:29.183
+The problem contains a smaller version of itself.
+
+5
+00:00:29.783 --> 00:00:37.104
+Every recursive procedure needs a base case: a simple situation where it stops calling itself.
+
+6
+00:00:37.104 --> 00:00:40.513
+Without one it would never end.
+
+7
+00:00:41.113 --> 00:00:51.043
+The recursive case calls the procedure again with a SMALLER input, so it gets closer to the base case each time.
+
+8
+00:00:51.643 --> 00:01:00.704
+Draw a branch, then two smaller branches at angles, each drawing two smaller branches… until the branches are tiny.
+
+9
+00:01:00.704 --> 00:01:03.243
+That’s a fractal tree.
+
+10
+00:01:03.843 --> 00:01:12.035
+The same recursive function in Python: a base case and a recursive call with a smaller number.
+
+11
+00:01:12.635 --> 00:01:16.478
+Great work! Let’s remember what we learned.
+
+12
+00:01:16.478 --> 00:01:21.626
+Now build along, then try the challenges. You’ve got this!

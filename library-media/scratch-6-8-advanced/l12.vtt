@@ -1,0 +1,37 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:10.965
+Show what you can do: build an app around an algorithm you understand deeply, and explain it in blocks and in Python.
+
+2
+00:00:11.565 --> 00:00:16.278
+A sorting visualiser that draws bars as it sorts.
+
+3
+00:00:16.278 --> 00:00:19.687
+A cipher app with brute-force cracking.
+
+4
+00:00:19.687 --> 00:00:23.096
+A contact finder with binary search.
+
+5
+00:00:23.696 --> 00:00:30.583
+Write your algorithm in plain steps first (pseudocode), then in blocks, then in Python.
+
+6
+00:00:31.183 --> 00:00:37.635
+Count the steps your algorithm takes for different inputs, and explain its efficiency.
+
+7
+00:00:38.235 --> 00:00:44.252
+Demo the app, walk through the algorithm, and show your Python version.
+
+8
+00:00:44.852 --> 00:00:48.696
+Great work! Let’s remember what we learned.
+
+9
+00:00:48.696 --> 00:00:53.843
+Now plan it, build it, test it, and share it!

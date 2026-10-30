@@ -1,0 +1,37 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:14.878
+It’s project time! Write rules that make art: use nested loops to build patterns from shapes, controlled randomness so every run is different, and explain your rules in an artist statement.
+
+2
+00:00:15.478 --> 00:00:20.626
+Generative artists write rules, and the computer makes the art.
+
+3
+00:00:20.626 --> 00:00:24.035
+Randomness means every run is different.
+
+4
+00:00:24.635 --> 00:00:35.435
+A loop inside a loop: the inner loop draws a shape, the outer loop repeats it with a turn to make a rosette.
+
+5
+00:00:36.035 --> 00:00:45.096
+Use pick random for colour, position or size — but keep some rules fixed so it still looks designed.
+
+6
+00:00:45.696 --> 00:00:49.104
+Real generative artists explain their rules.
+
+7
+00:00:49.104 --> 00:00:52.948
+Write which rules you chose and why.
+
+8
+00:00:53.548 --> 00:00:57.391
+Great work! Let’s remember what we learned.
+
+9
+00:00:57.391 --> 00:01:02.539
+Now plan it, build it, test it, and share it!

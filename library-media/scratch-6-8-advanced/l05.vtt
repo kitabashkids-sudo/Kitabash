@@ -1,0 +1,49 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:14.009
+In this lesson, you will learn to complete bubble sort with nested loops, sort in either order, and measure how the number of comparisons grows with the list size.
+
+2
+00:00:14.609 --> 00:00:18.887
+One pass puts the largest at the end.
+
+3
+00:00:18.887 --> 00:00:26.643
+Repeat the pass (n − 1) times and every value reaches its place: that’s bubble sort.
+
+4
+00:00:27.243 --> 00:00:34.130
+Change > to < and the list sorts biggest-first — perfect for a leaderboard.
+
+5
+00:00:34.730 --> 00:00:39.009
+Bubble sort makes about n × n comparisons.
+
+6
+00:00:39.009 --> 00:00:43.287
+Double the list and the work roughly quadruples.
+
+7
+00:00:43.287 --> 00:00:47.565
+For 1,000 items that’s about a million comparisons.
+
+8
+00:00:48.165 --> 00:00:55.922
+Real apps use cleverer sorts (like merge sort) that take about n × log n steps.
+
+9
+00:00:55.922 --> 00:01:01.504
+Bubble sort is great for learning because it’s easy to see.
+
+10
+00:01:02.104 --> 00:01:09.426
+Nested loops in Python: the outer loop repeats the pass, the inner loop compares neighbours.
+
+11
+00:01:10.026 --> 00:01:13.870
+Great work! Let’s remember what we learned.
+
+12
+00:01:13.870 --> 00:01:19.017
+Now build along, then try the challenges. You’ve got this!

@@ -1,0 +1,41 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:10.096
+You already think like a programmer. Text languages like Python use the same ideas — just typed instead of dragged.
+
+2
+00:00:10.696 --> 00:00:22.365
+set → =, repeat (n) → for i in range(n), if-else → if/else, forever → while True, My Block → def, list → [ ].
+
+3
+00:00:22.965 --> 00:00:28.548
+In Python, the lines inside a loop or if are indented.
+
+4
+00:00:28.548 --> 00:00:33.696
+Indentation does the job of the C-shaped block in Scratch.
+
+5
+00:00:34.296 --> 00:00:42.922
+Python lists and strings start at index 0, not 1. letter (1) of word is word[0] in Python.
+
+6
+00:00:43.522 --> 00:00:51.278
+Blocks can’t be typed wrong, but text can: a missing colon or bracket stops the program.
+
+7
+00:00:51.278 --> 00:00:55.991
+Read error messages — they tell you the line.
+
+8
+00:00:56.591 --> 00:01:04.783
+FizzBuzz is a classic programming test. Read it carefully — you’re about to build it in blocks.
+
+9
+00:01:05.383 --> 00:01:09.226
+Great work! Let’s remember what we learned.
+
+10
+00:01:09.226 --> 00:01:14.374
+Now build along, then try the challenges. You’ve got this!

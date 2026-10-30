@@ -1,0 +1,49 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:09.661
+Why write the same block a hundred times? Loops let computers repeat — that’s where their power comes from.
+
+2
+00:00:10.261 --> 00:00:12.661
+Iteration means repeating.
+
+3
+00:00:12.661 --> 00:00:19.113
+A counted loop (repeat 4) runs the blocks inside it exactly 4 times.
+
+4
+00:00:19.713 --> 00:00:26.165
+To draw a regular polygon, the turns must add up to 360 degrees.
+
+5
+00:00:26.165 --> 00:00:30.878
+So each turn is 360 ÷ number of sides.
+
+6
+00:00:31.478 --> 00:00:38.800
+Store the number of sides in a variable and use an operator for the turn.
+
+7
+00:00:38.800 --> 00:00:42.643
+Change one number to get any polygon.
+
+8
+00:00:43.243 --> 00:00:46.652
+Programmers say DRY: Don’t Repeat Yourself.
+
+9
+00:00:46.652 --> 00:00:51.365
+Loops make code shorter, clearer and easier to change.
+
+10
+00:00:51.965 --> 00:01:01.461
+Here is the same loop in Python. “for i in range(sides)” repeats the indented lines, just like the repeat block.
+
+11
+00:01:02.061 --> 00:01:05.904
+Great work! Let’s remember what we learned.
+
+12
+00:01:05.904 --> 00:01:11.052
+Now build along, then try the challenges. You’ve got this!

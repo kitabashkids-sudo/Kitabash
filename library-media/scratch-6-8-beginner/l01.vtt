@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:09.661
+Every app, game and website runs on algorithms. Today you’ll learn to write instructions a computer can follow exactly.
+
+2
+00:00:10.261 --> 00:00:16.713
+An algorithm is a precise, step-by-step set of instructions to solve a problem.
+
+3
+00:00:16.713 --> 00:00:20.991
+Recipes, directions and dance routines are all algorithms.
+
+4
+00:00:21.591 --> 00:00:30.652
+A computer does exactly what you say, in exactly the order you say it — never what you meant.
+
+5
+00:00:30.652 --> 00:00:33.052
+Precision matters.
+
+6
+00:00:33.652 --> 00:00:36.052
+Sequence means order.
+
+7
+00:00:36.052 --> 00:00:41.635
+Swap two steps and you can get a completely different result.
+
+8
+00:00:42.235 --> 00:00:48.252
+The same idea in Python’s turtle module looks like: forward(100), right(90), forward(50).
+
+9
+00:00:48.252 --> 00:00:52.530
+Blocks and text code share the same thinking.
+
+10
+00:00:53.130 --> 00:00:56.974
+Great work! Let’s remember what we learned.
+
+11
+00:00:56.974 --> 00:01:02.122
+Now build along, then try the challenges. You’ve got this!

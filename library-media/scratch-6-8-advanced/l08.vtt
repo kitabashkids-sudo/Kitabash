@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:10.530
+In this lesson, you will learn to encrypt and decrypt messages with a Caesar cipher using letter positions and modular arithmetic.
+
+2
+00:00:11.130 --> 00:00:22.800
+Shift every letter a fixed number of places along the alphabet: with a shift of 3, a → d, b → e, h → k.
+
+3
+00:00:22.800 --> 00:00:25.774
+The shift is the key.
+
+4
+00:00:26.374 --> 00:00:37.609
+Find each letter’s position in the alphabet (a = 1 … z = 26) by searching the alphabet string — it’s linear search again!
+
+5
+00:00:38.209 --> 00:00:40.748
+After z comes a.
+
+6
+00:00:40.748 --> 00:00:49.374
+The mod operator wraps numbers around, like a clock: ((position − 1 + shift) mod 26) + 1.
+
+7
+00:00:49.974 --> 00:00:53.817
+To decrypt, shift the other way (−3).
+
+8
+00:00:53.817 --> 00:01:01.574
+Caesar ciphers are easy to break — modern encryption uses maths that’s far harder to crack.
+
+9
+00:01:02.174 --> 00:01:08.191
+Python’s index finds the position; percent is mod. Same algorithm, fewer blocks.
+
+10
+00:01:08.791 --> 00:01:12.635
+Great work! Let’s remember what we learned.
+
+11
+00:01:12.635 --> 00:01:17.783
+Now build along, then try the challenges. You’ve got this!
