@@ -1,0 +1,53 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:11.400
+In this lesson, you will learn to find and fix a mistake (a bug) in a script by watching what the character does.
+
+2
+00:00:12.000 --> 00:00:15.843
+A bug is a mistake in code.
+
+3
+00:00:15.843 --> 00:00:20.122
+It makes the character do the wrong thing.
+
+4
+00:00:20.722 --> 00:00:23.261
+Press Run and watch.
+
+5
+00:00:23.261 --> 00:00:26.670
+Where does the character go wrong?
+
+6
+00:00:27.270 --> 00:00:31.113
+Change one block, then run it again.
+
+7
+00:00:31.113 --> 00:00:33.652
+Did that fix it?
+
+8
+00:00:34.252 --> 00:00:36.791
+Every coder makes bugs.
+
+9
+00:00:36.791 --> 00:00:40.635
+Finding them is part of the fun!
+
+10
+00:00:41.235 --> 00:00:50.730
+This code has a bug: the bee goes the wrong way. Fix it so the bee reaches the flower star.
+
+11
+00:00:50.730 --> 00:00:55.443
+The down arrow should have been up. Bug squashed!
+
+12
+00:00:56.043 --> 00:00:59.887
+Great work! Let’s remember what we learned.
+
+13
+00:00:59.887 --> 00:01:05.035
+Now build along, then try the challenges. You’ve got this!
