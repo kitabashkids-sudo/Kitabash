@@ -5,6 +5,7 @@ import { api } from '../../lib/api.ts';
 import { Button, Icon, Notice, Badge } from '../ui.tsx';
 import { MultipleChoice, FillBlank, Ordering, Matching, Categorize, FreeResponse } from './basic.tsx';
 import { BudgetSim, Tracing, Speaking } from './rich.tsx';
+import { BlockCode, CodeLabActivity, Project, PythonLabActivity } from './coding.tsx';
 import type { ActivityData, ActivityProps, GradeResult } from './types.ts';
 
 interface ClientType {
@@ -22,6 +23,10 @@ export const CLIENT_TYPES: Record<string, ClientType> = {
   budget_sim: { Component: BudgetSim, ready: (v) => v?.chosen?.length > 0 },
   tracing: { Component: Tracing, ready: (v) => v?.offline || v?.strokes?.flat().length > 3 },
   speaking: { Component: Speaking, ready: (v) => Object.values(v?.selfCheck || {}).some(Boolean) },
+  block_code: { Component: BlockCode, ready: (v) => (v?.program?.blocks?.length || 0) > 0 },
+  code_lab: { Component: CodeLabActivity, ready: (v) => !!v?.project?.sprites?.some((s: any) => s.scripts?.some((sc: any) => sc.blocks?.length)) },
+  python_lab: { Component: PythonLabActivity, ready: (v) => !!(v?.code || '').trim() },
+  project: { Component: Project, ready: (v) => !!v && (Object.values(v.done || {}).some(Boolean) || !!v.url || !!v.offline || !!(v.reflection || '').trim()) },
   free_response: { Component: FreeResponse, ready: (v, a) => (v?.text || '').trim().split(/\s+/).filter(Boolean).length >= (a.config.minWords || 5) },
 };
 

@@ -124,15 +124,16 @@ export function Catalog() {
     (!q || `${c.title} ${c.description}`.toLowerCase().includes(q.toLowerCase())) &&
     (band === 'all' || c.grade_band === band || (!c.grade_band && c.age_min != null && BANDS.find((b) => b.id === band)!.ages[0] <= c.age_max && c.age_min <= BANDS.find((b) => b.id === band)!.ages[1])) &&
     (level === 'all' || c.level === level);
+  const filtered = band !== 'all' || level !== 'all' || !!q;
   const chip = (on: boolean) => `rounded-full px-4 py-2 text-sm font-semibold transition ${on ? 'bg-ink text-paper' : 'bg-card border border-line hover:bg-sunk'}`;
   return (
     <>
       <PageHeader eyebrow="Explore" title="What do you want to learn?">
-        Language, academics, life skills and technology — all built around doing, not just reading.
+        Language, academics, life skills, technology and AI for working professionals — all built around doing, not just reading.
       </PageHeader>
       <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search courses…" aria-label="Search courses" className="mb-4 h-12 w-full max-w-md rounded-full border border-line bg-card px-5 focus:border-accent focus:outline-none" />
-      <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Grade band">
-        <button className={chip(band === 'all')} aria-pressed={band === 'all'} onClick={() => setBand('all')}>All grades</button>
+      <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Age group">
+        <button className={chip(band === 'all')} aria-pressed={band === 'all'} onClick={() => setBand('all')}>All ages</button>
         {BANDS.map((b) => (
           <button key={b.id} className={chip(band === b.id)} aria-pressed={band === b.id} onClick={() => setBand(b.id)} title={b.long}>{b.label}</button>
         ))}
@@ -143,8 +144,12 @@ export function Catalog() {
         ))}
       </div>
       <div className="space-y-10">
+        {filtered && !data.some((cat) => cat.subjects.some((s: any) => s.courses.some(match))) && (
+          <p className="text-muted">No courses match these filters yet. Try another age group or level.</p>
+        )}
         {data.map((cat) => {
           const courses = cat.subjects.flatMap((s: any) => s.courses.map((c: any) => ({ ...c, subject: s.name }))).filter(match);
+          if (filtered && !courses.length) return null;
           return (
             <section key={cat.id}>
               <div className="mb-3 flex items-center gap-3">
@@ -183,7 +188,7 @@ export function Catalog() {
                       {s.name}
                     </span>
                   ))}
-                  <span className="px-1 py-1 text-sm text-muted">— {band === 'all' && level === 'all' && !q ? 'courses coming soon' : 'no courses match these filters'}</span>
+                  <span className="px-1 py-1 text-sm text-muted">— courses coming soon</span>
                 </div>
               )}
             </section>
@@ -265,7 +270,9 @@ export function CoursePage({ id }: { id: string }) {
           <h2 className="mb-4 text-xl font-bold">Your learning journey</h2>
           {data.modules.map((m: any) => (
             <div key={m.id} className="mb-6">
-              <p className="mb-3 text-sm font-bold tracking-wide text-muted uppercase">{m.title}</p>
+              <p className="text-sm font-bold tracking-wide text-muted uppercase">{m.title}</p>
+              {m.summary && <p className="mb-3 text-sm text-muted">{m.summary}</p>}
+              {!m.summary && <div className="mb-3" />}
               <ol className="relative space-y-3 before:absolute before:top-4 before:bottom-4 before:left-[27px] before:w-1 before:rounded-full before:bg-line">
                 {m.lessons.map((l: any, i: number) => {
                   const st = l.progress?.status;
@@ -320,6 +327,21 @@ export function CoursePage({ id }: { id: string }) {
                   Then: {bandLabel(data.pathway.next.grade_band)} — {shortTitle(data.pathway.next)} →
                 </Link>
               )}
+            </Card>
+          )}
+          {data.materials?.length > 0 && (
+            <Card className="p-5">
+              <h3 className="mb-3 font-bold">Course materials</h3>
+              <ul className="space-y-2">
+                {data.materials.map((r: any) => (
+                  <li key={r.id}>
+                    <a href={`/api/resources/${r.id}/file`} className="flex items-center gap-3 rounded-2xl bg-sunk px-3 py-2.5 hover:bg-accent-soft">
+                      <Icon name="download" size={16} className="shrink-0 text-accent" />
+                      <span className="text-sm font-semibold">{r.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </Card>
           )}
           {data.recommendations.length > 0 && (

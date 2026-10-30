@@ -2,7 +2,9 @@ import { UpcomingClasses } from './Classes.tsx';
 import { useEffect, useState } from 'react';
 import { api, useApi } from '../lib/api.ts';
 import { Link, navigate } from '../lib/router.tsx';
-import { Badge, Button, Card, Empty, Icon, Notice, PageHeader, Spinner, StatusPill, Textarea, Input, toast } from '../components/ui.tsx';
+import { Badge, Button, Card, Empty, Icon, Modal, Notice, PageHeader, Spinner, StatusPill, Textarea, Input, toast } from '../components/ui.tsx';
+import { CodeLab } from '../components/codelab/CodeLab.tsx';
+import { PythonLab } from '../components/pylab/PythonLab.tsx';
 import { ResourcePanel, KeyView } from '../components/ResourcePanel.tsx';
 import { VisualHook } from '../components/VisualHook.tsx';
 import { LearnCards } from './LessonPlayer.tsx';
@@ -213,7 +215,7 @@ export function CourseReport({ id }: { id: string }) {
           </ul>
         </Card>
       </div>
-      <h2 className="mt-8 mb-3 text-xl font-bold">Written answers to review ({data.reviewQueue.length})</h2>
+      <h2 className="mt-8 mb-3 text-xl font-bold">Written answers and projects to review ({data.reviewQueue.length})</h2>
       {data.reviewQueue.length === 0 && <Empty title="All caught up" icon="check" />}
       <div className="space-y-3">
         {data.reviewQueue.map((r: any) => (
@@ -222,7 +224,7 @@ export function CourseReport({ id }: { id: string }) {
               {r.learner} · {r.lesson} · {r.activity}
             </p>
             {r.prompt && <p className="mt-1 text-sm text-muted">Q: {r.prompt}</p>}
-            <p className="mt-2 rounded-xl bg-sunk p-3">{r.response?.text || (r.response?.offline ? 'Practised on paper' : JSON.stringify(r.response))}</p>
+            {r.type === 'code_lab' ? <LabReview r={r} /> : r.type === 'python_lab' ? <PyReview r={r} /> : r.type === 'project' ? <ProjectReview r={r} /> : <p className="mt-2 rounded-xl bg-sunk p-3">{r.response?.text || (r.response?.offline ? 'Practised on paper' : JSON.stringify(r.response))}</p>}
             <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_120px_auto]">
               <Textarea className="min-h-[44px]" placeholder="Encouraging feedback…" value={fb[r.id]?.comment || ''} onChange={(e) => setFb({ ...fb, [r.id]: { ...fb[r.id], comment: e.target.value } })} aria-label="Feedback" />
               <Input type="number" min={0} max={r.max_score} placeholder={`Score /${r.max_score}`} value={fb[r.id]?.score ?? ''} onChange={(e) => setFb({ ...fb, [r.id]: { ...fb[r.id], score: e.target.value } })} aria-label="Score override" />
@@ -234,5 +236,129 @@ export function CourseReport({ id }: { id: string }) {
         ))}
       </div>
     </>
+  );
+}
+
+function ProjectReview({ r }: { r: any }) {
+  const url = String(r.response?.url || '');
+  const safe = /^https:\/\/[^\s"<>]+$/.test(url);
+  return (
+    <div className="mt-2 space-y-2 rounded-xl bg-sunk p-3 text-sm">
+      <p>
+        <strong>Project: </strong>
+        {safe ? (
+          <a href={url} target="_blank" rel="noreferrer noopener" className="font-semibold text-teach underline">
+            Open the learner’s project
+          </a>
+        ) : r.response?.offline ? (
+          'Not shared online — the learner will show you the project.'
+        ) : (
+          'No link'
+        )}
+      </p>
+      {Array.isArray(r.requirements) && (
+        <ul className="space-y-0.5">
+          {r.requirements.map((q: string, i: number) => (
+            <li key={i}>
+              {r.response?.done?.[i] ? '✅' : '⬜️'} {q}
+            </li>
+          ))}
+        </ul>
+      )}
+      {r.response?.reflection && (
+        <p>
+          <strong>Reflection: </strong>
+          {r.response.reflection}
+        </p>
+      )}
+      {Array.isArray(r.rubric) && r.rubric.length > 0 && (
+        <details>
+          <summary className="cursor-pointer font-semibold text-teach">Rubric</summary>
+          <table className="mt-2 w-full text-xs">
+            <tbody>
+              {r.rubric.map((c: any) => (
+                <tr key={c.criterion} className="border-t border-line align-top">
+                  <th className="py-1 pr-2 text-left">{c.criterion}</th>
+                  {c.levels.map((l: string, i: number) => (
+                    <td key={i} className="py-1 pr-2">
+                      <span className="font-bold">{i + 1}.</span> {l}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </details>
+      )}
+    </div>
+  );
+}
+
+function PyReview({ r }: { r: any }) {
+  const [open, setOpen] = useState(false);
+  const code: string = r.response?.code || '';
+  return (
+    <div className="mt-2 space-y-2 rounded-xl bg-sunk p-3 text-sm">
+      <p>
+        <strong>Python program:</strong> {code.split('\n').filter((l) => l.trim()).length} lines.{' '}
+        {code && (
+          <button type="button" onClick={() => setOpen(true)} className="font-semibold text-teach underline">
+            Open and run it
+          </button>
+        )}
+      </p>
+      <pre className="max-h-48 overflow-auto rounded-lg bg-[#14161f] p-2 font-mono text-[12px] text-[#e8ecf5]">{code}</pre>
+      {Array.isArray(r.requirements) && <ul className="list-disc pl-5">{r.requirements.map((q: string, i: number) => <li key={i}>{q}</li>)}</ul>}
+      {r.response?.reflection && (
+        <p>
+          <strong>Reflection: </strong>
+          {r.response.reflection}
+        </p>
+      )}
+      {Array.isArray(r.rubric) && r.rubric.length > 0 && (
+        <details>
+          <summary className="cursor-pointer font-semibold text-teach">Rubric</summary>
+          <ul className="mt-1 space-y-1">{r.rubric.map((c: any) => <li key={c.criterion}><b>{c.criterion}:</b> {c.levels.map((l: string, i: number) => `${i + 1}. ${l}`).join(' · ')}</li>)}</ul>
+        </details>
+      )}
+      <Modal open={open} onClose={() => setOpen(false)} title={`${r.learner} · ${r.activity}`} wide>
+        <PythonLab code={code} onChange={() => {}} locked />
+      </Modal>
+    </div>
+  );
+}
+
+function LabReview({ r }: { r: any }) {
+  const [open, setOpen] = useState(false);
+  const p = r.response?.project;
+  const sprites = p?.sprites?.length || 0;
+  const scripts = (p?.sprites || []).reduce((n: number, s: any) => n + (s.scripts?.length || 0), 0);
+  return (
+    <div className="mt-2 space-y-2 rounded-xl bg-sunk p-3 text-sm">
+      <p>
+        <strong>Code Lab project:</strong> {sprites} sprite{sprites === 1 ? '' : 's'}, {scripts} script{scripts === 1 ? '' : 's'}.{' '}
+        {p && (
+          <button type="button" onClick={() => setOpen(true)} className="font-semibold text-teach underline">
+            Open and run it
+          </button>
+        )}
+      </p>
+      {Array.isArray(r.requirements) && <ul className="list-disc pl-5">{r.requirements.map((q: string, i: number) => <li key={i}>{q}</li>)}</ul>}
+      {r.response?.reflection && (
+        <p>
+          <strong>Reflection: </strong>
+          {r.response.reflection}
+        </p>
+      )}
+      {Array.isArray(r.rubric) && r.rubric.length > 0 && (
+        <details>
+          <summary className="cursor-pointer font-semibold text-teach">Rubric</summary>
+          <ul className="mt-1 space-y-1">{r.rubric.map((c: any) => <li key={c.criterion}><b>{c.criterion}:</b> {c.levels.map((l: string, i: number) => `${i + 1}. ${l}`).join(' · ')}</li>)}</ul>
+        </details>
+      )}
+      <Modal open={open} onClose={() => setOpen(false)} title={`${r.learner} · ${r.activity}`} wide>
+        {p && <CodeLab project={p} locked />}
+      </Modal>
+    </div>
   );
 }

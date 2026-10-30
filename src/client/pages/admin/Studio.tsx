@@ -152,7 +152,7 @@ function ProfileStep({ course, locked, onSaved, next }: { course: any; locked: b
             ))}
           </Select>
         </Field>
-        <Field label="K-12 grade band and level" hint="Courses with the same subject and grade band form a Beginner → Intermediate → Advanced path for learners.">
+        <Field label="Grade band (K-12 or adults) and level" hint="Courses with the same subject and grade band form a Beginner → Intermediate → Advanced path for learners.">
           <div className="flex gap-2">
             <Select value={f.grade_band || ''} onChange={(e) => set('grade_band', e.target.value)} aria-label="Grade band">
               <option value="">No band</option>
@@ -160,6 +160,7 @@ function ProfileStep({ course, locked, onSaved, next }: { course: any; locked: b
               <option value="3-5">Grades 3–5</option>
               <option value="6-8">Grades 6–8</option>
               <option value="9-12">Grades 9–12</option>
+              <option value="Adult">Adults (18+)</option>
             </Select>
             <Input value={f.grade_level} onChange={(e) => set('grade_level', e.target.value)} placeholder="Grade label, e.g. Grades 3–5" aria-label="Grade label" />
             <Select value={f.proficiency} onChange={(e) => set('proficiency', e.target.value)} aria-label="Proficiency">

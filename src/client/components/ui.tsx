@@ -290,4 +290,4 @@ export function ProgressBar({ value, max, label, className = '' }: { value: numb
   );
 }
 
-export const categoryIcon = (icon?: string) => ({ chat: 'chat', book: 'book', school: 'school', coin: 'coin', code: 'code' })[icon || ''] || 'sparkle';
+export const categoryIcon = (icon?: string) => ({ chat: 'chat', book: 'book', school: 'school', coin: 'coin', code: 'code', sparkle: 'sparkle' })[icon || ''] || 'sparkle';

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Icon } from '../ui.tsx';
+import { ScratchBlocks } from '../ScratchBlocks.tsx';
 import type { ActivityProps } from './types.ts';
 
 const seededShuffle = <T,>(arr: T[], seed: string): T[] => {
@@ -23,6 +24,7 @@ export function MultipleChoice({ activity, value, setValue, locked, result }: Ac
   return (
     <fieldset>
       <legend className="mb-3 text-lg font-semibold">{c.question}</legend>
+      {c.blocks && <ScratchBlocks code={c.blocks} className="mb-4 rounded-2xl bg-[#f9f9fb] p-3" />}
       {c.code && <pre className="mb-4 overflow-x-auto rounded-2xl bg-[#1d2230] p-4 font-mono text-sm text-white">{c.code}</pre>}
       <div className="grid gap-2.5 sm:grid-cols-2">
         {c.options.map((o: any, i: number) => {
@@ -39,7 +41,10 @@ export function MultipleChoice({ activity, value, setValue, locked, result }: Ac
                 onChange={() => setValue({ selected: multi ? (on ? sel.filter((s) => s !== o.id) : [...sel, o.id]) : [o.id] })}
               />
               <span className={`grid size-8 shrink-0 place-items-center rounded-full font-display text-sm font-black ${on ? 'bg-accent text-white' : 'bg-sunk text-muted'}`}>{String.fromCharCode(65 + i)}</span>
-              <span className="font-medium">{o.text}</span>
+              <span className="font-medium">
+                {o.text}
+                {o.blocks && <ScratchBlocks code={o.blocks} scale={0.85} className="mt-1" />}
+              </span>
             </label>
           );
         })}
@@ -131,7 +136,7 @@ export function Ordering({ activity, value, setValue, locked, result }: Activity
             className={`flex items-center gap-3 rounded-2xl border-2 bg-card px-3 py-2.5 ${pos ? mark(pos[i]) : 'border-line'} ${!locked ? 'cursor-grab active:cursor-grabbing' : ''}`}
           >
             <span className="grid size-8 shrink-0 place-items-center rounded-full bg-accent-soft font-display font-black text-accent-ink">{i + 1}</span>
-            <span className="flex-1 font-medium">{byId[idv].text}</span>
+            <span className="flex-1 font-medium">{byId[idv].blocks ? <ScratchBlocks code={byId[idv].blocks} scale={0.9} label={byId[idv].text} /> : byId[idv].text}</span>
             <span className="flex gap-1">
               <button aria-label={`Move ${byId[idv].text} up`} disabled={locked || i === 0} onClick={() => move(i, i - 1)} className="grid size-8 place-items-center rounded-full hover:bg-sunk disabled:opacity-30">
                 <Icon name="up" size={16} />

@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { api } from '../lib/api.ts';
 import { Badge, Button, Icon, Notice, Tabs } from './ui.tsx';
 import { VisualHook } from './VisualHook.tsx';
+import { ScratchBlocks } from './ScratchBlocks.tsx';
+import { programToBlocks } from '../../lib/scratch/puzzle.ts';
+import { projectToBlocks } from '../../lib/scratch/vm.ts';
 
 type Tab = 'teach' | 'show' | 'facilitate' | 'resources' | 'assess' | 'ai';
 
@@ -12,6 +15,35 @@ const H = ({ children }: { children: React.ReactNode }) => <h4 className="mt-5 m
 export function KeyView({ type, config, keyData }: { type: string; config: any; keyData: any }) {
   const byId = (list: any[] = [], id: string) => list.find((x) => x.id === id)?.text || list.find((x) => x.id === id)?.label || list.find((x) => x.id === id)?.name || id;
   switch (type) {
+    case 'block_code':
+      return (
+        <div>
+          <p className="text-muted">One solution:</p>
+          {keyData.solution && <ScratchBlocks code={programToBlocks(keyData.solution, !!config?.world?.jr)} scale={0.8} />}
+          {keyData.explanation && <p className="mt-1 text-muted">{keyData.explanation}</p>}
+        </div>
+      );
+    case 'python_lab':
+      return (
+        <div>
+          <p className="text-muted">Goals checked: {(config.goals || []).join(' · ')}</p>
+          {keyData.solution && <pre className="mt-1 overflow-x-auto rounded-lg bg-[#14161f] p-2 font-mono text-[12px] text-[#e8ecf5]">{keyData.solution}</pre>}
+          {keyData.explanation && <p className="mt-1 text-muted">{keyData.explanation}</p>}
+        </div>
+      );
+    case 'code_lab':
+      return (
+        <div>
+          <p className="text-muted">Goals checked: {(config.goals || []).join(' · ')}</p>
+          {keyData.solution &&
+            projectToBlocks(keyData.solution).map((s) => (
+              <div key={s.sprite} className="mt-1">
+                <p className="text-xs font-bold">{s.sprite}</p>
+                <ScratchBlocks code={s.blocks} scale={0.75} />
+              </div>
+            ))}
+        </div>
+      );
     case 'multiple_choice':
     case 'code_output':
       return (
@@ -147,6 +179,21 @@ export function ResourcePanel({ data, onShowAnswers }: { data: any; onShowAnswer
           <>
             <H>Objective</H>
             <p className="font-semibold">{p.teach.objective}</p>
+            {p.teach.plan?.length > 0 && (
+              <>
+                <H>Lesson plan ({p.teach.plan.reduce((n: number, x: any) => n + x.minutes, 0)} min)</H>
+                <ol className="mb-2 space-y-1.5">
+                  {p.teach.plan.map((x: any, i: number) => (
+                    <li key={i} className="flex gap-3 rounded-xl bg-sunk px-3 py-2">
+                      <span className="w-12 shrink-0 font-black text-teach">{x.minutes} min</span>
+                      <span>
+                        <span className="font-bold">{x.stage}.</span> {x.doing}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )}
             <H>Explanation</H>
             <p>{p.teach.explanation}</p>
             {p.teach.analogies.length > 0 && (
@@ -258,6 +305,21 @@ export function ResourcePanel({ data, onShowAnswers }: { data: any; onShowAnswer
         )}
         {tab === 'resources' && (
           <>
+            {p.resources.downloads?.length > 0 && (
+              <>
+                <H>Printables for this lesson</H>
+                <ul className="space-y-1.5">
+                  {p.resources.downloads.map((d: any) => (
+                    <li key={d.resourceId} className="flex items-center justify-between gap-2 rounded-xl bg-teach-soft px-3 py-2">
+                      <span className="min-w-0 truncate font-semibold">{d.title}</span>
+                      <a href={`/api/resources/${d.resourceId}/file`} className="shrink-0 text-xs font-bold text-teach underline">
+                        Download PDF
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
             {p.resources.items.length > 0 && (
               <>
                 <H>Worksheets & templates</H>
