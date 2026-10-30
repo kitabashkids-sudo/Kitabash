@@ -167,21 +167,27 @@ await closeDb();
     });
     const st = await newPage();
     await login(st, 'aarav@kitabash.local', 'Learn#2026');
-    await step('7. Teacher shares an activity: it opens big for the student, video shrinks to a strip', async () => {
+    await step('7. Teacher shares an activity: it opens full screen for the student, teacher video is a tiny floating window', async () => {
       await st.getByRole('button', { name: 'Join', exact: true }).first().click();
       await st.getByRole('button', { name: 'Join class' }).click();
       await st.getByText('LIVE', { exact: true }).waitFor();
       await t.waitForFunction(() => [...document.querySelectorAll('video')].some((v) => !v.muted && v.videoWidth > 0), null, { timeout: 20000 });
       await t.locator('[data-share=activity]').first().click();
+      await st.getByTestId('maximized').waitFor();
       await st.getByTestId('class-stage').getByRole('button', { name: 'Check', exact: true }).waitFor();
-      const stage = await st.getByTestId('class-stage').boundingBox();
-      const vid = await st.locator('video').first().boundingBox();
       await st.waitForTimeout(800);
+      const stage = await st.getByTestId('class-stage').boundingBox();
+      const pip = await st.getByTestId('pip').boundingBox();
       await st.screenshot({ path: `${OUT}/p6-live-student-activity.png` });
-      if (!stage || !vid || stage.height < 450 || vid.width > 260) throw new Error(`stage ${stage?.height}px tall, video ${vid?.width}px wide`);
+      const vp = st.viewportSize()!;
+      if (!stage || !pip || stage.width < vp.width - 2 || stage.height < vp.height - 80 || pip.width > 160) throw new Error(`stage ${stage?.width}×${stage?.height}, pip ${pip?.width}px`);
+      const result = `activity fills ${Math.round(stage.width)}×${Math.round(stage.height)}px of ${vp.width}×${vp.height}; teacher video ${Math.round(pip.width)}px floating`;
+      await st.getByRole('button', { name: 'Exit full screen' }).click();
+      await st.getByRole('button', { name: /Maximize/ }).waitFor();
+      await st.screenshot({ path: `${OUT}/p6b-live-student-lesson-big.png` });
       await st.getByRole('tab', { name: /Lesson & worksheet/ }).click();
       await st.locator('aside').getByText('Printable worksheet').waitFor();
-      return `activity area ${Math.round(stage.width)}×${Math.round(stage.height)}px, video tile ${Math.round(vid.width)}px wide`;
+      return result;
     });
 
     await step('8. Teacher sees the resources panel during class', async () => {

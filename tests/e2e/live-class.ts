@@ -158,6 +158,8 @@ async function main() {
     });
 
     await step('9. Students cannot see each other unless the teacher allows it', async () => {
+      // While a lesson card is open, video is a small floating window; classmates show in "Video big".
+      await s1.getByRole('button', { name: /Video big/ }).click();
       const stage = s1.locator('section');
       if (await stage.getByText('Meera', { exact: true }).count()) throw new Error('student tile visible to another student by default');
       await t.getByLabel(/Students see & hear each other/).click();

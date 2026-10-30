@@ -202,7 +202,7 @@ function ClassStage({ c, info }: { c: LiveClient; info: any }) {
     );
   const act = data?.activities.find((a: any) => a.id === sync.activityId);
   return act ? (
-    <div className="mx-auto max-w-6xl">
+    <div className="mx-auto w-full max-w-[1600px]">
       {host && <p className="mb-2 text-sm font-semibold text-muted">Students see this activity now. You can try it too (staff preview).</p>}
       <ActivityRunner key={act.id} activity={act} consentAudio={info.canPublish} preview={host} />
     </div>
@@ -326,6 +326,9 @@ function Room({ c, info }: { c: LiveClient; info: any }) {
   const [lessonId, setLessonId] = useState<string>(c.sync?.lessonId || info.session.lesson_id || info.lessons?.[0]?.id || '');
   // "lesson" = big lesson/activity area with a small video strip; "video" = big video.
   const [focus, setFocus] = useState<'lesson' | 'video'>(c.sync ? 'lesson' : 'video');
+  // Maximized: the lesson/activity covers the whole screen; video becomes a tiny floating window.
+  const [max, setMax] = useState(false);
+  const [pipHidden, setPipHidden] = useState(false);
   const [unread, setUnread] = useState(0);
   const lastChat = useRef(c.chat.length);
   useEffect(() => {
@@ -338,7 +341,19 @@ function Room({ c, info }: { c: LiveClient; info: any }) {
     // New card/activity shared → open it big. Sharing stopped → back to video.
     setFocus(syncKey ? 'lesson' : 'video');
     if (!host && syncKey) setTab('lesson');
+    // Students get the activity full screen as soon as the teacher shares it.
+    if (!host) setMax(!!syncKey && syncKey.startsWith('activity'));
+    if (!syncKey) setMax(false);
   }, [syncKey, host]);
+  useEffect(() => {
+    // Leaving browser full screen (Esc) also leaves maximized mode.
+    const onFs = () => !document.fullscreenElement && setMax(false);
+    document.addEventListener('fullscreenchange', onFs);
+    return () => document.removeEventListener('fullscreenchange', onFs);
+  }, []);
+  useEffect(() => {
+    if (!max && document.fullscreenElement) void document.exitFullscreen?.().catch(() => {});
+  }, [max]);
   useEffect(() => {
     const bye = () => void c.leave();
     window.addEventListener('pagehide', bye);
@@ -350,7 +365,7 @@ function Room({ c, info }: { c: LiveClient; info: any }) {
   const screenPeer = others.find((p) => p.screen && (host || p.role === 'host' || c.state.mesh));
   const screenKey = screenPeer?.connId || '';
   useEffect(() => {
-    if (screenKey) setFocus('video'); // someone started sharing their screen → show it big
+    if (screenKey) (setFocus('video'), setMax(false)); // someone started sharing their screen → show it big
   }, [screenKey]);
   if (c.ended)
     return (
@@ -369,7 +384,61 @@ function Room({ c, info }: { c: LiveClient; info: any }) {
   const lessonFocus = focus === 'lesson';
   const canShare = 'getDisplayMedia' in (navigator.mediaDevices || {}) && (host || (c.canPublish && c.state.studentScreens));
   const ctl = 'inline-flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold';
-  const selfTile = <VideoTile stream={c.screen || c.local} muted self mirror={!c.screen} peer={me ? { ...me, name: 'You' } : undefined} className={lessonFocus ? 'w-32 shrink-0 sm:w-40' : ''} />;
+  const selfTile = <VideoTile stream={c.screen || c.local} muted self mirror={!c.screen} peer={me ? { ...me, name: 'You' } : undefined} />;
+  const maximize = () => {
+    setFocus('lesson');
+    setMax(true);
+    void document.documentElement.requestFullscreen?.().catch(() => {});
+  };
+  // Tiny floating video (teacher, or the shared screen) that never covers much of the activity.
+  const pip = stage ? (
+    pipHidden ? (
+      <button type="button" onClick={() => setPipHidden(false)} className="absolute right-3 bottom-3 z-10 inline-flex h-9 items-center gap-1.5 rounded-full bg-ink/85 px-3 text-xs font-bold text-white shadow-lg" aria-label="Show video">
+        🎥 {stage.role === 'host' ? 'Teacher' : stage.name}
+      </button>
+    ) : (
+      <div className="absolute right-3 bottom-3 z-10 w-28 overflow-hidden rounded-xl shadow-lg ring-2 ring-white/70 sm:w-36" data-testid="pip">
+        <VideoTile stream={c.remote.get(stage.connId)} peer={stage} className="!rounded-none" />
+        <button type="button" onClick={() => setPipHidden(true)} className="absolute top-1 right-1 grid size-6 place-items-center rounded-full bg-black/60 text-xs text-white" aria-label="Hide video (you can still hear it)">
+          ✕
+        </button>
+      </div>
+    )
+  ) : null;
+  if (max && lessonFocus)
+    return (
+      <div className="fixed inset-0 z-50 flex flex-col bg-paper" data-testid="maximized">
+        <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-line bg-card px-3 py-1.5">
+          <span className={`size-2.5 rounded-full ${c.state.live ? 'animate-pulse bg-bad' : 'bg-warn'}`} />
+          <span className="mr-auto truncate text-sm font-bold">{info.session.title}</span>
+          {c.canPublish && (
+            <button onClick={() => c.setMic(!c.mic)} disabled={!host && c.state.micsLocked} className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold ${c.mic ? 'bg-sunk' : 'bg-bad text-white'} disabled:opacity-50`} aria-pressed={c.mic}>
+              <Icon name="mic" size={14} /> {c.mic ? 'Mute' : 'Unmute'}
+            </button>
+          )}
+          {!host && (
+            <button onClick={() => c.setHand(!c.hand)} className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold ${c.hand ? 'bg-warn text-white' : 'bg-sunk'}`} aria-pressed={c.hand}>
+              ✋ {c.hand ? 'Lower hand' : 'Raise hand'}
+            </button>
+          )}
+          <button onClick={() => (setMax(false), setTab('chat'))} className="inline-flex h-8 items-center gap-1.5 rounded-full bg-sunk px-3 text-xs font-semibold">
+            <Icon name="chat" size={14} /> Chat{unread ? ` (${unread})` : ''}
+          </button>
+          <button onClick={() => setMax(false)} className="inline-flex h-8 items-center gap-1.5 rounded-full bg-ink px-3 text-xs font-semibold text-paper">
+            Exit full screen
+          </button>
+        </div>
+        <div className="relative min-h-0 flex-1">
+          <div className="thin-scroll h-full overflow-y-auto p-3 pb-28 sm:p-6 sm:pb-32" data-testid="class-stage">
+            <ClassStage c={c} info={info} />
+          </div>
+          {pip}
+        </div>
+        {others.filter((p) => !(p === stage && !pipHidden)).map((p) => (
+          <AudioOnly key={p.connId} stream={c.remote.get(p.connId)} />
+        ))}
+      </div>
+    );
   return (
     <div className="-mx-4 -my-8 grid min-h-[calc(100dvh-4rem)] bg-[#12141a] lg:grid-cols-[minmax(0,1fr)_400px]">
       <section className="flex min-w-0 flex-col p-3 sm:p-4 lg:h-[calc(100dvh-4rem)]">
@@ -386,22 +455,21 @@ function Room({ c, info }: { c: LiveClient; info: any }) {
               🎥 Video big
             </button>
           </div>
+          {lessonFocus && (
+            <button type="button" onClick={maximize} className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-white">
+              ⛶ Maximize
+            </button>
+          )}
           <span className="text-xs text-white/60">{c.state.peers.length} in class</span>
         </div>
         {!host && !teacher && <Notice className="mb-3">Your teacher hasn’t joined yet. Stay on this page; the class starts automatically.</Notice>}
         {lessonFocus ? (
-          <>
-            <div className="thin-scroll flex shrink-0 gap-2 overflow-x-auto pb-1" aria-label="Video">
-              {stage && <VideoTile stream={c.remote.get(stage.connId)} peer={stage} className="w-44 shrink-0 sm:w-56" />}
-              {selfTile}
-              {tiles.map((p) => (
-                <VideoTile key={p.connId} stream={c.remote.get(p.connId)} peer={p} className="w-32 shrink-0 sm:w-40" />
-              ))}
-            </div>
-            <div className="thin-scroll mt-3 min-h-[60vh] flex-1 overflow-y-auto rounded-2xl bg-paper p-3 sm:p-5 lg:min-h-0" data-testid="class-stage">
+          <div className="relative mt-0 min-h-[60vh] flex-1 lg:min-h-0">
+            <div className="thin-scroll h-full overflow-y-auto rounded-2xl bg-paper p-3 pb-28 sm:p-5 sm:pb-32" data-testid="class-stage">
               <ClassStage c={c} info={info} />
             </div>
-          </>
+            {pip}
+          </div>
         ) : (
           <div className="thin-scroll grid min-h-0 flex-1 content-start gap-3 overflow-y-auto">
             {stage ? <VideoTile big stream={c.remote.get(stage.connId)} peer={stage} /> : host && !others.length ? <div className="grid aspect-video place-items-center rounded-2xl border border-white/10 text-white/60">Students will appear here when they join.</div> : null}
@@ -414,7 +482,7 @@ function Room({ c, info }: { c: LiveClient; info: any }) {
           </div>
         )}
         {/* Audio from peers we don't show as tiles (e.g. teacher-only mode) still plays via hidden elements */}
-        {others.filter((p) => p !== stage && !tiles.includes(p)).map((p) => (
+        {others.filter((p) => (lessonFocus ? !(p === stage && !pipHidden) : p !== stage && !tiles.includes(p))).map((p) => (
           <AudioOnly key={p.connId} stream={c.remote.get(p.connId)} />
         ))}
         <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
