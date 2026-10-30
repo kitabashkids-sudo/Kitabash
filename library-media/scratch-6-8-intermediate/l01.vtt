@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:10.965
+Apps are full of lists: messages, songs, scores. Today you’ll learn to walk through a list and do something with every item.
+
+2
+00:00:11.565 --> 00:00:15.409
+A list stores many values in order.
+
+3
+00:00:15.409 --> 00:00:19.687
+Each has an index (position) starting at 1.
+
+4
+00:00:19.687 --> 00:00:23.965
+Length tells you how many items there are.
+
+5
+00:00:24.565 --> 00:00:36.670
+To process every item, use an index variable i: start at 1, read item i, then change i by 1 — repeat (length of list) times.
+
+6
+00:00:37.270 --> 00:00:44.591
+An accumulator variable builds a result as you traverse — like adding up a total.
+
+7
+00:00:45.191 --> 00:00:52.513
+Starting i at 0, or forgetting to change i, are the most common list bugs.
+
+8
+00:00:52.513 --> 00:00:57.226
+Trace the first two loops by hand to check.
+
+9
+00:00:57.826 --> 00:01:06.887
+Python’s for loop traverses a list for you. The idea is exactly the same: visit every item and accumulate.
+
+10
+00:01:07.487 --> 00:01:11.330
+Great work! Let’s remember what we learned.
+
+11
+00:01:11.330 --> 00:01:16.478
+Now build along, then try the challenges. You’ve got this!

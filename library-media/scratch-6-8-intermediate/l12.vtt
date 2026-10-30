@@ -1,0 +1,33 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:10.530
+Time to build an app that a real person could use, with everything from this course: lists, procedures, validation and data.
+
+2
+00:00:11.130 --> 00:00:21.496
+Ideas: a revision quiz app with several topics, a habit tracker with statistics, a sports score keeper, a dice-game simulator with results.
+
+3
+00:00:22.096 --> 00:00:30.722
+Lists for the data, at least one procedure, input validation, and a clear output (statistics, score or result).
+
+4
+00:00:31.322 --> 00:00:36.035
+Give your app to two people with no instructions.
+
+5
+00:00:36.035 --> 00:00:40.313
+Watch where they get confused, and fix it.
+
+6
+00:00:40.913 --> 00:00:46.496
+Demo the app, show one procedure and explain the data structure.
+
+7
+00:00:47.096 --> 00:00:50.939
+Great work! Let’s remember what we learned.
+
+8
+00:00:50.939 --> 00:00:56.087
+Now plan it, build it, test it, and share it!

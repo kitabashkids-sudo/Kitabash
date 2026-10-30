@@ -1,0 +1,53 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:09.661
+Scientists, engineers and game designers use computers to run an experiment thousands of times in a second. That’s simulation.
+
+2
+00:00:10.261 --> 00:00:14.974
+pick random gives an unpredictable number in a range.
+
+3
+00:00:14.974 --> 00:00:21.426
+Computers use clever formulas, so they’re called pseudo-random — good enough for simulations.
+
+4
+00:00:22.026 --> 00:00:27.609
+pick random 1 to 2: call 1 heads and 2 tails.
+
+5
+00:00:27.609 --> 00:00:31.452
+Repeat 100 times and count the heads.
+
+6
+00:00:32.052 --> 00:00:35.461
+Theory says heads half the time.
+
+7
+00:00:35.461 --> 00:00:42.783
+One experiment won’t give exactly 50 — but the more flips, the closer you get.
+
+8
+00:00:42.783 --> 00:00:46.626
+This is the law of large numbers.
+
+9
+00:00:47.226 --> 00:00:52.374
+Some problems are too hard to work out by hand.
+
+10
+00:00:52.374 --> 00:00:57.522
+Simulate them many times and look at the results instead.
+
+11
+00:00:58.122 --> 00:01:05.009
+The same simulation in Python uses random.randint. Each run gives a slightly different answer.
+
+12
+00:01:05.609 --> 00:01:09.452
+Great work! Let’s remember what we learned.
+
+13
+00:01:09.452 --> 00:01:14.600
+Now build along, then try the challenges. You’ve got this!

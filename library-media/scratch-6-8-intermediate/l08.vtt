@@ -1,0 +1,53 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:12.270
+In this lesson, you will learn to build a numeric model that changes over time, and an agent-based model where many clones follow simple rules.
+
+2
+00:00:12.870 --> 00:00:18.887
+A model keeps the important parts of reality and ignores the rest.
+
+3
+00:00:18.887 --> 00:00:23.600
+Scientists use models to predict weather, diseases and populations.
+
+4
+00:00:24.200 --> 00:00:31.087
+Many models update in time steps: each “year”, the population changes by a rule.
+
+5
+00:00:31.087 --> 00:00:34.061
+A loop runs the years.
+
+6
+00:00:34.661 --> 00:00:37.635
+Real populations can’t grow forever.
+
+7
+00:00:37.635 --> 00:00:43.217
+Add a capacity: if pop > 500, set pop to 500.
+
+8
+00:00:43.217 --> 00:00:46.626
+Better models add more realistic rules.
+
+9
+00:00:47.226 --> 00:00:54.548
+Instead of one number, simulate many individuals (agents) — each a clone following simple rules.
+
+10
+00:00:54.548 --> 00:00:57.957
+Interesting patterns emerge from the crowd.
+
+11
+00:00:58.557 --> 00:01:08.052
+The same model in Python: a loop for the years, a rule for growth and a rule for the limit.
+
+12
+00:01:08.652 --> 00:01:12.496
+Great work! Let’s remember what we learned.
+
+13
+00:01:12.496 --> 00:01:17.643
+Now build along, then try the challenges. You’ve got this!

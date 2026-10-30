@@ -1,0 +1,41 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:15.313
+It’s project time! Build an app that asks an anonymous number question, collects the answers in a list, and reports the number of responses, average, maximum and minimum, plus one extra insight.
+
+2
+00:00:15.913 --> 00:00:23.670
+Choose a number question to ask classmates: hours of sleep, minutes of reading, number of pets.
+
+3
+00:00:23.670 --> 00:00:26.643
+Your app collects the answers.
+
+4
+00:00:27.243 --> 00:00:37.174
+Ask how many people will answer, then repeat that many times: ask the question and add the answer to the list.
+
+5
+00:00:37.774 --> 00:00:43.791
+Report the number of responses, the average, the highest and the lowest.
+
+6
+00:00:43.791 --> 00:00:47.635
+Add one more insight of your own.
+
+7
+00:00:48.235 --> 00:00:55.122
+Collect only what you need, keep it anonymous, and tell people what it’s for.
+
+8
+00:00:55.122 --> 00:00:58.530
+Never collect names with sensitive answers.
+
+9
+00:00:59.130 --> 00:01:02.974
+Great work! Let’s remember what we learned.
+
+10
+00:01:02.974 --> 00:01:08.122
+Now plan it, build it, test it, and share it!

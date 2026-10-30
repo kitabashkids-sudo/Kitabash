@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:12.270
+In this lesson, you will learn to store questions and answers in parallel lists and write one loop that runs a quiz of any length.
+
+2
+00:00:12.870 --> 00:00:20.626
+Two lists line up by index: item 2 of questions goes with item 2 of answers.
+
+3
+00:00:20.626 --> 00:00:24.035
+Together they act like a table.
+
+4
+00:00:24.635 --> 00:00:31.957
+A single loop asks item i of questions and checks against item i of answers.
+
+5
+00:00:31.957 --> 00:00:37.974
+To make a new quiz, change the data — not the code.
+
+6
+00:00:38.574 --> 00:00:43.287
+Professional apps keep content (data) separate from logic (code).
+
+7
+00:00:43.287 --> 00:00:48.870
+Games load levels from files; quiz apps load questions from databases.
+
+8
+00:00:49.470 --> 00:00:57.226
+Report score / length of questions so the message is right however many questions there are.
+
+9
+00:00:57.826 --> 00:01:07.322
+In Python the same engine uses two lists and an index. Change the lists and you have a new quiz.
+
+10
+00:01:07.922 --> 00:01:11.765
+Great work! Let’s remember what we learned.
+
+11
+00:01:11.765 --> 00:01:16.913
+Now build along, then try the challenges. You’ve got this!

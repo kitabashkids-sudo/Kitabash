@@ -1,0 +1,49 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:11.400
+In this lesson, you will learn to use traversal to calculate an average and find the maximum and minimum values in a list.
+
+2
+00:00:12.000 --> 00:00:15.843
+Average = total ÷ number of items.
+
+3
+00:00:15.843 --> 00:00:21.426
+Traverse to get the total, then divide by length of list.
+
+4
+00:00:22.026 --> 00:00:25.000
+Start max as item 1.
+
+5
+00:00:25.000 --> 00:00:30.583
+Traverse: if item i > max, set max to item i.
+
+6
+00:00:30.583 --> 00:00:34.861
+At the end, max holds the biggest value.
+
+7
+00:00:35.461 --> 00:00:39.304
+Same idea with < instead of >.
+
+8
+00:00:39.304 --> 00:00:45.757
+Start min as item 1, not 0 — otherwise 0 might win wrongly.
+
+9
+00:00:46.357 --> 00:00:54.548
+Averages and extremes turn raw numbers into facts you can act on: “Saturday was the hottest day.”
+
+10
+00:00:55.148 --> 00:01:04.209
+Python has built-in sum, max and min — but inside they work exactly like the loops you are writing.
+
+11
+00:01:04.809 --> 00:01:08.652
+Great work! Let’s remember what we learned.
+
+12
+00:01:08.652 --> 00:01:13.800
+Now build along, then try the challenges. You’ve got this!

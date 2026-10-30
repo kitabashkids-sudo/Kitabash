@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:07.922
+Professional programmers spend most of their time organising code. Procedures are their most important tool.
+
+2
+00:00:08.522 --> 00:00:13.235
+A procedure is a named, reusable piece of code.
+
+3
+00:00:13.235 --> 00:00:21.426
+In Scratch it’s a My Block: you define it once and call it whenever you need it.
+
+4
+00:00:22.026 --> 00:00:27.174
+The input name in the define hat is a parameter.
+
+5
+00:00:27.174 --> 00:00:35.365
+The value you give when you call it is an argument: polygon (5) passes 5 as sides.
+
+6
+00:00:35.965 --> 00:00:40.243
+A parameter only exists inside its define script.
+
+7
+00:00:40.243 --> 00:00:44.522
+That keeps procedures independent and safe to reuse.
+
+8
+00:00:45.122 --> 00:00:53.313
+Call a new procedure with a few arguments (3, 4, 10) before using it inside bigger programs.
+
+9
+00:00:53.913 --> 00:01:02.539
+In Python, def defines a procedure, called a function. sides is the parameter; 3 and 6 are arguments.
+
+10
+00:01:03.139 --> 00:01:06.983
+Great work! Let’s remember what we learned.
+
+11
+00:01:06.983 --> 00:01:12.130
+Now build along, then try the challenges. You’ve got this!

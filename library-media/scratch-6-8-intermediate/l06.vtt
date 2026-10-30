@@ -1,0 +1,37 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:14.009
+It’s project time! Generate a city skyline from procedures: a building procedure with a height parameter called in a loop with random arguments, plus at least one detail procedure.
+
+2
+00:00:14.609 --> 00:00:19.757
+Games like Minecraft generate worlds from procedures and random numbers.
+
+3
+00:00:19.757 --> 00:00:22.730
+You’ll generate a city skyline.
+
+4
+00:00:23.330 --> 00:00:29.783
+building (height) draws a rectangle of a fixed width and the given height.
+
+5
+00:00:29.783 --> 00:00:32.757
+Call it with random heights.
+
+6
+00:00:33.357 --> 00:00:40.243
+Add procedures for windows, roofs, trees or stars — each one small and tested.
+
+7
+00:00:40.843 --> 00:00:46.861
+List your procedures, their parameters and what each draws before you code.
+
+8
+00:00:47.461 --> 00:00:51.304
+Great work! Let’s remember what we learned.
+
+9
+00:00:51.304 --> 00:00:56.452
+Now plan it, build it, test it, and share it!
