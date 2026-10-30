@@ -31,6 +31,13 @@ export function KeyView({ type, config, keyData }: { type: string; config: any; 
           {keyData.explanation && <p className="mt-1 text-muted">{keyData.explanation}</p>}
         </div>
       );
+    case 'web_lab':
+      return (
+        <div>
+          <p className="text-muted">Goals checked: {(config.goals || []).join(' · ')}</p>
+          {keyData.solution && <pre className="mt-1 max-h-48 overflow-auto rounded-lg bg-[#14161f] p-2 font-mono text-[12px] text-[#e8ecf5]">{keyData.solution}</pre>}
+        </div>
+      );
     case 'code_lab':
       return (
         <div>

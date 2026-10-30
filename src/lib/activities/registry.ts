@@ -14,6 +14,7 @@
 import { OPS, CONDS, checkProgram, run as runPuzzle, gradeRun } from '../scratch/puzzle.ts';
 import { checkProject, runChecks } from '../scratch/vm.ts';
 import { checkCode, runChecks as runPyChecks } from '../python/checks.ts';
+import { checkHtml, runWebChecks } from '../web/checks.ts';
 
 export type Phase = 'learn' | 'perform' | 'probe';
 
@@ -472,30 +473,42 @@ const defs: ActivityDefinition[] = [
   {
     type: 'project',
     label: 'Project submission',
-    description: 'A creative build (e.g. a Scratch game) with a brief, a requirements checklist, a project link and a reflection. Always reviewed by the teacher against the rubric.',
+    description: 'A creative build in a real platform (Scratch, MakeCode, Desmos, Canva, Google Docs…) with a brief, a requirements checklist, a shared link (or “I showed my teacher”) and a reflection. Always reviewed by the teacher against the rubric.',
     availability: 'built-in',
     inputs: 'Tick each requirement when it is done, paste the shared project link (or tick “I showed my teacher”), and write a short reflection.',
     feedback: 'Immediate: which parts are still missing. Final: teacher feedback and rubric score.',
     completion: 'Submitted with a link or teacher check and a reflection. Always flagged for teacher review.',
     accessibility: 'Checklist uses native checkboxes; labelled link and reflection fields; no drag.',
-    subjects: ['coding', 'design', 'all project-based subjects'],
+    subjects: ['coding', 'design', 'maths', 'science', 'writing', 'all project-based subjects'],
     validate(c) {
       need(c?.brief, 'config.brief is required');
       need(Array.isArray(c?.requirements) && c.requirements.length >= 2, 'config.requirements needs at least 2 items');
       need(c?.reflection, 'config.reflection (a reflection prompt) is required');
+      if (c.platform?.url) need(/^https:\/\/[^\s"<>]+$/.test(c.platform.url), 'config.platform.url must be an https:// address');
     },
     grade(c, _k, r) {
       const reqs: string[] = c.requirements;
       const ticks = reqs.filter((_, i) => r?.done?.[i] === true).length;
       const url = String(r?.url || '').trim();
-      const linkOk = /^https:\/\/scratch\.mit\.edu\/projects\/\d+\/?$/.test(url) || (c.anyLink && /^https:\/\/[^\s"<>]+$/.test(url));
+      const scratch = !c.platform && !c.offlineOnly;
+      const linkOk = !c.offlineOnly && ((scratch && /^https:\/\/scratch\.mit\.edu\/projects\/\d+\/?$/.test(url)) || (!!c.anyLink && /^https:\/\/[^\s"<>]+$/.test(url)));
       const shown = r?.offline === true;
       const refl = String(r?.reflection || '');
       const reflOk = words(refl) >= (c.minWords ?? 15);
       const ratio = 0.5 * (ticks / reqs.length) + 0.25 * (linkOk || shown ? 1 : 0) + 0.25 * (reflOk ? 1 : 0);
+      const example = c.link?.example || (scratch ? 'https://scratch.mit.edu/projects/123456789' : 'https://…');
+      const who = c.platform?.name ? `your ${c.platform.name} link` : 'your project link';
       const missing = [
         ticks < reqs.length ? `${reqs.length - ticks} requirement${reqs.length - ticks > 1 ? 's' : ''} not ticked yet` : '',
-        url && !linkOk ? 'the link should look like https://scratch.mit.edu/projects/123456789' : !linkOk && !shown ? 'add your project link (or tick “I showed my teacher”)' : '',
+        url && !linkOk && !shown
+          ? c.offlineOnly
+            ? 'tick the box to say you showed your teacher'
+            : `the link should start with https:// and look like ${example}`
+          : !linkOk && !shown
+            ? c.offlineOnly
+              ? 'tick the box to say you showed your teacher'
+              : `add ${who} (or tick “I showed my teacher”)`
+            : '',
         !reflOk ? `write at least ${c.minWords ?? 15} words in your reflection` : '',
       ].filter(Boolean);
       return {
@@ -503,8 +516,50 @@ const defs: ActivityDefinition[] = [
         correct: !missing.length,
         needsReview: true,
         detail: { requirementsDone: ticks, linkOk, reflectionWords: words(refl) },
-        feedback: missing.length ? `Almost there: ${missing.join('; ')}.` : 'Project submitted! 🎉 Your teacher will play it and give you feedback using the rubric.',
+        feedback: missing.length ? `Almost there: ${missing.join('; ')}.` : 'Project submitted! 🎉 Your teacher will look at it and give you feedback using the rubric.',
       };
+    },
+  },
+  {
+    type: 'web_lab',
+    label: 'Web Lab (HTML/CSS editor)',
+    description: 'Build a real web page in the lesson: an HTML/CSS editor with a live, sandboxed preview. The server checks the page (headings, text, tags, CSS); project mode is then reviewed by the teacher.',
+    availability: 'built-in',
+    inputs: 'Type HTML and CSS in the editor, watch the preview, then press Check and write a short reflection.',
+    feedback: 'Live preview while typing. On Check: which goals pass and what to add next.',
+    completion: 'Challenge: correct when every check passes. Project: submitted with a reflection and reviewed by the teacher.',
+    accessibility: 'Labelled plain-text editor (Tab indents), preview has a text title, goals listed as text.',
+    subjects: ['Web Development', 'AI-Assisted Website Creation', 'design'],
+    validate(c, k) {
+      need(c?.mode === 'challenge' || c?.mode === 'project', 'config.mode must be "challenge" or "project"');
+      need(typeof c?.starter === 'string', 'config.starter (starting HTML) is required');
+      need(typeof c?.task === 'string' && c.task, 'config.task (what to build) is required');
+      need(Array.isArray(k?.checks) && k.checks.length >= 1, 'answer_key.checks needs at least one check');
+      need(typeof k?.solution === 'string' && k.solution, 'answer_key.solution (a working page) is required');
+      const r = runWebChecks(k.solution, k.checks);
+      need(r.passed, `answer_key.solution fails its own checks: ${r.results.filter((x) => !x.ok).map((x) => x.msg).join('; ')}`);
+      if (c.mode === 'project') need(c.reflection, 'config.reflection is required in project mode');
+    },
+    grade(c, k, r) {
+      let html;
+      try {
+        html = checkHtml(r?.html);
+      } catch (e) {
+        return { ratio: 0, correct: false, needsReview: false, feedback: (e as Error).message };
+      }
+      const res = runWebChecks(html, k.checks);
+      const passed = res.results.map((x) => x.ok);
+      const done = passed.filter(Boolean).length;
+      const ratio = done / passed.length;
+      const firstFail = res.results.find((x) => !x.ok);
+      const next = firstFail ? `${firstFail.msg}${firstFail.detail ? ` (${firstFail.detail})` : ''}` : '';
+      if (c.mode === 'project') {
+        const refl = String(r?.reflection || '');
+        const reflOk = words(refl) >= (c.minWords ?? 15);
+        const todo = [...(firstFail ? [next] : []), ...(reflOk ? [] : [`Write at least ${c.minWords ?? 15} words in your reflection.`])];
+        return { ratio: 0.7 * ratio + 0.3 * (reflOk ? 1 : 0), correct: !todo.length, needsReview: true, detail: { goalsMet: done, goals: passed.length, passed }, feedback: todo.length ? `Saved! Before your teacher reviews it, try this: ${todo[0]}` : 'Page submitted! 🎉 Your teacher will open it and give you feedback.' };
+      }
+      return { ratio, correct: ratio === 1, needsReview: false, detail: { goalsMet: done, goals: passed.length, passed }, feedback: ratio === 1 ? k.explanation || 'Every check passes! 🎉' : `${done} of ${passed.length} goals done. Next: ${next}` };
     },
   },
 

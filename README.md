@@ -311,8 +311,10 @@ E2E_DATABASE_URL=postgresql://… npm run test:e2e
 | Timed optional challenge | Configurable preset | Olympiad, maths facts |
 | **Code Lab**: Scratch-style block editor with a live stage (events, motion, looks, sound, loops, if/else, sensing, operators, variables, messages, pen). Challenges are checked on the server by running the learner’s program; project mode goes to the teacher with the actual program | Built-in | Scratch, coding, animation, game design |
 | Block-coding robot puzzles (sequence, loops, conditions, coordinates, variables; block limits) | Built-in | coding, computational thinking |
-| Project submission (checklist + link + reflection, teacher rubric) | Built-in | any project-based subject |
-| Text-code sandbox (Python/JavaScript), visual simulations, interactive diagrams, audio comprehension, file uploads | **Need developer extension** | — |
+| Project submission (checklist + platform link or “I showed my teacher” + reflection, teacher rubric) | Built-in | any project-based subject |
+| **Python Lab**: real Python with console, input() and turtle; checked on the server | Built-in | Python |
+| **Web Lab**: HTML/CSS editor with a live, sandboxed preview; page checked on the server | Built-in | Web Development, AI-Assisted Website Creation |
+| JavaScript sandbox, visual simulations, interactive diagrams, audio comprehension, file uploads | **Need developer extension** | — |
 
 Unlimited *activities* of any registered type are created by configuration. A genuinely new *type* needs code — see `docs/ACTIVITY_EXTENSIONS.md`.
 
@@ -370,6 +372,36 @@ Next in the rebuild: Python (Grades 6–8 and 9–12) in the Python Lab, then We
 - **Before you sell it:** the content was written and machine-checked (consistent answers, numerical answers worked through, tutor tests passing), but a subject teacher has not reviewed it. Plan a teacher review of each course; you can edit anything in the Studio. Published courses are read-only, so move a course to Draft or duplicate it to make a new edition.
 - **Install or top up** at any time: **Platform → Course library**, or `npm run library:install`. Re-running only adds missing courses.
 
+## Practise on real platforms (every course)
+
+Scratch learners build in the real Scratch editor; now **every course works the same way**. Each subject (and grade band) is mapped to one real platform in `src/lib/library/platforms.ts`, and every lesson automatically gets:
+
+- **“Do it in <platform>”** on the Learn screen: an **Open <platform>** button and build-along steps that use the lesson’s own Learn cards.
+- **A Perform activity in that platform**: a hand-in with a checklist, the shared link (or “I showed my teacher”) and a reflection, reviewed by the teacher. Python lessons use the built-in **Python Lab** and web lessons the built-in **Web Lab**, both checked on the server.
+- **The platform link in the teacher’s Resources tab**, and the platform in the course’s required tools (so it is searchable).
+
+| Subjects | Platform |
+|---|---|
+| Scratch Junior · Scratch | ScratchJr · Scratch (plus the built-in Code Lab in flagship courses) |
+| Python · Web Development · AI-Assisted Website Creation | Kitabash Python Lab · Web Lab (built in) |
+| MIT App Inventor · Micro:bit · Minecraft Education | App Inventor · MakeCode for micro:bit · MakeCode for Minecraft |
+| Robotics | VEXcode VR (Gr 3–8) · Tinkercad Circuits (Gr 9–12) |
+| Artificial Intelligence · Prompt Engineering · No-code Automation | Teachable Machine · the class’s approved AI assistant (teacher-led under 13) · diagrams.net |
+| Mathematics · Olympiad · Problem Solving · Logical Reasoning | Polypad (K–5) · GeoGebra (6–8) · Desmos (9–12) · Blockly Games |
+| Science · Environmental Studies | PhET Simulations · Google Earth |
+| English · Grammar · Reading · Creative Writing · Storytelling | StoryWeaver (K–5) · Project Gutenberg · Book Creator · Google Docs |
+| Spoken English · Public Speaking · Presentation · Debate · Critical Thinking | Read Along by Google · device recorder · Google Slides · Kialo Edu |
+| Homework & Revision · CBSE · ICSE · Cambridge IGCSE | Khan Academy · DIKSHA (CBSE) |
+| Money subjects · Entrepreneurship · Digital Citizenship · Study Skills | Activity notebook (K–5) · Google Sheets · Canva for Education · Interland · Google Calendar |
+| Handwriting | Handwriting book (paper) |
+| AI for Professionals | The organisation’s approved AI assistant |
+
+Nothing is embedded or automated: learners open the official site in a new tab, and each platform shows its sign-in and safety note. **Already installed the library?** The server adds the new activities to installed courses automatically on its next start (once; learner progress is kept). Check each platform’s terms and your school’s account rules before rollout.
+
+**Printable worksheets:** every lesson has a **Printable worksheet** card (Learn screen and in live classes). It builds a print-ready page from the lesson’s key ideas and activities — never the answers — which learners can print, save as PDF or download. Flagship PDF worksheets appear alongside it.
+
+**Catalogue search:** Explore has a search box (press `/`) that finds courses, lessons and files (course guides, worksheets, project briefs, links) by any word — title, subject, objective or platform (try “Desmos” or “Canva”). Teacher-only files show for staff only.
+
 ## AI for Professionals (adult courses)
 
 A sixth category, **AI for Professionals**, has 60 courses for working adults (the **Adults** filter in Explore, ages 18+). Each of 20 industries has three levels:
@@ -393,7 +425,11 @@ Teachers create a **class group** (up to ~10 students), set a weekly schedule, a
 
 - **Who sees whom:** by default students see only the teacher. The teacher can switch to **Everyone** for group discussion.
 - **Child safety:** students under 18 can use camera and mic only with guardian consent; otherwise they join view-only.
-- **Tools:** chat, raise hand, mute-all, lock chat, share a lesson card, remove a participant. Attendance and chat are saved, and parents see the classes their child attended.
+- **Tools:** chat, raise hand, mute-all, lock chat, share a lesson card or activity, remove a participant. Attendance and chat are saved, and parents see the classes their child attended.
+- **Lesson big / Video big:** when the teacher shares a card or activity it opens in the big area for everyone and the video shrinks to a strip; anyone can switch back with **Video big**. A screen share switches to Video big automatically.
+- **Teacher resources in class:** the teacher’s **Resources** tab shows the full teacher panel (explanation, plan, demos, worksheets and documents, answer keys, rubric, AI help) for the chosen lesson, next to the card and activity list.
+- **Student screen share:** students with camera permission can **Share screen** to show their work (one screen on stage at a time). The teacher can stop a share or switch it off for the class under **People**.
+- **Worksheets:** students get the lesson’s printable worksheet in the **Lesson & worksheet** tab.
 - **Hosting notes:** class state is kept in memory, so run **one** server instance (Render free = one). Some school and mobile networks block direct connections; if students can't see video, add a TURN relay (`TURN_URLS`, `TURN_USERNAME`, `TURN_CREDENTIAL`, see `.env.example`).
 
 ## How the AI agent works (plain English)
@@ -444,6 +480,7 @@ docs/              Architecture, agent, extensions, Supabase, deployment, testin
 | `npm run test:e2e` | Browser walkthrough of the 12-point Definition of Done (`npx playwright install chromium` first) |
 | `npm run test:first-run` | Browser test of the first-run setup page |
 | `npm run test:live` | Browser-to-browser live-class test (video, chat, controls, attendance) |
+| `npm run test:platforms` | Browser test of platform activities, Web Lab, worksheets, catalogue search and the live-class layout |
 | `npm run library:install` | Install (or top up) the course library (including flagship courses) |
 | `npm run test:flagship` | Browser test of a flagship course: video, Code Lab, server checks, teacher printables |
 | `npm run media:flagship -- docs\|videos` | Regenerate the flagship PDFs or lesson videos into `library-media/` |

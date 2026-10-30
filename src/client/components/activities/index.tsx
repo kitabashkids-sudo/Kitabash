@@ -6,6 +6,7 @@ import { Button, Icon, Notice, Badge } from '../ui.tsx';
 import { MultipleChoice, FillBlank, Ordering, Matching, Categorize, FreeResponse } from './basic.tsx';
 import { BudgetSim, Tracing, Speaking } from './rich.tsx';
 import { BlockCode, CodeLabActivity, Project, PythonLabActivity } from './coding.tsx';
+import { WebLabActivity } from './weblab.tsx';
 import type { ActivityData, ActivityProps, GradeResult } from './types.ts';
 
 interface ClientType {
@@ -26,6 +27,7 @@ export const CLIENT_TYPES: Record<string, ClientType> = {
   block_code: { Component: BlockCode, ready: (v) => (v?.program?.blocks?.length || 0) > 0 },
   code_lab: { Component: CodeLabActivity, ready: (v) => !!v?.project?.sprites?.some((s: any) => s.scripts?.some((sc: any) => sc.blocks?.length)) },
   python_lab: { Component: PythonLabActivity, ready: (v) => !!(v?.code || '').trim() },
+  web_lab: { Component: WebLabActivity, ready: (v) => !!(v?.html || '').trim() },
   project: { Component: Project, ready: (v) => !!v && (Object.values(v.done || {}).some(Boolean) || !!v.url || !!v.offline || !!(v.reflection || '').trim()) },
   free_response: { Component: FreeResponse, ready: (v, a) => (v?.text || '').trim().split(/\s+/).filter(Boolean).length >= (a.config.minWords || 5) },
 };

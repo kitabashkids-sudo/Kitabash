@@ -1,5 +1,5 @@
 import { UpcomingClasses } from './Classes.tsx';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { api, useApi } from '../lib/api.ts';
 import { Link, navigate } from '../lib/router.tsx';
 import { useSession } from '../lib/session.tsx';
@@ -113,25 +113,210 @@ export function StudentHome() {
   );
 }
 
+/** Wrap matched search words in <mark>. */
+function Hl({ text, terms }: { text: string; terms: string[] }) {
+  if (!terms.length || !text) return <>{text}</>;
+  const re = new RegExp(`(${terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'gi');
+  return (
+    <>
+      {String(text)
+        .split(re)
+        .map((part, i) => (i % 2 ? <mark key={i} className="rounded bg-warn-soft px-0.5 text-ink">{part}</mark> : <span key={i}>{part}</span>))}
+    </>
+  );
+}
+
+type Kind = 'all' | 'courses' | 'lessons' | 'files';
+
+function SearchResults({ q, band, level, filterCourse }: { q: string; band: string; level: string; filterCourse: (c: any) => boolean }) {
+  const [res, setRes] = useState<any>(null);
+  const [busy, setBusy] = useState(false);
+  const [kind, setKind] = useState<Kind>('all');
+  useEffect(() => {
+    let off = false;
+    setBusy(true);
+    const t = setTimeout(() => {
+      api(`/api/catalog/search?q=${encodeURIComponent(q)}`)
+        .then((r) => !off && setRes(r))
+        .catch(() => !off && setRes({ courses: [], lessons: [], files: [] }))
+        .finally(() => !off && setBusy(false));
+    }, 220);
+    return () => {
+      off = true;
+      clearTimeout(t);
+    };
+  }, [q]);
+  const terms = q.toLowerCase().split(/\s+/).filter((t) => t.length >= 2);
+  if (!res) return <Spinner label="Searching" />;
+  const fits = (x: any) => (band === 'all' || x.grade_band === band) && (level === 'all' || x.level === level);
+  const courses = res.courses.filter(filterCourse);
+  const lessons = res.lessons.filter(fits);
+  const files = res.files;
+  const total = courses.length + lessons.length + files.length;
+  const chip = (on: boolean) => `rounded-full px-3.5 py-1.5 text-sm font-semibold transition ${on ? 'bg-accent text-white' : 'bg-card border border-line hover:bg-sunk'}`;
+  const show = (k: Kind) => kind === 'all' || kind === k;
+  return (
+    <div aria-live="polite" className={busy ? 'opacity-70 transition' : 'transition'}>
+      <div className="mb-5 flex flex-wrap items-center gap-2" role="group" aria-label="Result type">
+        {(
+          [
+            ['all', `All (${total})`],
+            ['courses', `Courses (${courses.length})`],
+            ['lessons', `Lessons (${lessons.length})`],
+            ['files', `Files & worksheets (${files.length})`],
+          ] as [Kind, string][]
+        ).map(([k, label]) => (
+          <button key={k} className={chip(kind === k)} aria-pressed={kind === k} onClick={() => setKind(k)}>
+            {label}
+          </button>
+        ))}
+      </div>
+      {!total && !busy && (
+        <Empty title={`Nothing found for “${q}”`} icon="search">
+          Try a shorter word, a subject (“maths”, “python”), a platform (“Desmos”, “Canva”) or clear the age and level filters.
+        </Empty>
+      )}
+      <div className="space-y-8">
+        {show('courses') && courses.length > 0 && (
+          <section>
+            <h2 className="mb-3 text-lg font-bold">Courses</h2>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {courses.map((c: any) => (
+                <Link key={c.id} to={`/courses/${c.slug}`} className="group">
+                  <Card className="h-full p-4 transition group-hover:-translate-y-0.5" data-theme-accent={c.theme}>
+                    <div className="flex flex-wrap gap-1.5">
+                      <Badge tone="accent">
+                        <Hl text={c.subject} terms={terms} />
+                      </Badge>
+                      <LevelBadges c={c} />
+                    </div>
+                    <h3 className="mt-2 leading-snug font-bold">
+                      <Hl text={shortTitle(c)} terms={terms} />
+                    </h3>
+                    <p className="mt-1 line-clamp-2 text-sm text-muted">
+                      <Hl text={c.description} terms={terms} />
+                    </p>
+                    <p className="mt-2 text-xs font-semibold text-muted">{c.lesson_count} lessons</p>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+        {show('lessons') && lessons.length > 0 && (
+          <section>
+            <h2 className="mb-3 text-lg font-bold">Lessons</h2>
+            <ul className="divide-y divide-line overflow-hidden rounded-[var(--radius-card)] border border-line bg-card">
+              {lessons.map((l: any) => (
+                <li key={l.id}>
+                  <Link to={`/lessons/${l.id}`} className="flex items-start gap-3 px-4 py-3 hover:bg-sunk">
+                    <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent">
+                      <Icon name="play" size={14} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block font-semibold">
+                        <Hl text={l.title} terms={terms} />
+                      </span>
+                      <span className="block truncate text-sm text-muted">
+                        <Hl text={l.objective} terms={terms} />
+                      </span>
+                      <span className="block text-xs text-muted">
+                        {l.subject} · {shortTitle({ title: l.course_title })}
+                        {l.grade_band ? ` · ${bandLabel(l.grade_band)}` : ''}
+                        {l.level ? ` · ${levelLabel(l.level)}` : ''}
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {show('files') && files.length > 0 && (
+          <section>
+            <h2 className="mb-3 text-lg font-bold">Files &amp; worksheets</h2>
+            <ul className="grid gap-2 sm:grid-cols-2">
+              {files.map((f: any) => (
+                <li key={f.id} className="flex items-center gap-3 rounded-xl border border-line bg-card px-3 py-2.5">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-accent-soft text-[10px] font-black text-accent">{f.type}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-semibold">
+                      <Hl text={f.title} terms={terms} />
+                    </span>
+                    <Link to={`/courses/${f.course_slug}`} className="block truncate text-xs text-muted hover:underline">
+                      {f.subject} · {shortTitle({ title: f.course_title })}
+                      {f.audience === 'teacher' ? ' · teacher only' : ''}
+                    </Link>
+                  </span>
+                  <a href={f.url} target="_blank" rel="noreferrer noopener" className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-accent px-3 text-sm font-semibold text-white" aria-label={`${f.kind === 'url' ? 'Open' : 'Download'} ${f.title}`}>
+                    <Icon name={f.kind === 'url' ? 'link' : 'download'} size={14} /> {f.kind === 'url' ? 'Open' : 'Get'}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function Catalog() {
   const { data, loading } = useApi<any[]>('/api/catalog');
   const { me } = useSession();
-  const [q, setQ] = useState('');
+  const [q, setQ] = useState(() => new URLSearchParams(location.search).get('q') || '');
   const [band, setBand] = useState<string>(() => (me?.user?.role === 'student' && bandForBirthYear(me.user.birth_year)) || 'all');
   const [level, setLevel] = useState<string>('all');
+  const box = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    // "/" focuses the search box from anywhere on the page.
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      if (e.key === '/' && !/input|textarea|select/i.test(t.tagName) && !t.isContentEditable) {
+        e.preventDefault();
+        box.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+  useEffect(() => {
+    const u = new URL(location.href);
+    if (q.trim()) u.searchParams.set('q', q.trim());
+    else u.searchParams.delete('q');
+    history.replaceState(history.state, '', u);
+  }, [q]);
   if (loading || !data) return <Spinner />;
-  const match = (c: any) =>
-    (!q || `${c.title} ${c.description}`.toLowerCase().includes(q.toLowerCase())) &&
-    (band === 'all' || c.grade_band === band || (!c.grade_band && c.age_min != null && BANDS.find((b) => b.id === band)!.ages[0] <= c.age_max && c.age_min <= BANDS.find((b) => b.id === band)!.ages[1])) &&
-    (level === 'all' || c.level === level);
-  const filtered = band !== 'all' || level !== 'all' || !!q;
+  const bandOk = (c: any) => band === 'all' || c.grade_band === band || (!c.grade_band && c.age_min != null && BANDS.find((b) => b.id === band)!.ages[0] <= c.age_max && c.age_min <= BANDS.find((b) => b.id === band)!.ages[1]);
+  const filterCourse = (c: any) => bandOk(c) && (level === 'all' || c.level === level);
+  const searching = q.trim().length >= 2;
+  const filtered = band !== 'all' || level !== 'all';
   const chip = (on: boolean) => `rounded-full px-4 py-2 text-sm font-semibold transition ${on ? 'bg-ink text-paper' : 'bg-card border border-line hover:bg-sunk'}`;
   return (
     <>
       <PageHeader eyebrow="Explore" title="What do you want to learn?">
         Language, academics, life skills, technology and AI for working professionals — all built around doing, not just reading.
       </PageHeader>
-      <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search courses…" aria-label="Search courses" className="mb-4 h-12 w-full max-w-md rounded-full border border-line bg-card px-5 focus:border-accent focus:outline-none" />
+      <form role="search" onSubmit={(e) => e.preventDefault()} className="relative mb-4 max-w-2xl">
+        <Icon name="search" size={18} className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted" />
+        <input
+          ref={box}
+          type="search"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          onKeyDown={(e) => e.key === 'Escape' && setQ('')}
+          placeholder="Search courses, lessons, worksheets and files…"
+          aria-label="Search courses, lessons and files"
+          className="h-13 w-full rounded-full border border-line bg-card pr-24 pl-11 text-base [&::-webkit-search-cancel-button]:appearance-none shadow-[var(--shadow-card)] focus:border-accent focus:outline-none"
+        />
+        {q ? (
+          <button type="button" onClick={() => (setQ(''), box.current?.focus())} className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full px-3 py-1 text-sm font-semibold text-muted hover:bg-sunk" aria-label="Clear search">
+            Clear
+          </button>
+        ) : (
+          <kbd className="absolute top-1/2 right-4 hidden -translate-y-1/2 rounded-md border border-line px-2 py-0.5 text-xs text-muted sm:block">/</kbd>
+        )}
+      </form>
       <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Age group">
         <button className={chip(band === 'all')} aria-pressed={band === 'all'} onClick={() => setBand('all')}>All ages</button>
         {BANDS.map((b) => (
@@ -143,12 +328,15 @@ export function Catalog() {
           <button key={l} className={chip(level === l)} aria-pressed={level === l} onClick={() => setLevel(l)}>{l === 'all' ? 'All levels' : levelLabel(l)}</button>
         ))}
       </div>
+      {searching ? (
+        <SearchResults q={q.trim()} band={band} level={level} filterCourse={filterCourse} />
+      ) : (
       <div className="space-y-10">
-        {filtered && !data.some((cat) => cat.subjects.some((s: any) => s.courses.some(match))) && (
+        {filtered && !data.some((cat) => cat.subjects.some((s: any) => s.courses.some(filterCourse))) && (
           <p className="text-muted">No courses match these filters yet. Try another age group or level.</p>
         )}
         {data.map((cat) => {
-          const courses = cat.subjects.flatMap((s: any) => s.courses.map((c: any) => ({ ...c, subject: s.name }))).filter(match);
+          const courses = cat.subjects.flatMap((s: any) => s.courses.map((c: any) => ({ ...c, subject: s.name }))).filter(filterCourse);
           if (filtered && !courses.length) return null;
           return (
             <section key={cat.id}>
@@ -195,6 +383,7 @@ export function Catalog() {
           );
         })}
       </div>
+      )}
     </>
   );
 }

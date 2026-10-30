@@ -589,18 +589,38 @@ function countAll(nodes: Node[]): number {
 
 // ── Project submission ──────────────────────────────────────
 export function Project({ activity, value, setValue, locked }: ActivityProps) {
-  const c = activity.config as { brief: string; requirements: string[]; reflection: string; minWords?: number; anyLink?: boolean; tips?: string[] };
+  const c = activity.config as {
+    brief: string;
+    requirements: string[];
+    reflection: string;
+    minWords?: number;
+    anyLink?: boolean;
+    tips?: string[];
+    platform?: { name: string; url?: string };
+    link?: { example: string; help: string };
+    offlineOnly?: boolean;
+    offlineLabel?: string;
+  };
+  const scratch = !c.platform && !c.offlineOnly;
+  const example = c.link?.example || (scratch ? 'https://scratch.mit.edu/projects/123456789' : 'https://…');
   const v = value || { done: {}, url: '', reflection: '', offline: false };
   const set = (patch: any) => setValue({ ...v, ...patch });
   const words = String(v.reflection || '').trim().split(/\s+/).filter(Boolean).length;
   return (
     <div className="space-y-5">
       <div className="rounded-2xl bg-accent-soft p-4">
-        <p className="text-xs font-bold tracking-wide text-accent uppercase">Your mission</p>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <p className="text-xs font-bold tracking-wide text-accent uppercase">Your mission{c.platform ? ` · ${c.platform.name}` : ''}</p>
+          {c.platform?.url && (
+            <a href={c.platform.url} target="_blank" rel="noreferrer noopener" className="inline-flex h-9 items-center gap-1.5 rounded-full bg-accent px-3.5 text-sm font-semibold text-white">
+              Open {c.platform.name} <Icon name="arrowR" size={14} />
+            </a>
+          )}
+        </div>
         <p className="mt-1 text-lg leading-relaxed font-semibold">{c.brief}</p>
       </div>
       <fieldset>
-        <legend className="mb-2 font-bold">Checklist — tick each one when your project does it</legend>
+        <legend className="mb-2 font-bold">Checklist — tick each one when your {c.platform ? 'work' : 'project'} does it</legend>
         <ul className="space-y-2">
           {c.requirements.map((r, i) => (
             <li key={i}>
@@ -612,17 +632,26 @@ export function Project({ activity, value, setValue, locked }: ActivityProps) {
           ))}
         </ul>
       </fieldset>
-      <div>
-        <label className="font-bold" htmlFor={`${activity.id}-url`}>
-          Your project link
+      {c.offlineOnly ? (
+        <label className="flex items-start gap-3 rounded-xl border-2 border-line bg-card px-3 py-2.5">
+          <input type="checkbox" className="mt-1 size-5" disabled={locked} checked={!!v.offline} onChange={(e) => set({ offline: e.target.checked, url: '' })} />
+          <span className="font-semibold">{c.offlineLabel || 'I showed my work to my teacher'}</span>
         </label>
-        <p className="text-sm text-muted">In Scratch, press <strong>Share</strong>, then copy the address from the top of the browser. It looks like https://scratch.mit.edu/projects/123456789</p>
-        <input id={`${activity.id}-url`} type="url" inputMode="url" disabled={locked || v.offline} value={v.url} onChange={(e) => set({ url: e.target.value.trim() })} placeholder="https://scratch.mit.edu/projects/…" className="mt-2 h-11 w-full rounded-xl border border-line bg-card px-3" />
-        <label className="mt-2 flex items-center gap-2 text-sm">
-          <input type="checkbox" disabled={locked} checked={!!v.offline} onChange={(e) => set({ offline: e.target.checked, url: e.target.checked ? '' : v.url })} />
-          I can’t share online — I’ll show my project to my teacher (or saved it with File → Save to your computer)
-        </label>
-      </div>
+      ) : (
+        <div>
+          <label className="font-bold" htmlFor={`${activity.id}-url`}>
+            Your {c.platform ? `${c.platform.name} ` : 'project '}link
+          </label>
+          <p className="text-sm text-muted">
+            {c.link?.help || (scratch ? <>In Scratch, press <strong>Share</strong>, then copy the address from the top of the browser.</> : 'Copy the share link of your work.')} It looks like {example}
+          </p>
+          <input id={`${activity.id}-url`} type="url" inputMode="url" disabled={locked || v.offline} value={v.url} onChange={(e) => set({ url: e.target.value.trim() })} placeholder={example.replace(/[\w]+\/?$/, '…')} className="mt-2 h-11 w-full rounded-xl border border-line bg-card px-3" />
+          <label className="mt-2 flex items-center gap-2 text-sm">
+            <input type="checkbox" disabled={locked} checked={!!v.offline} onChange={(e) => set({ offline: e.target.checked, url: e.target.checked ? '' : v.url })} />
+            {c.offlineLabel || 'I can’t share online — I’ll show my project to my teacher (or saved it with File → Save to your computer)'}
+          </label>
+        </div>
+      )}
       <div>
         <label className="font-bold" htmlFor={`${activity.id}-refl`}>
           Reflection

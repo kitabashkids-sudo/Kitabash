@@ -13,6 +13,11 @@ import { agentPatch, agesOf, courseTitle, courseGuide, expandLesson, gradeOf, li
 import { LIBRARY } from './catalog.ts';
 import { BANDS } from './bands.ts';
 import type { CourseSpec } from './types.ts';
+import { platformFor, type Platform } from './platforms.ts';
+
+/** Add the course's practice platform to its required tools (so it shows on the course and in search). */
+export const withPlatform = (tools: string[], p: Platform | null) =>
+  !p || tools.some((t) => t.toLowerCase().includes(p.name.toLowerCase())) ? tools : [...tools, p.url ? `${p.name} (${p.url})` : p.name[0].toUpperCase() + p.name.slice(1)];
 import { FLAGSHIPS } from './flagship/all.ts';
 import { installFlagship, flagshipInstalled } from './flagship/install.ts';
 import { flagshipTitle, lessonsOf } from './flagship/expand.ts';
@@ -78,7 +83,7 @@ export async function installCourse(spec: CourseSpec, adminId: string, subj: Rec
         objectives: lessons.map((l) => l.o),
         outcomes: spec.outcomes,
         duration_minutes: lessons.reduce((s, l) => s + (l.min || 30), 0),
-        required_tools: spec.tools || ['Device with a browser'],
+        required_tools: withPlatform(spec.tools || ['Device with a browser'], platformFor(spec.subject, spec.band)),
         teaching_style: spec.style,
         assessment_approach: 'Every lesson: auto-checked Perform activities with instant feedback, then Probe questions that apply the idea to a new situation. Written answers are reviewed by the teacher against a 4-level rubric.',
         safety_requirements: spec.safety || 'No personal information is requested. Learners under 18 use the AI tutor and microphone only with guardian consent.',
@@ -93,9 +98,9 @@ export async function installCourse(spec: CourseSpec, adminId: string, subj: Rec
     for (const m of spec.modules) {
       const mid = await C.addModule(cid, m.title, m.summary || '');
       for (const ls of m.lessons) {
-        const L = expandLesson(ls);
+        const L = expandLesson(ls, spec);
         const lid = await C.addLesson(mid, L.title);
-        await C.updateLesson(lid, { objective: L.objective, duration_minutes: L.duration, learn: { cards: L.cards }, hook: L.hook, teacher: L.teacher });
+        await C.updateLesson(lid, { objective: L.objective, duration_minutes: L.duration, learn: { cards: L.cards, worksheet: L.worksheet, ...(L.build ? { build: L.build } : {}) }, hook: L.hook, teacher: L.teacher });
         for (const a of L.activities) await C.upsertActivity(lid, a as any);
         await run('INSERT INTO assessments (id,lesson_id,title,rubric,pass_pct) VALUES (?,?,?,?,60)', 'as_' + lid, lid, `${L.title} rubric`, L.teacher.assess!.rubric!);
         await C.setLessonStatus(lid, 'approved', adminId);

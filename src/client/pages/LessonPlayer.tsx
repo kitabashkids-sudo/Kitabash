@@ -7,7 +7,8 @@ import { VisualHook } from '../components/VisualHook.tsx';
 import { ActivityRunner } from '../components/activities/index.tsx';
 import { TutorDrawer } from '../components/TutorChat.tsx';
 import { ScratchBlocks } from '../components/ScratchBlocks.tsx';
-import { BuildAlongSteps, Downloads, VideoPlayer } from '../components/LessonExtras.tsx';
+import { BuildAlongSteps, VideoPlayer } from '../components/LessonExtras.tsx';
+import { WorksheetCard } from '../components/Worksheet.tsx';
 import type { GradeResult } from '../components/activities/types.ts';
 
 type Phase = 'learn' | 'perform' | 'probe' | 'done';
@@ -113,7 +114,7 @@ export function LessonPlayer({ id }: { id: string }) {
   };
 
   return (
-    <div data-theme-accent={course.theme} className={`mx-auto transition-[max-width] ${current && (current.type === 'code_lab' || current.type === 'block_code' || current.type === 'python_lab') ? 'max-w-6xl' : 'max-w-3xl'}`}>
+    <div data-theme-accent={course.theme} className={`mx-auto transition-[max-width] ${current && (current.type === 'code_lab' || current.type === 'block_code' || current.type === 'python_lab' || current.type === 'web_lab') ? 'max-w-6xl' : 'max-w-3xl'}`}>
       {isStaff && course.status !== 'published' && (
         <Notice tone="teach" icon="eye" className="mb-4">
           Staff preview of a <strong>{course.status}</strong> course. Attempts are graded and saved under your staff account.
@@ -153,7 +154,7 @@ export function LessonPlayer({ id }: { id: string }) {
           {lesson.learn.video && <VideoPlayer video={lesson.learn.video} />}
           <LearnCards cards={lesson.learn.cards || []} />
           {lesson.learn.build && <BuildAlongSteps build={lesson.learn.build} storageKey={`kb-build-${lesson.id}`} />}
-          {lesson.learn.downloads?.length > 0 && <Downloads items={lesson.learn.downloads} />}
+          <WorksheetCard data={{ course, lesson, activities: data.activities }} />
           <div className="flex justify-end">
             <Button variant="primary" size="lg" onClick={() => goPhase(acts.perform.length ? 'perform' : 'probe')}>
               I’m ready to try <Icon name="arrowR" />

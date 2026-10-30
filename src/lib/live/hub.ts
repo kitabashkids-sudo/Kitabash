@@ -37,6 +37,7 @@ interface Room {
   mesh: boolean;
   micsLocked: boolean;
   chatLocked: boolean;
+  studentScreens: boolean; // students may share their screen (guardian consent still required)
   sync: any | null;
   removed: Set<string>; // userIds removed by the teacher for this session
   live: boolean;
@@ -54,7 +55,7 @@ export function iceServers() {
 function room(sessionId: string, live = false): Room {
   let r = rooms.get(sessionId);
   if (!r) {
-    r = { sessionId, participants: new Map(), mesh: false, micsLocked: false, chatLocked: false, sync: null, removed: new Set(), live };
+    r = { sessionId, participants: new Map(), mesh: false, micsLocked: false, chatLocked: false, studentScreens: true, sync: null, removed: new Set(), live };
     rooms.set(sessionId, r);
   }
   return r;
@@ -72,7 +73,7 @@ function publicView(p: Participant) {
 }
 
 function roomState(r: Room) {
-  return { mesh: r.mesh, micsLocked: r.micsLocked, chatLocked: r.chatLocked, live: r.live, peers: [...r.participants.values()].map(publicView) };
+  return { mesh: r.mesh, micsLocked: r.micsLocked, chatLocked: r.chatLocked, studentScreens: r.studentScreens, live: r.live, peers: [...r.participants.values()].map(publicView) };
 }
 
 function broadcast(r: Room, event: string, data: unknown, except?: string) {
@@ -146,7 +147,9 @@ export function setMedia(sessionId: string, p: Participant, s: { mic?: boolean; 
   const r = rooms.get(sessionId)!;
   if (!p.canPublish) (s.mic = false), (s.cam = false);
   if (p.role === 'student' && r.micsLocked && s.mic) s.mic = false;
-  if (p.role === 'student') s.screen = false;
+  if (p.role === 'student' && (!p.canPublish || !r.studentScreens)) s.screen = false;
+  // One screen on stage at a time: a new share replaces anyone else's.
+  if (s.screen) for (const o of r.participants.values()) if (o !== p && o.screen) (o.screen = false), send(o, 'control', { action: 'stopScreen' });
   Object.assign(p, Object.fromEntries(Object.entries(s).filter(([, v]) => typeof v === 'boolean')));
   broadcast(r, 'state', roomState(r));
 }
@@ -161,7 +164,7 @@ export async function chat(sessionId: string, p: Participant, body: string) {
   broadcast(r, 'chat', { from: p.connId, name: p.name, role: p.role, body: text, at: new Date().toISOString() });
 }
 
-export type ControlAction = 'mute' | 'muteAll' | 'remove' | 'lowerHand' | 'lowerAllHands' | 'mesh' | 'micsLocked' | 'chatLocked' | 'end';
+export type ControlAction = 'mute' | 'muteAll' | 'remove' | 'lowerHand' | 'lowerAllHands' | 'mesh' | 'micsLocked' | 'chatLocked' | 'studentScreens' | 'stopScreen' | 'end';
 
 export async function control(sessionId: string, host: Participant, action: ControlAction, target?: string, value?: boolean) {
   const r = rooms.get(sessionId)!;
@@ -195,6 +198,13 @@ export async function control(sessionId: string, host: Participant, action: Cont
       break;
     case 'chatLocked':
       r.chatLocked = !!value;
+      break;
+    case 'studentScreens':
+      r.studentScreens = !!value;
+      if (!r.studentScreens) for (const p of r.participants.values()) if (p.role === 'student' && p.screen) (p.screen = false), send(p, 'control', { action: 'stopScreen' });
+      break;
+    case 'stopScreen':
+      if (t && t.role === 'student' && t.screen) (t.screen = false), send(t, 'control', { action: 'stopScreen' });
       break;
     case 'end':
       r.live = false;

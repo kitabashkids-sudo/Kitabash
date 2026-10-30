@@ -23,6 +23,7 @@ export interface RoomState {
   mesh: boolean;
   micsLocked: boolean;
   chatLocked: boolean;
+  studentScreens: boolean;
   live: boolean;
   peers: Peer[];
 }
@@ -31,7 +32,7 @@ type Listener = () => void;
 
 export class LiveClient {
   connId = '';
-  state: RoomState = { mesh: false, micsLocked: false, chatLocked: false, live: false, peers: [] };
+  state: RoomState = { mesh: false, micsLocked: false, chatLocked: false, studentScreens: true, live: false, peers: [] };
   chat: ChatMsg[] = [];
   sync: any = null;
   remote = new Map<string, MediaStream>();
@@ -106,6 +107,7 @@ export class LiveClient {
     this.es.addEventListener('control', (e) => {
       const d = JSON.parse((e as MessageEvent).data);
       if (d.action === 'mute') this.setMic(false, false);
+      if (d.action === 'stopScreen' && this.screen) void this.toggleScreen();
     });
     this.es.addEventListener('bye', (e) => {
       const d = JSON.parse((e as MessageEvent).data);
@@ -138,7 +140,7 @@ export class LiveClient {
   }
 
   private applyState(s: RoomState) {
-    this.state = { mesh: s.mesh, micsLocked: s.micsLocked, chatLocked: s.chatLocked, live: s.live, peers: s.peers };
+    this.state = { mesh: s.mesh, micsLocked: s.micsLocked, chatLocked: s.chatLocked, studentScreens: s.studentScreens !== false, live: s.live, peers: s.peers };
     const me = this.me();
     if (me) {
       for (const p of s.peers) {

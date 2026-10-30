@@ -3,6 +3,7 @@ import type { LearnCard, TeacherContent, VisualHook } from '../lessonTypes.ts';
 import type { ActSpec, CourseSpec, HookSpec, LessonSpec } from './types.ts';
 import { band } from './bands.ts';
 import { GLYPHS, glyphLabel } from './glyphs.ts';
+import { platformActivity, platformBuild, platformFor, platformResource } from './platforms.ts';
 
 const OPT = 'abcdefgh';
 const slug = (s: string) => s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'x';
@@ -188,22 +189,40 @@ export function expandTeacher(l: LessonSpec, hook: VisualHook): TeacherContent {
   };
 }
 
-export function expandLesson(l: LessonSpec) {
+/**
+ * Expand one lesson. With the course spec, the lesson also gets its real-world platform
+ * (see platforms.ts): a "Do it in <platform>" build-along on the Learn screen, a Perform
+ * activity done in that platform, and a platform link in the teacher's Resources tab.
+ */
+export function expandLesson(l: LessonSpec, spec?: Pick<CourseSpec, 'subject' | 'band'>) {
   const hook = expandHook(l.hook, l.o);
+  const p = spec ? platformFor(spec.subject, spec.band) : null;
+  const teacher = expandTeacher(l, hook);
+  const activities: any[] = l.acts.map((a, i) => expandActivity(a, i, l));
+  if (p && spec) {
+    // Insert after the last Perform activity, so learners practise first and then build.
+    const at = activities.map((a) => a.phase).lastIndexOf('perform') + 1;
+    activities.splice(at, 0, platformActivity(p, spec, l));
+    teacher.resources!.items!.unshift(platformResource(p));
+  }
   return {
     title: l.t,
     objective: l.o,
     duration: l.min || 30,
     hook,
     cards: l.cards.map(([emoji, title, body]) => ({ emoji, title, body })) as LearnCard[],
-    activities: l.acts.map((a, i) => expandActivity(a, i, l)),
-    teacher: expandTeacher(l, hook),
+    worksheet: { title: `${l.t} — worksheet`, task: l.teach.sheet },
+    ...(p && spec ? { build: platformBuild(p, spec, l), platform: p } : {}),
+    activities,
+    teacher,
   };
 }
 
 /** Markdown guide uploaded as the course's knowledge source, so the tutor answers from it. */
 export function courseGuide(c: CourseSpec): string {
   const out = [`# ${courseTitle(c)} — Course guide (Kitabash original)`, '', c.description, ''];
+  const p = platformFor(c.subject, c.band);
+  if (p) out.push(`## Where we practise: ${p.name}`, '', p.about, p.account, ...(p.url ? [`Link: ${p.url}`] : []), `How to hand in: ${p.save}`, '');
   for (const m of c.modules) {
     out.push(`# ${m.title}`, '');
     for (const l of m.lessons) {

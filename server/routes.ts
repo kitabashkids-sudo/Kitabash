@@ -107,6 +107,7 @@ route('GET', '/api/me', async (c) => {
 
 // ── Catalogue & learning ───────────────────────────────────
 route('GET', '/api/catalog', async (c) => (requirePerm(c.user, 'catalog.read'), await L.catalogue()));
+route('GET', '/api/catalog/search', async (c) => await L.catalogSearch(requirePerm(c.user, 'catalog.read'), (c.query.get('q') || '').slice(0, 200)));
 route('GET', '/api/activity-types', async () => ({ types: Object.values(ACTIVITY_TYPES).map(({ validate, grade, ...m }) => m), hookPresets: HOOK_PRESETS }));
 route('GET', '/api/my', async (c) => await L.myLearning(requireUser(c.user)));
 route('GET', '/api/courses/:id/learn', async (c) => await L.studentCourse(requireUser(c.user), c.params.id));
@@ -598,7 +599,7 @@ route('POST', '/api/live/:id/chat', async (c) => {
 });
 route('POST', '/api/live/:id/control', async (c) => {
   const { p, b } = await connOf(c);
-  const actions = ['mute', 'muteAll', 'remove', 'lowerHand', 'lowerAllHands', 'mesh', 'micsLocked', 'chatLocked', 'end'];
+  const actions = ['mute', 'muteAll', 'remove', 'lowerHand', 'lowerAllHands', 'mesh', 'micsLocked', 'chatLocked', 'studentScreens', 'stopScreen', 'end'];
   if (!actions.includes(b.action)) throw new HttpError(400, 'Unknown action');
   await HUB.control(c.params.id, p, b.action, typeof b.target === 'string' ? b.target : undefined, !!b.value);
 });

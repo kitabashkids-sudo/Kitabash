@@ -24,6 +24,69 @@ export async function catalogue() {
   }));
 }
 
+/**
+ * Quick search across the published catalogue: courses (title, description, subject, tools and
+ * platforms), lessons (title, objective) and files (worksheets, guides, project briefs, links).
+ * Every word must match somewhere. Teacher-only files are returned to staff only.
+ */
+export async function catalogSearch(user: User, q: string) {
+  const terms = q
+    .toLowerCase()
+    .replace(/[%_\\]/g, ' ')
+    .split(/\s+/)
+    .filter((t) => t.length >= 2)
+    .slice(0, 6);
+  if (!terms.length) return { q, courses: [], lessons: [], files: [] };
+  const where = (cols: string[]) => terms.map(() => `(${cols.map((c) => `LOWER(${c}) LIKE ?`).join(' OR ')})`).join(' AND ');
+  const args = (n: number) => terms.flatMap((t) => Array(n).fill(`%${t}%`));
+  const score = (text: string) => terms.reduce((s, t) => s + (text.toLowerCase().includes(t) ? 1 : 0), 0);
+  const cCols = ['c.title', 'c.description', 's.name', 'c.required_tools', 'c.grade_level'];
+  const courses = await all(
+    `SELECT c.id, c.slug, c.title, c.description, c.grade_band, c.level, c.age_min, c.age_max, c.theme, s.name subject,
+       (SELECT COUNT(*) FROM lessons l WHERE l.course_id=c.id AND l.status='approved') lesson_count
+     FROM courses c JOIN subjects s ON s.id=c.subject_id
+     WHERE c.status='published' AND ${where(cCols)} LIMIT 200`,
+    ...args(cCols.length),
+  );
+  const lCols = ['l.title', 'l.objective', 'c.title', 's.name'];
+  const lessons = await all(
+    `SELECT l.id, l.title, l.objective, c.slug course_slug, c.title course_title, c.grade_band, c.level, s.name subject
+     FROM lessons l JOIN courses c ON c.id=l.course_id JOIN subjects s ON s.id=c.subject_id
+     WHERE c.status='published' AND l.status='approved' AND ${where(lCols)} LIMIT 300`,
+    ...args(lCols.length),
+  );
+  const fCols = ['r.title', 'r.source', 'c.title', 's.name'];
+  const files = await all(
+    `SELECT r.id, r.title, r.kind, r.source, r.mime, r.audience, r.size_bytes, c.slug course_slug, c.title course_title, s.name subject
+     FROM resources r JOIN courses c ON c.id=r.course_id JOIN subjects s ON s.id=c.subject_id
+     WHERE c.status='published' AND r.replaced_by IS NULL ${isStaff(user) ? '' : "AND r.audience='student'"} AND ${where(fCols)} LIMIT 300`,
+    ...args(fCols.length),
+  );
+  const rank = <T extends Record<string, any>>(rows: T[], key: (r: T) => string, n: number) =>
+    rows
+      .map((r) => ({ r, s: score(key(r)) * 10 - String(r.title).length / 100 }))
+      .sort((a, b) => b.s - a.s)
+      .slice(0, n)
+      .map((x) => x.r);
+  return {
+    q,
+    courses: rank(courses, (c) => `${c.title} ${c.subject}`, 30).map((c) => ({ ...c, lesson_count: Number(c.lesson_count) })),
+    lessons: rank(lessons, (l) => l.title, 30),
+    files: rank(files, (f) => `${f.title} ${f.source}`, 30).map((f) => ({
+      id: f.id,
+      title: f.title,
+      kind: f.kind,
+      type: f.kind === 'url' ? 'link' : /pdf/.test(f.mime) ? 'PDF' : /markdown|text/.test(f.mime) ? 'Guide' : String(f.source).split('.').pop()?.toUpperCase() || 'File',
+      url: f.kind === 'url' ? f.source : `/api/resources/${f.id}/file`,
+      audience: f.audience,
+      size: Number(f.size_bytes) || 0,
+      course_slug: f.course_slug,
+      course_title: f.course_title,
+      subject: f.subject,
+    })),
+  };
+}
+
 const LEVEL_ORDER = ['beginner', 'intermediate', 'advanced'];
 const levelIdx = (l: string) => (LEVEL_ORDER.includes(l) ? LEVEL_ORDER.indexOf(l) : 9);
 const bandIdx = (b: string) => {
@@ -267,7 +330,7 @@ export async function courseReport(courseId: string) {
     c.id,
   )).map((r) => {
     const cfg = j<any>(r.config, {});
-    return { ...r, response: j(r.response, {}), prompt: cfg.prompt || cfg.reflection, requirements: cfg.requirements, rubric: r.type === 'project' || r.type === 'code_lab' || r.type === 'python_lab' ? j(r.rubric, []) : undefined, config: undefined };
+    return { ...r, response: j(r.response, {}), prompt: cfg.prompt || cfg.reflection, requirements: cfg.requirements, rubric: r.type === 'project' || r.type === 'code_lab' || r.type === 'python_lab' || r.type === 'web_lab' ? j(r.rubric, []) : undefined, config: undefined };
   });
   return { course: { id: c.id, title: c.title }, learners, activityStats, reviewQueue };
 }

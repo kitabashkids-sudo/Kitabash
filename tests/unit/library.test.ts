@@ -30,7 +30,7 @@ test('every library activity passes the activity registry', () => {
   for (const c of LIBRARY)
     for (const m of c.modules)
       for (const l of m.lessons) {
-        const L = expandLesson(l);
+        const L = expandLesson(l, c);
         for (const a of L.activities) assert.doesNotThrow(() => validateActivity(a.type, a.config, a.answer_key), `${c.title} / ${l.t} / ${a.title}`);
         // An ordering activity must never start already solved.
         for (const a of L.activities.filter((x) => x.type === 'ordering')) assert.notDeepEqual((a.config as any).items.map((i: any) => i.id), (a.answer_key as any).order, `${l.t}: ordering starts solved`);
@@ -108,7 +108,7 @@ test('submitting the intended answer scores full marks on every auto-graded libr
   for (const c of LIBRARY)
     for (const m of c.modules)
       for (const l of m.lessons) {
-        const lesson = expandLesson(l);
+        const lesson = expandLesson(l, c);
         for (const a of lesson.activities as any[]) {
           const k = a.answer_key;
           let r: any;

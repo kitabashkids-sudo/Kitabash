@@ -1,4 +1,5 @@
 import { UpcomingClasses } from './Classes.tsx';
+import { WebPreview } from '../components/activities/weblab.tsx';
 import { useEffect, useState } from 'react';
 import { api, useApi } from '../lib/api.ts';
 import { Link, navigate } from '../lib/router.tsx';
@@ -224,7 +225,7 @@ export function CourseReport({ id }: { id: string }) {
               {r.learner} · {r.lesson} · {r.activity}
             </p>
             {r.prompt && <p className="mt-1 text-sm text-muted">Q: {r.prompt}</p>}
-            {r.type === 'code_lab' ? <LabReview r={r} /> : r.type === 'python_lab' ? <PyReview r={r} /> : r.type === 'project' ? <ProjectReview r={r} /> : <p className="mt-2 rounded-xl bg-sunk p-3">{r.response?.text || (r.response?.offline ? 'Practised on paper' : JSON.stringify(r.response))}</p>}
+            {r.type === 'code_lab' ? <LabReview r={r} /> : r.type === 'python_lab' ? <PyReview r={r} /> : r.type === 'web_lab' ? <WebReview r={r} /> : r.type === 'project' ? <ProjectReview r={r} /> : <p className="mt-2 rounded-xl bg-sunk p-3">{r.response?.text || (r.response?.offline ? 'Practised on paper' : JSON.stringify(r.response))}</p>}
             <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_120px_auto]">
               <Textarea className="min-h-[44px]" placeholder="Encouraging feedback…" value={fb[r.id]?.comment || ''} onChange={(e) => setFb({ ...fb, [r.id]: { ...fb[r.id], comment: e.target.value } })} aria-label="Feedback" />
               <Input type="number" min={0} max={r.max_score} placeholder={`Score /${r.max_score}`} value={fb[r.id]?.score ?? ''} onChange={(e) => setFb({ ...fb, [r.id]: { ...fb[r.id], score: e.target.value } })} aria-label="Score override" />
@@ -289,6 +290,29 @@ function ProjectReview({ r }: { r: any }) {
             </tbody>
           </table>
         </details>
+      )}
+    </div>
+  );
+}
+
+function WebReview({ r }: { r: any }) {
+  const html: string = r.response?.html || '';
+  return (
+    <div className="mt-2 space-y-2 rounded-xl bg-sunk p-3 text-sm">
+      <p>
+        <strong>Web page</strong> ({html.length} characters)
+      </p>
+      <WebPreview html={html} title="Learner’s web page" />
+      <details>
+        <summary className="cursor-pointer font-semibold text-teach">View the HTML</summary>
+        <pre className="mt-1 max-h-48 overflow-auto rounded-lg bg-[#14161f] p-2 font-mono text-[12px] text-[#e8ecf5]">{html}</pre>
+      </details>
+      {Array.isArray(r.requirements) && <ul className="list-disc pl-5">{r.requirements.map((q: string, i: number) => <li key={i}>{q}</li>)}</ul>}
+      {r.response?.reflection && (
+        <p>
+          <strong>Reflection: </strong>
+          {r.response.reflection}
+        </p>
       )}
     </div>
   );

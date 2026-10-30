@@ -9,6 +9,7 @@ import { explainDbError } from '../src/lib/db/pg.ts';
 import { purgeOldLogs } from '../src/lib/services/admin.ts';
 import { activeProvider } from '../src/lib/agent/providers/index.ts';
 import { loadEnv } from './env.ts';
+import { upgradeLibraryPlatforms } from '../src/lib/library/platform-upgrade.ts';
 
 loadEnv();
 if (process.env.NODE_ENV === 'production' && (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 24 || /change-me/.test(process.env.SESSION_SECRET))) {
@@ -23,6 +24,10 @@ try {
   process.exit(1);
 }
 await purgeOldLogs();
+// Give courses installed before platform activities existed their "Do it in <platform>" activities.
+void upgradeLibraryPlatforms()
+  .then((r) => r.lessons && console.log(`Course library: added platform activities to ${r.lessons} lessons in ${r.courses} courses.`))
+  .catch((e) => console.error('Course library platform upgrade failed:', e));
 setInterval(() => void purgeOldLogs().catch(() => {}), 24 * 3600_000).unref();
 
 const PUBLIC = [path.resolve('dist/public'), path.resolve(path.dirname(new URL(import.meta.url).pathname), 'public')].find((p) => fs.existsSync(p)) || path.resolve('dist/public');
