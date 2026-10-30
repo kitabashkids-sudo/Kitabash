@@ -101,7 +101,7 @@ export async function updateAssetMeta(aid: string, patch: { title?: string; tags
 export async function deleteAsset(aid: string) {
   const a = await get('SELECT * FROM assets WHERE id=?', aid);
   if (!a) throw new HttpError(404, 'Asset not found');
-  const used = (await get('SELECT COUNT(*) n FROM lessons WHERE hook LIKE ? OR teacher LIKE ?', `%${aid}%`, `%${aid}%`))?.n || 0;
+  const used = (await get('SELECT COUNT(*) n FROM lessons WHERE hook LIKE ? OR teacher LIKE ? OR learn LIKE ?', `%${aid}%`, `%${aid}%`, `%${aid}%`))?.n || 0;
   if (used) throw new HttpError(409, `This asset is used by ${used} lesson(s). Remove it from those lessons first.`);
   await storage().remove(a.storage_path);
   await run('DELETE FROM assets WHERE id=?', aid);

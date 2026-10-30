@@ -99,6 +99,11 @@ export async function studentCourse(user: User, courseId: string) {
       }),
     })),
     mappings,
+    // Course-level printables for learners (course guide, project briefs). Per-lesson files live in each lesson.
+    materials: await all(
+      "SELECT id, title, mime FROM resources WHERE course_id=? AND audience='student' AND kind='file' AND replaced_by IS NULL AND mime='application/pdf' AND title NOT LIKE 'Worksheet%' ORDER BY title",
+      c.id,
+    ),
     achievements: await achievements(user, c.id),
     recommendations: await recommendations(user, c.id),
     pathway: await pathway(user, c.id),
@@ -255,11 +260,15 @@ export async function courseReport(courseId: string) {
   );
   const reviewQueue = (await all(
     `SELECT a.id, a.response, a.score, a.max_score, a.created_at, u.name learner, x.title activity, x.config, l.title lesson,
-       (SELECT comment FROM instructor_feedback f WHERE f.attempt_id=a.id ORDER BY created_at DESC LIMIT 1) feedback
+       (SELECT comment FROM instructor_feedback f WHERE f.attempt_id=a.id ORDER BY created_at DESC LIMIT 1) feedback,
+       x.type, (SELECT s.rubric FROM assessments s WHERE s.lesson_id=l.id LIMIT 1) rubric
      FROM attempts a JOIN users u ON u.id=a.user_id JOIN activities x ON x.id=a.activity_id JOIN lessons l ON l.id=a.lesson_id
      WHERE l.course_id=? AND a.needs_review=1 ORDER BY a.created_at DESC LIMIT 50`,
     c.id,
-  )).map((r) => ({ ...r, response: j(r.response, {}), prompt: j<any>(r.config, {}).prompt, config: undefined }));
+  )).map((r) => {
+    const cfg = j<any>(r.config, {});
+    return { ...r, response: j(r.response, {}), prompt: cfg.prompt || cfg.reflection, requirements: cfg.requirements, rubric: r.type === 'project' || r.type === 'code_lab' || r.type === 'python_lab' ? j(r.rubric, []) : undefined, config: undefined };
+  });
   return { course: { id: c.id, title: c.title }, learners, activityStats, reviewQueue };
 }
 

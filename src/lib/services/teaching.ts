@@ -18,7 +18,7 @@ export async function teacherLesson(lessonId: string) {
   const activities = (await all('SELECT * FROM activities WHERE lesson_id=? ORDER BY phase, position', lessonId)).map((a) => hydrateActivity(a, true));
   const { config } = await publishedOrDraftConfig(course.id, course.status === 'published' ? 'published' : 'draft');
   const resources = await all("SELECT id,title,kind,source,mime,audience,extraction_status FROM resources WHERE course_id=? AND replaced_by IS NULL ORDER BY title", course.id);
-  const assetIds = new Set<string>([lesson.hook?.assetId, ...(t.show?.items || []).map((i) => i.assetId)].filter(Boolean) as string[]);
+  const assetIds = new Set<string>([lesson.hook?.assetId, lesson.learn?.video?.assetId, ...(t.show?.items || []).map((i) => i.assetId)].filter(Boolean) as string[]);
   const assets = assetIds.size ? await all(`SELECT id,title,kind,mime,alt_text,captions FROM assets WHERE id IN (${[...assetIds].map(() => '?').join(',')})`, ...assetIds) : [];
   const rubrics = (await all('SELECT title, rubric, pass_pct FROM assessments WHERE lesson_id=?', lessonId)).map((r) => ({ ...r, rubric: j(r.rubric, []) }));
   const mappings = await all(
@@ -36,6 +36,7 @@ export async function teacherLesson(lessonId: string) {
       analogies: t.teach?.analogies || [],
       vocabulary: t.teach?.vocabulary || [],
       instructorNotes: course.instructor_notes,
+      plan: t.plan || [],
     },
     show: {
       hook: lesson.hook,
@@ -52,6 +53,7 @@ export async function teacherLesson(lessonId: string) {
     },
     resources: {
       items: t.resources?.items || [],
+      downloads: [...(t.downloads || []), ...(lesson.learn.downloads || [])],
       library: resources,
       sourceRefs: lesson.source_refs,
       extension: t.extension || [],

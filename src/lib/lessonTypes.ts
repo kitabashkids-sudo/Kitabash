@@ -5,6 +5,35 @@ export interface LearnCard {
   body: string;
   emoji?: string;
   sourceRef?: string; // "Resource title · page 3"
+  blocks?: string; // Scratch-style blocks (src/lib/scratch/blocks.ts syntax)
+}
+
+/** Explainer video shown at the start of the Learn phase. Captions live on the asset. */
+export interface LessonVideo {
+  assetId: string;
+  title: string;
+  durationSec?: number;
+}
+
+/** Follow-along steps the learner does in a real tool (e.g. Scratch) alongside the lesson. */
+export interface BuildAlong {
+  title: string;
+  intro?: string;
+  tool?: { name: string; url: string };
+  steps: { title: string; text: string; blocks?: string; tip?: string }[];
+}
+
+export interface Download {
+  title: string;
+  resourceId: string;
+  kind: 'worksheet' | 'project-brief' | 'guide' | 'lesson-plan' | 'rubric' | 'answers' | 'slides';
+}
+
+export interface LearnContent {
+  cards: LearnCard[];
+  video?: LessonVideo;
+  build?: BuildAlong;
+  downloads?: Download[]; // student-facing files
 }
 
 export type HookPreset = 'word-reveal' | 'letter-trace' | 'pattern-reveal' | 'budget-change' | 'code-output' | 'phrase-model' | 'speech-upgrade';
@@ -32,6 +61,8 @@ export interface TeacherContent {
   resources?: { items?: { title: string; kind: 'worksheet' | 'template' | 'link' | 'sample' | 'note'; url?: string; body?: string }[] };
   assess?: { questions?: string[]; rubric?: { criterion: string; levels: string[] }[]; misconceptions?: { misconception: string; fix: string }[] };
   extension?: string[];
+  downloads?: Download[]; // teacher-only files (lesson plan, rubric, answer key)
+  plan?: { minutes: number; stage: string; doing: string }[]; // timed lesson plan
 }
 
 export const HOOK_PRESETS: { id: HookPreset; label: string; params: string }[] = [

@@ -106,7 +106,7 @@ export async function updateCourse(courseId: string, input: Partial<CourseInput>
   await audit(userId, 'update', 'course', c.id, fields.join(','));
 }
 
-const BAND_IDS = ['K-2', '3-5', '6-8', '9-12'];
+const BAND_IDS = ['K-2', '3-5', '6-8', '9-12', 'Adult'];
 /** Keep level (= proficiency) and pathway (= subject + grade band) in step for the level ladder. */
 async function syncPathway(courseId: string, gradeBand?: string) {
   if (gradeBand !== undefined) {
