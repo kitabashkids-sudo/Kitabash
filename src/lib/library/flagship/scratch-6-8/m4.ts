@@ -1,0 +1,300 @@
+// Scratch Gr 6–8 Beginner · Module 4 — The game loop, collisions, timers and difficulty. Capstone: Arcade Game.
+import { lesson } from '../kit.ts';
+import { P_ALL, changeVar, changeX, changeY, forever, goto, gt, ifThen, join, keyIs, lt, n, op, onFlag, project, rand, repeat, say, sayFor, setVar, sprite, stopAll, t, touching, vr, wait, ypos, setY, setX, sound, waitUntil, timer, resetTimer } from '../scratch-3-5/lab.ts';
+
+const player = (scripts: ReturnType<typeof onFlag>[] = []) => sprite('Player', ['🛡️'], 0, -150, scripts, { size: 260 });
+const controls = onFlag(goto(0, -150), forever(ifThen(keyIs('right arrow'), changeX(8)), ifThen(keyIs('left arrow'), changeX(-8))));
+const rock = (scripts: ReturnType<typeof onFlag>[] = []) => sprite('Rock', ['🪨'], 0, 170, scripts);
+const fallLoop = (speed: Parameters<typeof changeY>[0], ...extra: ReturnType<typeof ifThen>[]) =>
+  forever(changeY(speed), ifThen(lt(ypos, n(-170)), setY(170), setX(rand(-40, 40))), ...extra);
+
+export const G10 = lesson(10, {
+  title: 'The Game Loop and Collisions',
+  objective: 'Build a game loop that moves objects, recycles them when they leave the screen, and detects collisions to change lives.',
+  concept: 'Game loop and collision detection',
+  hook: ['word', '🪨 ⬇️ 🛡️', 'dodge or get hit'],
+  intro: 'Time to make a real game. Every arcade game is built on the same engine: the game loop.',
+  cards: [
+    { emoji: '🔄', title: 'The game loop', body: 'Each frame the game loop updates positions, checks collisions and reacts. In Scratch, each sprite runs its own forever loop.' },
+    { emoji: '♻️', title: 'Recycle objects', body: 'When a falling rock leaves the bottom, move it back to the top at a random x. One sprite becomes endless rocks.', blocks: 'forever\nchange y by (-6)\nif <(y position) < (-170)> then\nset y to (170)\nset x to (pick random (-200) to (200))\nend\nend' },
+    { emoji: '💥', title: 'Collision detection', body: 'Touching checks if two sprites overlap. When the rock hits the player, lose a life and recycle the rock — once per hit.', blocks: 'if <touching (Player v)?> then\nchange [lives v] by (-1)\nset y to (170)\nend' },
+    { emoji: '🎚️', title: 'State variables', body: 'Lives and score are the game’s state. Reset them on the green flag so each game starts fair.' },
+  ],
+  scenes: [{ kind: 'code', heading: 'In Python (pygame style)', code: 'while running:\n    rock.y -= 6\n    if rock.y < -170:\n        rock.y = 170\n    if rock.colliderect(player):\n        lives -= 1', lang: 'python', say: ['Text-based games use exactly the same loop: move, recycle, check collisions.'] }],
+  build: {
+    title: 'Rock dodger',
+    intro: 'Code Lab or Scratch.',
+    steps: [
+      { title: 'Player', text: 'Smooth controls: forever + if key pressed.' },
+      { title: 'Falling rock', text: 'Rock: forever change y by -6.' },
+      { title: 'Recycle', text: 'If y < -170, set y to 170 and x to a random number.' },
+      { title: 'Collision', text: 'If touching Player: change lives by -1, play a sound, set y to 170.' },
+      { title: 'Reset state', text: 'On the flag: set lives to 3.', tip: 'Recycle the rock on a hit, or it will take several lives at once.' },
+    ],
+  },
+  acts: [
+    {
+      lab: 'Endless rocks: the Rock falls forever (change y by -6). When y position < -170, set y to 170 and set x to pick random -40 to 40, so it falls again.',
+      title: 'Code Lab: recycle the rock',
+      start: project([rock()], { backdrop: 'space' }),
+      palette: P_ALL,
+      hats: ['flag', 'key', 'click'],
+      goals: [
+        ['Falls forever', { t: 'uses', ops: ['forever', 'changeY'], msg: 'forever { change y by -6 }.' }],
+        ['Comes back to the top', { t: 'final', sprite: 'Rock', prop: 'y', cmp: '>', value: -170, msg: 'If y < -170, set y to 170.' }],
+        ['Random position', { t: 'usesRandom', msg: 'Set x to pick random when it goes back to the top.' }],
+        ['Keeps going', { t: 'moved', sprite: 'Rock', min: 500, msg: 'The Rock should keep falling.' }],
+      ],
+      test: { seconds: 5 },
+      solution: project([rock([onFlag(goto(0, 170), fallLoop(-6))])], { backdrop: 'space' }),
+      explain: 'One sprite, endless rocks — recycling objects is a pro trick.',
+      hints: ['The if goes inside the forever loop.', 'Condition: (y position) < (-170).'],
+    },
+    {
+      lab: 'Collisions: the Player is ready. Make lives start at 3. In the Rock’s loop, if it is touching the Player, change lives by -1 and set y to 170.',
+      title: 'Code Lab: lose a life',
+      start: project([player([controls]), rock([onFlag(goto(0, 170), fallLoop(-6))])], { backdrop: 'space', vars: ['lives'] }),
+      palette: P_ALL,
+      hats: ['flag', 'key', 'click'],
+      goals: [
+        ['Lives start at 3', { t: 'varResets', name: 'lives', value: 3, msg: 'On the flag: set lives to 3.' }],
+        ['A hit costs a life', { t: 'var', name: 'lives', cmp: '<', value: 3, msg: 'If touching Player → change lives by -1.' }],
+        ['One life per hit', { t: 'var', name: 'lives', cmp: '>', value: 0, msg: 'After a hit, send the rock back to the top (set y to 170) so it doesn’t keep hitting.' }],
+      ],
+      test: { seconds: 2.5 },
+      solution: project([player([controls]), rock([onFlag(setVar('lives', 3), goto(0, 170), fallLoop(-6, ifThen(touching('Player'), changeVar('lives', -1), sound('pop'), setY(170))))])], { backdrop: 'space', vars: ['lives'] }),
+      explain: 'Collision detected, state updated — that’s a game.',
+      hints: ['Add the touching check inside the same forever loop.', 'set y to 170 after losing a life.'],
+    },
+    {
+      bmcq: 'One hit takes all 3 lives at once. Which fix is best?',
+      blocks: 'if <touching (Player v)?> then\nchange [lives v] by (-1)\nend',
+      options: ['Move the rock back to the top after the hit', 'Change lives by -0.3', 'Add a wait 5 seconds'],
+      answer: 0,
+      why: 'The rock keeps touching for several frames; moving it away makes it count once.',
+      title: 'Debug the collision',
+      phase: 'probe',
+    },
+    { write: 'Describe the game loop for the rock dodger in steps. Which parts happen every frame, and which only when a condition is true?', keywords: ['loop', 'frame', 'if'], exemplar: 'Every frame the rock moves down and the player checks the arrow keys. Only when the rock is below the bottom does it jump back to the top. Only when it touches the player do we lose a life and reset the rock.', minWords: 30, phase: 'probe' },
+  ],
+  teacher: {
+    explain: 'A game loop updates, detects collisions and responds each frame. Object recycling avoids creating new sprites. Collision handling must remove the overlap (reset position) to avoid repeated triggers. State variables (lives) reset on start.',
+    analogy: 'A juggler: every moment, check each ball, catch or throw — over and over.',
+    vocab: [
+      ['game loop', 'The loop that updates the game every frame.'],
+      ['collision', 'Two objects overlapping.'],
+      ['recycle', 'Reuse an object by moving it back to the start.'],
+      ['state', 'Values that describe the game right now (lives, score).'],
+    ],
+    demo: 'Show the multi-hit bug, then fix by resetting the rock.',
+    unplugged: 'Dodgeball walk (5 min): one learner walks a line while soft balls roll; count “collisions”.',
+    prompts: [
+      ['Why recycle the rock?', 'Endless objects from one sprite.'],
+      ['Why reset the rock after a hit?', 'So one hit counts once.'],
+      ['What is the game state?', 'Lives, score, positions.'],
+    ],
+    support: 'Provide the falling loop; learners add recycle and collision.',
+    stretch: 'Add a second rock with a different speed.',
+    mis: [
+      ['touching is checked once', 'It is checked every loop.'],
+      ['More sprites are needed for more rocks', 'Recycling reuses one sprite.'],
+    ],
+    successCriteria: ['I can build a game loop that moves and recycles objects.', 'I can detect collisions and update lives.', 'I can stop one hit counting many times.'],
+    homework: 'Watch a mobile game for 1 minute and list what its game loop checks.',
+    exit: 'What should happen to the rock right after it hits the player?',
+  },
+});
+
+export const G11 = lesson(11, {
+  title: 'Timers, Difficulty and Game Over',
+  objective: 'Use the timer and counters to limit time, increase difficulty as the game goes on, and end the game cleanly.',
+  concept: 'Time and difficulty',
+  hook: ['word', '⏱️ 10 → 0', 'race the clock'],
+  cards: [
+    { emoji: '⏳', title: 'Countdown', body: 'A countdown variable starts at a number and goes down by 1 every second. When it reaches 0, the game ends.', blocks: 'set [time v] to (10)\nrepeat (10)\nwait (1) seconds\nchange [time v] by (-1)\nend\nsay [Time’s up!]' },
+    { emoji: '📈', title: 'Difficulty ramp', body: 'Store the speed in a variable and increase it over time. Use the variable in the movement block so everything speeds up.', blocks: 'forever\nwait (1) seconds\nchange [speed v] by (1)\nend' },
+    { emoji: '🛑', title: 'Game over', body: 'When lives reach 0 or time runs out: show the final score and stop all. A clear ending makes a game feel finished.' },
+    { emoji: '⚖️', title: 'Fair challenge', body: 'Start easy, get harder gradually. Players should feel “I almost made it — one more go!”' },
+  ],
+  build: {
+    title: 'Clock and ramp',
+    intro: 'Code Lab or Scratch.',
+    steps: [
+      { title: 'Countdown', text: 'Set time to 10; repeat 10 { wait 1; change time by -1 }.' },
+      { title: 'Game over', text: 'After the loop: say the score and stop all.' },
+      { title: 'Speed variable', text: 'Set speed to 2. Use change y by (0 - speed) for falling things.' },
+      { title: 'Ramp', text: 'A separate script: forever { wait 1; change speed by 1 }.' },
+      { title: 'Tune', text: 'Is it too hard by the end? Try change speed by 0.5.', tip: 'Watch the variables on the stage while you play.' },
+    ],
+  },
+  acts: [
+    {
+      lab: 'Countdown: when the flag is clicked, set time to 5. Repeat 5 times: wait 1 second and change time by -1. Then say “Time’s up!”.',
+      title: 'Code Lab: countdown',
+      start: project([sprite('Clock', ['⏰'], 0, 0, [], { size: 160 })], { vars: ['time'] }),
+      palette: P_ALL,
+      hats: ['flag', 'key', 'click'],
+      goals: [
+        ['Counts down to 0', { t: 'var', name: 'time', cmp: '=', value: 0, msg: 'Set time to 5, then repeat 5 { wait 1; change time by -1 }.' }],
+        ['Starts at 5', { t: 'varResets', name: 'time', value: 5, msg: 'Set time to 5 on the flag.' }],
+        ['Announces the end', { t: 'said', sprite: 'Clock', text: 'time', msg: 'After the loop, say “Time’s up!”.' }],
+      ],
+      test: { seconds: 6.5 },
+      solution: project([sprite('Clock', ['⏰'], 0, 0, [onFlag(setVar('time', 5), repeat(5, wait(1), changeVar('time', -1)), say('Time’s up!'))], { size: 160 })], { vars: ['time'] }),
+      explain: '5, 4, 3, 2, 1 … game over!',
+      hints: ['The say block goes AFTER the repeat, not inside it.'],
+    },
+    {
+      lab: 'Difficulty ramp: speed starts at 2. A forever loop waits 1 second and changes speed by 1. The Rock falls with change y by (0 - speed), so it gets faster.',
+      title: 'Code Lab: speed it up',
+      start: project([rock()], { backdrop: 'space', vars: ['speed'] }),
+      palette: P_ALL,
+      hats: ['flag', 'key', 'click'],
+      goals: [
+        ['Speed starts at 2', { t: 'varResets', name: 'speed', value: 2, msg: 'Set speed to 2 on the flag.' }],
+        ['Speed increases', { t: 'var', name: 'speed', cmp: '>', value: 4, msg: 'forever { wait 1; change speed by 1 }.' }],
+        ['Movement uses speed', { t: 'usesVar', name: 'speed', msg: 'Use change y by (0 - speed) in the falling loop.' }],
+      ],
+      test: { seconds: 4 },
+      solution: project([rock([onFlag(setVar('speed', 2), goto(0, 170), fallLoop(op('-', 0, vr('speed')))), onFlag(forever(wait(1), changeVar('speed', 1)))])], { backdrop: 'space', vars: ['speed'] }),
+      explain: 'The longer you survive, the harder it gets.',
+      hints: ['Two flag scripts: one for falling, one for the ramp.', 'Operators → ( ) - ( ): 0 - speed makes it negative.'],
+    },
+    { order: 'Order a fair game from start to finish', steps: ['Reset score, lives, speed and timer', 'Start slow so players learn the controls', 'Increase speed gradually', 'Lives or time run out', 'Show the final score and stop all'], why: 'Reset, ramp, end.', title: 'Shape the challenge', phase: 'probe' },
+    { write: 'How would you make your game fair but challenging? Describe your starting difficulty, how it ramps up and how the game ends.', keywords: ['speed', 'harder', 'end'], exemplar: 'The rocks start falling slowly so players can learn the controls. Every 5 seconds the speed goes up by 1. The game ends after 60 seconds or when lives reach 0, and it shows the final score so players want to beat it.', minWords: 30, phase: 'probe' },
+  ],
+  teacher: {
+    explain: 'Time-based mechanics via counter variables or the timer reporter; difficulty curves via speed variables used in movement; clean termination via a final message and stop all.',
+    analogy: 'A treadmill programme: starts slow, speeds up, ends with your stats.',
+    vocab: [
+      ['countdown', 'A variable that goes down to zero.'],
+      ['difficulty curve', 'How a game gets harder over time.'],
+      ['game over', 'The end state of a game.'],
+    ],
+    demo: 'Play the dodger with a fixed speed (boring) and a ramp (exciting).',
+    unplugged: 'Clap ramp (5 min): clap with the teacher, getting faster every 5 claps — when do people drop out?',
+    prompts: [
+      ['Where is the say block — inside or after the loop?', 'After.'],
+      ['How does speed affect the rock?', 'It’s used in the move block.'],
+      ['What makes a difficulty curve fair?', 'Gradual increases.'],
+    ],
+    support: 'Provide the countdown; learners add the ramp.',
+    stretch: 'Show a high score with a variable that keeps the best result.',
+    mis: [
+      ['Changing a speed variable speeds things up by itself', 'The movement must use the variable.'],
+      ['stop all is the same as game over', 'Show feedback first, then stop.'],
+    ],
+    successCriteria: ['I can make a countdown or time limit.', 'I can increase difficulty with a variable.', 'I can end a game clearly.'],
+    homework: 'Sketch the difficulty curve of a game you play.',
+    exit: 'Which variable did you use to make the game harder?',
+  },
+});
+
+export const G12 = lesson(12, {
+  title: 'Capstone: Arcade Game',
+  minutes: 90,
+  objective: 'Design, build, test and present an original arcade game with a game loop, collisions, score and lives or time, and a difficulty curve.',
+  concept: 'Capstone project',
+  hook: ['word', '🕹️ 🏆', 'your game, your rules'],
+  intro: 'Everything you’ve learned comes together now: algorithms, events, loops, variables, decisions and game loops.',
+  cards: [
+    { emoji: '📝', title: 'Design document', body: 'Write a short design: goal, controls, objects, rules (what happens on each collision), state variables and how the game ends.' },
+    { emoji: '🧱', title: 'Minimum playable game', body: 'Build the smallest version that’s fun: player + one object + one rule. Then add features one at a time.' },
+    { emoji: '🧪', title: 'Playtest', body: 'Watch two people play without helping. Note where they get stuck or bored, then tune.' },
+    { emoji: '🎤', title: 'Present', body: 'Demo your game, explain one interesting piece of code, and show how you used test feedback.' },
+  ],
+  build: {
+    title: 'Build your Arcade Game',
+    intro: 'Two sessions.',
+    steps: [
+      { title: 'Session 1 · Design', text: 'Complete the design document and sketch the screen.' },
+      { title: 'Session 1 · Core loop', text: 'Player controls and one moving object with a collision rule.' },
+      { title: 'Session 2 · State', text: 'Score, lives or time; reset on the flag.' },
+      { title: 'Session 2 · Difficulty & end', text: 'A difficulty ramp and a clear game-over.' },
+      { title: 'Session 2 · Test & present', text: 'Playtest, tune, submit and present.' },
+    ],
+  },
+  acts: [
+    { match: 'Match each part of the design to the code that builds it', pairs: [['Controls', 'forever + if key pressed'], ['Endless objects', 'Recycle to the top at a random x'], ['Collision rule', 'if touching → change lives'], ['Difficulty', 'change speed by 1 every few seconds'], ['Ending', 'say the score, then stop all']], why: 'A design document maps straight onto code.' },
+    {
+      lab: 'Build your Arcade Game: smooth controls, at least 2 sprites, a collision rule, a score that resets, randomness, and an ending (lives or time).',
+      title: 'Capstone: Arcade Game',
+      mode: 'project',
+      start: project([player(), rock()], { backdrop: 'space', vars: ['score', 'lives', 'speed'] }),
+      palette: P_ALL,
+      allowSprites: true,
+      goals: [
+        ['Smooth controls', { t: 'keyMoves', key: 'right arrow', sprite: 'Player', prop: 'x', sign: 1, msg: 'The Player should glide right while the right arrow is held.' }],
+        ['2+ sprites', { t: 'sprites', min: 2, msg: 'Use at least two sprites.' }],
+        ['Collision rule', { t: 'usesAny', ops: ['changeVar'], msg: 'Change score or lives when sprites touch.' }],
+        ['Score resets', { t: 'varResets', name: 'score', value: 0, msg: 'Set score to 0 on the flag.' }],
+        ['Randomness', { t: 'usesRandom', msg: 'Use pick random so each game is different.' }],
+        ['An ending', { t: 'uses', ops: ['stopAll'], msg: 'End the game with a final message and stop all.' }],
+      ],
+      test: { seconds: 5, keys: [{ at: 0.5, key: 'right arrow', hold: 0.6 }] },
+      solution: project(
+        [
+          player([controls, onFlag(setVar('score', 0), setVar('lives', 3), resetTimer, waitUntil(gt(timer, n(30))), sayFor(join(t('Final score: '), vr('score')), 2), stopAll)]),
+          rock([
+            onFlag(setVar('speed', 3), goto(0, 170), fallLoop(op('-', 0, vr('speed')), ifThen(touching('Player'), changeVar('lives', -1), setY(170)), ifThen(lt(ypos, n(-160)), changeVar('score', 1)))),
+            onFlag(forever(wait(5), changeVar('speed', 1))),
+            onFlag(waitUntil(lt(vr('lives'), n(1))), say('Game over!'), stopAll),
+          ]),
+        ],
+        { backdrop: 'space', vars: ['score', 'lives', 'speed'] },
+      ),
+      explain: 'Capstone submitted — great game design!',
+      hints: ['Start from your Rock Dodger and make it your own.', 'Build the minimum playable game first.'],
+      requirements: ['Design document', 'Smooth controls', '2+ sprites', 'Collision rule', 'Score that resets', 'Lives or time limit', 'Difficulty ramp', 'Playtested by two people'],
+      reflection: 'Explain one interesting piece of code. What did playtesters say, and what did you change?',
+      phase: 'probe',
+    },
+  ],
+  teacher: {
+    explain: 'The capstone assesses algorithms, events, iteration, variables, selection and the game loop, plus design documentation, iterative development and user testing.',
+    analogy: 'An indie game studio sprint: design, build the core, test, polish, ship.',
+    vocab: [
+      ['design document', 'A plan describing how a game works.'],
+      ['minimum playable', 'The smallest version that can be played.'],
+      ['iteration', 'Improving in repeated cycles.'],
+    ],
+    demo: 'Show a minimum playable game, then add one feature live.',
+    unplugged: 'Pitch (5 min): 30-second game pitches in pairs.',
+    prompts: [
+      ['What is your minimum playable game?', 'Player + object + rule.'],
+      ['How does your game get harder?', 'A ramp variable.'],
+      ['What did testers change?', 'Specific feedback.'],
+    ],
+    support: 'Remix the rock dodger with a new theme and one new rule.',
+    stretch: 'Power-ups, multiple object types, a high-score variable.',
+    mis: [
+      ['Build everything then test', 'Test after each feature.'],
+      ['Harder is always better', 'Fair difficulty keeps players playing.'],
+    ],
+    successCriteria: ['My game has a game loop, collisions, state and an ending.', 'It gets harder fairly.', 'I playtested, improved and presented it.'],
+    homework: 'Share your game with family and record their scores.',
+    exit: 'One thing you would add in version 2.',
+    plan: [
+      { minutes: 10, stage: 'Session 1 · Design', doing: 'Design document; teacher check.' },
+      { minutes: 30, stage: 'Session 1 · Core loop', doing: 'Controls, object, collision rule.' },
+      { minutes: 5, stage: 'Session 1 · Save', doing: 'Save; note the next feature.' },
+      { minutes: 20, stage: 'Session 2 · State, ramp, ending', doing: 'Score/lives/time, difficulty, game over.' },
+      { minutes: 10, stage: 'Session 2 · Playtest', doing: 'Two testers; tune.' },
+      { minutes: 15, stage: 'Session 2 · Submit & present', doing: 'Reflection, submit, 1-minute demos.' },
+    ],
+  },
+  project: {
+    title: 'Arcade Game',
+    brief: 'Design and build an original arcade game with a game loop, collisions, score and lives or a time limit, randomness and a fair difficulty ramp. Playtest it with two people, improve it and present it.',
+    requirements: ['Design document', 'Smooth controls', '2+ sprites', 'Collision rule', 'Score resets', 'Lives or time', 'Difficulty ramp', 'Playtested'],
+    milestones: ['Design approved', 'Minimum playable', 'State and ending', 'Difficulty ramp', 'Tested, submitted, presented'],
+    rubric: [
+      { criterion: 'Design', levels: ['No plan', 'Brief plan', 'Clear design followed', 'Design updated from testing'] },
+      { criterion: 'Game loop & collisions', levels: ['Broken', 'Moves but no rules', 'Collisions update state correctly', 'Several object types and rules'] },
+      { criterion: 'State & ending', levels: ['None', 'Score only', 'Score, lives/time and game over', 'Polished end screen and reset'] },
+      { criterion: 'Difficulty', levels: ['None', 'Fixed', 'Ramps up', 'Fair, tuned curve'] },
+      { criterion: 'Testing & presentation', levels: ['Not tested', 'Self-tested', 'Two testers; changes explained', 'Clear demo of code and improvements'] },
+    ],
+    extensions: ['Power-ups', 'High score', 'Sound design'],
+  },
+});

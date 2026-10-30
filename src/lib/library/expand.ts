@@ -11,7 +11,7 @@ export const pathwayKey = (c: Pick<CourseSpec, 'subject' | 'band'>) => `${slug(c
 export const specKey = (c: Pick<CourseSpec, 'subject' | 'band' | 'level'>) => `${pathwayKey(c)}--${c.level.toLowerCase()}`;
 export const agesOf = (c: CourseSpec): [number, number] => c.ages || band(c.band).ages;
 export const gradeOf = (c: CourseSpec) => c.grade || band(c.band).grades;
-const SHORT: Record<string, string> = { 'K-2': 'K–2', '3-5': 'Gr 3–5', '6-8': 'Gr 6–8', '9-12': 'Gr 9–12' };
+const SHORT: Record<string, string> = { 'K-2': 'K–2', '3-5': 'Gr 3–5', '6-8': 'Gr 6–8', '9-12': 'Gr 9–12', Adult: 'Professional' };
 /** Full catalogue title, e.g. "Financial Literacy (Gr 3–5) Beginner: What Is Money?" */
 export const courseTitle = (c: CourseSpec) => `${c.subject} (${SHORT[c.band]}) ${c.level}: ${c.title}`;
 
@@ -217,19 +217,34 @@ export function courseGuide(c: CourseSpec): string {
   return out.join('\n');
 }
 
+/** Safety message for adult learners (the child version tells them to find a trusted adult). */
+export const ADULT_ESCALATION =
+  'Thank you for telling me — this matters more than the lesson. Please talk to someone you trust: your manager, HR or a colleague, and contact local emergency services if you are in danger. If you are having thoughts of harming yourself, please reach out to a mental-health helpline such as Tele-MANAS (14416 in India) now. This conversation has been flagged for your trainer.';
+
 export function agentPatch(c: CourseSpec) {
   const lessons = c.modules.flatMap((m) => m.lessons);
   const young = agesOf(c)[0] < 9;
+  const adult = c.band === 'Adult';
   return {
     identity: { name: c.tutor[0], purpose: c.tutor[1] },
     ...(young ? { audience: { vocabulary: 'simple', complexity: 1, maxSentences: 3 } } : {}),
+    ...(adult
+      ? {
+          audience: { vocabulary: 'standard', complexity: 4, maxSentences: 6 },
+          tone: 'Professional, practical and respectful of the learner’s experience. Use their industry’s language, keep answers concise and action-oriented.',
+          examplesPolicy: `Use realistic workplace examples from ${c.subject.replace(/^AI for /, '')} work in India and globally. One example at a time; never invent statistics.`,
+          escalation: { triggers: ['harassing me at work', 'unsafe at work'], message: ADULT_ESCALATION },
+        }
+      : {}),
     misconceptions: [
       ...(c.tutorMis || []).map(([trigger, correction]) => ({ trigger, correction })),
       ...lessons.flatMap((l) => l.teach.mis.slice(0, 1)).slice(0, 6).map(([m, f]) => ({ trigger: m.toLowerCase().replace(/[.“”"]/g, '').split(/\s+/).slice(0, 5).join(' '), correction: f })),
     ],
     ...(c.outOfScope?.length
-      ? { outOfScope: { topics: c.outOfScope, actions: ['Doing graded work for the learner', 'Giving personal advice outside the course'], redirect: `That’s outside our ${c.subject} course. Let’s get back to the lesson — or ask your teacher!` } }
-      : {}),
+      ? { outOfScope: { topics: c.outOfScope, actions: ['Doing graded work for the learner', 'Giving personal advice outside the course'], redirect: `That’s outside our ${c.subject} course. Let’s get back to the lesson — or ask your ${adult ? 'trainer' : 'teacher'}!` } }
+      : adult
+        ? { outOfScope: { topics: [], actions: ['Doing graded work for the learner', 'Giving legal, medical or financial advice for a specific personal situation'], redirect: `That’s outside our ${c.subject} course. Let’s get back to the lesson — or ask your trainer.` } }
+        : {}),
     grounding: { mode: 'prefer', citeSources: !young },
   };
 }

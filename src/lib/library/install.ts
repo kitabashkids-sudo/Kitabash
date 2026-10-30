@@ -13,6 +13,13 @@ import { agentPatch, agesOf, courseTitle, courseGuide, expandLesson, gradeOf, li
 import { LIBRARY } from './catalog.ts';
 import { BANDS } from './bands.ts';
 import type { CourseSpec } from './types.ts';
+import { FLAGSHIPS } from './flagship/all.ts';
+import { installFlagship, flagshipInstalled } from './flagship/install.ts';
+import { flagshipTitle, lessonsOf } from './flagship/expand.ts';
+
+/** Library specs that a flagship course has replaced are no longer installed. */
+export const REPLACED = new Set(FLAGSHIPS.map((f) => f.replaces).filter(Boolean) as string[]);
+export const ACTIVE = LIBRARY.filter((s) => !REPLACED.has(specKey(s)));
 
 const PROFICIENCY = { Beginner: 'beginner', Intermediate: 'intermediate', Advanced: 'advanced' } as const;
 
@@ -35,7 +42,7 @@ async function setSetting(key: string, value: string) {
 }
 
 /** Make sure every catalogue category/subject exists (older databases may be missing some). */
-async function subjectIds(adminId: string) {
+export async function subjectIds(adminId: string) {
   const subj: Record<string, string> = {};
   for (const r of await all<{ id: string; name: string }>('SELECT id, name FROM subjects')) subj[r.name] = r.id;
   for (const [i, cat] of CATALOGUE.entries()) {
@@ -125,18 +132,21 @@ export async function libraryStatus() {
   const installed = new Map((await all<{ key: string; value: string }>("SELECT key, value FROM settings WHERE key LIKE 'library:%' AND key != 'library:job'")).map((r) => [r.key.slice(8), r.value]));
   // Forget courses that were deleted since.
   const live = new Set((await all<{ id: string }>('SELECT id FROM courses')).map((r) => r.id));
+  const isIn = (key: string) => live.has(installed.get(key) || '');
   const categories = CATALOGUE.map((cat) => {
-    const specs = LIBRARY.filter((s) => cat.subjects.includes(s.subject));
-    return { name: cat.name, total: specs.length, installed: specs.filter((s) => live.has(installed.get(specKey(s)) || '')).length };
+    const specs = ACTIVE.filter((s) => cat.subjects.includes(s.subject));
+    const flags = FLAGSHIPS.filter((f) => cat.subjects.includes(f.subject));
+    return { name: cat.name, total: specs.length + flags.length, installed: specs.filter((s) => isIn(specKey(s))).length + flags.filter((f) => isIn(f.key)).length };
   });
   const bands = BANDS.map((b) => {
-    const specs = LIBRARY.filter((s) => s.band === b.id);
-    return { id: b.id, label: `${b.label} (${b.grades})`, total: specs.length, installed: specs.filter((s) => live.has(installed.get(specKey(s)) || '')).length };
+    const specs = ACTIVE.filter((s) => s.band === b.id);
+    const flags = FLAGSHIPS.filter((f) => f.band === b.id);
+    return { id: b.id, label: `${b.label} (${b.grades})`, total: specs.length + flags.length, installed: specs.filter((s) => isIn(specKey(s))).length + flags.filter((f) => isIn(f.key)).length };
   });
   return {
-    total: LIBRARY.length,
+    total: ACTIVE.length + FLAGSHIPS.length,
     installed: categories.reduce((s, c) => s + c.installed, 0),
-    lessons: LIBRARY.reduce((s, c) => s + c.modules.reduce((n, m) => n + m.lessons.length, 0), 0),
+    lessons: ACTIVE.reduce((s, c) => s + c.modules.reduce((n, m) => n + m.lessons.length, 0), 0) + FLAGSHIPS.reduce((n, f) => n + lessonsOf(f).length, 0),
     categories,
     bands,
     job,
@@ -151,8 +161,9 @@ export async function installLibrary(adminId: string, opts: { category?: string;
   const keep = new Set<string>();
   for (const r of await all<{ key: string; value: string }>("SELECT key, value FROM settings WHERE key LIKE 'library:%'")) if (live.has(r.value)) keep.add(r.key.slice(8));
   const cat = opts.category ? CATALOGUE.find((c) => c.name === opts.category) : null;
-  const todo = LIBRARY.filter((s) => !keep.has(specKey(s)) && (!cat || cat.subjects.includes(s.subject)));
-  job = { running: true, done: 0, total: todo.length, current: '', errors: [], startedAt: new Date().toISOString() };
+  const todo = ACTIVE.filter((s) => !keep.has(specKey(s)) && (!cat || cat.subjects.includes(s.subject)));
+  const flagTodo = FLAGSHIPS.filter((f) => !keep.has(f.key) && (!cat || cat.subjects.includes(f.subject)));
+  job = { running: true, done: 0, total: todo.length + flagTodo.length, current: '', errors: [], startedAt: new Date().toISOString() };
   const j = job;
   const work = (async () => {
     for (const s of todo) {
@@ -163,6 +174,17 @@ export async function installLibrary(adminId: string, opts: { category?: string;
       } catch (e) {
         j.errors.push({ key: specKey(s), title: courseTitle(s), error: (e as Error).message });
         opts.log?.(`  ✗ ${courseTitle(s)}: ${(e as Error).message}`);
+      }
+      j.done++;
+    }
+    for (const f of flagTodo) {
+      j.current = flagshipTitle(f);
+      try {
+        if (!(await flagshipInstalled(f))) await installFlagship(f, adminId, subj);
+        opts.log?.(`  ✓ ${flagshipTitle(f)} (flagship)`);
+      } catch (e) {
+        j.errors.push({ key: f.key, title: flagshipTitle(f), error: (e as Error).message });
+        opts.log?.(`  ✗ ${flagshipTitle(f)}: ${(e as Error).message}`);
       }
       j.done++;
     }

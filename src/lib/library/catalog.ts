@@ -29,5 +29,10 @@ import { ACAD_5 } from './content/acad-5.ts';
 import { ACAD_6 } from './content/acad-6.ts';
 import { ACAD_7 } from './content/acad-7.ts';
 import { ACAD_8 } from './content/acad-8.ts';
+import { PRO_1 } from './content/pro-1.ts';
+import { PRO_2 } from './content/pro-2.ts';
+import { PRO_3 } from './content/pro-3.ts';
+import { PRO_4 } from './content/pro-4.ts';
+import { PRO_5 } from './content/pro-5.ts';
 
-export const LIBRARY: CourseSpec[] = [...LIFE_1, ...LIFE_2, ...LIFE_3, ...LIFE_4, ...LIFE_5, ...LIFE_6, ...LIFE_7, ...LIFE_8, ...TECH_1, ...TECH_2, ...TECH_3, ...TECH_4, ...TECH_5, ...TECH_6, ...LANG_1, ...LANG_2, ...LANG_3, ...LANG_4, ...LANG_5, ...LANG_6, ...LANG_7, ...ACAD_1, ...ACAD_2, ...ACAD_3, ...ACAD_4, ...ACAD_5, ...ACAD_6, ...ACAD_7, ...ACAD_8];
+export const LIBRARY: CourseSpec[] = [...LIFE_1, ...LIFE_2, ...LIFE_3, ...LIFE_4, ...LIFE_5, ...LIFE_6, ...LIFE_7, ...LIFE_8, ...TECH_1, ...TECH_2, ...TECH_3, ...TECH_4, ...TECH_5, ...TECH_6, ...LANG_1, ...LANG_2, ...LANG_3, ...LANG_4, ...LANG_5, ...LANG_6, ...LANG_7, ...ACAD_1, ...ACAD_2, ...ACAD_3, ...ACAD_4, ...ACAD_5, ...ACAD_6, ...ACAD_7, ...ACAD_8, ...PRO_1, ...PRO_2, ...PRO_3, ...PRO_4, ...PRO_5];

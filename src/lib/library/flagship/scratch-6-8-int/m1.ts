@@ -1,0 +1,301 @@
+// Scratch Gr 6–8 Intermediate · Module 1 — Lists and data: storing, traversing and analysing. Project: Survey Analyser.
+import type { Val } from '../../../scratch/vm.ts';
+import { lesson } from '../kit.ts';
+import { P_ADV, answer, ask, changeVar, gt, ifThen, item, join, lengthOf, listAdd, listDeleteAll, n, onFlag, op, project, say, sayFor, setVar, sprite, t, vr, lt } from '../scratch-3-5/lab.ts';
+
+const analyst = (scripts: ReturnType<typeof onFlag>[] = []) => sprite('Analyst', ['🧑‍💻'], 0, -40, scripts, { size: 140 });
+const loopList = (list: string, ...body: ReturnType<typeof say>[]) => [setVar('i', 1), { op: 'repeat' as const, a: lengthOf(list) as Val, body: [...body, changeVar('i', 1)] }];
+const TEMPS = [18, 21, 25, 19, 27, 23, 20];
+const fill = (list: string, xs: (number | string)[]) => [listDeleteAll(list), ...xs.map((x) => listAdd(list, x))];
+
+export const H1 = lesson(1, {
+  title: 'Lists and Traversal',
+  objective: 'Store data in a list and traverse it with a loop and an index variable to process every item.',
+  concept: 'Lists and traversal',
+  hook: ['pattern', ['[1]', '[1, 2]', '[1, 2, 3]'], 'visit every item'],
+  intro: 'Apps are full of lists: messages, songs, scores. Today you’ll learn to walk through a list and do something with every item.',
+  cards: [
+    { emoji: '🗃️', title: 'Lists hold collections', body: 'A list stores many values in order. Each has an index (position) starting at 1. Length tells you how many items there are.', blocks: 'add (18) to [temps v]\nsay (item (1) of [temps v])' },
+    { emoji: '👣', title: 'Traversal', body: 'To process every item, use an index variable i: start at 1, read item i, then change i by 1 — repeat (length of list) times.', blocks: 'set [i v] to (1)\nrepeat (length of [temps v])\nsay (item (i) of [temps v]) for (0.5) seconds\nchange [i v] by (1)\nend' },
+    { emoji: '➕', title: 'Accumulate', body: 'An accumulator variable builds a result as you traverse — like adding up a total.', blocks: 'change [total v] by (item (i) of [temps v])' },
+    { emoji: '🧯', title: 'Off-by-one errors', body: 'Starting i at 0, or forgetting to change i, are the most common list bugs. Trace the first two loops by hand to check.' },
+  ],
+  scenes: [{ kind: 'code', heading: 'In Python', code: 'temps = [18, 21, 25, 19]\ntotal = 0\nfor t in temps:\n    total = total + t\nprint(total)', lang: 'python', output: '83', say: ['Python’s for loop traverses a list for you. The idea is exactly the same: visit every item and accumulate.'] }],
+  build: {
+    title: 'Weekly temperatures',
+    intro: 'Code Lab or Scratch.',
+    steps: [
+      { title: 'Fill the list', text: 'Delete all of temps, then add seven temperatures.' },
+      { title: 'Index variable', text: 'Set i to 1 and total to 0.' },
+      { title: 'Traverse', text: 'repeat (length of temps): change total by item i of temps; change i by 1.' },
+      { title: 'Report', text: 'After the loop: say join “Total: ” total.' },
+      { title: 'Trace it', text: 'On paper, trace i and total for the first three loops.', tip: 'If the total is wrong, check i starts at 1.' },
+    ],
+  },
+  acts: [
+    {
+      lab: 'Total the week: temps holds 7 temperatures. Use an index i and a total accumulator to add up every item, then say the total (it should be 153).',
+      title: 'Code Lab: total the list',
+      start: project([analyst([onFlag(...fill('temps', TEMPS))])], { lists: ['temps'], vars: ['i', 'total'] }),
+      palette: P_ADV,
+      hats: ['flag', 'click', 'key'],
+      goals: [
+        ['Total is 153', { t: 'var', name: 'total', cmp: '=', value: 153, msg: 'Set total to 0, then add item i of temps for every i from 1 to 7.' }],
+        ['Uses an index', { t: 'usesValue', kind: 'item', msg: 'Read (item (i) of temps) inside the loop.' }],
+        ['Loops over the list', { t: 'usesValue', kind: 'length', msg: 'Repeat (length of temps) times, so it works for any list size.' }],
+        ['Reports it', { t: 'said', text: '153', msg: 'Say the total at the end.' }],
+      ],
+      test: { seconds: 2 },
+      solution: project([analyst([onFlag(...fill('temps', TEMPS), setVar('total', 0), ...loopList('temps', changeVar('total', item('temps', vr('i')))), say(join(t('Total: '), vr('total'))))])], { lists: ['temps'], vars: ['i', 'total'] }),
+      explain: 'You traversed a list and accumulated a result — the most common pattern in data programming.',
+      hints: ['Start: set total to 0, set i to 1.', 'Inside repeat (length of temps): change total by (item (i) of temps); change i by 1.'],
+    },
+    { mcq: 'A loop starts with i = 0 and reads item i of a 5-item list each time. What goes wrong?', options: ['Item 0 doesn’t exist, so the first read is empty and the last item is missed', 'Nothing — lists start at 0', 'It reads every item twice'], answer: 0, why: 'Scratch lists start at 1. Starting at 0 is an off-by-one error.', title: 'Off by one' },
+    {
+      lab: 'Hot days: count how many temps are above 20. Traverse the list; if item i > 20, change hot by 1. Say the count (it should be 4).',
+      title: 'Code Lab: count matching items',
+      start: project([analyst([onFlag(...fill('temps', TEMPS))])], { lists: ['temps'], vars: ['i', 'hot'] }),
+      palette: P_ADV,
+      hats: ['flag', 'click', 'key'],
+      goals: [
+        ['Counts 4 hot days', { t: 'var', name: 'hot', cmp: '=', value: 4, msg: 'Inside the loop: if (item (i) of temps) > 20 then change hot by 1.' }],
+        ['Uses a condition in the loop', { t: 'uses', ops: ['if', 'repeat'], msg: 'Put an if inside the repeat.' }],
+        ['Reports it', { t: 'said', text: '4', msg: 'Set hot to 0 before the loop, and say the count after it.' }],
+      ],
+      test: { seconds: 2 },
+      solution: project([analyst([onFlag(...fill('temps', TEMPS), setVar('hot', 0), ...loopList('temps', ifThen(gt(item('temps', vr('i')), n(20)), changeVar('hot', 1))), say(join(t('Hot days: '), vr('hot'))))])], { lists: ['temps'], vars: ['i', 'hot'] }),
+      explain: 'Traverse + condition = filter and count.',
+      hints: ['Same loop as before, but the body is an if.'],
+      phase: 'probe',
+    },
+    { code: 'scores = [5, 9, 2]\ncount = 0\nfor s in scores:\n    if s > 4:\n        count = count + 1\nprint(count)', ask: 'What does this Python print?', options: ['2', '3', '16'], answer: 0, why: '5 and 9 are greater than 4.', title: 'Trace in Python', lang: 'python', phase: 'probe' },
+    { write: 'Explain how an index variable lets a loop visit every item in a list. What would happen if you forgot “change i by 1”?', keywords: ['index', 'item', 'loop'], exemplar: 'The index i starts at 1 and the loop reads item i, then adds 1 to i so the next time round it reads the next item. If you forgot to change i, the loop would read item 1 every time and never see the rest of the list.', minWords: 30, phase: 'probe' },
+  ],
+  teacher: {
+    explain: 'Traversal visits each list element using an index (1-based in Scratch) and a loop bounded by length. Accumulators (total, count) build results. Off-by-one errors are the classic bug. Python’s for-in hides the index.',
+    analogy: 'Checking every locker in a row: start at locker 1, open it, move to the next.',
+    vocab: [
+      ['traverse', 'Visit every item in a list.'],
+      ['index', 'The position of an item (from 1 in Scratch).'],
+      ['accumulator', 'A variable that builds a result in a loop.'],
+      ['off-by-one error', 'A loop that starts or stops one step wrong.'],
+    ],
+    demo: 'Trace the loop on the board with a table: i, item i, total.',
+    unplugged: 'Locker walk (5 min): numbered cards face down; a learner flips each in order, keeping a running total.',
+    prompts: [
+      ['Why repeat length of list times?', 'So it works for any size.'],
+      ['What does the accumulator start at?', '0 for totals and counts.'],
+      ['What causes off-by-one errors?', 'Wrong start or end index.'],
+    ],
+    support: 'Provide a trace table template.',
+    stretch: 'Calculate the average: total / length of temps.',
+    mis: [
+      ['Lists start at 0 in Scratch', 'They start at 1 (Python starts at 0).'],
+      ['repeat 7 is as good as repeat length', 'It breaks when the list size changes.'],
+    ],
+    successCriteria: ['I can traverse a list with an index.', 'I can accumulate a total or count.', 'I can spot off-by-one errors.'],
+    homework: 'Record a week of something (steps, temperatures, screen time) and plan how to total it with a loop.',
+    exit: 'Which two blocks move the index and read the item?',
+  },
+});
+
+export const H2 = lesson(2, {
+  title: 'Analysing Data: Average, Maximum, Minimum',
+  objective: 'Use traversal to calculate an average and find the maximum and minimum values in a list.',
+  concept: 'Data algorithms',
+  hook: ['word', '📊 avg · max · min', 'turn numbers into insight'],
+  cards: [
+    { emoji: '➗', title: 'Average (mean)', body: 'Average = total ÷ number of items. Traverse to get the total, then divide by length of list.', blocks: 'set [average v] to ((total) / (length of [temps v]))' },
+    { emoji: '🏔️', title: 'Find the maximum', body: 'Start max as item 1. Traverse: if item i > max, set max to item i. At the end, max holds the biggest value.', blocks: 'if <(item (i) of [temps v]) > (max)> then\nset [max v] to (item (i) of [temps v])\nend' },
+    { emoji: '🕳️', title: 'Minimum', body: 'Same idea with < instead of >. Start min as item 1, not 0 — otherwise 0 might win wrongly.' },
+    { emoji: '🔍', title: 'Data → insight', body: 'Averages and extremes turn raw numbers into facts you can act on: “Saturday was the hottest day.”' },
+  ],
+  scenes: [{ kind: 'code', heading: 'In Python', code: 'temps = [18, 21, 25, 19, 27, 23, 20]\nprint(sum(temps) / len(temps))\nprint(max(temps), min(temps))', lang: 'python', output: '21.857…\n27 18', say: ['Python has built-in sum, max and min — but inside they work exactly like the loops you are writing.'] }],
+  build: {
+    title: 'Weather report',
+    intro: 'Code Lab or Scratch.',
+    steps: [
+      { title: 'Total', text: 'Reuse your total loop from Lesson 1.' },
+      { title: 'Average', text: 'After the loop: set average to total / length of temps.' },
+      { title: 'Maximum', text: 'Set max to item 1; traverse; if item i > max, set max to item i.' },
+      { title: 'Minimum', text: 'Copy the max loop and change > to <.' },
+      { title: 'Report', text: 'Say the average, maximum and minimum.', tip: 'Why start max at item 1 rather than 0? Try a list of negative numbers.' },
+    ],
+  },
+  acts: [
+    {
+      lab: 'Maximum: find the highest temperature. Set max to item 1 of temps; traverse the list; if item i > max, set max to item i. Say the max (27).',
+      title: 'Code Lab: find the maximum',
+      start: project([analyst([onFlag(...fill('temps', TEMPS))])], { lists: ['temps'], vars: ['i', 'max'] }),
+      palette: P_ADV,
+      hats: ['flag', 'click', 'key'],
+      goals: [
+        ['Max is 27', { t: 'var', name: 'max', cmp: '=', value: 27, msg: 'If (item (i) of temps) > max then set max to (item (i) of temps).' }],
+        ['Compares in a loop', { t: 'uses', ops: ['repeat', 'if'], msg: 'Traverse with repeat and compare with if.' }],
+        ['Reports it', { t: 'said', text: '27', msg: 'Say the max at the end.' }],
+      ],
+      test: { seconds: 2 },
+      solution: project([analyst([onFlag(...fill('temps', TEMPS), setVar('max', item('temps', 1)), ...loopList('temps', ifThen(gt(item('temps', vr('i')), vr('max')), setVar('max', item('temps', vr('i'))))), say(join(t('Max: '), vr('max'))))])], { lists: ['temps'], vars: ['i', 'max'] }),
+      explain: 'The “king of the hill” algorithm: the biggest so far keeps its place until something beats it.',
+      hints: ['Initialise max to (item 1 of temps), not 0.'],
+    },
+    {
+      lab: 'Average: total the list, then set average to total / length of temps and say it. The average of 2, 4, 6, 8 is 5.',
+      title: 'Code Lab: average',
+      start: project([analyst([onFlag(...fill('nums', [2, 4, 6, 8]))])], { lists: ['nums'], vars: ['i', 'total', 'average'] }),
+      palette: P_ADV,
+      hats: ['flag', 'click', 'key'],
+      goals: [
+        ['Average is 5', { t: 'var', name: 'average', cmp: '=', value: 5, msg: 'Average = total / (length of nums).' }],
+        ['Divides by the length', { t: 'usesValue', kind: 'length', msg: 'Divide by (length of nums), not a fixed 4.' }],
+        ['Calculates', { t: 'usesValue', kind: 'op', msg: 'Use the ( ) / ( ) operator.' }],
+      ],
+      test: { seconds: 2 },
+      solution: project([analyst([onFlag(...fill('nums', [2, 4, 6, 8]), setVar('total', 0), ...loopList('nums', changeVar('total', item('nums', vr('i')))), setVar('average', op('/', vr('total'), lengthOf('nums'))), say(join(t('Average: '), vr('average'))))])], { lists: ['nums'], vars: ['i', 'total', 'average'] }),
+      explain: 'Total ÷ count = mean. Your program works for any list.',
+      hints: ['First the total loop, then one set block for the average.'],
+    },
+    {
+      bmcq: 'This minimum finder says 0, but the smallest temperature is 18. What’s the bug?',
+      blocks: 'set [min v] to (0)\nrepeat (length of [temps v])\nif <(item (i) of [temps v]) < (min)> then\nset [min v] to (item (i) of [temps v])\nend\nchange [i v] by (1)\nend',
+      options: ['min should start as item 1, not 0', 'The < should be >', 'i should change before the if'],
+      answer: 0,
+      why: 'No temperature is below 0, so min never changes. Start with a real item.',
+      title: 'Debug the minimum',
+      phase: 'probe',
+    },
+    { write: 'You have a list of your class’s test scores. Describe two questions you could answer with average, maximum or minimum, and why they’d be useful.', keywords: ['average', 'maximum', 'list'], exemplar: 'The average shows how well the class did overall, so the teacher knows whether to re-teach the topic. The minimum shows if anyone is struggling a lot and might need extra help.', minWords: 25, phase: 'probe' },
+  ],
+  teacher: {
+    explain: 'Mean = total/length; max/min via linear scan with a running champion initialised to the first element. Initialising to 0 is a classic bug for all-positive (min) or all-negative (max) data.',
+    analogy: 'King of the hill: the champion stays until someone stronger arrives.',
+    vocab: [
+      ['mean (average)', 'Total divided by the number of items.'],
+      ['maximum / minimum', 'The largest / smallest value.'],
+      ['linear scan', 'Checking each item once, in order.'],
+    ],
+    demo: 'Run the min finder starting at 0 and show the wrong result.',
+    unplugged: 'Tallest in line (5 min): a “champion” card passes along a line of learners; swap when someone taller appears.',
+    prompts: [
+      ['Why start max at item 1?', 'It’s a real value from the data.'],
+      ['How do you change max into min?', 'Swap > for <.'],
+      ['Why divide by length rather than 7?', 'Works for any list size.'],
+    ],
+    support: 'Provide the traversal loop; learners add the comparison.',
+    stretch: 'Also record WHICH day was hottest (store the index).',
+    mis: [
+      ['Start max/min at 0', 'Start at the first item.'],
+      ['Average = max + min ÷ 2', 'That’s the midrange, not the mean.'],
+    ],
+    successCriteria: ['I can calculate an average.', 'I can find the max and min with a scan.', 'I can explain why initialisation matters.'],
+    homework: 'Find the max, min and average of something you measured this week.',
+    exit: 'What should max start as, and why?',
+  },
+});
+
+export const H3 = lesson(3, {
+  title: 'Project: Survey Analyser',
+  objective: 'Plan, build and test an app that collects survey answers into a list and reports statistics.',
+  concept: 'Project: data app',
+  hook: ['word', '📋 → 📊', 'ask, collect, analyse'],
+  cards: [
+    { emoji: '🗳️', title: 'Your survey', body: 'Choose a number question to ask classmates: hours of sleep, minutes of reading, number of pets. Your app collects the answers.' },
+    { emoji: '📥', title: 'Collect into a list', body: 'Ask how many people will answer, then repeat that many times: ask the question and add the answer to the list.' },
+    { emoji: '📊', title: 'Analyse', body: 'Report the number of responses, the average, the highest and the lowest. Add one more insight of your own.' },
+    { emoji: '🔐', title: 'Data ethics', body: 'Collect only what you need, keep it anonymous, and tell people what it’s for. Never collect names with sensitive answers.' },
+  ],
+  build: {
+    title: 'Build the Survey Analyser',
+    intro: 'Use the Code Lab project below.',
+    steps: [
+      { title: 'Question', text: 'Write a clear, anonymous number question.' },
+      { title: 'Collect', text: 'Delete all; ask how many responses; repeat that many times: ask and add answer.' },
+      { title: 'Analyse', text: 'Traverse for total, max and min; calculate the average.' },
+      { title: 'Report', text: 'Say the results with join.' },
+      { title: 'Test', text: 'Test with a small data set where you know the answers. Then submit.' },
+    ],
+  },
+  acts: [
+    { sort: 'Is this survey question appropriate?', buckets: ['Good question', 'Needs changing'], items: [['How many hours did you sleep last night?', 0], ['What is your full name and home address?', 1], ['How many books did you read this month?', 0], ['How much money do your parents earn?', 1], ['How many minutes do you walk to school?', 0]], why: 'Ask only anonymous, non-sensitive questions you need.' },
+    {
+      lab: 'Build your Survey Analyser: collect answers into a list with ask, then report the number of responses and the average (and ideally the max and min).',
+      title: 'Project: Survey Analyser',
+      mode: 'project',
+      start: project([analyst()], { lists: ['responses'], vars: ['i', 'total', 'average', 'max', 'min', 'count'] }),
+      palette: P_ADV,
+      allowSprites: true,
+      goals: [
+        ['Collects answers', { t: 'withAnswers', answers: ['3', '7', '8', '9'], check: { t: 'listLength', name: 'responses', cmp: '>', value: 2, msg: '' }, msg: 'Ask questions and add each answer to the responses list. (Tested with: 3 people answering 7, 8, 9.)' }],
+        ['Traverses the list', { t: 'usesValue', kind: 'item', msg: 'Use (item (i) of responses) in a loop.' }],
+        ['Calculates', { t: 'usesValue', kind: 'op', msg: 'Calculate the average with ( ) / ( ).' }],
+        ['Correct average', { t: 'withAnswers', answers: ['3', '7', '8', '9'], check: { t: 'said', text: '8', msg: '' }, msg: 'With answers 7, 8 and 9 the average is 8 — say it.' }],
+      ],
+      test: { seconds: 3, answers: ['3', '7', '8', '9'] },
+      solution: project(
+        [
+          analyst([
+            onFlag(
+              listDeleteAll('responses'),
+              ask('How many people will answer?'),
+              setVar('count', answer),
+              { op: 'repeat', a: vr('count'), body: [ask('How many hours did you sleep?'), listAdd('responses', answer)] },
+              setVar('total', 0),
+              setVar('max', item('responses', 1)),
+              setVar('min', item('responses', 1)),
+              ...loopList('responses', changeVar('total', item('responses', vr('i'))), ifThen(gt(item('responses', vr('i')), vr('max')), setVar('max', item('responses', vr('i')))), ifThen(lt(item('responses', vr('i')), vr('min')), setVar('min', item('responses', vr('i'))))),
+              setVar('average', op('/', vr('total'), lengthOf('responses'))),
+              sayFor(join(t('Responses: '), lengthOf('responses')), 1),
+              sayFor(join(t('Average: '), vr('average')), 1),
+              say(join(t('Max '), join(vr('max'), join(t(', min '), vr('min'))))),
+            ),
+          ]),
+        ],
+        { lists: ['responses'], vars: ['i', 'total', 'average', 'max', 'min', 'count'] },
+      ),
+      explain: 'Data app submitted! Your teacher will run it with their own data.',
+      hints: ['Collect first, analyse second — two separate loops.', 'Test with 3 answers you can check in your head.'],
+      requirements: ['An anonymous number question', 'Answers collected into a list', 'Count and average', 'Max and min', 'One extra insight', 'Tested with known data'],
+      reflection: 'What did your survey find? Which test data did you use to check your calculations?',
+      phase: 'probe',
+    },
+  ],
+  teacher: {
+    explain: 'Integrates list building from input, traversal, accumulators and extreme-value scans, plus data ethics (minimisation, anonymity, consent).',
+    analogy: 'A census: collect, count, summarise.',
+    vocab: [
+      ['data set', 'A collection of values.'],
+      ['anonymous', 'Not linked to who gave it.'],
+      ['statistic', 'A number that summarises data.'],
+    ],
+    demo: 'Run the analyser with 3 known values and check each statistic.',
+    unplugged: 'Hands-up survey (5 min): collect a quick class tally and compute the average on the board.',
+    prompts: [
+      ['Why test with known data?', 'You can check the answers.'],
+      ['What makes a survey question ethical?', 'Anonymous, necessary, non-sensitive.'],
+      ['What insight did you add?', 'E.g. how many above average.'],
+    ],
+    support: 'Provide the collection loop; learners write the analysis.',
+    stretch: 'Count how many responses are above the average.',
+    mis: [
+      ['More data is always better', 'Collect only what you need.'],
+      ['The program is right if it runs', 'Check with known data.'],
+    ],
+    successCriteria: ['My app collects answers into a list.', 'It reports correct statistics.', 'I followed data-ethics rules.'],
+    homework: 'Run your survey with family (anonymously) and share one finding.',
+    exit: 'One rule for collecting data responsibly.',
+  },
+  project: {
+    title: 'Survey Analyser',
+    brief: 'Build an app that asks an anonymous number question, collects the answers in a list, and reports the number of responses, average, maximum and minimum, plus one extra insight. Test it with data you can check.',
+    requirements: ['Anonymous number question', 'Answers in a list', 'Count and average', 'Max and min', 'Extra insight', 'Tested with known data'],
+    milestones: ['Question approved', 'Collection loop', 'Statistics', 'Report', 'Tested and submitted'],
+    rubric: [
+      { criterion: 'Data collection', levels: ['None', 'Fixed data only', 'Collects input into a list', 'Flexible count with validation'] },
+      { criterion: 'Analysis', levels: ['None', 'Total only', 'Average, max and min correct', 'Extra insight (e.g. above average)'] },
+      { criterion: 'Code quality', levels: ['Hard to follow', 'Works', 'Clear loops and variable names', 'Elegant, reusable structure'] },
+      { criterion: 'Testing', levels: ['None', 'Ran once', 'Tested with known data', 'Several test sets including edge cases'] },
+      { criterion: 'Ethics & reflection', levels: ['Sensitive data', 'Unclear', 'Anonymous and appropriate', 'Explains data choices clearly'] },
+    ],
+    extensions: ['Count above average', 'Validation of answers', 'A bar chart with the pen'],
+  },
+});

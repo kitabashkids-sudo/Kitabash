@@ -6,7 +6,7 @@
 // Writing courses this way keeps hundreds of lessons consistent and reviewable.
 
 export type Level = 'Beginner' | 'Intermediate' | 'Advanced';
-export type Band = 'K-2' | '3-5' | '6-8' | '9-12';
+export type Band = 'K-2' | '3-5' | '6-8' | '9-12' | 'Adult';
 export type Phase = 'perform' | 'probe';
 export type Theme = 'sunrise' | 'meadow' | 'ocean' | 'grape';
 
@@ -24,7 +24,7 @@ export type HookSpec =
 export type ActSpec =
   | { mcq: string; options: string[]; answer: number; why: string; phase?: Phase; hint?: string; title?: string; wrong?: Record<number, string> }
   | { code: string; ask: string; options: string[]; answer: number; why: string; phase?: Phase; hint?: string; title?: string; lang?: string }
-  | { sort: string; buckets: [string, string] | [string, string, string]; items: [string, number][]; why: string; phase?: Phase; hint?: string }
+  | { sort: string; buckets: [string, string] | [string, string, string] | [string, string, string, string]; items: [string, number][]; why: string; phase?: Phase; hint?: string }
   | { order: string; steps: string[]; why: string; phase?: Phase; hint?: string; title?: string }
   | { match: string; pairs: [string, string][]; why: string; phase?: Phase; hint?: string }
   | { blanks: string; answers: string[][]; bank?: string[]; why: string; phase?: Phase; hint?: string; title?: string }
@@ -59,7 +59,7 @@ export interface LessonSpec {
 
 export interface CourseSpec {
   subject: string; // must match a catalogue subject name
-  band: Band; // K-12 grade band
+  band: Band; // K-12 grade band, or 'Adult' for professional courses
   level: Level; // level within the band
   title: string;
   description: string;
