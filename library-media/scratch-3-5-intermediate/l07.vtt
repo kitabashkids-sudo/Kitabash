@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:13.139
+In this lesson, you will learn to use operator blocks (+ − × ÷ and join) to calculate, and check a typed answer against the right result.
+
+2
+00:00:13.739 --> 00:00:18.452
+Green operator blocks do maths: + − × ÷.
+
+3
+00:00:18.452 --> 00:00:24.035
+They go inside other blocks, like a calculator inside your code.
+
+4
+00:00:24.035 --> 00:00:27.443
+In Scratch, × is written *.
+
+5
+00:00:28.043 --> 00:00:33.626
+Compare what the player typed with the right answer using =.
+
+6
+00:00:33.626 --> 00:00:37.470
+If they match, the answer is correct.
+
+7
+00:00:38.070 --> 00:00:46.261
+“join” glues words and numbers together so a sprite can say a whole sentence, like “Total: 7”.
+
+8
+00:00:46.861 --> 00:00:52.878
+Store a number in a variable, then do maths with it later.
+
+9
+00:00:52.878 --> 00:00:58.026
+That is how calculators and games keep track of things.
+
+10
+00:00:58.626 --> 00:01:02.470
+Great work! Let’s remember what we learned.
+
+11
+00:01:02.470 --> 00:01:07.617
+Now build along, then try the challenges. You’ve got this!

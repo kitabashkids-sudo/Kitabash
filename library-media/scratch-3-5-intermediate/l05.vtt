@@ -1,0 +1,41 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:13.139
+In this lesson, you will learn to use “ask and wait” and the answer reporter to personalise a story and let the reader choose what happens next.
+
+2
+00:00:13.739 --> 00:00:18.887
+“ask and wait” shows a question and a typing box.
+
+3
+00:00:18.887 --> 00:00:24.035
+The script waits until the reader types and presses enter.
+
+4
+00:00:24.635 --> 00:00:30.217
+Whatever the reader typed is stored in the blue “answer” reporter.
+
+5
+00:00:30.217 --> 00:00:35.800
+Join it to other words to use it in a sentence.
+
+6
+00:00:36.400 --> 00:00:44.157
+Use if-else with the answer to make the story branch: different answers lead to different scenes.
+
+7
+00:00:44.757 --> 00:00:51.209
+Never ask readers for private information like their address, phone number or school.
+
+8
+00:00:51.209 --> 00:00:55.487
+A first name or a choice is enough.
+
+9
+00:00:56.087 --> 00:00:59.930
+Great work! Let’s remember what we learned.
+
+10
+00:00:59.930 --> 00:01:05.078
+Now build along, then try the challenges. You’ve got this!

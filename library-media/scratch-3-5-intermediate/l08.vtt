@@ -1,0 +1,45 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:11.835
+In this lesson, you will learn to generate random quiz questions, keep score in a variable, and add a time limit with the timer.
+
+2
+00:00:12.435 --> 00:00:17.583
+Store two random numbers in variables, then ask about them.
+
+3
+00:00:17.583 --> 00:00:22.296
+Every time the quiz runs, the questions are different.
+
+4
+00:00:22.896 --> 00:00:26.739
+Set score to 0 at the start.
+
+5
+00:00:26.739 --> 00:00:30.583
+Each correct answer: change score by 1.
+
+6
+00:00:30.583 --> 00:00:33.991
+At the end, say the score.
+
+7
+00:00:34.591 --> 00:00:40.609
+Put the question code inside repeat (5) to ask five different questions.
+
+8
+00:00:41.209 --> 00:00:44.617
+Reset the timer at the start.
+
+9
+00:00:44.617 --> 00:00:51.070
+“wait until timer > 10” lets you end the game after 10 seconds.
+
+10
+00:00:51.670 --> 00:00:55.513
+Great work! Let’s remember what we learned.
+
+11
+00:00:55.513 --> 00:01:00.661
+Now build along, then try the challenges. You’ve got this!

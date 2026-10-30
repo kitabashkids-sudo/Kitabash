@@ -1,0 +1,49 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:11.835
+In this lesson, you will learn to tell a story in scenes: use broadcast messages so characters take turns, and change backdrops between scenes.
+
+2
+00:00:12.435 --> 00:00:17.583
+A story has a beginning, a middle and an end.
+
+3
+00:00:17.583 --> 00:00:23.165
+In Scratch, each scene can have its own backdrop and characters.
+
+4
+00:00:23.765 --> 00:00:28.478
+When the Cat finishes talking, it broadcasts a message.
+
+5
+00:00:28.478 --> 00:00:32.757
+The Dog waits for that message, then replies.
+
+6
+00:00:32.757 --> 00:00:36.165
+No guessing how long to wait!
+
+7
+00:00:36.765 --> 00:00:40.174
+Broadcast a message like “scene 2”.
+
+8
+00:00:40.174 --> 00:00:46.626
+The sprites and the stage react: switch the backdrop, show or hide characters.
+
+9
+00:00:47.226 --> 00:00:52.374
+“say for 2 seconds” waits before the next block runs.
+
+10
+00:00:52.374 --> 00:00:59.261
+Use waits to give readers time — about 1 second for every 3 words.
+
+11
+00:00:59.861 --> 00:01:03.704
+Great work! Let’s remember what we learned.
+
+12
+00:01:03.704 --> 00:01:08.852
+Now build along, then try the challenges. You’ve got this!

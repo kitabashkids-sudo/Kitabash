@@ -1,0 +1,37 @@
+WEBVTT
+
+1
+00:00:00.600 --> 00:00:12.270
+In this lesson, you will learn to turn keys and sprites into a playable instrument with events, and sync animations to the music with messages.
+
+2
+00:00:12.870 --> 00:00:19.757
+Give each key its own script: “when a key pressed” → play a note.
+
+3
+00:00:19.757 --> 00:00:23.165
+Now the keyboard is a piano!
+
+4
+00:00:23.765 --> 00:00:33.261
+Sprites can be instruments too: “when this sprite clicked” → start a drum sound and change size for a bounce.
+
+5
+00:00:33.861 --> 00:00:38.574
+A band leader can broadcast “beat” in a loop.
+
+6
+00:00:38.574 --> 00:00:44.157
+Dancers receive it and change costume — everyone stays in time.
+
+7
+00:00:44.757 --> 00:00:53.817
+Scripts run in parallel: a drum loop, a melody and a dancer can all play at the same time.
+
+8
+00:00:54.417 --> 00:00:58.261
+Great work! Let’s remember what we learned.
+
+9
+00:00:58.261 --> 00:01:03.409
+Now build along, then try the challenges. You’ve got this!
