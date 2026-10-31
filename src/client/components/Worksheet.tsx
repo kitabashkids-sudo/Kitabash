@@ -81,6 +81,7 @@ export function worksheetHtml({ course, lesson, activities }: { course: { title:
   ${learn.worksheet?.task ? `<h2>Worksheet task</h2><p>${esc(learn.worksheet.task)}</p>${lines(5)}` : ''}
   ${perform.length ? `<h2>Practice</h2>${perform.map((a) => `<section>${activityHtml(a, ++n)}</section>`).join('')}` : ''}
   ${probe.length ? `<h2>Show your thinking</h2>${probe.map((a) => `<section>${activityHtml(a, ++n)}</section>`).join('')}` : ''}
+  ${learn.practice?.length ? `<h2>More places to practise</h2><ul class="opts">${learn.practice.map((l: any) => `<li>${box} <b>${esc(l.name)}</b> — ${esc(l.what)} <span class="muted">${esc(l.url)}</span></li>`).join('')}</ul>` : ''}
   <h2>Exit ticket</h2><p>One thing I learned: ____________________________________________</p><p>One question I still have: _____________________________________</p>
   <footer>Kitabash · ${esc(lesson.title)}</footer></body></html>`;
 }

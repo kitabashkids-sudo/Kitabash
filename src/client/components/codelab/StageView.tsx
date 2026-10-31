@@ -83,7 +83,7 @@ function Backdrop({ name }: { name: string }) {
   }
 }
 
-export function StageView({ vm, onPointerDown, onPointerMove, onPointerUp, dragging }: { vm: VM; onPointerDown?: (e: PointerEvent<SVGSVGElement>) => void; onPointerMove?: (e: PointerEvent<SVGSVGElement>) => void; onPointerUp?: (e: PointerEvent<SVGSVGElement>) => void; dragging?: boolean }) {
+export function StageView({ vm, onPointerDown, onPointerMove, onPointerUp, onPointerCancel, dragging }: { vm: VM; onPointerDown?: (e: PointerEvent<SVGSVGElement>) => void; onPointerMove?: (e: PointerEvent<SVGSVGElement>) => void; onPointerUp?: (e: PointerEvent<SVGSVGElement>) => void; onPointerCancel?: (e: PointerEvent<SVGSVGElement>) => void; dragging?: boolean }) {
   const vars = Object.entries(vm.vars);
   const desc = vm.sprites.map((s) => `${s.name} at x ${Math.round(s.x)}, y ${Math.round(s.y)}${s.say ? ` saying “${s.say}”` : ''}${s.visible ? '' : ' (hidden)'}`).join('; ');
   return (
@@ -95,6 +95,7 @@ export function StageView({ vm, onPointerDown, onPointerMove, onPointerUp, dragg
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
+      onPointerCancel={onPointerCancel}
     >
       <Backdrop name={BACKDROPS[vm.backdrop] || 'plain'} />
       {vm.pen.map((l, i) => (

@@ -6,6 +6,7 @@ import { Badge, Button, Icon, Notice, Spinner, Tabs } from '../components/ui.tsx
 import { ActivityRunner } from '../components/activities/index.tsx';
 import { ResourcePanel } from '../components/ResourcePanel.tsx';
 import { WorksheetCard } from '../components/Worksheet.tsx';
+import { PracticeLinks } from '../components/LessonExtras.tsx';
 
 function useClient(c: LiveClient | null) {
   const [, force] = useState(0);
@@ -167,6 +168,7 @@ function LessonPanel({ c, info, lessonId, setLessonId }: { c: LiveClient; info: 
             Lesson: <strong className="text-ink">{data.lesson.title}</strong>
           </p>
           <WorksheetCard compact data={{ course: { title: info.session.course_title }, lesson: data.lesson, activities: data.activities }} />
+          {data.lesson.learn.practice?.length > 0 && <PracticeLinks compact links={data.lesson.learn.practice} />}
         </>
       ) : (
         <p className="p-2 text-sm text-muted">When your teacher shares part of the lesson, it appears in the big area on the left — and the printable worksheet appears here.</p>

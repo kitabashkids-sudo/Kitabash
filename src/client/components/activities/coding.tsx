@@ -278,7 +278,7 @@ function Robot({ size }: { size: number }) {
   );
 }
 
-export function Stage({ world, frame, size = 52 }: { world: World; frame: Frame; size?: number }) {
+export function Stage({ world, frame, size = 52, onTapHero }: { world: World; frame: Frame; size?: number; onTapHero?: () => void }) {
   const pad = world.coords ? 30 : 4;
   const W = world.cols * size + pad + 4;
   const H = world.rows * size + pad + 4;
@@ -288,7 +288,7 @@ export function Stage({ world, frame, size = 52 }: { world: World; frame: Frame;
   const target = new Set((world.paint || []).map((c) => c.join(',')));
   const vars = Object.entries(frame.vars || {});
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full max-w-[460px] rounded-2xl border border-line bg-white" role="img" aria-label={`Stage: ${world.hero ? "your character" : "robot"} at column ${frame.x + 1}, row ${frame.y + 1}, facing ${({ N: 'up', E: 'right', S: 'down', W: 'left' })[frame.dir]}`}>
+    <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full max-w-[460px] touch-manipulation rounded-2xl border border-line bg-white" role={onTapHero ? 'group' : 'img'} aria-label={`Stage: ${world.hero ? "your character" : "robot"} at column ${frame.x + 1}, row ${frame.y + 1}, facing ${({ N: 'up', E: 'right', S: 'down', W: 'left' })[frame.dir]}`}>
       {Array.from({ length: world.rows }, (_, r) =>
         Array.from({ length: world.cols }, (_, c) => {
           const k = `${c},${r}`;
@@ -333,6 +333,27 @@ export function Stage({ world, frame, size = 52 }: { world: World; frame: Frame;
         <g transform={`translate(${ox + frame.x * size + size / 2},${oy + frame.y * size + size / 2}) rotate(${deg})`} style={{ transition: 'transform 0.25s' }}>
           <Robot size={size} />
         </g>
+      )}
+      {onTapHero && (
+        // Big, invisible tap target over the character ("start on tap" / "when key pressed" scripts).
+        <rect
+          x={ox + frame.x * size - size * 0.15}
+          y={oy + frame.y * size - size * 0.15}
+          width={size * 1.3}
+          height={size * 1.3}
+          rx={size * 0.3}
+          fill="transparent"
+          className="cursor-pointer outline-none focus-visible:stroke-[#4C97FF] focus-visible:stroke-[3]"
+          role="button"
+          tabIndex={0}
+          aria-label={`Tap ${world.hero ? 'the character' : 'the robot'} to start its script`}
+          data-testid="tap-hero"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            onTapHero();
+          }}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onTapHero())}
+        />
       )}
       {frame.say && (
         <g transform={`translate(${Math.min(W - 120, ox + frame.x * size + size * 0.7)},${Math.max(4, oy + frame.y * size - 26)})`}>
@@ -466,6 +487,7 @@ export function BlockCode({ activity, value, setValue, locked, result }: Activit
     },
   };
 
+  const hatOptions = c.hats || [];
   const play = () => {
     stop();
     const r = run(c.world, applyLock(prog, lock), { goal: !!c.world.goal, hat: c.hats?.[0] });
@@ -479,12 +501,27 @@ export function BlockCode({ activity, value, setValue, locked, result }: Activit
         if (timer.current) window.clearInterval(timer.current);
         timer.current = null;
         const last = r.frames[r.frames.length - 1];
-        setMsg(r.stats.crashed || r.stats.ranOut || !prog.blocks.length || (c.hats && !prog.hat) ? r.reason : c.world.goal && last.x === c.world.goal[0] && last.y === c.world.goal[1] ? (c.world.hero ? 'You reached the star! ' : 'The robot reached the star! ') + 'Press “Check” to see if every goal is met.' : 'The robot has finished. Is that what you wanted? Press “Check” when you are happy.');
+        setMsg(r.stats.crashed || r.stats.ranOut || !prog.blocks.length || (c.hats && !prog.hat) ? r.reason : c.world.goal && last.x === c.world.goal[0] && last.y === c.world.goal[1] ? (c.world.hero ? 'You reached the star! ' : 'The robot reached the star! ') + 'Press “Check” to see if every goal is met.' : (c.world.hero ? 'Your character has finished.' : 'The robot has finished.') + ' Is that what you wanted? Press “Check” when you are happy.');
       }
     }, 380);
   };
 
-  const hatOptions = c.hats || [];
+  // Tapping the character (or pressing space) is the event for "start on tap" / "when key pressed".
+  const tapHero = () => {
+    if (timer.current) return;
+    if (prog.hat === 'key') play();
+    else setMsg(prog.hat === 'flag' ? (c.world.jr ? 'This script starts with the green flag. Use 👆 start on tap if you want it to run when you tap.' : 'This script starts with the green flag — press Run.') : 'Add a start block on top first.');
+  };
+  useEffect(() => {
+    if (!hatOptions.includes('key') || c.world.jr) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== ' ' || /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test((e.target as HTMLElement)?.tagName || '')) return;
+      e.preventDefault();
+      tapHero();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  });
   return (
     <div className="space-y-4">
       {c.goalText && (
@@ -494,10 +531,13 @@ export function BlockCode({ activity, value, setValue, locked, result }: Activit
       )}
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <div className="space-y-2">
-          <Stage world={c.world} frame={frame} />
+          <Stage world={c.world} frame={frame} onTapHero={hatOptions.includes('key') ? tapHero : undefined} />
+          {hatOptions.includes('key') && (
+            <p className="text-xs font-semibold text-muted">{c.world.jr ? '👆 Tap the character on the stage to start a “start on tap” script.' : 'Press the space key (or tap the robot) to start a “when space key pressed” script.'}</p>
+          )}
           <div className="flex flex-wrap items-center gap-2">
             <Button size="sm" variant="good" icon="flag" onClick={play} disabled={!!timer.current}>
-              Run
+              {prog.hat === 'key' ? (c.world.jr ? 'Run (same as a tap)' : 'Run (press space)') : 'Run'}
             </Button>
             <Button size="sm" variant="ghost" icon="refresh" onClick={stop}>
               Reset

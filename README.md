@@ -398,6 +398,8 @@ Scratch learners build in the real Scratch editor; now **every course works the 
 
 Nothing is embedded or automated: learners open the official site in a new tab, and each platform shows its sign-in and safety note. **Already installed the library?** The server adds the new activities to installed courses automatically on its next start (once; learner progress is kept). Check each platform’s terms and your school’s account rules before rollout.
 
+**More places to practise:** every lesson also lists 3–5 free external sites that suit the subject and the learner’s age (on the Learn screen, in live classes, on the printable worksheet and in the teacher’s Resources tab). They are also added to each course as link resources, so they appear in catalogue search. Examples: Scratch → scratch.mit.edu, Scratch Tutorials, Code.org · Python → Python Tutor, Programiz, a Python turtle playground (+ Google Colab and Exercism for Grades 9–12) · Maths → Polypad, GeoGebra, Desmos, Khan Academy, NRICH · Science → PhET, OLabs, NASA Space Place · English → StoryWeaver, British Council LearnEnglish, CommonLit · Money → Practical Money Skills, NCFE, SEBI · CBSE → DIKSHA, NCERT textbooks, ePathshala. Sites that need learners to be 13+ are shown only for Grades 9–12 and adults. The list lives in `PRACTICE` in `src/lib/library/platforms.ts`.
+
 **Printable worksheets:** every lesson has a **Printable worksheet** card (Learn screen and in live classes). It builds a print-ready page from the lesson’s key ideas and activities — never the answers — which learners can print, save as PDF or download. Flagship PDF worksheets appear alongside it.
 
 **Catalogue search:** Explore has a search box (press `/`) that finds courses, lessons and files (course guides, worksheets, project briefs, links) by any word — title, subject, objective or platform (try “Desmos” or “Canva”). Teacher-only files show for staff only.
@@ -480,6 +482,7 @@ docs/              Architecture, agent, extensions, Supabase, deployment, testin
 | `npm run test:e2e` | Browser walkthrough of the 12-point Definition of Done (`npx playwright install chromium` first) |
 | `npm run test:first-run` | Browser test of the first-run setup page |
 | `npm run test:live` | Browser-to-browser live-class test (video, chat, controls, attendance) |
+| `npm run test:tap` | Browser test: tapping a sprite/character runs its script (Code Lab and ScratchJr puzzles) |
 | `npm run test:platforms` | Browser test of platform activities, Web Lab, worksheets, catalogue search and the live-class layout |
 | `npm run library:install` | Install (or top up) the course library (including flagship courses) |
 | `npm run test:flagship` | Browser test of a flagship course: video, Code Lab, server checks, teacher printables |

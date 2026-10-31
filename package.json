@@ -22,6 +22,7 @@
     "test:first-run": "tsx tests/e2e/first-run.ts",
     "test:live": "tsx tests/e2e/live-class.ts",
     "test:platforms": "tsx tests/e2e/platforms.ts",
+    "test:tap": "tsx tests/e2e/sprite-tap.ts",
     "library:install": "tsx scripts/library.ts",
     "test:flagship": "tsx tests/e2e/flagship.ts",
     "media:flagship": "tsx scripts/flagship-media.ts"

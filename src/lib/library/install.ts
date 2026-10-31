@@ -14,6 +14,8 @@ import { LIBRARY } from './catalog.ts';
 import { BANDS } from './bands.ts';
 import type { CourseSpec } from './types.ts';
 import { platformFor, type Platform } from './platforms.ts';
+import { addPracticeResources } from './practice-resources.ts';
+export { addPracticeResources };
 
 /** Add the course's practice platform to its required tools (so it shows on the course and in search). */
 export const withPlatform = (tools: string[], p: Platform | null) =>
@@ -94,13 +96,14 @@ export async function installCourse(spec: CourseSpec, adminId: string, subj: Rec
       adminId,
     );
     await K.uploadResource(cid, { filename: `${specKey(spec)}-guide.md`, mime: 'text/markdown', data: Buffer.from(courseGuide(spec)) }, { title: `${courseTitle(spec)} — course guide`, audience: 'student' }, adminId);
+    await addPracticeResources(cid, spec.subject, spec.band, adminId);
     const lessonIds: string[] = [];
     for (const m of spec.modules) {
       const mid = await C.addModule(cid, m.title, m.summary || '');
       for (const ls of m.lessons) {
         const L = expandLesson(ls, spec);
         const lid = await C.addLesson(mid, L.title);
-        await C.updateLesson(lid, { objective: L.objective, duration_minutes: L.duration, learn: { cards: L.cards, worksheet: L.worksheet, ...(L.build ? { build: L.build } : {}) }, hook: L.hook, teacher: L.teacher });
+        await C.updateLesson(lid, { objective: L.objective, duration_minutes: L.duration, learn: { cards: L.cards, worksheet: L.worksheet, ...(L.build ? { build: L.build } : {}), ...(L.practice ? { practice: L.practice } : {}) }, hook: L.hook, teacher: L.teacher });
         for (const a of L.activities) await C.upsertActivity(lid, a as any);
         await run('INSERT INTO assessments (id,lesson_id,title,rubric,pass_pct) VALUES (?,?,?,?,60)', 'as_' + lid, lid, `${L.title} rubric`, L.teacher.assess!.rubric!);
         await C.setLessonStatus(lid, 'approved', adminId);

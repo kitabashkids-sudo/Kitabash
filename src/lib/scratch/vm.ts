@@ -252,6 +252,9 @@ export class VM {
     this.startHats((h) => h.type === 'receive' && h.msg === msg, undefined, true);
   }
   private startHats(match: (h: Hat) => boolean, only?: number, restart = false) {
+    // A new event (click, key, message) starts scripts even after Stop — like Scratch.
+    // Without this, tapping a sprite before pressing the green flag did nothing.
+    this.stopped = false;
     this.sprites.forEach((st, si) => {
       if (only !== undefined && only !== si) return;
       if (st.deleted) return;

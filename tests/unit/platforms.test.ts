@@ -162,3 +162,79 @@ test('catalogue search finds courses, lessons and files; teacher files stay hidd
     assert.ok((await L.catalogSearch(admin, word)).files.some((f: any) => f.audience === 'teacher'));
   }
 });
+
+test('every course (library and flagship) has 3+ age-appropriate practice links', async () => {
+  const { practiceLinks } = await import('../../src/lib/library/platforms.ts');
+  const { FLAGSHIPS } = await import('../../src/lib/library/flagship/all.ts');
+  const teenOnly = ['colab.research.google.com', 'exercism.org', 'codepen.io', 'thunkable.com', 'vocabulary.com', 'apps.ankiweb.net', 'wokwi.com'];
+  for (const c of [...LIBRARY, ...FLAGSHIPS]) {
+    const links = practiceLinks(c.subject, c.band);
+    assert.ok(links.length >= 3, `${c.subject} ${c.band}: ${links.length} links`);
+    for (const l of links) {
+      assert.match(l.url, /^https:\/\//, `${c.subject}: ${l.url}`);
+      assert.ok(l.name && l.what);
+      if (c.band !== '9-12' && c.band !== 'Adult') assert.ok(!teenOnly.includes(new URL(l.url).hostname.replace(/^www\./, '')), `${c.subject} ${c.band} has 13+ site ${l.url}`);
+      assert.ok(!/trinket\.io|glitch\.com/.test(l.url), `closed service: ${l.url}`);
+    }
+    assert.equal(new Set(links.map((l) => l.url)).size, links.length, `${c.subject}: duplicate links`);
+  }
+  // Python practice includes turtle drawing; Scratch includes scratch.mit.edu.
+  assert.ok(practiceLinks('Python', '6-8').some((l) => /turtle/i.test(l.name)));
+  assert.ok(practiceLinks('Scratch', '3-5').some((l) => l.url.includes('scratch.mit.edu')));
+  const L: any = expandLesson(LIBRARY[0].modules[0].lessons[0], LIBRARY[0]);
+  assert.ok(L.practice.length >= 3);
+  assert.ok(L.teacher.resources.items.some((r: any) => r.title.startsWith('Practise:') && r.url));
+});
+
+test('Scratch VM: a click or key starts scripts even after Stop (tapping a sprite works)', async () => {
+  const { VM } = await import('../../src/lib/scratch/vm.ts');
+  const project: any = {
+    sprites: [{ name: 'Pip', x: 0, y: 0, dir: 90, size: 100, visible: true, costumes: ['robot'], scripts: [
+      { hat: { type: 'click' }, blocks: [{ op: 'say', a: { k: 'str', v: 'Tapped!' } }] },
+      { hat: { type: 'key', key: 'space' }, blocks: [{ op: 'changeX', a: { k: 'num', v: 10 } }] },
+    ] }],
+  };
+  const vm = new VM(project);
+  vm.stopAll(); // e.g. the editor resets the stage, or the learner pressed Stop
+  vm.click(0);
+  vm.step();
+  assert.equal(vm.sprites[0].say, 'Tapped!');
+  vm.stopAll();
+  vm.keyDown('space');
+  vm.step();
+  assert.equal(vm.sprites[0].x, 10);
+});
+
+test('installed courses get practice links as searchable resources; upgrade adds them to flagship courses', async () => {
+  const I = await import('../../src/lib/library/install.ts');
+  const U = await import('../../src/lib/library/platform-upgrade.ts');
+  const { FLAGSHIPS } = await import('../../src/lib/library/flagship/all.ts');
+  const { installFlagship } = await import('../../src/lib/library/flagship/install.ts');
+  const admin = (await db.get("SELECT id FROM users WHERE role='admin'")).id;
+  const subj = await I.subjectIds(admin);
+  const spec = I.ACTIVE.find((c) => c.subject === 'Science' && c.band === '6-8')!;
+  const cid = await I.installCourse(spec, admin, subj);
+  const links = await db.all("SELECT title, source, audience FROM resources WHERE course_id=? AND kind='url'", cid);
+  assert.ok(links.length >= 3 && links.every((l: any) => l.audience === 'student'));
+  assert.ok(links.some((l: any) => l.source.includes('phet.colorado.edu')));
+  const L = await import('../../src/lib/services/learning.ts');
+  const auth = await import('../../src/lib/auth.ts');
+  const student = await auth.login('aarav@kitabash.local', 'Learn#2026');
+  assert.ok((await L.catalogSearch(student, 'phet')).files.some((f: any) => f.kind === 'url' && f.url.includes('phet')));
+  // A flagship course installed "before" practice links: strip them, then upgrade.
+  const fcid = await installFlagship(FLAGSHIPS[0], admin, subj);
+  await db.run("DELETE FROM resources WHERE course_id=? AND kind='url'", fcid);
+  for (const l of await db.all('SELECT id, learn FROM lessons WHERE course_id=?', fcid)) {
+    const learn = JSON.parse(l.learn);
+    delete learn.practice;
+    await db.run('UPDATE lessons SET learn=? WHERE id=?', learn, l.id);
+  }
+  await db.run("DELETE FROM settings WHERE key='platforms:library-version'");
+  const r = await U.upgradeLibraryPlatforms();
+  assert.ok(r.lessons >= 12);
+  const first = await db.get('SELECT learn, status FROM lessons WHERE course_id=? ORDER BY position LIMIT 1', fcid);
+  assert.ok(JSON.parse(first.learn).practice.some((x: any) => x.url.includes('scratch.mit.edu')));
+  assert.equal(first.status, 'approved');
+  assert.ok(Number((await db.get("SELECT COUNT(*) n FROM resources WHERE course_id=? AND kind='url'", fcid)).n) >= 3);
+  assert.equal((await U.upgradeLibraryPlatforms()).skipped, true);
+});

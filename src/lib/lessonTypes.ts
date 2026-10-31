@@ -35,6 +35,7 @@ export interface LearnContent {
   build?: BuildAlong;
   downloads?: Download[]; // student-facing files
   worksheet?: { title: string; task: string }; // printable worksheet task (the page itself is generated from the activities)
+  practice?: { name: string; url: string; what: string }[]; // "More places to practise" links
 }
 
 export type HookPreset = 'word-reveal' | 'letter-trace' | 'pattern-reveal' | 'budget-change' | 'code-output' | 'phrase-model' | 'speech-upgrade';

@@ -645,7 +645,7 @@ export function CodeLab({ project, onChange, locked = false, palette, hats, allo
   const soundIdx = useRef(0);
   const active = useRef(false);
   const wrap = useRef<HTMLDivElement>(null);
-  const drag = useRef<{ si: number; dx: number; dy: number } | null>(null);
+  const drag = useRef<{ si: number; dx: number; dy: number; x0: number; y0: number; moved: boolean } | null>(null);
   const [dragging, setDragging] = useState(false);
   const sprite = project.sprites[Math.min(sel, project.sprites.length - 1)];
   const vars = project.vars || [];
@@ -894,26 +894,41 @@ export function CodeLab({ project, onChange, locked = false, palette, hats, allo
                 setTick((t) => t + 1);
                 return;
               }
+              // A tap runs “when this sprite clicked” straight away (like Scratch); a drag moves the sprite.
               vm.click(i);
-              drag.current = { si: i, dx: vm.sprites[i].x - p.x, dy: vm.sprites[i].y - p.y };
+              setTick((t) => t + 1);
+              drag.current = { si: i, dx: vm.sprites[i].x - p.x, dy: vm.sprites[i].y - p.y, x0: vm.sprites[i].x, y0: vm.sprites[i].y, moved: false };
               setSel(i);
-              setDragging(true);
               e.currentTarget.setPointerCapture(e.pointerId);
             }}
             onPointerMove={(e) => {
               if (!drag.current) return;
               const p = toStage(e);
               const s = vm.sprites[drag.current.si];
+              const nx = p.x + drag.current.dx;
+              const ny = p.y + drag.current.dy;
+              if (!drag.current.moved && Math.hypot(nx - drag.current.x0, ny - drag.current.y0) < 6) return; // still a tap
+              if (!drag.current.moved) {
+                drag.current.moved = true;
+                setDragging(true);
+              }
               s.x = Math.round(Math.max(-240, Math.min(240, p.x + drag.current.dx)));
               s.y = Math.round(Math.max(-180, Math.min(180, p.y + drag.current.dy)));
               setTick((t) => t + 1);
             }}
+            onPointerCancel={() => {
+              drag.current = null;
+              setDragging(false);
+            }}
             onPointerUp={() => {
               if (!drag.current) return;
-              const { si } = drag.current;
+              const { si, moved } = drag.current;
               const s = vm.sprites[si];
               drag.current = null;
               setDragging(false);
+              // Only a real drag saves a new position. (Saving restarts the stage, which used to cancel
+              // the script a tap had just started — so tapping a sprite seemed to do nothing.)
+              if (!moved) return;
               update((p) => {
                 p.sprites[si].x = s.x;
                 p.sprites[si].y = s.y;

@@ -7,7 +7,7 @@ import { VisualHook } from '../components/VisualHook.tsx';
 import { ActivityRunner } from '../components/activities/index.tsx';
 import { TutorDrawer } from '../components/TutorChat.tsx';
 import { ScratchBlocks } from '../components/ScratchBlocks.tsx';
-import { BuildAlongSteps, VideoPlayer } from '../components/LessonExtras.tsx';
+import { BuildAlongSteps, PracticeLinks, VideoPlayer } from '../components/LessonExtras.tsx';
 import { WorksheetCard } from '../components/Worksheet.tsx';
 import type { GradeResult } from '../components/activities/types.ts';
 
@@ -155,6 +155,7 @@ export function LessonPlayer({ id }: { id: string }) {
           <LearnCards cards={lesson.learn.cards || []} />
           {lesson.learn.build && <BuildAlongSteps build={lesson.learn.build} storageKey={`kb-build-${lesson.id}`} />}
           <WorksheetCard data={{ course, lesson, activities: data.activities }} />
+          {lesson.learn.practice?.length > 0 && <PracticeLinks links={lesson.learn.practice} />}
           <div className="flex justify-end">
             <Button variant="primary" size="lg" onClick={() => goPhase(acts.perform.length ? 'perform' : 'probe')}>
               I’m ready to try <Icon name="arrowR" />

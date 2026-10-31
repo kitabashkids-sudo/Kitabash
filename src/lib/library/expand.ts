@@ -3,7 +3,7 @@ import type { LearnCard, TeacherContent, VisualHook } from '../lessonTypes.ts';
 import type { ActSpec, CourseSpec, HookSpec, LessonSpec } from './types.ts';
 import { band } from './bands.ts';
 import { GLYPHS, glyphLabel } from './glyphs.ts';
-import { platformActivity, platformBuild, platformFor, platformResource } from './platforms.ts';
+import { platformActivity, platformBuild, platformFor, platformResource, practiceLinks, practiceResources } from './platforms.ts';
 
 const OPT = 'abcdefgh';
 const slug = (s: string) => s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'x';
@@ -205,6 +205,8 @@ export function expandLesson(l: LessonSpec, spec?: Pick<CourseSpec, 'subject' | 
     activities.splice(at, 0, platformActivity(p, spec, l));
     teacher.resources!.items!.unshift(platformResource(p));
   }
+  const practice = spec ? practiceLinks(spec.subject, spec.band) : [];
+  if (practice.length) teacher.resources!.items!.push(...practiceResources(practice));
   return {
     title: l.t,
     objective: l.o,
@@ -212,6 +214,7 @@ export function expandLesson(l: LessonSpec, spec?: Pick<CourseSpec, 'subject' | 
     hook,
     cards: l.cards.map(([emoji, title, body]) => ({ emoji, title, body })) as LearnCard[],
     worksheet: { title: `${l.t} — worksheet`, task: l.teach.sheet },
+    ...(practice.length ? { practice } : {}),
     ...(p && spec ? { build: platformBuild(p, spec, l), platform: p } : {}),
     activities,
     teacher,
@@ -223,6 +226,8 @@ export function courseGuide(c: CourseSpec): string {
   const out = [`# ${courseTitle(c)} — Course guide (Kitabash original)`, '', c.description, ''];
   const p = platformFor(c.subject, c.band);
   if (p) out.push(`## Where we practise: ${p.name}`, '', p.about, p.account, ...(p.url ? [`Link: ${p.url}`] : []), `How to hand in: ${p.save}`, '');
+  const more = practiceLinks(c.subject, c.band);
+  if (more.length) out.push('## More places to practise', '', ...more.map((l) => `- **${l.name}** (${l.url}): ${l.what}`), '');
   for (const m of c.modules) {
     out.push(`# ${m.title}`, '');
     for (const l of m.lessons) {

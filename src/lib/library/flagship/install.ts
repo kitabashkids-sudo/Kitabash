@@ -8,6 +8,8 @@ import * as A from '../../services/agents.ts';
 import * as K from '../../services/knowledge.ts';
 import * as ADM from '../../services/admin.ts';
 import { agentPatch } from '../expand.ts';
+import { practiceLinks, practiceResources } from '../platforms.ts';
+import { addPracticeResources } from '../practice-resources.ts';
 import type { CourseSpec } from '../types.ts';
 import type { Download } from '../../lessonTypes.ts';
 import { captionsVtt, expandFlagLesson, flagshipGuideMarkdown, flagshipTitle, lessonNumber, lessonsOf, lintFlagship, sceneTimings } from './expand.ts';
@@ -77,6 +79,8 @@ export async function installFlagship(c: FlagshipCourse, adminId: string, subj: 
     const guide = file(c, 'course-guide.pdf');
     if (guide) await K.uploadResource(cid, { filename: 'course-guide.pdf', mime: 'application/pdf', data: guide }, { title: 'Course guide & syllabus', audience: 'student' }, adminId);
 
+    const practice = practiceLinks(c.subject, c.band);
+    await addPracticeResources(cid, c.subject, c.band, adminId);
     for (const m of c.modules) {
       const mid = await C.addModule(cid, m.title, m.summary);
       for (const l of m.lessons) {
@@ -103,9 +107,9 @@ export async function installFlagship(c: FlagshipCourse, adminId: string, subj: 
         await C.updateLesson(lid, {
           objective: L.objective,
           duration_minutes: L.duration,
-          learn: { cards: L.cards, ...(video ? { video } : {}), ...(L.build ? { build: L.build } : {}), downloads },
+          learn: { cards: L.cards, ...(video ? { video } : {}), ...(L.build ? { build: L.build } : {}), downloads, practice },
           hook: L.hook,
-          teacher: { ...L.teacher, downloads: teacherDownloads },
+          teacher: { ...L.teacher, downloads: teacherDownloads, resources: { ...(L.teacher.resources || {}), items: [...(L.teacher.resources?.items || []), ...practiceResources(practice)] } },
         });
         for (const a of L.activities) await C.upsertActivity(lid, a as any);
         await run('INSERT INTO assessments (id,lesson_id,title,rubric,pass_pct) VALUES (?,?,?,?,60)', 'as_' + lid, lid, `${L.title} rubric`, L.rubric);

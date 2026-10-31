@@ -593,3 +593,181 @@ export function platformActivity(p: Platform, spec: Pick<CourseSpec, 'band' | 's
     points: 15,
   };
 }
+
+// ── More places to practise ──────────────────────────────────
+// Free, well-known external sites for extra practice, per subject. Shown on every lesson's Learn
+// screen ("More places to practise"), in the teacher's Resources tab, in live classes, on the
+// printable worksheet, and added to each course's resources (so they are searchable).
+// `teen`: needs the learner to be 13+ (shown only for Grades 9–12 and adults).
+// `young`: aimed at K–5 (hidden for Grades 6–12 and adults).
+export interface PracticeLink {
+  name: string;
+  url: string;
+  what: string;
+  teen?: boolean;
+  young?: boolean;
+}
+const L = (name: string, url: string, what: string, opt: { teen?: boolean; young?: boolean } = {}): PracticeLink => ({ name, url, what, ...opt });
+
+const X = {
+  scratch: L('Scratch', 'https://scratch.mit.edu/projects/editor/', 'MIT’s block-coding editor: games, animations and stories.'),
+  scratchIdeas: L('Scratch Tutorials', 'https://scratch.mit.edu/ideas', 'Step-by-step project ideas and video tutorials.'),
+  scratchJr: L('ScratchJr', 'https://www.scratchjr.org', 'Free picture-block coding app for ages 5–7.', { young: true }),
+  codeOrg: L('Code.org', 'https://code.org/learn', 'Free coding courses and Hour of Code puzzles for every age.'),
+  blockly: L('Blockly Games', 'https://blockly.games', 'Logic and coding puzzles (Maze, Bird, Turtle).'),
+  lightbot: L('Lightbot', 'https://lightbot.com', 'Puzzle game that teaches sequences, procedures and loops.'),
+  pyTutor: L('Python Tutor', 'https://pythontutor.com', 'Step through Python code and watch every variable change.'),
+  programiz: L('Programiz Python compiler', 'https://www.programiz.com/python-programming/online-compiler/', 'Run Python in the browser — no account needed.'),
+  turtle: L('Coddy Turtle Playground', 'https://coddy.tech/playground/turtle', 'Draw with Python turtle in the browser.'),
+  colab: L('Google Colab', 'https://colab.research.google.com', 'Python notebooks in the cloud — great for data and AI.', { teen: true }),
+  exercism: L('Exercism (Python)', 'https://exercism.org/tracks/python', 'Free Python exercises with mentoring.', { teen: true }),
+  appInventor: L('MIT App Inventor', 'https://ai2.appinventor.mit.edu', 'Build Android/iPhone apps with blocks.'),
+  aiTutorials: L('App Inventor tutorials', 'https://appinventor.mit.edu/explore/ai2/tutorials', 'Beginner-to-advanced app tutorials from MIT.'),
+  thunkable: L('Thunkable', 'https://thunkable.com', 'Drag-and-drop app builder.', { teen: true }),
+  makecode: L('MakeCode for micro:bit', 'https://makecode.microbit.org', 'Blocks or JavaScript with an on-screen micro:bit simulator.'),
+  mbPython: L('micro:bit Python Editor', 'https://python.microbit.org', 'Program the micro:bit in MicroPython (has a simulator).'),
+  mbProjects: L('micro:bit projects', 'https://microbit.org/projects/make-it-code-it/', 'Ready-made projects with step-by-step guides.'),
+  minecraft: L('MakeCode for Minecraft', 'https://minecraft.makecode.com', 'Code the Agent in Minecraft Education.'),
+  mcEdu: L('Minecraft Education', 'https://education.minecraft.net', 'Lessons, worlds and coding challenges.'),
+  mcCodeOrg: L('Code.org Minecraft', 'https://code.org/minecraft', 'Free Minecraft Hour of Code tutorials (no licence needed).'),
+  mdn: L('MDN Learn web development', 'https://developer.mozilla.org/en-US/docs/Learn_web_development', 'Mozilla’s free, trusted HTML/CSS/JS course.'),
+  w3: L('W3Schools Tryit editor', 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_default', 'Edit HTML and see the result instantly.'),
+  fcc: L('freeCodeCamp', 'https://www.freecodecamp.org/learn', 'Free interactive web-development curriculum.', { teen: true }),
+  codepen: L('CodePen', 'https://codepen.io/pen/', 'Online HTML/CSS/JS editor with shareable links.', { teen: true }),
+  googleSites: L('Google Sites', 'https://sites.google.com', 'Make a simple website with your school account.'),
+  teachable: L('Teachable Machine', 'https://teachablemachine.withgoogle.com/train', 'Train your own image, sound or pose model.'),
+  ml4k: L('Machine Learning for Kids', 'https://machinelearningforkids.co.uk', 'Train models and use them in Scratch projects.'),
+  quickdraw: L('Quick, Draw!', 'https://quickdraw.withgoogle.com', 'Doodle and watch a neural network guess it.'),
+  oceans: L('AI for Oceans (Code.org)', 'https://code.org/oceans', 'Train an AI to clean the ocean; learn about bias.'),
+  dayOfAi: L('Day of AI (MIT RAISE)', 'https://dayofai.org', 'Free K–12 AI literacy lessons and activities.'),
+  learnPrompting: L('Learn Prompting', 'https://learnprompting.org', 'Free open guide to prompt engineering.', { teen: true }),
+  claudeGuide: L('Prompt engineering guide (Anthropic)', 'https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview', 'Clear, worked prompting techniques.', { teen: true }),
+  elementsAi: L('Elements of AI', 'https://www.elementsofai.com', 'Free online course on what AI is and isn’t.', { teen: true }),
+  msLearn: L('Microsoft Learn (AI)', 'https://learn.microsoft.com/en-us/training/', 'Free AI and Copilot training paths.', { teen: true }),
+  indiaAi: L('IndiaAI', 'https://indiaai.gov.in', 'India’s national AI portal: news, use cases and courses.', { teen: true }),
+  diagrams: L('diagrams.net', 'https://app.diagrams.net', 'Draw flowcharts and workflows — no account needed.'),
+  forms: L('Google Forms', 'https://forms.new', 'Collect answers and trigger simple workflows.'),
+  sheets: L('Google Sheets', 'https://sheets.new', 'Spreadsheets for budgets, trackers and formulas.'),
+  appsScript: L('Google Apps Script', 'https://script.google.com', 'Automate Sheets, Forms and Gmail with code.', { teen: true }),
+  vex: L('VEXcode VR', 'https://vr.vex.com', 'Program a virtual robot with blocks or Python.'),
+  tinkercad: L('Tinkercad Circuits', 'https://www.tinkercad.com/circuits', 'Build and simulate Arduino circuits.'),
+  wokwi: L('Wokwi', 'https://wokwi.com', 'Free online Arduino, ESP32 and Raspberry Pi Pico simulator.', { teen: true }),
+  roberta: L('Open Roberta Lab', 'https://lab.open-roberta.org', 'Program real and simulated robots with blocks.'),
+  polypad: L('Polypad', 'https://polypad.amplify.com', 'Virtual maths manipulatives: tiles, fractions, shapes.'),
+  geogebra: L('GeoGebra', 'https://www.geogebra.org/classic', 'Geometry, graphs and algebra tools.'),
+  desmos: L('Desmos Graphing', 'https://www.desmos.com/calculator', 'Graph any equation with sliders.'),
+  desmosSci: L('Desmos Scientific', 'https://www.desmos.com/scientific', 'Free online scientific calculator.'),
+  khanMath: L('Khan Academy Maths', 'https://www.khanacademy.org/math', 'Videos and practice with instant feedback.'),
+  nrich: L('NRICH', 'https://nrich.maths.org', 'Rich maths problems and games from Cambridge University.'),
+  mathPlayground: L('Math Playground', 'https://www.mathplayground.com', 'Maths games and logic puzzles.', { young: true }),
+  alcumus: L('AoPS Alcumus', 'https://artofproblemsolving.com/alcumus', 'Adaptive competition-maths problems.', { teen: true }),
+  bebras: L('Bebras Challenge', 'https://www.bebras.org', 'Computational-thinking puzzles used in schools worldwide.'),
+  lichess: L('Lichess puzzles', 'https://lichess.org/training', 'Free chess puzzles that build logical thinking.'),
+  phet: L('PhET Simulations', 'https://phet.colorado.edu/en/simulations/browse', 'Interactive science and maths simulations.'),
+  olabs: L('OLabs (virtual labs)', 'https://www.olabs.edu.in', 'Virtual science labs for Classes 9–12, from Amrita & CDAC.'),
+  khanSci: L('Khan Academy Science', 'https://www.khanacademy.org/science', 'Science videos and practice.'),
+  ck12: L('CK-12', 'https://www.ck12.org', 'Free textbooks, simulations and practice.'),
+  nasa: L('NASA Space Place', 'https://spaceplace.nasa.gov', 'Space and Earth science games and activities.'),
+  wonder: L('Wonderopolis', 'https://www.wonderopolis.org', 'A new “wonder” question to explore every day.'),
+  natgeoKids: L('National Geographic Kids', 'https://kids.nationalgeographic.com', 'Animals, places and science for kids.', { young: true }),
+  earth: L('Google Earth', 'https://earth.google.com/web', 'Explore real places, landforms and rivers.'),
+  storyweaver: L('StoryWeaver', 'https://storyweaver.org.in', 'Free picture books in English and Indian languages.'),
+  readAlong: L('Read Along by Google', 'https://readalong.google.com', 'A reading buddy that listens and helps.', { young: true }),
+  storyline: L('Storyline Online', 'https://storylineonline.net', 'Picture books read aloud by actors.', { young: true }),
+  bcKids: L('LearnEnglish Kids (British Council)', 'https://learnenglishkids.britishcouncil.org', 'Songs, stories, grammar and speaking games.', { young: true }),
+  bcTeens: L('LearnEnglish Teens (British Council)', 'https://learnenglishteens.britishcouncil.org', 'Grammar, vocabulary, reading and listening practice.'),
+  bbcEnglish: L('BBC Learning English', 'https://www.bbc.co.uk/learningenglish', 'Pronunciation, grammar and real-life English.'),
+  commonlit: L('CommonLit', 'https://www.commonlit.org', 'Free reading passages with questions (Grades 3–12).'),
+  vocab: L('Vocabulary.com', 'https://www.vocabulary.com', 'Adaptive vocabulary practice.', { teen: true }),
+  gutenberg: L('Project Gutenberg', 'https://www.gutenberg.org', 'Over 70,000 free classic books.'),
+  bookCreator: L('Book Creator', 'https://app.bookcreator.com', 'Make your own e-book with pictures and voice.'),
+  storyJumper: L('StoryJumper', 'https://www.storyjumper.com', 'Write and illustrate your own story book.'),
+  docs: L('Google Docs', 'https://docs.new', 'Write and share documents with your school account.'),
+  slides: L('Google Slides', 'https://slides.new', 'Make slides with speaker notes.'),
+  canva: L('Canva for Education', 'https://www.canva.com/education/', 'Posters, slides and designs — free for K–12 schools.'),
+  tedEd: L('TED-Ed', 'https://ed.ted.com', 'Short animated lessons and talks to learn from.'),
+  kialo: L('Kialo Edu', 'https://www.kialo-edu.com', 'Map arguments for and against a claim.'),
+  khan: L('Khan Academy', 'https://www.khanacademy.org', 'Free videos and practice in every subject.'),
+  bitesize: L('BBC Bitesize', 'https://www.bbc.co.uk/bitesize', 'Revision guides, videos and quizzes.'),
+  anki: L('Anki', 'https://apps.ankiweb.net', 'Spaced-repetition flashcards for revision.', { teen: true }),
+  pomofocus: L('Pomofocus', 'https://pomofocus.io', 'A simple Pomodoro study timer.'),
+  keep: L('Google Keep', 'https://keep.google.com', 'Checklists and quick notes.'),
+  calendar: L('Google Calendar', 'https://calendar.google.com', 'Plan study sessions and deadlines.'),
+  diksha: L('DIKSHA', 'https://diksha.gov.in', 'Free NCERT/CBSE e-content, videos and practice.'),
+  ncert: L('NCERT textbooks', 'https://ncert.nic.in/textbook.php', 'Free official NCERT textbooks (PDF).'),
+  epathshala: L('ePathshala', 'https://epathshala.nic.in', 'NCERT e-books, audio and video.'),
+  cisce: L('CISCE', 'https://cisce.org', 'Official ICSE/ISC syllabus and specimen papers.'),
+  cambridge: L('Cambridge International', 'https://www.cambridgeinternational.org', 'Official IGCSE syllabuses and specimen papers.'),
+  pmt: L('Physics & Maths Tutor', 'https://www.physicsandmathstutor.com', 'Free past papers and revision notes.', { teen: true }),
+  moneySkills: L('Practical Money Skills', 'https://www.practicalmoneyskills.com', 'Free money games and lessons for every age.'),
+  ncfe: L('NCFE (National Centre for Financial Education)', 'https://ncfe.org.in', 'India’s financial-education body: guides and the NFLAT quiz.'),
+  sebi: L('SEBI Investor Education', 'https://investor.sebi.gov.in', 'Saving, investing and avoiding frauds (India).', { teen: true }),
+  khanMoney: L('Khan Academy Financial Literacy', 'https://www.khanacademy.org/college-careers-more/financial-literacy', 'Budgeting, saving, credit and more.', { teen: true }),
+  interland: L('Interland (Be Internet Awesome)', 'https://beinternetawesome.withgoogle.com/en_us/interland', 'Online-safety game: kindness, privacy, scams.'),
+  commonSense: L('Common Sense Education', 'https://www.commonsense.org/education/digital-citizenship', 'Digital-citizenship lessons and videos.'),
+  isea: L('ISEA cyber awareness', 'https://www.isea.gov.in', 'Government of India cyber-safety awareness material.'),
+  k5: L('K5 Learning', 'https://www.k5learning.com', 'Free printable handwriting and cursive worksheets.'),
+};
+
+const PRACTICE: Record<string, PracticeLink[]> = {
+  'Scratch Junior': [X.scratchJr, X.codeOrg, X.lightbot],
+  Scratch: [X.scratch, X.scratchIdeas, X.codeOrg, X.ml4k, X.blockly],
+  Python: [X.pyTutor, X.programiz, X.turtle, X.colab, X.exercism],
+  'MIT App Inventor': [X.appInventor, X.aiTutorials, X.codeOrg, X.thunkable],
+  'Micro:bit': [X.makecode, X.mbPython, X.mbProjects],
+  'Web Development': [X.mdn, X.w3, X.codeOrg, X.fcc, X.codepen],
+  'Artificial Intelligence': [X.teachable, X.ml4k, X.quickdraw, X.oceans, X.dayOfAi],
+  'Prompt Engineering': [X.dayOfAi, X.oceans, X.quickdraw, X.learnPrompting, X.claudeGuide, X.elementsAi],
+  'AI-Assisted Website Creation': [X.mdn, X.w3, X.googleSites, X.codepen, X.learnPrompting],
+  Robotics: [X.vex, X.roberta, X.tinkercad, X.wokwi, X.makecode],
+  'Minecraft Education (MakeCode)': [X.minecraft, X.mcEdu, X.mcCodeOrg],
+  'No-code Automation & AI Agents': [X.diagrams, X.forms, X.sheets, X.appsScript],
+  'Handwriting & Penmanship': [X.k5, X.storyweaver, X.bookCreator],
+  'Spoken English': [X.readAlong, X.bcKids, X.storyline, X.bcTeens, X.bbcEnglish, X.tedEd, X.storyweaver],
+  'English Grammar & Vocabulary': [X.bcKids, X.bcTeens, X.storyweaver, X.vocab, X.bbcEnglish],
+  'Reading Comprehension': [X.storyweaver, X.readAlong, X.storyline, X.commonlit, X.gutenberg],
+  'Creative Writing': [X.bookCreator, X.storyJumper, X.docs, X.storyweaver],
+  Storytelling: [X.storyweaver, X.storyline, X.bookCreator, X.storyJumper],
+  'Public Speaking': [X.tedEd, X.slides, X.bbcEnglish, X.bcTeens],
+  'Debate & Communication': [X.kialo, X.tedEd, X.bbcEnglish],
+  'Presentation Skills': [X.slides, X.canva, X.tedEd],
+  Mathematics: [X.polypad, X.mathPlayground, X.khanMath, X.geogebra, X.desmos, X.nrich],
+  Science: [X.phet, X.nasa, X.wonder, X.khanSci, X.ck12, X.olabs],
+  English: [X.storyweaver, X.bcKids, X.commonlit, X.bcTeens, X.gutenberg],
+  'Environmental Studies': [X.earth, X.natgeoKids, X.nasa, X.wonder],
+  'Logical Reasoning': [X.blockly, X.bebras, X.lichess, X.nrich],
+  'Critical Thinking': [X.kialo, X.tedEd, X.bebras, X.wonder],
+  'Olympiad Preparation': [X.nrich, X.bebras, X.khanMath, X.alcumus, X.olabs],
+  'Problem Solving': [X.nrich, X.polypad, X.bebras, X.lichess, X.desmos],
+  'Homework & Revision Support': [X.khan, X.bitesize, X.pomofocus, X.anki],
+  CBSE: [X.diksha, X.ncert, X.epathshala, X.olabs, X.khan],
+  'ICSE / CISCE': [X.cisce, X.khan, X.olabs, X.bitesize],
+  'Cambridge IGCSE': [X.cambridge, X.pmt, X.bitesize, X.khan, X.phet],
+  'Financial Literacy': [X.moneySkills, X.ncfe, X.khanMoney, X.sheets],
+  'Saving & Budgeting': [X.moneySkills, X.sheets, X.ncfe, X.khanMoney],
+  'Needs vs Wants': [X.moneySkills, X.ncfe, X.mathPlayground, X.sheets],
+  'Money Management': [X.sheets, X.ncfe, X.sebi, X.khanMoney, X.moneySkills],
+  'Financial Decision-Making': [X.sebi, X.ncfe, X.khanMoney, X.sheets, X.moneySkills],
+  Entrepreneurship: [X.canva, X.forms, X.sheets, X.slides],
+  'Digital Citizenship': [X.interland, X.commonSense, X.isea],
+  'Study Skills': [X.pomofocus, X.keep, X.calendar, X.khan, X.anki],
+};
+const PRO_PRACTICE = [X.learnPrompting, X.claudeGuide, X.elementsAi, X.msLearn, X.indiaAi];
+
+/** Practice links for a course: its main platform first, then extra sites that suit the age group. */
+export function practiceLinks(subject: string, band: Band, max = 5): PracticeLink[] {
+  const p = platformFor(subject, band);
+  const list = band === 'Adult' || subject.startsWith('AI for ') ? PRO_PRACTICE : PRACTICE[subject] || [X.khan];
+  const kidsBand = band === 'K-2' || band === '3-5';
+  const teenOk = band === '9-12' || band === 'Adult';
+  const fits = (l: PracticeLink) => (!l.teen || teenOk) && (!l.young || kidsBand);
+  const out: PracticeLink[] = [];
+  if (p?.url) out.push({ name: p.name[0].toUpperCase() + p.name.slice(1), url: p.url, what: p.about });
+  for (const l of list) if (fits(l) && !out.some((o) => new URL(o.url).hostname === new URL(l.url).hostname && o.url.split('?')[0] === l.url.split('?')[0])) out.push(l);
+  return out.slice(0, max);
+}
+
+/** Teacher-panel resource items for the practice links. */
+export function practiceResources(links: PracticeLink[]) {
+  return links.map((l) => ({ title: `Practise: ${l.name}`, kind: 'link' as const, url: l.url, body: l.what }));
+}

@@ -194,3 +194,38 @@ export function Downloads({ items, title = 'Printables' }: { items: Download[]; 
     </section>
   );
 }
+
+/** "More places to practise": free external sites that suit this course and age group. */
+export function PracticeLinks({ links, compact }: { links: { name: string; url: string; what: string }[]; compact?: boolean }) {
+  if (!links?.length) return null;
+  const host = (u: string) => {
+    try {
+      return new URL(u).hostname.replace(/^www\./, '');
+    } catch {
+      return '';
+    }
+  };
+  return (
+    <section className={`rounded-[var(--radius-card)] border border-line bg-card ${compact ? 'p-3' : 'p-5'}`} aria-label="More places to practise">
+      <p className="text-xs font-bold tracking-wide text-accent uppercase">Keep practising</p>
+      <h2 className={`${compact ? 'text-base' : 'text-xl'} font-black`}>More places to practise</h2>
+      <p className="mt-0.5 text-sm text-muted">Free sites that fit this course. They open in a new tab — ask a grown-up or your teacher before signing up anywhere.</p>
+      <ul className={`mt-3 grid gap-2 ${compact ? '' : 'sm:grid-cols-2'}`}>
+        {links.map((l) => (
+          <li key={l.url}>
+            <a href={l.url} target="_blank" rel="noreferrer noopener" className="group flex h-full items-start gap-3 rounded-xl border border-line px-3 py-2.5 hover:border-accent">
+              <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent">
+                <Icon name="link" size={15} />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-semibold group-hover:underline">{l.name}</span>
+                <span className="block text-sm text-muted">{l.what}</span>
+                <span className="block truncate text-xs text-muted">{host(l.url)}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
